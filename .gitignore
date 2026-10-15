@@ -1,0 +1,8 @@
+# Thư viện Node: cài lại bằng npm install
+node_modules/
+
+# Ảnh sơ đồ tạm, build tự tạo lại
+tools/build_docx/.cache/
+
+# File khóa tạm khi đang mở trong Word/Excel
+~$*
