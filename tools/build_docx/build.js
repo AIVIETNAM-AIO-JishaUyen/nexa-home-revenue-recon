@@ -45,7 +45,7 @@ const MARGIN = 1134;             // 2 cm
 const CONTENT_W = PAGE_W - 2 * MARGIN; // 9638 DXA
 const PX_PER_DXA = 96 / 1440;
 const MAX_IMG_W = Math.floor(CONTENT_W * PX_PER_DXA) - 4; // ~640 px
-const MAX_IMG_H = 820;
+const MAX_IMG_H = 680; // đủ thấp để sơ đồ nằm cùng trang với tiêu đề mục
 
 // ---------- Mermaid → PNG ----------
 const MERMAID_CONFIG = { themeVariables: { fontFamily: 'Times New Roman', fontSize: '18px' } };
@@ -322,6 +322,7 @@ function tableBlock(token) {
 let figureNo = 0;
 let lastHeading = '';
 let headingNo = 0; // để gắn bookmark cho mục lục
+let sectionNo = 0; // số mục lớn (## trong .md); từ mục thứ 2 trở đi bắt đầu ở trang mới
 
 function blockToChildren(tok, ctx) {
   switch (tok.type) {
@@ -332,7 +333,9 @@ function blockToChildren(tok, ctx) {
       const level = tok.depth === 2 ? HeadingLevel.HEADING_1
         : tok.depth === 3 ? HeadingLevel.HEADING_2 : HeadingLevel.HEADING_3;
       headingNo += 1;
+      if (tok.depth === 2) sectionNo += 1;
       return [new Paragraph({ heading: level,
+        pageBreakBefore: tok.depth === 2 && sectionNo > 1, // mục 1 ở cùng trang với mục lục
         children: [new Bookmark({ id: `muc_${headingNo}`, children: inlineRuns(tok.tokens, {}) })] })];
     }
     case 'paragraph':
@@ -390,7 +393,7 @@ function buildDoc(src) {
   const tokens = marked.lexer(md);
   const h1 = tokens.find((t) => t.type === 'heading' && t.depth === 1);
   const title = h1 ? h1.text.replace(/[*`]/g, '') : path.basename(src.md, '.md');
-  figureNo = 0; lastHeading = title; orderedInstance = 0; headingNo = 0;
+  figureNo = 0; lastHeading = title; orderedInstance = 0; headingNo = 0; sectionNo = 0;
 
   const today = new Date();
   const dd = String(today.getDate()).padStart(2, '0');
