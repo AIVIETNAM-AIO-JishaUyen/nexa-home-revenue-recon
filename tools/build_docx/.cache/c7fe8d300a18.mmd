@@ -1,0 +1,20 @@
+flowchart TD
+    src["4 file dữ liệu + 4 bảng danh mục<br/>(thư mục data/)"]
+    tx["Bảng giao dịch chung<br/>gộp bán tại cửa hàng (POS) và đơn online (WEB)"]
+    rc["Đối soát chi tiết<br/>tìm chỗ lệch, đánh dấu ⚠"]
+    br["Bảng cầu nối từ Flash xuống sổ cái<br/>dòng kiểm tra = 0 → điền file mẫu nộp"]
+    ex["Nhật ký ngoại lệ<br/>mỗi khoản lệch một dòng"]
+    rd["File Recon_Dataset<br/>(dữ liệu mentor đã nối sẵn cho Power BI)"]
+    pbi["Power BI + công thức DAX<br/>cách tính thứ hai, dashboard 4 trang"]
+    rp["Báo cáo LaTeX 8 phần<br/>→ nộp bài + vấn đáp"]
+    src -->|"Power Query<br/>nạp, xử lý 5 bẫy, khớp tổng kiểm soát"| tx
+    tx --> rc
+    tx --> br
+    rc --> ex
+    br --> ex
+    rd --> pbi
+    br -.->|"so từng khoản"| pbi
+    rc --> rp
+    br --> rp
+    ex --> rp
+    pbi --> rp

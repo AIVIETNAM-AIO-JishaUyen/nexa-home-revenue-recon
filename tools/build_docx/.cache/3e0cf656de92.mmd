@@ -1,0 +1,20 @@
+flowchart TB
+    V1["1. Hiểu đề và<br/>chốt quy ước tính<br/><i>Mốc 1: 15/10</i>"]
+    V2["2. Nạp và<br/>làm sạch dữ liệu<br/><i>Mốc 2: 19/10</i>"]
+    V3["3. Đối soát chi tiết<br/><i>Mốc 3: 23/10</i>"]
+    V4["4. Bảng cầu nối và<br/>nhật ký ngoại lệ<br/><i>Mốc 3 và 4: 23 đến 25/10</i>"]
+    V5["5. Cách tính thứ hai<br/>(Power BI)<br/><i>Mốc 4: 25/10</i>"]
+    V6["6. Dashboard 4 trang<br/><i>Mốc 5: 29/10</i>"]
+    V7["7. Kết luận và đề xuất<br/><i>Mốc 5: 29/10</i>"]
+    V8a["8a. Viết báo cáo dần<br/><i>từ 19/10</i>"]
+    V8b["8b. Hoàn thiện, vấn đáp,<br/>nộp bài<br/><i>Mốc 6: 02/11 · hạn 03/11</i>"]
+    V1 --> V2 --> V3 --> V4
+    V1 --> V5
+    V4 -.->|"so kết quả"| V5
+    V4 --> V6
+    V5 --> V6
+    V4 --> V7
+    V1 --> V8a
+    V8a --> V8b
+    V6 --> V8b
+    V7 --> V8b

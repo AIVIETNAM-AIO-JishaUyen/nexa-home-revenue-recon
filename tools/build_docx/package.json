@@ -1,0 +1,12 @@
+{
+  "name": "build-docx",
+  "private": true,
+  "description": "Tạo bản Word (.docx) từ các file .md của project",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "docx": "^9.5.1",
+    "marked": "^15.0.12"
+  }
+}
