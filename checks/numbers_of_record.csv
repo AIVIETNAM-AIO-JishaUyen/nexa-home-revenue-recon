@@ -27,7 +27,7 @@ ch_gl_web,channel,So cai kenh online,2025,WEB,15515347.98,USD,slide 26 (15.515.3
 ch_gl_unallocated,channel,So cai chua gan kenh (ADJ-0925),2025,UNALLOCATED,1250,USD,slide 26
 ch_delta_store,channel,Chenh lech kenh cua hang,2025,STORE,-878601.75,USD,slide 26 ghi Flash - So cai = 878.602 (trai dau quy uoc nhom)
 ch_delta_web,channel,Chenh lech kenh online,2025,WEB,-1548553.02,USD,slide 26 ghi Flash - So cai = 1.548.553 (trai dau quy uoc nhom)
-ch_delta_unallocated,channel,Chenh lech chua gan kenh,2025,UNALLOCATED,1250,USD,slide 26
+ch_delta_unallocated,channel,Chenh lech chua gan kenh,2025,UNALLOCATED,1250,USD,slide 26 ghi Flash - So cai = -1.250 (trai dau quy uoc nhom)
 m01_flash,month,Flash thang 1,2025-01,ALL,2859589,USD,slide 25 va dashboard mau HTML
 m01_gl,month,So cai thang 1,2025-01,ALL,2626167.29,USD,slide 25 va dashboard mau HTML
 m01_delta,month,Chenh lech thang 1,2025-01,ALL,-233421.71,USD,slide 25 (nghin USD)
