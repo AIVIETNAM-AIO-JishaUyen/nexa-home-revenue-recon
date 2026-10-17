@@ -90,3 +90,4 @@ Cập nhật bảng này mỗi khi tạo, xong hoặc hủy một plan.
 |---|---|---|---|---|
 | [Plan tổng](active/thanhlnp-18-10-2026-master-plan.md) | Cả 8 việc | thanhlnp | Đang làm | |
 | [setup-baseline](completed/thanhlnp-18-10-2026-setup-baseline.md) | Việc 1 – Hiểu đề và chốt quy ước tính | thanhlnp | Xong | 18/10/2026 |
+| [load-clean-data](completed/thanhlnp-18-10-2026-load-clean-data.md) | Việc 2 – Nạp và làm sạch dữ liệu (phần nạp, kiểm tra tổng) | thanhlnp | Xong | 18/10/2026 |
