@@ -1,0 +1,99 @@
+Bảng kiểm tra Python – 708 dòng ghi ra checks\python_bridge.csv
+Dữ liệu: POS 17124 dòng (12 dòng trùng), WEB 9441 đơn, sổ cái 6940 bút toán, Flash 156 dòng; dòng POS thiếu tỷ giá: 0, đơn online thiếu tỷ giá: 0; mã POS không ghép được mã NX: 0
+== 1. Cầu nối cả năm, toàn công ty (so numbers_of_record.csv, cho phép 0,005)
+ĐẠT  cả năm flash: nhóm 31,124,401.00 | chuẩn 31,124,401.00 | lệch 0.00 (cho phép 0.005)
+ĐẠT  cả năm discount: nhóm -1,834,297.47 | chuẩn -1,834,297.47 | lệch -0.00 (cho phép 0.005)
+ĐẠT  cả năm pos_duplicate: nhóm -12,622.20 | chuẩn -12,622.20 | lệch 0.00 (cho phép 0.005)
+ĐẠT  cả năm cancelled: nhóm -215,658.92 | chuẩn -215,658.92 | lệch 0.00 (cho phép 0.005)
+ĐẠT  cả năm online_timing: nhóm -52,597.90 | chuẩn -52,597.90 | lệch 0.00 (cho phép 0.005)
+ĐẠT  cả năm store_posting: nhóm 0.00 | chuẩn 0.00 | lệch 0.00 (cho phép 0.005)
+ĐẠT  cả năm transfer_error: nhóm -0.00 | chuẩn 0.00 | lệch -0.00 (cho phép 0.005)
+ĐẠT  cả năm returns: nhóm -349,148.23 | chuẩn -349,148.23 | lệch 0.00 (cho phép 0.005)
+ĐẠT  cả năm shipping: nhóm 94,766.95 | chuẩn 94,766.95 | lệch 0.00 (cho phép 0.005)
+ĐẠT  cả năm fx: nhóm -57,598.01 | chuẩn -57,598.01 | lệch -0.00 (cho phép 0.005)
+ĐẠT  cả năm rounding: nhóm 1.01 | chuẩn 1.01 | lệch -0.00 (cho phép 0.005)
+ĐẠT  cả năm unexplained: nhóm 1,250.00 | chuẩn 1,250.00 | lệch 0.00 (cho phép 0.005)
+ĐẠT  cả năm gl: nhóm 28,698,496.23 | chuẩn 28,698,496.23 | lệch 0.00 (cho phép 0.005)
+== 2. Cầu nối tháng 12, toàn công ty (so slide 36, cho phép 0,01 vì slide làm tròn từng dòng)
+ĐẠT  tháng 12 flash: nhóm 3,481,253.00 | chuẩn 3,481,253.00 | lệch 0.00 (cho phép 0.01)
+ĐẠT  tháng 12 discount: nhóm -202,796.79 | chuẩn -202,796.79 | lệch -0.00 (cho phép 0.01)
+ĐẠT  tháng 12 pos_duplicate: nhóm 0.00 | chuẩn 0.00 | lệch 0.00 (cho phép 0.01)
+ĐẠT  tháng 12 cancelled: nhóm -32,899.82 | chuẩn -32,899.82 | lệch -0.00 (cho phép 0.01)
+ĐẠT  tháng 12 online_timing: nhóm -48,343.43 | chuẩn -48,343.43 | lệch 0.00 (cho phép 0.01)
+ĐẠT  tháng 12 store_posting: nhóm 80,588.85 | chuẩn 80,588.85 | lệch 0.00 (cho phép 0.01)
+ĐẠT  tháng 12 transfer_error: nhóm 7,227.56 | chuẩn 7,227.56 | lệch -0.00 (cho phép 0.01)
+ĐẠT  tháng 12 returns: nhóm -44,999.10 | chuẩn -44,999.10 | lệch 0.00 (cho phép 0.01)
+ĐẠT  tháng 12 shipping: nhóm 9,810.39 | chuẩn 9,810.39 | lệch 0.00 (cho phép 0.01)
+ĐẠT  tháng 12 fx: nhóm -27,080.93 | chuẩn -27,080.93 | lệch 0.00 (cho phép 0.01)
+ĐẠT  tháng 12 rounding: nhóm 0.67 | chuẩn 0.67 | lệch 0.00 (cho phép 0.01)
+ĐẠT  tháng 12 unexplained: nhóm 0.00 | chuẩn 0.00 | lệch 0.00 (cho phép 0.01)
+ĐẠT  tháng 12 gl: nhóm 3,222,760.41 | chuẩn 3,222,760.41 | lệch 0.00 (cho phép 0.01)
+== 3. Một số tháng có số chuẩn riêng
+ĐẠT  tháng 11 transfer_error: nhóm -7,227.56 | chuẩn -7,227.56 | lệch 0.00 (cho phép 0.005)
+ĐẠT  tháng 3 pos_duplicate: nhóm -12,622.20 | chuẩn -12,622.20 | lệch 0.00 (cho phép 0.005)
+ĐẠT  tháng 3 online_timing: nhóm 281,787.98 | chuẩn 281,787.98 | lệch -0.00 (cho phép 0.005)
+ĐẠT  tháng 9 unexplained: nhóm 1,250.00 | chuẩn 1,250.00 | lệch 0.00 (cho phép 0.005)
+== 4. Lệch ngày ghi sổ cửa hàng tự bù trừ theo cặp tháng (tháng trước âm, tháng sau dương)
+ĐẠT  tháng 05 store_posting: nhóm -41,464.78 | chuẩn -41,464.78 | lệch -0.00 (cho phép 0.005)
+ĐẠT  tháng 06 store_posting: nhóm 41,464.78 | chuẩn 41,464.78 | lệch 0.00 (cho phép 0.005)
+ĐẠT  tháng 08 store_posting: nhóm -75,240.30 | chuẩn -75,240.30 | lệch 0.00 (cho phép 0.005)
+ĐẠT  tháng 09 store_posting: nhóm 75,240.30 | chuẩn 75,240.30 | lệch -0.00 (cho phép 0.005)
+ĐẠT  tháng 11 store_posting: nhóm -80,588.85 | chuẩn -80,588.85 | lệch -0.00 (cho phép 0.005)
+ĐẠT  tháng 12 store_posting: nhóm 80,588.85 | chuẩn 80,588.85 | lệch 0.00 (cho phép 0.005)
+== 5. Lệch thời điểm online cả năm không về 0 vì đơn vắt qua năm
+ĐẠT  đơn đặt 12/2024 giao 2025: nhóm 122,107.89 | chuẩn 122,107.89 | lệch -0.00 (cho phép 0.005)
+ĐẠT  đơn đặt 2025 giao 2026: nhóm -174,705.79 | chuẩn -174,705.79 | lệch 0.00 (cho phép 0.005)
+ĐẠT  số đơn đặt 12/2024 giao 2025: nhóm 77.00 | chuẩn 77.00 | lệch 0.00 (cho phép 0)
+ĐẠT  số đơn đặt 2025 giao 2026: nhóm 105.00 | chuẩn 105.00 | lệch 0.00 (cho phép 0)
+== 6. Theo kênh cả năm
+ĐẠT  Flash cửa hàng: nhóm 14,060,500.00 | chuẩn 14,060,500.00 | lệch 0.00 (cho phép 0.005)
+ĐẠT  Flash online: nhóm 17,063,901.00 | chuẩn 17,063,901.00 | lệch 0.00 (cho phép 0.005)
+ĐẠT  Sổ cái cửa hàng: nhóm 13,181,898.25 | chuẩn 13,181,898.25 | lệch 0.00 (cho phép 0.005)
+ĐẠT  Sổ cái online: nhóm 15,515,347.98 | chuẩn 15,515,347.98 | lệch 0.00 (cho phép 0.005)
+ĐẠT  Sổ cái chưa gắn kênh: nhóm 1,250.00 | chuẩn 1,250.00 | lệch 0.00 (cho phép 0.005)
+== 7. Ô cửa hàng × ngày ghi sổ
+ĐẠT  số ô: nhóm 5,120.00 | chuẩn 5,120.00 | lệch 0.00 (cho phép 0)
+ĐẠT  số ô lệch: nhóm 2.00 | chuẩn 2.00 | lệch 0.00 (cho phép 0)
+   Các ô lệch: NX057 02/12/2025 7,227.56 USD; NX057 21/11/2025 -7,227.56 USD
+== 8. Dòng kiểm tra (≤ 1 USD) và dòng làm tròn (≤ 5 USD) mọi tháng, mọi bảng
+ĐẠT  STORE: kiểm tra lớn nhất (độ lớn): nhóm 0.00 | chuẩn 0.00 | lệch 0.00 (cho phép 1)
+ĐẠT  STORE: làm tròn lớn nhất (độ lớn): nhóm 1.73 | chuẩn 0.00 | lệch 1.73 (cho phép 5)
+ĐẠT  WEB: kiểm tra lớn nhất (độ lớn): nhóm 0.00 | chuẩn 0.00 | lệch 0.00 (cho phép 1)
+ĐẠT  WEB: làm tròn lớn nhất (độ lớn): nhóm 1.01 | chuẩn 0.00 | lệch 1.01 (cho phép 5)
+ĐẠT  UNALLOCATED: kiểm tra lớn nhất (độ lớn): nhóm 0.00 | chuẩn 0.00 | lệch 0.00 (cho phép 1)
+ĐẠT  UNALLOCATED: làm tròn lớn nhất (độ lớn): nhóm 0.00 | chuẩn 0.00 | lệch 0.00 (cho phép 5)
+ĐẠT  COMPANY: kiểm tra lớn nhất (độ lớn): nhóm 0.00 | chuẩn 0.00 | lệch 0.00 (cho phép 1)
+ĐẠT  COMPANY: làm tròn lớn nhất (độ lớn): nhóm 1.83 | chuẩn 0.00 | lệch 1.83 (cho phép 5)
+== 9. So với dashboard mẫu của mentor (docs/template/Nexa_Home_Recon_Dashboard.html), toàn công ty, từng tháng × khoản
+ĐẠT  discount: lệch lớn nhất 1 tháng 0.21 (tháng 2025-11); lệch cả năm (nhóm − mẫu) 0.91
+ĐẠT  pos_duplicate: lệch lớn nhất 1 tháng 0.01 (tháng 2025-03); lệch cả năm (nhóm − mẫu) 0.01
+ĐẠT  cancelled: lệch lớn nhất 1 tháng 0.02 (tháng 2025-11); lệch cả năm (nhóm − mẫu) -0.06
+ĐẠT  online_timing: lệch lớn nhất 1 tháng 0.06 (tháng 2025-07); lệch cả năm (nhóm − mẫu) -0.01
+ĐẠT  store_posting: lệch lớn nhất 1 tháng 0.02 (tháng 2025-09); lệch cả năm (nhóm − mẫu) 0.00
+ĐẠT  transfer_error: lệch lớn nhất 1 tháng 0.00 (tháng 2025-07); lệch cả năm (nhóm − mẫu) -0.00
+ĐẠT  returns: lệch lớn nhất 1 tháng 0.01 (tháng 2025-11); lệch cả năm (nhóm − mẫu) -0.02
+ĐẠT  shipping: lệch lớn nhất 1 tháng 0.00 (tháng 2025-01); lệch cả năm (nhóm − mẫu) 0.00
+ĐẠT  fx: lệch lớn nhất 1 tháng 0.25 (tháng 2025-10); lệch cả năm (nhóm − mẫu) 0.49
+ĐẠT  rounding: lệch lớn nhất 1 tháng 1.87 (tháng 2025-09); lệch cả năm (nhóm − mẫu) -0.49
+ĐẠT  unexplained: lệch lớn nhất 1 tháng 0.00 (tháng 2025-01); lệch cả năm (nhóm − mẫu) 0.00
+ĐẠT  gl: lệch lớn nhất 1 tháng 0.00 (tháng 2025-01); lệch cả năm (nhóm − mẫu) 0.00
+
+TỔNG KẾT: 0 dòng SAI
+
+== Cầu nối toàn công ty theo tháng (USD)
+                    2025-01     2025-02     2025-03     2025-04     2025-05     2025-06     2025-07     2025-08     2025-09     2025-10     2025-11     2025-12
+flash            2859589.00  3490159.00  2001911.00  1035907.00  2802769.00  2506912.00  2248805.00  2569740.00  2576818.00  2743824.00  2806714.00  3481253.00
+discount         -161714.77  -205977.46  -129142.95   -61300.71  -170282.38  -144454.18  -129896.44  -154326.75  -144308.10  -165415.34  -164681.59  -202796.79
+pos_duplicate          0.00        0.00   -12622.20        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+cancelled         -15069.99   -17352.38   -20144.45    -9071.64   -16603.05   -15323.81    -4313.83   -18479.58   -14230.04   -19759.29   -32411.03   -32899.82
+online_timing     -33452.48  -160258.71   281787.98   -64054.80   -59165.70    49304.48    12592.22    -7096.56    -2082.47   -51583.02    29754.59   -48343.43
+store_posting          0.00        0.00        0.00        0.00   -41464.78    41464.78        0.00   -75240.30    75240.30        0.00   -80588.85    80588.85
+transfer_error         0.00       -0.00       -0.00       -0.00        0.00       -0.00       -0.00        0.00       -0.00       -0.00    -7227.56     7227.56
+returns           -20109.24   -30630.37   -37119.63   -11716.33   -33368.01   -16804.37   -49257.08   -25391.79   -14091.26   -26187.53   -39473.52   -44999.10
+shipping            8531.49    11258.90     8002.48     2730.38     8285.47     8865.97     7033.37     7684.22     7355.91     7764.39     7443.98     9810.39
+channel_reclass        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00
+fx                -11607.44    15708.91     8254.85     5555.36   -11426.26   -17503.23     4931.25   -22724.74     8270.98     4993.86   -14970.62   -27080.93
+rounding               0.72       -0.91        1.45        0.09        1.21        0.20        0.52        0.13       -1.83       -1.14       -0.12        0.67
+unexplained            0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00     1250.00        0.00        0.00        0.00
+gl               2626167.29  3102906.99  2100928.53   898049.36  2478745.50  2412461.84  2089895.01  2274164.62  2494221.48  2493635.92  2504559.28  3222760.41
+check                  0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00        0.00       -0.00       -0.00

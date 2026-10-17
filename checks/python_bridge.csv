@@ -1,0 +1,709 @@
+bridge,period,item_code,item_order,item_name,item_group,usd
+COMPANY,2025-01,flash,0,Doanh số Flash,,2859589.0
+COMPANY,2025-02,flash,0,Doanh số Flash,,3490159.0
+COMPANY,2025-03,flash,0,Doanh số Flash,,2001911.0
+COMPANY,2025-04,flash,0,Doanh số Flash,,1035907.0
+COMPANY,2025-05,flash,0,Doanh số Flash,,2802769.0
+COMPANY,2025-06,flash,0,Doanh số Flash,,2506912.0
+COMPANY,2025-07,flash,0,Doanh số Flash,,2248805.0
+COMPANY,2025-08,flash,0,Doanh số Flash,,2569740.0
+COMPANY,2025-09,flash,0,Doanh số Flash,,2576818.0
+COMPANY,2025-10,flash,0,Doanh số Flash,,2743824.0
+COMPANY,2025-11,flash,0,Doanh số Flash,,2806714.0
+COMPANY,2025-12,flash,0,Doanh số Flash,,3481253.0
+COMPANY,2025-01,discount,1,Chiết khấu,Quy tắc ghi nhận,-161714.7661
+COMPANY,2025-02,discount,1,Chiết khấu,Quy tắc ghi nhận,-205977.4555
+COMPANY,2025-03,discount,1,Chiết khấu,Quy tắc ghi nhận,-129142.9547
+COMPANY,2025-04,discount,1,Chiết khấu,Quy tắc ghi nhận,-61300.7103
+COMPANY,2025-05,discount,1,Chiết khấu,Quy tắc ghi nhận,-170282.3824
+COMPANY,2025-06,discount,1,Chiết khấu,Quy tắc ghi nhận,-144454.1826
+COMPANY,2025-07,discount,1,Chiết khấu,Quy tắc ghi nhận,-129896.4367
+COMPANY,2025-08,discount,1,Chiết khấu,Quy tắc ghi nhận,-154326.7518
+COMPANY,2025-09,discount,1,Chiết khấu,Quy tắc ghi nhận,-144308.1045
+COMPANY,2025-10,discount,1,Chiết khấu,Quy tắc ghi nhận,-165415.345
+COMPANY,2025-11,discount,1,Chiết khấu,Quy tắc ghi nhận,-164681.592
+COMPANY,2025-12,discount,1,Chiết khấu,Quy tắc ghi nhận,-202796.7914
+COMPANY,2025-01,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-02,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-03,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-12622.198
+COMPANY,2025-04,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-05,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-06,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-07,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-08,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-09,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-10,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-11,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-12,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+COMPANY,2025-01,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-15069.9868
+COMPANY,2025-02,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-17352.3797
+COMPANY,2025-03,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-20144.4481
+COMPANY,2025-04,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-9071.6358
+COMPANY,2025-05,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-16603.0506
+COMPANY,2025-06,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-15323.8117
+COMPANY,2025-07,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-4313.835
+COMPANY,2025-08,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-18479.5794
+COMPANY,2025-09,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-14230.0439
+COMPANY,2025-10,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-19759.2939
+COMPANY,2025-11,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-32411.0315
+COMPANY,2025-12,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-32899.8203
+COMPANY,2025-01,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-33452.4827
+COMPANY,2025-02,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-160258.7077
+COMPANY,2025-03,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,281787.9781
+COMPANY,2025-04,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-64054.804
+COMPANY,2025-05,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-59165.6967
+COMPANY,2025-06,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,49304.4792
+COMPANY,2025-07,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,12592.2246
+COMPANY,2025-08,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-7096.5616
+COMPANY,2025-09,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-2082.4695
+COMPANY,2025-10,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-51583.0155
+COMPANY,2025-11,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,29754.5857
+COMPANY,2025-12,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-48343.4274
+COMPANY,2025-01,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+COMPANY,2025-02,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+COMPANY,2025-03,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+COMPANY,2025-04,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+COMPANY,2025-05,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,-41464.7845
+COMPANY,2025-06,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,41464.7845
+COMPANY,2025-07,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+COMPANY,2025-08,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,-75240.299
+COMPANY,2025-09,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,75240.299
+COMPANY,2025-10,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+COMPANY,2025-11,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,-80588.8523
+COMPANY,2025-12,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,80588.8523
+COMPANY,2025-01,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+COMPANY,2025-02,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+COMPANY,2025-03,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+COMPANY,2025-04,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+COMPANY,2025-05,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+COMPANY,2025-06,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+COMPANY,2025-07,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+COMPANY,2025-08,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+COMPANY,2025-09,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+COMPANY,2025-10,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+COMPANY,2025-11,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-7227.56
+COMPANY,2025-12,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,7227.56
+COMPANY,2025-01,returns,7,Hàng trả lại,Quy tắc ghi nhận,-20109.2449
+COMPANY,2025-02,returns,7,Hàng trả lại,Quy tắc ghi nhận,-30630.3664
+COMPANY,2025-03,returns,7,Hàng trả lại,Quy tắc ghi nhận,-37119.629
+COMPANY,2025-04,returns,7,Hàng trả lại,Quy tắc ghi nhận,-11716.3284
+COMPANY,2025-05,returns,7,Hàng trả lại,Quy tắc ghi nhận,-33368.0071
+COMPANY,2025-06,returns,7,Hàng trả lại,Quy tắc ghi nhận,-16804.3708
+COMPANY,2025-07,returns,7,Hàng trả lại,Quy tắc ghi nhận,-49257.0784
+COMPANY,2025-08,returns,7,Hàng trả lại,Quy tắc ghi nhận,-25391.7929
+COMPANY,2025-09,returns,7,Hàng trả lại,Quy tắc ghi nhận,-14091.2604
+COMPANY,2025-10,returns,7,Hàng trả lại,Quy tắc ghi nhận,-26187.5336
+COMPANY,2025-11,returns,7,Hàng trả lại,Quy tắc ghi nhận,-39473.5187
+COMPANY,2025-12,returns,7,Hàng trả lại,Quy tắc ghi nhận,-44999.0986
+COMPANY,2025-01,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,8531.49
+COMPANY,2025-02,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,11258.9
+COMPANY,2025-03,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,8002.48
+COMPANY,2025-04,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,2730.38
+COMPANY,2025-05,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,8285.47
+COMPANY,2025-06,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,8865.97
+COMPANY,2025-07,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,7033.37
+COMPANY,2025-08,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,7684.22
+COMPANY,2025-09,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,7355.91
+COMPANY,2025-10,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,7764.39
+COMPANY,2025-11,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,7443.98
+COMPANY,2025-12,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,9810.39
+COMPANY,2025-01,fx,10,Tỷ giá,Quy tắc ghi nhận,-11607.4428
+COMPANY,2025-02,fx,10,Tỷ giá,Quy tắc ghi nhận,15708.9075
+COMPANY,2025-03,fx,10,Tỷ giá,Quy tắc ghi nhận,8254.8542
+COMPANY,2025-04,fx,10,Tỷ giá,Quy tắc ghi nhận,5555.3646
+COMPANY,2025-05,fx,10,Tỷ giá,Quy tắc ghi nhận,-11426.2591
+COMPANY,2025-06,fx,10,Tỷ giá,Quy tắc ghi nhận,-17503.2335
+COMPANY,2025-07,fx,10,Tỷ giá,Quy tắc ghi nhận,4931.2472
+COMPANY,2025-08,fx,10,Tỷ giá,Quy tắc ghi nhận,-22724.7414
+COMPANY,2025-09,fx,10,Tỷ giá,Quy tắc ghi nhận,8270.9787
+COMPANY,2025-10,fx,10,Tỷ giá,Quy tắc ghi nhận,4993.8559
+COMPANY,2025-11,fx,10,Tỷ giá,Quy tắc ghi nhận,-14970.6153
+COMPANY,2025-12,fx,10,Tỷ giá,Quy tắc ghi nhận,-27080.9282
+COMPANY,2025-01,rounding,11,Làm tròn,Sai số chấp nhận,0.7233
+COMPANY,2025-02,rounding,11,Làm tròn,Sai số chấp nhận,-0.9081
+COMPANY,2025-03,rounding,11,Làm tròn,Sai số chấp nhận,1.4476
+COMPANY,2025-04,rounding,11,Làm tròn,Sai số chấp nhận,0.0938
+COMPANY,2025-05,rounding,11,Làm tròn,Sai số chấp nhận,1.2104
+COMPANY,2025-06,rounding,11,Làm tròn,Sai số chấp nhận,0.2049
+COMPANY,2025-07,rounding,11,Làm tròn,Sai số chấp nhận,0.5183
+COMPANY,2025-08,rounding,11,Làm tròn,Sai số chấp nhận,0.1259
+COMPANY,2025-09,rounding,11,Làm tròn,Sai số chấp nhận,-1.8294
+COMPANY,2025-10,rounding,11,Làm tròn,Sai số chấp nhận,-1.1379
+COMPANY,2025-11,rounding,11,Làm tròn,Sai số chấp nhận,-0.116
+COMPANY,2025-12,rounding,11,Làm tròn,Sai số chấp nhận,0.6737
+COMPANY,2025-01,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-02,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-03,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-04,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-05,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-06,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-07,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-08,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-09,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,1250.0
+COMPANY,2025-10,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-11,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-12,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+COMPANY,2025-01,gl,13,Doanh thu theo sổ cái,,2626167.29
+COMPANY,2025-02,gl,13,Doanh thu theo sổ cái,,3102906.99
+COMPANY,2025-03,gl,13,Doanh thu theo sổ cái,,2100928.53
+COMPANY,2025-04,gl,13,Doanh thu theo sổ cái,,898049.36
+COMPANY,2025-05,gl,13,Doanh thu theo sổ cái,,2478745.5
+COMPANY,2025-06,gl,13,Doanh thu theo sổ cái,,2412461.84
+COMPANY,2025-07,gl,13,Doanh thu theo sổ cái,,2089895.01
+COMPANY,2025-08,gl,13,Doanh thu theo sổ cái,,2274164.62
+COMPANY,2025-09,gl,13,Doanh thu theo sổ cái,,2494221.48
+COMPANY,2025-10,gl,13,Doanh thu theo sổ cái,,2493635.92
+COMPANY,2025-11,gl,13,Doanh thu theo sổ cái,,2504559.28
+COMPANY,2025-12,gl,13,Doanh thu theo sổ cái,,3222760.41
+COMPANY,2025-01,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+COMPANY,2025-02,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+COMPANY,2025-03,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+COMPANY,2025-04,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+COMPANY,2025-05,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+COMPANY,2025-06,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+COMPANY,2025-07,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+COMPANY,2025-08,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+COMPANY,2025-09,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+COMPANY,2025-10,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+COMPANY,2025-11,check,14,Kiểm tra (Flash + các khoản − sổ cái),,-0.0
+COMPANY,2025-12,check,14,Kiểm tra (Flash + các khoản − sổ cái),,-0.0
+STORE,2025-01,flash,0,Doanh số Flash,,1300075.0
+STORE,2025-02,flash,0,Doanh số Flash,,1303586.0
+STORE,2025-03,flash,0,Doanh số Flash,,857151.0
+STORE,2025-04,flash,0,Doanh số Flash,,475042.0
+STORE,2025-05,flash,0,Doanh số Flash,,1252713.0
+STORE,2025-06,flash,0,Doanh số Flash,,983102.0
+STORE,2025-07,flash,0,Doanh số Flash,,1012362.0
+STORE,2025-08,flash,0,Doanh số Flash,,1180697.0
+STORE,2025-09,flash,0,Doanh số Flash,,1264218.0
+STORE,2025-10,flash,0,Doanh số Flash,,1290245.0
+STORE,2025-11,flash,0,Doanh số Flash,,1484045.0
+STORE,2025-12,flash,0,Doanh số Flash,,1657264.0
+STORE,2025-01,discount,1,Chiết khấu,Quy tắc ghi nhận,-72637.2193
+STORE,2025-02,discount,1,Chiết khấu,Quy tắc ghi nhận,-73499.4754
+STORE,2025-03,discount,1,Chiết khấu,Quy tắc ghi nhận,-56485.97
+STORE,2025-04,discount,1,Chiết khấu,Quy tắc ghi nhận,-28624.7367
+STORE,2025-05,discount,1,Chiết khấu,Quy tắc ghi nhận,-76906.3592
+STORE,2025-06,discount,1,Chiết khấu,Quy tắc ghi nhận,-64325.6962
+STORE,2025-07,discount,1,Chiết khấu,Quy tắc ghi nhận,-57402.5112
+STORE,2025-08,discount,1,Chiết khấu,Quy tắc ghi nhận,-71562.3083
+STORE,2025-09,discount,1,Chiết khấu,Quy tắc ghi nhận,-74005.4132
+STORE,2025-10,discount,1,Chiết khấu,Quy tắc ghi nhận,-77243.9243
+STORE,2025-11,discount,1,Chiết khấu,Quy tắc ghi nhận,-85333.8276
+STORE,2025-12,discount,1,Chiết khấu,Quy tắc ghi nhận,-95115.1646
+STORE,2025-01,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-02,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-03,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-12622.198
+STORE,2025-04,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-05,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-06,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-07,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-08,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-09,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-10,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-11,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-12,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,-0.0
+STORE,2025-01,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-02,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-03,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-04,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-05,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-06,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-07,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-08,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-09,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-10,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-11,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-12,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+STORE,2025-01,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-02,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-03,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-04,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-05,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-06,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-07,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-08,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-09,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-10,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-11,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-12,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+STORE,2025-01,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+STORE,2025-02,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+STORE,2025-03,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+STORE,2025-04,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+STORE,2025-05,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,-41464.7845
+STORE,2025-06,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,41464.7845
+STORE,2025-07,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+STORE,2025-08,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,-75240.299
+STORE,2025-09,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,75240.299
+STORE,2025-10,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+STORE,2025-11,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,-80588.8523
+STORE,2025-12,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,80588.8523
+STORE,2025-01,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+STORE,2025-02,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+STORE,2025-03,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+STORE,2025-04,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+STORE,2025-05,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+STORE,2025-06,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+STORE,2025-07,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+STORE,2025-08,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+STORE,2025-09,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+STORE,2025-10,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-0.0
+STORE,2025-11,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,-7227.56
+STORE,2025-12,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,7227.56
+STORE,2025-01,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-02,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-03,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-04,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-05,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-06,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-07,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-08,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-09,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-10,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-11,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-12,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+STORE,2025-01,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-02,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-03,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-04,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-05,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-06,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-07,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-08,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-09,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-10,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-11,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-12,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+STORE,2025-01,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-02,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-03,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-04,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-05,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-06,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,-3480.0
+STORE,2025-07,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-08,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-09,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-10,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-11,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-12,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+STORE,2025-01,fx,10,Tỷ giá,Quy tắc ghi nhận,-5048.8912
+STORE,2025-02,fx,10,Tỷ giá,Quy tắc ghi nhận,5274.1469
+STORE,2025-03,fx,10,Tỷ giá,Quy tắc ghi nhận,3464.5896
+STORE,2025-04,fx,10,Tỷ giá,Quy tắc ghi nhận,2233.3371
+STORE,2025-05,fx,10,Tỷ giá,Quy tắc ghi nhận,-4220.9567
+STORE,2025-06,fx,10,Tỷ giá,Quy tắc ghi nhận,-6504.5658
+STORE,2025-07,fx,10,Tỷ giá,Quy tắc ghi nhận,1764.6076
+STORE,2025-08,fx,10,Tỷ giá,Quy tắc ghi nhận,-9415.766
+STORE,2025-09,fx,10,Tỷ giá,Quy tắc ghi nhận,3656.135
+STORE,2025-10,fx,10,Tỷ giá,Quy tắc ghi nhận,1152.006
+STORE,2025-11,fx,10,Tỷ giá,Quy tắc ghi nhận,-7277.3927
+STORE,2025-12,fx,10,Tỷ giá,Quy tắc ghi nhận,-14435.2153
+STORE,2025-01,rounding,11,Làm tròn,Sai số chấp nhận,-0.2695
+STORE,2025-02,rounding,11,Làm tròn,Sai số chấp nhận,-0.5715
+STORE,2025-03,rounding,11,Làm tròn,Sai số chấp nhận,1.7284
+STORE,2025-04,rounding,11,Làm tròn,Sai số chấp nhận,0.0196
+STORE,2025-05,rounding,11,Làm tròn,Sai số chấp nhận,0.3104
+STORE,2025-06,rounding,11,Làm tròn,Sai số chấp nhận,0.5476
+STORE,2025-07,rounding,11,Làm tròn,Sai số chấp nhận,0.4136
+STORE,2025-08,rounding,11,Làm tròn,Sai số chấp nhận,-0.1568
+STORE,2025-09,rounding,11,Làm tròn,Sai số chấp nhận,-1.4308
+STORE,2025-10,rounding,11,Làm tròn,Sai số chấp nhận,-0.7618
+STORE,2025-11,rounding,11,Làm tròn,Sai số chấp nhận,0.8926
+STORE,2025-12,rounding,11,Làm tròn,Sai số chấp nhận,0.2976
+STORE,2025-01,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-02,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-03,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-04,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-05,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-06,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-07,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-08,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-09,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-10,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-11,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-12,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+STORE,2025-01,gl,13,Doanh thu theo sổ cái,,1222388.62
+STORE,2025-02,gl,13,Doanh thu theo sổ cái,,1235360.1
+STORE,2025-03,gl,13,Doanh thu theo sổ cái,,791509.15
+STORE,2025-04,gl,13,Doanh thu theo sổ cái,,448650.62
+STORE,2025-05,gl,13,Doanh thu theo sổ cái,,1130121.21
+STORE,2025-06,gl,13,Doanh thu theo sổ cái,,950257.07
+STORE,2025-07,gl,13,Doanh thu theo sổ cái,,956724.51
+STORE,2025-08,gl,13,Doanh thu theo sổ cái,,1024478.47
+STORE,2025-09,gl,13,Doanh thu theo sổ cái,,1269107.59
+STORE,2025-10,gl,13,Doanh thu theo sổ cái,,1214152.32
+STORE,2025-11,gl,13,Doanh thu theo sổ cái,,1303618.26
+STORE,2025-12,gl,13,Doanh thu theo sổ cái,,1635530.33
+STORE,2025-01,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+STORE,2025-02,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+STORE,2025-03,check,14,Kiểm tra (Flash + các khoản − sổ cái),,-0.0
+STORE,2025-04,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+STORE,2025-05,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+STORE,2025-06,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+STORE,2025-07,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+STORE,2025-08,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+STORE,2025-09,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+STORE,2025-10,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+STORE,2025-11,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+STORE,2025-12,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-01,flash,0,Doanh số Flash,,1559514.0
+WEB,2025-02,flash,0,Doanh số Flash,,2186573.0
+WEB,2025-03,flash,0,Doanh số Flash,,1144760.0
+WEB,2025-04,flash,0,Doanh số Flash,,560865.0
+WEB,2025-05,flash,0,Doanh số Flash,,1550056.0
+WEB,2025-06,flash,0,Doanh số Flash,,1523810.0
+WEB,2025-07,flash,0,Doanh số Flash,,1236443.0
+WEB,2025-08,flash,0,Doanh số Flash,,1389043.0
+WEB,2025-09,flash,0,Doanh số Flash,,1312600.0
+WEB,2025-10,flash,0,Doanh số Flash,,1453579.0
+WEB,2025-11,flash,0,Doanh số Flash,,1322669.0
+WEB,2025-12,flash,0,Doanh số Flash,,1823989.0
+WEB,2025-01,discount,1,Chiết khấu,Quy tắc ghi nhận,-89077.5468
+WEB,2025-02,discount,1,Chiết khấu,Quy tắc ghi nhận,-132477.9802
+WEB,2025-03,discount,1,Chiết khấu,Quy tắc ghi nhận,-72656.9848
+WEB,2025-04,discount,1,Chiết khấu,Quy tắc ghi nhận,-32675.9736
+WEB,2025-05,discount,1,Chiết khấu,Quy tắc ghi nhận,-93376.0232
+WEB,2025-06,discount,1,Chiết khấu,Quy tắc ghi nhận,-80128.4864
+WEB,2025-07,discount,1,Chiết khấu,Quy tắc ghi nhận,-72493.9255
+WEB,2025-08,discount,1,Chiết khấu,Quy tắc ghi nhận,-82764.4435
+WEB,2025-09,discount,1,Chiết khấu,Quy tắc ghi nhận,-70302.6912
+WEB,2025-10,discount,1,Chiết khấu,Quy tắc ghi nhận,-88171.4207
+WEB,2025-11,discount,1,Chiết khấu,Quy tắc ghi nhận,-79347.7644
+WEB,2025-12,discount,1,Chiết khấu,Quy tắc ghi nhận,-107681.6269
+WEB,2025-01,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-02,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-03,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-04,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-05,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-06,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-07,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-08,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-09,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-10,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-11,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-12,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+WEB,2025-01,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-15069.9868
+WEB,2025-02,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-17352.3797
+WEB,2025-03,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-20144.4481
+WEB,2025-04,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-9071.6358
+WEB,2025-05,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-16603.0506
+WEB,2025-06,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-15323.8117
+WEB,2025-07,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-4313.835
+WEB,2025-08,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-18479.5794
+WEB,2025-09,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-14230.0439
+WEB,2025-10,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-19759.2939
+WEB,2025-11,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-32411.0315
+WEB,2025-12,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,-32899.8203
+WEB,2025-01,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-33452.4827
+WEB,2025-02,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-160258.7077
+WEB,2025-03,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,281787.9781
+WEB,2025-04,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-64054.804
+WEB,2025-05,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-59165.6967
+WEB,2025-06,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,49304.4792
+WEB,2025-07,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,12592.2246
+WEB,2025-08,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-7096.5616
+WEB,2025-09,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-2082.4695
+WEB,2025-10,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-51583.0155
+WEB,2025-11,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,29754.5857
+WEB,2025-12,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,-48343.4274
+WEB,2025-01,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-02,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-03,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-04,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-05,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-06,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-07,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-08,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-09,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-10,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-11,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-12,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+WEB,2025-01,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-02,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-03,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-04,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-05,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-06,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-07,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-08,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-09,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-10,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-11,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-12,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+WEB,2025-01,returns,7,Hàng trả lại,Quy tắc ghi nhận,-20109.2449
+WEB,2025-02,returns,7,Hàng trả lại,Quy tắc ghi nhận,-30630.3664
+WEB,2025-03,returns,7,Hàng trả lại,Quy tắc ghi nhận,-37119.629
+WEB,2025-04,returns,7,Hàng trả lại,Quy tắc ghi nhận,-11716.3284
+WEB,2025-05,returns,7,Hàng trả lại,Quy tắc ghi nhận,-33368.0071
+WEB,2025-06,returns,7,Hàng trả lại,Quy tắc ghi nhận,-16804.3708
+WEB,2025-07,returns,7,Hàng trả lại,Quy tắc ghi nhận,-49257.0784
+WEB,2025-08,returns,7,Hàng trả lại,Quy tắc ghi nhận,-25391.7929
+WEB,2025-09,returns,7,Hàng trả lại,Quy tắc ghi nhận,-14091.2604
+WEB,2025-10,returns,7,Hàng trả lại,Quy tắc ghi nhận,-26187.5336
+WEB,2025-11,returns,7,Hàng trả lại,Quy tắc ghi nhận,-39473.5187
+WEB,2025-12,returns,7,Hàng trả lại,Quy tắc ghi nhận,-44999.0986
+WEB,2025-01,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,8531.49
+WEB,2025-02,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,11258.9
+WEB,2025-03,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,8002.48
+WEB,2025-04,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,2730.38
+WEB,2025-05,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,8285.47
+WEB,2025-06,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,8865.97
+WEB,2025-07,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,7033.37
+WEB,2025-08,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,7684.22
+WEB,2025-09,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,7355.91
+WEB,2025-10,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,7764.39
+WEB,2025-11,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,7443.98
+WEB,2025-12,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,9810.39
+WEB,2025-01,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-02,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-03,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-04,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-05,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-06,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,3480.0
+WEB,2025-07,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-08,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-09,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-10,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-11,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-12,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+WEB,2025-01,fx,10,Tỷ giá,Quy tắc ghi nhận,-6558.5516
+WEB,2025-02,fx,10,Tỷ giá,Quy tắc ghi nhận,10434.7606
+WEB,2025-03,fx,10,Tỷ giá,Quy tắc ghi nhận,4790.2646
+WEB,2025-04,fx,10,Tỷ giá,Quy tắc ghi nhận,3322.0275
+WEB,2025-05,fx,10,Tỷ giá,Quy tắc ghi nhận,-7205.3024
+WEB,2025-06,fx,10,Tỷ giá,Quy tắc ghi nhận,-10998.6676
+WEB,2025-07,fx,10,Tỷ giá,Quy tắc ghi nhận,3166.6396
+WEB,2025-08,fx,10,Tỷ giá,Quy tắc ghi nhận,-13308.9754
+WEB,2025-09,fx,10,Tỷ giá,Quy tắc ghi nhận,4614.8436
+WEB,2025-10,fx,10,Tỷ giá,Quy tắc ghi nhận,3841.8499
+WEB,2025-11,fx,10,Tỷ giá,Quy tắc ghi nhận,-7693.2226
+WEB,2025-12,fx,10,Tỷ giá,Quy tắc ghi nhận,-12645.7129
+WEB,2025-01,rounding,11,Làm tròn,Sai số chấp nhận,0.9928
+WEB,2025-02,rounding,11,Làm tròn,Sai số chấp nhận,-0.3366
+WEB,2025-03,rounding,11,Làm tròn,Sai số chấp nhận,-0.2808
+WEB,2025-04,rounding,11,Làm tròn,Sai số chấp nhận,0.0742
+WEB,2025-05,rounding,11,Làm tròn,Sai số chấp nhận,0.9
+WEB,2025-06,rounding,11,Làm tròn,Sai số chấp nhận,-0.3427
+WEB,2025-07,rounding,11,Làm tròn,Sai số chấp nhận,0.1047
+WEB,2025-08,rounding,11,Làm tròn,Sai số chấp nhận,0.2827
+WEB,2025-09,rounding,11,Làm tròn,Sai số chấp nhận,-0.3987
+WEB,2025-10,rounding,11,Làm tròn,Sai số chấp nhận,-0.3761
+WEB,2025-11,rounding,11,Làm tròn,Sai số chấp nhận,-1.0085
+WEB,2025-12,rounding,11,Làm tròn,Sai số chấp nhận,0.3761
+WEB,2025-01,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-02,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-03,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-04,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-05,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-06,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-07,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-08,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-09,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-10,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-11,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-12,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+WEB,2025-01,gl,13,Doanh thu theo sổ cái,,1403778.67
+WEB,2025-02,gl,13,Doanh thu theo sổ cái,,1867546.89
+WEB,2025-03,gl,13,Doanh thu theo sổ cái,,1309419.38
+WEB,2025-04,gl,13,Doanh thu theo sổ cái,,449398.74
+WEB,2025-05,gl,13,Doanh thu theo sổ cái,,1348624.29
+WEB,2025-06,gl,13,Doanh thu theo sổ cái,,1462204.77
+WEB,2025-07,gl,13,Doanh thu theo sổ cái,,1133170.5
+WEB,2025-08,gl,13,Doanh thu theo sổ cái,,1249686.15
+WEB,2025-09,gl,13,Doanh thu theo sổ cái,,1223863.89
+WEB,2025-10,gl,13,Doanh thu theo sổ cái,,1279483.6
+WEB,2025-11,gl,13,Doanh thu theo sổ cái,,1200941.02
+WEB,2025-12,gl,13,Doanh thu theo sổ cái,,1587230.08
+WEB,2025-01,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-02,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-03,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-04,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-05,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-06,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-07,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-08,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-09,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-10,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+WEB,2025-11,check,14,Kiểm tra (Flash + các khoản − sổ cái),,-0.0
+WEB,2025-12,check,14,Kiểm tra (Flash + các khoản − sổ cái),,-0.0
+UNALLOCATED,2025-01,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-02,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-03,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-04,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-05,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-06,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-07,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-08,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-09,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-10,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-11,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-12,flash,0,Doanh số Flash,,0.0
+UNALLOCATED,2025-01,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-02,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-03,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-04,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-05,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-06,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-07,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-08,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-09,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-10,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-11,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-12,discount,1,Chiết khấu,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-01,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-02,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-03,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-04,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-05,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-06,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-07,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-08,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-09,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-10,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-11,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-12,pos_duplicate,2,Dòng POS bị trùng,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-01,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-02,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-03,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-04,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-05,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-06,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-07,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-08,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-09,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-10,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-11,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-12,cancelled,3,Đơn online bị hủy,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-01,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-02,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-03,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-04,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-05,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-06,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-07,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-08,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-09,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-10,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-11,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-12,online_timing,4,Lệch thời điểm online,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-01,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-02,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-03,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-04,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-05,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-06,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-07,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-08,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-09,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-10,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-11,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-12,store_posting,5,Lệch ngày ghi sổ của cửa hàng,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-01,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-02,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-03,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-04,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-05,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-06,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-07,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-08,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-09,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-10,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-11,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-12,transfer_error,6,Lỗi chuyển dữ liệu từ POS sang sổ cái,Lỗi dữ liệu,0.0
+UNALLOCATED,2025-01,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-02,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-03,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-04,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-05,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-06,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-07,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-08,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-09,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-10,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-11,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-12,returns,7,Hàng trả lại,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-01,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-02,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-03,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-04,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-05,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-06,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-07,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-08,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-09,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-10,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-11,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-12,shipping,8,Phí vận chuyển (bút toán tay MJ-SHIP),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-01,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-02,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-03,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-04,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-05,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-06,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-07,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-08,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-09,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-10,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-11,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-12,channel_reclass,9,Chuyển kênh (bút toán tay MJ-RCL),Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-01,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-02,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-03,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-04,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-05,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-06,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-07,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-08,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-09,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-10,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-11,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-12,fx,10,Tỷ giá,Quy tắc ghi nhận,0.0
+UNALLOCATED,2025-01,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-02,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-03,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-04,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-05,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-06,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-07,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-08,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-09,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-10,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-11,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-12,rounding,11,Làm tròn,Sai số chấp nhận,0.0
+UNALLOCATED,2025-01,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-02,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-03,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-04,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-05,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-06,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-07,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-08,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-09,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,1250.0
+UNALLOCATED,2025-10,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-11,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-12,unexplained,12,Chưa giải thích được (bút toán ADJ-0925),Chưa giải thích được,0.0
+UNALLOCATED,2025-01,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-02,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-03,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-04,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-05,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-06,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-07,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-08,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-09,gl,13,Doanh thu theo sổ cái,,1250.0
+UNALLOCATED,2025-10,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-11,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-12,gl,13,Doanh thu theo sổ cái,,0.0
+UNALLOCATED,2025-01,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-02,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-03,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-04,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-05,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-06,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-07,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-08,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-09,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-10,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-11,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
+UNALLOCATED,2025-12,check,14,Kiểm tra (Flash + các khoản − sổ cái),,0.0
