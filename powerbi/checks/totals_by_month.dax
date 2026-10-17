@@ -1,0 +1,21 @@
+// Flash, sổ cái, chênh lệch theo tháng của năm tài chính 2025 và dòng cả năm
+DEFINE
+    VAR NamTaiChinh = FILTER ( ALL ( dim_date[is_fiscal_2025] ), dim_date[is_fiscal_2025] = TRUE () )
+EVALUATE
+UNION (
+    SUMMARIZECOLUMNS (
+        dim_date[period],
+        NamTaiChinh,
+        "flash_usd", [Flash],
+        "gl_usd", [Sổ cái],
+        "delta_usd", [Chênh lệch],
+        "delta_pct_flash", [% chênh lệch so với Flash]
+    ),
+    ROW (
+        "period", "Cả năm",
+        "flash_usd", CALCULATE ( [Flash], NamTaiChinh ),
+        "gl_usd", CALCULATE ( [Sổ cái], NamTaiChinh ),
+        "delta_usd", CALCULATE ( [Chênh lệch], NamTaiChinh ),
+        "delta_pct_flash", CALCULATE ( [% chênh lệch so với Flash], NamTaiChinh )
+    )
+)

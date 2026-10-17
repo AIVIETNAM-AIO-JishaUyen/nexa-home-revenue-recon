@@ -1,0 +1,8 @@
+// Flash, sổ cái, chênh lệch theo kênh (sổ cái lọc kênh qua bảng cửa hàng)
+EVALUATE
+SUMMARIZECOLUMNS (
+    dim_channel[channel_code],
+    "flash_usd", [Flash],
+    "gl_usd", [Sổ cái],
+    "delta_usd", [Chênh lệch]
+)
