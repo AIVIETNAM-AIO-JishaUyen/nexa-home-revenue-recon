@@ -1,0 +1,38 @@
+/// Bảng chỉ để chứa các công thức DAX (measure) của dự án; cột GhiChu bị ẩn
+table _Measures
+
+	/// Doanh số Flash (báo cáo nhanh của phòng Kinh doanh): theo tháng đặt hàng, giá trước giảm giá, làm tròn đến USD
+	measure Flash = SUM ( fact_sales_flash[revenue_usd] )
+		formatString: #,0
+		displayFolder: 1. Số tổng
+
+	/// Doanh thu theo sổ cái: cột revenue_usd đã đổi dấu (doanh thu là số dương)
+	measure 'Sổ cái' = SUM ( fact_gl_entry[revenue_usd] )
+		formatString: #,0.00
+		displayFolder: 1. Số tổng
+
+	/// Chênh lệch = Sổ cái − Flash (số âm: sổ cái thấp hơn Flash)
+	measure 'Chênh lệch' = [Sổ cái] - [Flash]
+		formatString: #,0.00
+		displayFolder: 1. Số tổng
+
+	/// % chênh lệch hiện trên thẻ KPI: chia cho Flash (slide 12)
+	measure '% chênh lệch so với Flash' = DIVIDE ( [Chênh lệch], [Flash] )
+		formatString: 0.00%
+		displayFolder: 1. Số tổng
+
+	/// % chênh lệch dùng cho cờ vượt ngưỡng cửa hàng × tháng: chia cho |sổ cái| (slide 28)
+	measure '% chênh lệch so với sổ cái' = DIVIDE ( [Chênh lệch], ABS ( [Sổ cái] ) )
+		formatString: 0.00%
+		displayFolder: 1. Số tổng
+
+	column GhiChu
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: GhiChu
+
+	partition _Measures = m
+		mode: import
+		source = #table(type table [GhiChu = text], {{"Bảng chứa công thức DAX"}})
+

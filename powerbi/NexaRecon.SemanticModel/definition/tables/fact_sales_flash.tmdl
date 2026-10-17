@@ -1,0 +1,48 @@
+/// Báo cáo nhanh: tháng × kênh × thị trường
+table fact_sales_flash
+
+	column month_id
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: month_id
+
+	column month_end_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: month_end_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column channel_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: channel_code
+
+	column market
+		dataType: string
+		summarizeBy: none
+		sourceColumn: market
+
+	column orders
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: orders
+
+	column revenue_usd
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: revenue_usd
+
+	partition fact_sales_flash = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(DataFolder & "Nexa_Home_Recon_Dataset.xlsx"), null, true),
+				    LaySheet = Nguon{[Item = "fact_sales_flash", Kind = "Sheet"]}[Data],
+				    DongDauLaTenCot = Table.PromoteHeaders(LaySheet, [PromoteAllScalars = true]),
+				    DoiKieu = Table.TransformColumnTypes(DongDauLaTenCot, {{"month_id", Int64.Type}, {"month_end_date", type date}, {"channel_code", type text}, {"market", type text}, {"orders", Int64.Type}, {"revenue_usd", type number}}, "en-US")
+				in
+				    DoiKieu
+

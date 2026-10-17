@@ -1,0 +1,76 @@
+relationship pos_posting_date
+	fromColumn: fact_pos_line.posting_date
+	toColumn: dim_date.date
+
+relationship pos_business_date
+	isActive: false
+	fromColumn: fact_pos_line.business_date
+	toColumn: dim_date.date
+
+relationship web_delivery_date
+	fromColumn: fact_web_order.delivery_date
+	toColumn: dim_date.date
+
+relationship web_order_date
+	isActive: false
+	fromColumn: fact_web_order.order_date
+	toColumn: dim_date.date
+
+relationship web_return_date
+	isActive: false
+	fromColumn: fact_web_order.return_date
+	toColumn: dim_date.date
+
+relationship gl_posting_date
+	fromColumn: fact_gl_entry.posting_date
+	toColumn: dim_date.date
+
+relationship flash_month_end_date
+	fromColumn: fact_sales_flash.month_end_date
+	toColumn: dim_date.date
+
+relationship pos_store
+	fromColumn: fact_pos_line.store_key
+	toColumn: dim_store.store_key
+
+relationship web_store
+	fromColumn: fact_web_order.store_key
+	toColumn: dim_store.store_key
+
+relationship gl_store
+	fromColumn: fact_gl_entry.store_key
+	toColumn: dim_store.store_key
+
+relationship pos_currency
+	fromColumn: fact_pos_line.currency
+	toColumn: dim_currency.currency
+
+relationship web_currency
+	fromColumn: fact_web_order.currency
+	toColumn: dim_currency.currency
+
+relationship gl_currency
+	fromColumn: fact_gl_entry.currency
+	toColumn: dim_currency.currency
+
+relationship store_channel
+	fromColumn: dim_store.channel_code
+	toColumn: dim_channel.channel_code
+
+relationship gl_channel
+	isActive: false
+	fromColumn: fact_gl_entry.channel_code
+	toColumn: dim_channel.channel_code
+
+relationship flash_channel
+	fromColumn: fact_sales_flash.channel_code
+	toColumn: dim_channel.channel_code
+
+relationship gl_journal_type
+	fromColumn: fact_gl_entry.journal_type
+	toColumn: dim_journal_type.journal_type
+
+relationship web_order_status
+	fromColumn: fact_web_order.order_status
+	toColumn: dim_order_status.order_status
+

@@ -1,0 +1,34 @@
+/// Trạng thái đơn online
+table dim_order_status
+
+	column order_status
+		dataType: string
+		summarizeBy: none
+		sourceColumn: order_status
+
+	column status_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: status_name
+
+	column is_delivered
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: is_delivered
+
+	column is_returned
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: is_returned
+
+	partition dim_order_status = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(DataFolder & "Nexa_Home_Recon_Dataset.xlsx"), null, true),
+				    LaySheet = Nguon{[Item = "dim_order_status", Kind = "Sheet"]}[Data],
+				    DongDauLaTenCot = Table.PromoteHeaders(LaySheet, [PromoteAllScalars = true]),
+				    DoiKieu = Table.TransformColumnTypes(DongDauLaTenCot, {{"order_status", type text}, {"status_name", type text}, {"is_delivered", Int64.Type}, {"is_returned", Int64.Type}}, "en-US")
+				in
+				    DoiKieu
+

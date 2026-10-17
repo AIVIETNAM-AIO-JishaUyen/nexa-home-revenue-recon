@@ -1,0 +1,39 @@
+/// Loại bút toán sổ cái
+table dim_journal_type
+
+	column journal_type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: journal_type
+
+	column journal_type_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: journal_type_name
+
+	column channel_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: channel_code
+
+	column is_automatic
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: is_automatic
+
+	column description
+		dataType: string
+		summarizeBy: none
+		sourceColumn: description
+
+	partition dim_journal_type = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(DataFolder & "Nexa_Home_Recon_Dataset.xlsx"), null, true),
+				    LaySheet = Nguon{[Item = "dim_journal_type", Kind = "Sheet"]}[Data],
+				    DongDauLaTenCot = Table.PromoteHeaders(LaySheet, [PromoteAllScalars = true]),
+				    DoiKieu = Table.TransformColumnTypes(DongDauLaTenCot, {{"journal_type", type text}, {"journal_type_name", type text}, {"channel_code", type text}, {"is_automatic", Int64.Type}, {"description", type text}}, "en-US")
+				in
+				    DoiKieu
+

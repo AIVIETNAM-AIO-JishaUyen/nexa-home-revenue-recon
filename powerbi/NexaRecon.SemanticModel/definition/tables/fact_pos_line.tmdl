@@ -1,0 +1,126 @@
+/// Mỗi dòng là 1 món hàng trên 1 hóa đơn POS; export_seq = 2 là dòng xuất trùng
+table fact_pos_line
+
+	column receipt_no
+		dataType: string
+		summarizeBy: none
+		sourceColumn: receipt_no
+
+	column line_no
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: line_no
+
+	column store_key
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: store_key
+
+	column business_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: business_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column posting_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: posting_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column currency
+		dataType: string
+		summarizeBy: none
+		sourceColumn: currency
+
+	column qty
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: qty
+
+	column unit_price_local
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: unit_price_local
+
+	column gross_amount_local
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: gross_amount_local
+
+	column discount_amount_local
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: discount_amount_local
+
+	column net_amount_local
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: net_amount_local
+
+	column fx_rate_daily
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: fx_rate_daily
+
+	column gross_usd_daily
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: gross_usd_daily
+
+	column discount_usd_daily
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: discount_usd_daily
+
+	column net_usd_daily
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: net_usd_daily
+
+	column fx_rate_month_end
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: fx_rate_month_end
+
+	column net_usd_month_end
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: net_usd_month_end
+
+	column exported_at
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		summarizeBy: none
+		sourceColumn: exported_at
+
+	column export_seq
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: export_seq
+
+	partition fact_pos_line = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(DataFolder & "Nexa_Home_Recon_Dataset.xlsx"), null, true),
+				    LaySheet = Nguon{[Item = "fact_pos_line", Kind = "Sheet"]}[Data],
+				    DongDauLaTenCot = Table.PromoteHeaders(LaySheet, [PromoteAllScalars = true]),
+				    DoiKieu = Table.TransformColumnTypes(DongDauLaTenCot, {{"receipt_no", type text}, {"line_no", Int64.Type}, {"store_key", Int64.Type}, {"business_date", type date}, {"posting_date", type date}, {"currency", type text}, {"qty", Int64.Type}, {"unit_price_local", type number}, {"gross_amount_local", type number}, {"discount_amount_local", type number}, {"net_amount_local", type number}, {"fx_rate_daily", type number}, {"gross_usd_daily", type number}, {"discount_usd_daily", type number}, {"net_usd_daily", type number}, {"fx_rate_month_end", type number}, {"net_usd_month_end", type number}, {"exported_at", type datetime}, {"export_seq", Int64.Type}}, "en-US")
+				in
+				    DoiKieu
+

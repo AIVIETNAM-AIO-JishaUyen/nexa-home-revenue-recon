@@ -1,0 +1,35 @@
+/// Kênh bán: STORE (cửa hàng), WEB (online), UNALLOCATED (chưa gắn kênh)
+table dim_channel
+
+	column channel_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: channel_code
+
+	column channel_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: channel_name
+		sortByColumn: sort_order
+
+	column sort_order
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	column description
+		dataType: string
+		summarizeBy: none
+		sourceColumn: description
+
+	partition dim_channel = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(DataFolder & "Nexa_Home_Recon_Dataset.xlsx"), null, true),
+				    LaySheet = Nguon{[Item = "dim_channel", Kind = "Sheet"]}[Data],
+				    DongDauLaTenCot = Table.PromoteHeaders(LaySheet, [PromoteAllScalars = true]),
+				    DoiKieu = Table.TransformColumnTypes(DongDauLaTenCot, {{"channel_code", type text}, {"channel_name", type text}, {"sort_order", Int64.Type}, {"description", type text}}, "en-US")
+				in
+				    DoiKieu
+

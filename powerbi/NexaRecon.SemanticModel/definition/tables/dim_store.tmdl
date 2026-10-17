@@ -1,0 +1,86 @@
+/// Danh mục cửa hàng: store_key = mã POS; 999999 = online; -1 = chưa gắn kênh
+table dim_store
+
+	column store_key
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: store_key
+
+	column finance_store_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: finance_store_code
+
+	column store_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: store_name
+
+	column channel_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: channel_code
+
+	column country
+		dataType: string
+		summarizeBy: none
+		sourceColumn: country
+
+	column state
+		dataType: string
+		summarizeBy: none
+		sourceColumn: state
+
+	column region
+		dataType: string
+		summarizeBy: none
+		sourceColumn: region
+
+	column currency
+		dataType: string
+		summarizeBy: none
+		sourceColumn: currency
+
+	column square_meters
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: square_meters
+
+	column open_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: open_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column close_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: close_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column status
+		dataType: string
+		summarizeBy: none
+		sourceColumn: status
+
+	column has_sales_2025
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: has_sales_2025
+
+	partition dim_store = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(DataFolder & "Nexa_Home_Recon_Dataset.xlsx"), null, true),
+				    LaySheet = Nguon{[Item = "dim_store", Kind = "Sheet"]}[Data],
+				    DongDauLaTenCot = Table.PromoteHeaders(LaySheet, [PromoteAllScalars = true]),
+				    DoiKieu = Table.TransformColumnTypes(DongDauLaTenCot, {{"store_key", Int64.Type}, {"finance_store_code", type text}, {"store_name", type text}, {"channel_code", type text}, {"country", type text}, {"state", type text}, {"region", type text}, {"currency", type text}, {"square_meters", type number}, {"open_date", type date}, {"close_date", type date}, {"status", type text}, {"has_sales_2025", Int64.Type}}, "en-US")
+				in
+				    DoiKieu
+

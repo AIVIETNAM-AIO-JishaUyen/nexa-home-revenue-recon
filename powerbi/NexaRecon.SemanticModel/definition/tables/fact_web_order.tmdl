@@ -1,0 +1,129 @@
+/// Mỗi dòng là 1 đơn online
+table fact_web_order
+
+	column web_order_id
+		dataType: string
+		summarizeBy: none
+		sourceColumn: web_order_id
+
+	column store_key
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: store_key
+
+	column order_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: order_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column delivery_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: delivery_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column return_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: return_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column order_status
+		dataType: string
+		summarizeBy: none
+		sourceColumn: order_status
+
+	column currency
+		dataType: string
+		summarizeBy: none
+		sourceColumn: currency
+
+	column items_qty
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: items_qty
+
+	column gross_amount_local
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: gross_amount_local
+
+	column discount_amount_local
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: discount_amount_local
+
+	column net_amount_local
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: net_amount_local
+
+	column fx_rate_order_date
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: fx_rate_order_date
+
+	column gross_usd_daily
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: gross_usd_daily
+
+	column discount_usd_daily
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: discount_usd_daily
+
+	column net_usd_daily
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: net_usd_daily
+
+	column fx_rate_month_end_delivery
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: fx_rate_month_end_delivery
+
+	column net_usd_month_end_delivery
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: net_usd_month_end_delivery
+
+	column fx_rate_month_end_return
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: fx_rate_month_end_return
+
+	column net_usd_month_end_return
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: net_usd_month_end_return
+
+	partition fact_web_order = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(DataFolder & "Nexa_Home_Recon_Dataset.xlsx"), null, true),
+				    LaySheet = Nguon{[Item = "fact_web_order", Kind = "Sheet"]}[Data],
+				    DongDauLaTenCot = Table.PromoteHeaders(LaySheet, [PromoteAllScalars = true]),
+				    DoiKieu = Table.TransformColumnTypes(DongDauLaTenCot, {{"web_order_id", type text}, {"store_key", Int64.Type}, {"order_date", type date}, {"delivery_date", type date}, {"return_date", type date}, {"order_status", type text}, {"currency", type text}, {"items_qty", Int64.Type}, {"gross_amount_local", type number}, {"discount_amount_local", type number}, {"net_amount_local", type number}, {"fx_rate_order_date", type number}, {"gross_usd_daily", type number}, {"discount_usd_daily", type number}, {"net_usd_daily", type number}, {"fx_rate_month_end_delivery", type number}, {"net_usd_month_end_delivery", type number}, {"fx_rate_month_end_return", type number}, {"net_usd_month_end_return", type number}}, "en-US")
+				in
+				    DoiKieu
+

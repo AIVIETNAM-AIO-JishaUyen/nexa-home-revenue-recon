@@ -1,0 +1,5 @@
+/// Đường dẫn thư mục chứa Nexa_Home_Recon_Dataset.xlsx (có dấu \ ở cuối). Đổi máy thì sửa ở Transform data > Manage Parameters, rồi bấm Refresh.
+expression DataFolder = "D:\DS-AI\AIO-BA\Sale-Domain-ProjectI\data\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+	annotation PBI_ResultType = Text
+

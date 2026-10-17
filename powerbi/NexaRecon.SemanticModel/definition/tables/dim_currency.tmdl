@@ -1,0 +1,30 @@
+/// Loại tiền
+table dim_currency
+
+	column currency
+		dataType: string
+		summarizeBy: none
+		sourceColumn: currency
+
+	column currency_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: currency_name
+		sortByColumn: sort_order
+
+	column sort_order
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: sort_order
+
+	partition dim_currency = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(DataFolder & "Nexa_Home_Recon_Dataset.xlsx"), null, true),
+				    LaySheet = Nguon{[Item = "dim_currency", Kind = "Sheet"]}[Data],
+				    DongDauLaTenCot = Table.PromoteHeaders(LaySheet, [PromoteAllScalars = true]),
+				    DoiKieu = Table.TransformColumnTypes(DongDauLaTenCot, {{"currency", type text}, {"currency_name", type text}, {"sort_order", Int64.Type}}, "en-US")
+				in
+				    DoiKieu
+

@@ -1,0 +1,96 @@
+/// Mỗi dòng là 1 bút toán sổ cái; revenue_usd đã đổi dấu
+table fact_gl_entry
+
+	column journal_id
+		dataType: string
+		summarizeBy: none
+		sourceColumn: journal_id
+
+	column posting_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: posting_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column period
+		dataType: string
+		summarizeBy: none
+		sourceColumn: period
+
+	column account
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: account
+
+	column journal_type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: journal_type
+
+	column store_key
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: store_key
+
+	column store_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: store_code
+
+	column channel_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: channel_code
+
+	column currency
+		dataType: string
+		summarizeBy: none
+		sourceColumn: currency
+
+	column amount_local
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: amount_local
+
+	column fx_rate_month_end
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: fx_rate_month_end
+
+	column amount_usd
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: amount_usd
+
+	column revenue_usd
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: none
+		sourceColumn: revenue_usd
+
+	column description
+		dataType: string
+		summarizeBy: none
+		sourceColumn: description
+
+	column source_ref
+		dataType: string
+		summarizeBy: none
+		sourceColumn: source_ref
+
+	partition fact_gl_entry = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(DataFolder & "Nexa_Home_Recon_Dataset.xlsx"), null, true),
+				    LaySheet = Nguon{[Item = "fact_gl_entry", Kind = "Sheet"]}[Data],
+				    DongDauLaTenCot = Table.PromoteHeaders(LaySheet, [PromoteAllScalars = true]),
+				    DoiKieu = Table.TransformColumnTypes(DongDauLaTenCot, {{"journal_id", type text}, {"posting_date", type date}, {"period", type text}, {"account", Int64.Type}, {"journal_type", type text}, {"store_key", Int64.Type}, {"store_code", type text}, {"channel_code", type text}, {"currency", type text}, {"amount_local", type number}, {"fx_rate_month_end", type number}, {"amount_usd", type number}, {"revenue_usd", type number}, {"description", type text}, {"source_ref", type text}}, "en-US")
+				in
+				    DoiKieu
+

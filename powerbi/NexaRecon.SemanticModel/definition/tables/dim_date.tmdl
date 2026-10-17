@@ -1,0 +1,114 @@
+/// Bảng ngày 01/12/2024 – 31/01/2026, có ngày ghi sổ posting_date và cờ is_fiscal_2025
+table dim_date
+	dataCategory: Time
+
+	column date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		isKey
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column date_key
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: date_key
+
+	column year
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year
+
+	column quarter
+		dataType: string
+		summarizeBy: none
+		sourceColumn: quarter
+
+	column month
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: month
+
+	column month_id
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: month_id
+
+	column period
+		dataType: string
+		summarizeBy: none
+		sourceColumn: period
+
+	column month_label
+		dataType: string
+		summarizeBy: none
+		sourceColumn: month_label
+		sortByColumn: month_id
+
+	column day_of_week
+		dataType: string
+		summarizeBy: none
+		sourceColumn: day_of_week
+
+	column day_of_week_no
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: day_of_week_no
+
+	column working_day
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: working_day
+
+	column is_holiday
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: is_holiday
+
+	column posting_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: posting_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column month_end_date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: month_end_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column is_month_end
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_month_end
+
+	column prev_month_end
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		summarizeBy: none
+		sourceColumn: prev_month_end
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column is_fiscal_2025
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_fiscal_2025
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(DataFolder & "Nexa_Home_Recon_Dataset.xlsx"), null, true),
+				    LaySheet = Nguon{[Item = "dim_date", Kind = "Sheet"]}[Data],
+				    DongDauLaTenCot = Table.PromoteHeaders(LaySheet, [PromoteAllScalars = true]),
+				    DoiKieu = Table.TransformColumnTypes(DongDauLaTenCot, {{"date", type date}, {"date_key", Int64.Type}, {"year", Int64.Type}, {"quarter", type text}, {"month", Int64.Type}, {"month_id", Int64.Type}, {"period", type text}, {"month_label", type text}, {"day_of_week", type text}, {"day_of_week_no", Int64.Type}, {"working_day", Int64.Type}, {"is_holiday", Int64.Type}, {"posting_date", type date}, {"month_end_date", type date}, {"is_month_end", type logical}, {"prev_month_end", type date}, {"is_fiscal_2025", type logical}}, "en-US")
+				in
+				    DoiKieu
+
