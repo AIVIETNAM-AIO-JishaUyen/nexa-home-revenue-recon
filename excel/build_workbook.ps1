@@ -95,7 +95,8 @@ try {
             if ($c.Name -match 'pct') { $c.DataBodyRange.NumberFormat = '0.00%' }
             elseif ($c.Name -match 'usd') { $c.DataBodyRange.NumberFormat = '#,##0.00' }
         }
-        [void]$ws.Columns.AutoFit()
+        # Giãn cột theo bảng (không theo dòng tiêu đề dài ở ô A1)
+        [void]$lo.Range.Columns.AutoFit()
     }
 
     $wsH.Activate()

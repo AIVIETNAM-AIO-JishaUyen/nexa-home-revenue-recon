@@ -1,26 +1,28 @@
 NEXA HOME - ĐỐI SOÁT DOANH THU 2025: FILE POWER QUERY
-File này nạp 4 file dữ liệu và 4 bảng danh mục bằng Power Query, rồi so Flash (báo cáo nhanh của phòng Kinh doanh) với sổ cái (sổ kế toán của phòng Tài chính).
+File này nạp 4 file dữ liệu và 4 bảng danh mục bằng Power Query (công cụ nạp và xử lý dữ liệu có sẵn trong Excel), rồi so Flash (báo cáo nhanh doanh số của phòng Kinh doanh) với sổ cái (sổ kế toán của phòng Tài chính).
 
 CÁCH DÙNG
 1. Mở sheet Cai_dat, sửa ô B2 thành đường dẫn thư mục chứa dữ liệu (thư mục data của dự án), ví dụ D:\Nexa\data
 2. Chọn Data > Refresh All (Dữ liệu > Làm mới tất cả). Không cần sửa truy vấn nào.
-3. Xem sheet Kiem_tra: cột Đạt phải là TRUE ở mọi dòng.
-Nếu Excel hỏi về mức riêng tư (privacy level) của nguồn dữ liệu: chọn Organizational cho cả thư mục dữ liệu và file này, hoặc vào Data > Get Data > Query Options > Privacy và chọn Ignore the Privacy Levels.
+3. Xem sheet Kiem_tra: cột dat (đạt) phải là TRUE ở mọi dòng.
+Nếu Excel hỏi về mức riêng tư (privacy level) của nguồn dữ liệu: chọn Organizational cho cả thư mục dữ liệu và file này, hoặc vào Data > Get Data > Query Options > Current Workbook > Privacy và chọn Ignore the Privacy Levels.
 
 CÁC SHEET
 Huong_dan: trang này.
 Cai_dat: ô đường dẫn thư mục dữ liệu (tên FolderPath).
-Kiem_tra: so 13 chỉ tiêu với bảng tổng kiểm soát QC_Summary của đề. Nhãn nguồn [QC].
+Kiem_tra: so 13 chỉ tiêu với bảng tổng kiểm soát QC_Summary của đề (QC = Quality Control, kiểm soát chất lượng). Khi trích số từ sheet này vào báo cáo thì ghi nhãn nguồn [QC].
 Bay_du_lieu: 5 bẫy khi nạp dữ liệu, mỗi bẫy có số trước và sau khi xử lý, chỉ rõ truy vấn và bước xử lý.
 Chenh_lech_thang: Flash, sổ cái, chênh lệch theo từng tháng và cả năm.
 Chenh_lech_kenh: Flash, sổ cái, chênh lệch theo kênh bán (cửa hàng, online, chưa gắn kênh).
 Flash: bảng Flash sau khi xử lý.
 Cua_hang: danh mục cửa hàng.
+Lich: lịch từng ngày; cột posting_date là ngày ghi sổ (bán vào ngày nghỉ thì ghi sổ vào ngày làm việc kế tiếp).
+Các bảng lớn và bảng phụ chỉ tạo kết nối, không nạp ra sheet: q_POS, q_WEB, q_GL, q_WEB_Raw, q_FLASH_Raw, q_FX_Daily, q_FX_MonthEnd. Xem từng bước của mọi truy vấn ở Data > Queries & Connections.
 
 QUY ƯỚC
 Chênh lệch = Sổ cái - Flash. Số âm nghĩa là sổ cái thấp hơn Flash.
-% chênh lệch trên bảng tháng chia cho Flash.
-Tiền: USD (đô la Mỹ). Tổng cột line_amount, net_amount ở sheet Kiem_tra cộng thẳng nhiều loại tiền, chỉ để kiểm tra đã nạp đủ, không phải doanh thu.
+% chênh lệch (cột delta_pct_flash) ở bảng tháng và bảng kênh đều chia cho Flash.
+Tiền: USD (đô la Mỹ). Tổng cột line_amount, discount_amount, net_amount ở sheet Kiem_tra cộng thẳng nhiều loại tiền, chỉ để kiểm tra đã nạp đủ, không phải doanh thu.
 
 CODE CÁC TRUY VẤN
-Mỗi truy vấn có file .m tương ứng trong thư mục excel/queries của dự án. File này được dựng lại từ các file .m bằng script excel/build_workbook.ps1.
+Mỗi truy vấn có file .m (file code của Power Query) tương ứng trong thư mục excel/queries của dự án. File này được dựng lại từ các file .m bằng script excel/build_workbook.ps1.

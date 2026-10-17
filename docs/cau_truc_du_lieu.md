@@ -57,7 +57,10 @@
 |---|---|---|
 | `q_POS`, `q_WEB`, `q_GL`, `q_FLASH` | Nạp 4 file dữ liệu, xử lý 5 bẫy | |
 | `q_Store`, `q_Calendar`, `q_FX_Daily`, `q_FX_MonthEnd` | Nạp 4 bảng danh mục; `q_Calendar` thêm cột ngày ghi sổ `posting_date` | |
+| `q_WEB_Raw`, `q_FLASH_Raw` | Đọc thô file đơn online và file Flash, chưa xử lý; `q_WEB`, `q_FLASH` đọc tiếp từ đây | |
 | `q_Check` | Sheet kiểm tra tổng: so với bảng tổng kiểm soát QC_Summary | `[QC]` |
+| `q_Traps` | Sheet 5 bẫy: số trước và sau khi xử lý, kèm tên truy vấn và tên bước | `[QC]` |
+| `q_Delta_Month`, `q_Delta_Channel` | Chênh lệch tổng theo tháng và theo kênh, có dòng kiểm tra | `[BR-Tổng]` (chỉ dòng Flash và sổ cái) |
 | `q_Transactions` | Bảng giao dịch chung (mục 5) | |
 | `q_DataQuality` | Sheet chất lượng dữ liệu: dòng trùng, ngày thiếu bút toán, bút toán không gắn cửa hàng… | `[QC]` |
 | `q_RC_Store` | Đối soát cửa hàng × ngày ghi sổ | `[RC-CH]` |
