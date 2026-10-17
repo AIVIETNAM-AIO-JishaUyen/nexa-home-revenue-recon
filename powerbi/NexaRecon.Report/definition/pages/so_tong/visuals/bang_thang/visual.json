@@ -1,0 +1,116 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "bang_thang",
+  "position": {
+    "x": 20,
+    "y": 210,
+    "z": 1000,
+    "height": 480,
+    "width": 940,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_date"
+                    }
+                  },
+                  "Property": "period"
+                }
+              },
+              "queryRef": "dim_date.period",
+              "nativeQueryRef": "period"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Flash"
+                }
+              },
+              "queryRef": "_Measures.Flash",
+              "nativeQueryRef": "Flash"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Sổ cái"
+                }
+              },
+              "queryRef": "_Measures.Sổ cái",
+              "nativeQueryRef": "Sổ cái"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Chênh lệch"
+                }
+              },
+              "queryRef": "_Measures.Chênh lệch",
+              "nativeQueryRef": "Chênh lệch"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "% chênh lệch so với Flash"
+                }
+              },
+              "queryRef": "_Measures.% chênh lệch so với Flash",
+              "nativeQueryRef": "% chênh lệch so với Flash"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Flash, sổ cái và chênh lệch theo tháng'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
