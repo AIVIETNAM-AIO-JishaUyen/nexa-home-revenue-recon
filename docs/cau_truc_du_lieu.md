@@ -114,6 +114,8 @@ Mỗi dòng giữ đúng mức chi tiết của nguồn: 1 dòng POS hoặc 1 đ
 | `item_group` | Nhóm: Quy tắc ghi nhận · Lỗi dữ liệu · Chưa giải thích được · Sai số chấp nhận |
 | `usd` | Số tiền USD, dấu theo quy ước: khoản làm Flash cao hơn sổ cái ghi số âm |
 
+Mỗi bảng ghi **đủ mọi khoản** của danh mục ở mục 7, khoản không áp dụng cho bảng đó thì bằng 0 (ví dụ bảng cửa hàng có dòng "Đơn online bị hủy" = 0), để 4 bảng cùng một hình dạng (quyết định ngày 18/10, plan `python-check`).
+
 Toàn công ty = cửa hàng + online + chưa gắn kênh. Riêng dòng chuyển kênh MJ-RCL: cửa hàng −3.480, online +3.480, nên toàn công ty bằng 0 và không hiện dòng này.
 
 ---
