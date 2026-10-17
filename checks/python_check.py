@@ -7,7 +7,13 @@ Ra:    checks/python_bridge.csv        bảng cầu nối dạng dài (cùng d�
        checks/python_check_result.txt  kết quả tự so với checks/numbers_of_record.csv và dashboard mẫu của mentor
 
 Quy ước: chênh lệch = Sổ cái − Flash; khoản làm Flash cao hơn sổ cái ghi số âm.
-Mọi số USD đổi từ nội tệ ÷ tỷ giá (tỷ giá là số ngoại tệ đổi được 1 USD), KHÔNG làm tròn từng dòng.
+Mọi số USD (đô la Mỹ) đổi từ nội tệ ÷ tỷ giá (tỷ giá là số ngoại tệ đổi được 1 USD), KHÔNG làm tròn từng dòng.
+Từ viết tắt: POS (Point of Sale) = bán tại cửa hàng; NX = mã cửa hàng bên kế toán; MJ (Manual Journal) = bút toán tay,
+gồm MJ-SHIP (phí vận chuyển), MJ-RCL (chuyển kênh), MJ-ADJ (bút toán điều chỉnh ADJ-0925).
+
+Lưu ý khi đọc kết quả: với các định nghĩa này, dòng kiểm tra luôn bằng 0 nếu dữ liệu đủ, kể cả khi một khoản bị xếp nhầm
+tháng (dòng tỷ giá sẽ "hút" phần sai). Vì vậy script còn so với số chuẩn, tính tỷ giá theo cách thứ hai từ giao dịch,
+và kiểm tra từng ô online, hàng trả với sổ cái; các phép so này mới bắt được lỗi xếp nhầm tháng.
 """
 import json
 import sys
@@ -42,12 +48,18 @@ ITEMS = [
 MIDDLE = [c for c, o, n, g in ITEMS if c not in ("flash", "gl", "check")]
 
 
+def vn(x, d=2):
+    """Viết số kiểu Việt Nam: dấu chấm ngăn nghìn, dấu phẩy thập phân."""
+    return f"{x:,.{d}f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+
 # ---------------------------------------------------------------- 1. Đọc dữ liệu
 def load():
     md = DATA / "Nexa_Home_Master_Data.xlsx"
     store = pd.read_excel(md, "store_master")
     cal = pd.read_excel(md, "calendar")
     fxd = pd.read_excel(md, "fx_daily")
+    fxm = pd.read_excel(md, "fx_month_end")
     pos = pd.read_csv(DATA / "POS_Sales_Export_2025.csv", parse_dates=["business_date", "exported_at"])
     web = pd.read_csv(DATA / "WEB_Orders_Export.csv", dtype={"order_date": str, "delivery_date": str, "return_date": str})
     for c in ["order_date", "delivery_date", "return_date"]:          # bẫy 1: ngày kiểu Mỹ MM/DD/YYYY
@@ -66,6 +78,7 @@ def load():
     cal["posting_date"] = [next((w for w in work if w >= d), pd.NaT) for d in cal.date]
     post_map = cal.set_index("date").posting_date
     rate = fxd.set_index(["rate_date", "currency"]).usd_to_ccy
+    rate_me = fxm.set_index(["period", "currency"]).usd_to_ccy
 
     # POS: đánh dấu dòng trùng (giữ lần xuất đầu tiên theo giờ xuất), ghép mã NX, ngày ghi sổ, tỷ giá ngày bán
     pos = pos.sort_values("exported_at", kind="stable")
@@ -94,7 +107,7 @@ def load():
     gl["revenue_local"] = -gl.amount_local
     gl["usd_unrounded"] = gl.revenue_local / gl.fx_rate_month_end
     gl["source_ref"] = gl.source_ref.fillna("")
-    return dict(pos=pos, web=web, gl=gl, flash=flash, store=store, rate=rate)
+    return dict(pos=pos, web=web, gl=gl, flash=flash, store=store, rate=rate, rate_me=rate_me)
 
 
 def by_month(series, months):
@@ -190,6 +203,39 @@ def bridges(d):
     return out, cells, M
 
 
+def fx_from_transactions(d, cells, M):
+    """Cách tính tỷ giá thứ hai, đi từ từng giao dịch thay vì từ bút toán sổ cái:
+    nội tệ × (1 ÷ tỷ giá cuối tháng ghi nhận − 1 ÷ tỷ giá ngày). Nếu một khoản bị xếp nhầm tháng, hai cách sẽ lệch nhau."""
+    pos, web, rate_me = d["pos"], d["web"], d["rate_me"]
+    S = lambda s: by_month(s, M)
+    nd = pos[~pos.is_duplicate]
+    me = rate_me.reindex(list(zip(nd.m_post, nd.currency))).values
+    store = S((nd.net_local * (1 / me - 1 / nd.rate)).groupby(nd.m_post).sum())
+    me_c = rate_me.reindex(list(zip(cells.month, cells.currency))).values
+    store = store + S((cells.diff_local * (1 / me_c - 1 / cells.rate)).groupby(cells.month).sum())
+    nc = web[(web.order_status != "Cancelled") & web.m_deliv.isin(M)]
+    me_d = rate_me.reindex(list(zip(nc.m_deliv, nc.currency))).values
+    rt = web[(web.order_status == "Returned") & web.m_return.isin(M)]
+    me_r = rate_me.reindex(list(zip(rt.m_return, rt.currency))).values
+    webfx = S((nc.net_amount * (1 / me_d - 1 / nc.rate)).groupby(nc.m_deliv).sum()) \
+        - S((rt.net_amount * (1 / me_r - 1 / rt.rate)).groupby(rt.m_return).sum())
+    return store, webfx
+
+
+def web_cells(d, M):
+    """Ô online: bút toán WEB_DELIVERY (ngày giao × loại tiền) và WEB_RETURN (ngày trả × loại tiền) so với file đơn online, theo nội tệ."""
+    web, gl = d["web"], d["gl"]
+    g = gl[gl.journal_type == "WEB_DELIVERY"].groupby(["posting_date", "currency"]).revenue_local.sum()
+    nc = web[(web.order_status != "Cancelled") & web.m_deliv.isin(M)]
+    w = nc.groupby(["delivery_date", "currency"]).net_amount.sum().rename_axis(["posting_date", "currency"])
+    deliv = pd.concat([g.rename("gl"), w.rename("web")], axis=1).fillna(0.0)
+    gr = gl[gl.journal_type == "WEB_RETURN"].groupby(["posting_date", "currency"]).revenue_local.sum()
+    rt = web[(web.order_status == "Returned") & web.m_return.isin(M)]
+    wr = (-rt.groupby(["return_date", "currency"]).net_amount.sum()).rename_axis(["posting_date", "currency"])
+    ret = pd.concat([gr.rename("gl"), wr.rename("web")], axis=1).fillna(0.0)
+    return deliv, ret
+
+
 def to_long(out, M):
     rows = []
     for bridge in ["COMPANY", "STORE", "WEB", "UNALLOCATED"]:
@@ -211,14 +257,21 @@ def compare(out, cells, d, M):
         nonlocal fails
         ok = abs(got - want) <= tol
         fails += 0 if ok else 1
-        lines.append(f"{'ĐẠT ' if ok else 'SAI '} {label}: nhóm {got:,.2f} | chuẩn {want:,.2f} | lệch {got - want:,.2f} (cho phép {tol})")
+        lines.append(f"{'ĐẠT ' if ok else 'SAI '} {label}: nhóm {vn(got)} | chuẩn {vn(want)} | lệch {vn(got - want)} (cho phép {vn(tol, 3)})")
 
-    lines.append("== 1. Cầu nối cả năm, toàn công ty (so numbers_of_record.csv, cho phép 0,005)")
+    lines.append("== 0. Dữ liệu đầu vào")
+    chk("dòng POS thiếu tỷ giá", int(d["pos"].rate.isna().sum()), 0, 0)
+    chk("đơn online thiếu tỷ giá", int(d["web"].rate.isna().sum()), 0, 0)
+    chk("mã POS không ghép được mã NX", int(d["pos"].nx.isna().sum()), 0, 0)
+    chk("ô cửa hàng × ngày ghi sổ thiếu tỷ giá", int(cells.rate.isna().sum()), 0, 0)
+    chk("số dòng POS trùng", int(d["pos"].is_duplicate.sum()), rec.det_pos_duplicate_lines, 0)
+
+    lines.append("== 1. Cầu nối cả năm, toàn công ty (so numbers_of_record.csv)")
     year = co.sum()
     for code in ["flash", "discount", "pos_duplicate", "cancelled", "online_timing", "store_posting", "transfer_error",
                  "returns", "shipping", "fx", "rounding", "unexplained", "gl"]:
         chk(f"cả năm {code}", year[code], rec[f"br_y_{code}"], 0.005)
-    lines.append("== 2. Cầu nối tháng 12, toàn công ty (so slide 36, cho phép 0,01 vì slide làm tròn từng dòng)")
+    lines.append("== 2. Cầu nối tháng 12, toàn công ty (so slide 36; cho phép 0,01 vì slide làm tròn từng dòng)")
     for code in ["flash", "discount", "pos_duplicate", "cancelled", "online_timing", "store_posting", "transfer_error",
                  "returns", "shipping", "fx", "rounding", "unexplained", "gl"]:
         chk(f"tháng 12 {code}", co.loc["2025-12", code], rec[f"br_m12_{code}"], 0.01)
@@ -245,36 +298,62 @@ def compare(out, cells, d, M):
     chk("Sổ cái cửa hàng", st.gl.sum(), rec.ch_gl_store, 0.005)
     chk("Sổ cái online", wb.gl.sum(), rec.ch_gl_web, 0.005)
     chk("Sổ cái chưa gắn kênh", out["UNALLOCATED"].gl.sum(), rec.ch_gl_unallocated, 0.005)
-    lines.append("== 7. Ô cửa hàng × ngày ghi sổ")
+    lines.append("== 7. Từng ô so với sổ cái (theo nội tệ)")
     mism = cells[cells.diff_local.abs() > 0.005]
-    chk("số ô", len(cells), rec.det_store_cells, 0)
-    chk("số ô lệch", len(mism), rec.det_store_cells_mismatch, 0)
-    lines.append("   Các ô lệch: " + "; ".join(f"{r.store_code} {pd.Timestamp(r.posting_date):%d/%m/%Y} {r.diff_local:,.2f} {r.currency}" for r in mism.itertuples()))
-    lines.append("== 8. Dòng kiểm tra (≤ 1 USD) và dòng làm tròn (≤ 5 USD) mọi tháng, mọi bảng")
+    chk("số ô cửa hàng × ngày ghi sổ", len(cells), rec.det_store_cells, 0)
+    chk("số ô cửa hàng lệch", len(mism), rec.det_store_cells_mismatch, 0)
+    lines.append("   Các ô cửa hàng lệch: " + "; ".join(f"{r.store_code} {pd.Timestamp(r.posting_date):%d/%m/%Y} {vn(r.diff_local)} {r.currency}" for r in mism.itertuples()))
+    deliv, ret = web_cells(d, M)
+    chk("số ô online (ngày giao × loại tiền)", len(deliv), rec.det_web_delivery_cells, 0)
+    chk("số ô online lệch", int(((deliv.gl - deliv.web).abs() > 0.005).sum()), 0, 0)
+    chk("số ô hàng trả (ngày trả × loại tiền)", len(ret), rec.det_web_return_cells, 0)
+    chk("số ô hàng trả lệch", int(((ret.gl - ret.web).abs() > 0.005).sum()), 0, 0)
+    lines.append("== 8. Tỷ giá tính theo cách thứ hai (từ từng giao dịch) so với cách tính từ sổ cái, từng tháng")
+    fx_s2, fx_w2 = fx_from_transactions(d, cells, M)
+    chk("cửa hàng: lệch lớn nhất 1 tháng (độ lớn)", (st.fx - fx_s2).abs().max(), 0, 0.01)
+    chk("online: lệch lớn nhất 1 tháng (độ lớn)", (wb.fx - fx_w2).abs().max(), 0, 0.01)
+    lines.append("== 9. Dòng kiểm tra (≤ 1 USD) và dòng làm tròn (≤ 5 USD) mọi tháng, mọi bảng")
     for k, b in out.items():
         chk(f"{k}: kiểm tra lớn nhất (độ lớn)", b.check.abs().max(), 0, 1)
         chk(f"{k}: làm tròn lớn nhất (độ lớn)", b.rounding.abs().max(), 0, 5)
 
-    # So với dashboard mẫu của mentor (tính từ USD đã làm tròn từng dòng nên cho phép lệch ≤ 5 USD mỗi tháng × khoản)
-    lines.append("== 9. So với dashboard mẫu của mentor (docs/template/Nexa_Home_Recon_Dashboard.html), toàn công ty, từng tháng × khoản")
+    # So với dashboard mẫu của mentor (tính từ USD đã làm tròn từng dòng nên cho phép lệch ≤ 5 USD mỗi tháng × khoản).
+    # Dashboard tính khoản làm tròn = mã "10" + (mã "g" − Flash); khoản "08" ở mức kênh = phí vận chuyển + chuyển kênh.
+    lines.append("== 10. So với dashboard mẫu của mentor (docs/template/Nexa_Home_Recon_Dashboard.html), từng tháng × khoản")
     html = (ROOT / "docs" / "template" / "Nexa_Home_Recon_Dashboard.html").read_text(encoding="utf-8")
     j = html.index("{", html.index("window.__D"))
     D, _ = json.JSONDecoder().raw_decode(html[j:])
-    hm = pd.DataFrame(D["rec"], columns=["mi", "store_key", "code", "usd"])
-    hm["period"] = hm.mi.map(lambda i: D["months"][i])
+    rec_h = pd.DataFrame(D["rec"], columns=["mi", "store_key", "code", "usd"])
+    rec_h["period"] = rec_h.mi.map(lambda i: D["months"][i])
+    rec_h["bridge"] = rec_h.store_key.map(lambda k: "WEB" if k == 999999 else ("UNALLOCATED" if k == -1 else "STORE"))
+    fl_h = pd.DataFrame([(D["months"][r[0]], r[1], r[3]) for r in D["flash"]], columns=["period", "bridge", "usd"])
     code_map = {"01": "discount", "02": "pos_duplicate", "03": "cancelled", "04": "online_timing", "05": "store_posting",
-                "06": "transfer_error", "07": "returns", "08": "shipping", "09": "fx", "10": "rounding", "11": "unexplained", "fin": "gl"}
-    hm = hm[hm.code.isin(code_map)]
-    hm["item"] = hm.code.map(code_map)
-    h = hm.groupby(["period", "item"]).usd.sum().unstack().reindex(M).fillna(0.0)
-    worst = []
-    for item in code_map.values():
-        diff = (co[item] - h.get(item, 0.0)).abs()
-        worst.append((item, diff.max(), diff.idxmax(), co[item].sum() - h.get(item, pd.Series(0.0, index=M)).sum()))
-    for item, mx, at, yr in worst:
-        ok = mx <= 5
-        fails += 0 if ok else 1
-        lines.append(f"{'ĐẠT ' if ok else 'SAI '} {item}: lệch lớn nhất 1 tháng {mx:,.2f} (tháng {at}); lệch cả năm (nhóm − mẫu) {yr:,.2f}")
+                "06": "transfer_error", "07": "returns", "08": "manual_docs", "09": "fx", "10": "rounding", "11": "unexplained",
+                "fin": "gl", "g": "gross"}
+    rec_h["item"] = rec_h.code.map(code_map)
+
+    def html_bridge(sel):
+        h = rec_h[sel(rec_h)].groupby(["period", "item"]).usd.sum().unstack().reindex(M).fillna(0.0)
+        f = fl_h[sel(fl_h)].groupby("period").usd.sum().reindex(M).fillna(0.0)
+        for c in code_map.values():
+            if c not in h:
+                h[c] = 0.0
+        h["rounding"] = h["rounding"] + (h["gross"] - f)
+        return h
+
+    for name, sel, ours in [("toàn công ty", lambda t: t.index == t.index, co),
+                            ("cửa hàng", lambda t: t.bridge == "STORE", st),
+                            ("online", lambda t: t.bridge == "WEB", wb)]:
+        h = html_bridge(sel)
+        mine = ours.copy()
+        mine["manual_docs"] = mine["shipping"] + mine["channel_reclass"]
+        for item in ["discount", "pos_duplicate", "cancelled", "online_timing", "store_posting", "transfer_error",
+                     "returns", "manual_docs", "fx", "rounding", "unexplained", "gl"]:
+            diff = mine[item] - h[item]
+            mx = diff.abs().max()
+            ok = mx <= 5
+            fails += 0 if ok else 1
+            lines.append(f"{'ĐẠT ' if ok else 'SAI '} {name} {item}: lệch lớn nhất 1 tháng {vn(mx)} (tháng {diff.abs().idxmax()}); lệch cả năm (nhóm − mẫu) {vn(diff.sum())}")
     return lines, fails
 
 
@@ -283,10 +362,8 @@ def main():
     out, cells, M = bridges(d)
     long = to_long(out, M)
     long.to_csv(OUT_CSV, index=False, lineterminator="\n")
-    head = [f"Bảng kiểm tra Python – {len(long)} dòng ghi ra {OUT_CSV.relative_to(ROOT)}",
-            f"Dữ liệu: POS {len(d['pos'])} dòng ({int(d['pos'].is_duplicate.sum())} dòng trùng), WEB {len(d['web'])} đơn, "
-            f"sổ cái {len(d['gl'])} bút toán, Flash {len(d['flash'])} dòng; dòng POS thiếu tỷ giá: {int(d['pos'].rate.isna().sum())}, "
-            f"đơn online thiếu tỷ giá: {int(d['web'].rate.isna().sum())}; mã POS không ghép được mã NX: {int(d['pos'].nx.isna().sum())}"]
+    head = [f"Bảng kiểm tra Python – {len(long)} dòng ghi ra {OUT_CSV.relative_to(ROOT).as_posix()}",
+            f"Dữ liệu: POS {len(d['pos'])} dòng, WEB {len(d['web'])} đơn, sổ cái {len(d['gl'])} bút toán, Flash {len(d['flash'])} dòng"]
     lines, fails = compare(out, cells, d, M)
     co = out["COMPANY"]
     table = ["", "== Cầu nối toàn công ty theo tháng (USD)", co.T.round(2).to_string()]
