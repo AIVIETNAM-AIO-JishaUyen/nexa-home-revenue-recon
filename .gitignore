@@ -6,3 +6,7 @@ tools/build_docx/.cache/
 
 # File khóa tạm khi đang mở trong Word/Excel
 ~$*
+
+# File riêng của từng máy do Power BI Desktop tạo khi lưu dự án
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
