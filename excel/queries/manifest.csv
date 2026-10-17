@@ -1,0 +1,15 @@
+query,sheet,title
+q_FX_Daily,,
+q_FX_MonthEnd,,
+q_WEB_Raw,,
+q_FLASH_Raw,,
+q_POS,,
+q_WEB,,
+q_GL,,
+q_Check,Kiem_tra,[QC] So 13 chỉ tiêu với bảng tổng kiểm soát QC_Summary của đề (cột dat phải TRUE ở mọi dòng) - truy vấn q_Check
+q_Traps,Bay_du_lieu,5 bẫy khi nạp dữ liệu: số trước và sau khi xử lý - truy vấn q_Traps
+q_Delta_Month,Chenh_lech_thang,Chênh lệch theo tháng: Sổ cái − Flash (USD); % chia cho Flash - truy vấn q_Delta_Month
+q_Delta_Channel,Chenh_lech_kenh,Chênh lệch theo kênh bán cả năm: Sổ cái − Flash (USD) - truy vấn q_Delta_Channel
+q_FLASH,Flash,Flash sau khi xử lý (bỏ dòng tiêu đề và dòng TỔNG CỘNG) - truy vấn q_FLASH
+q_Store,Cua_hang,Danh mục cửa hàng: mã POS và mã NX bên kế toán - truy vấn q_Store
+q_Calendar,Lich,Lịch và ngày ghi sổ (bán ngày nghỉ thì ghi sổ ngày làm việc kế tiếp) - truy vấn q_Calendar
