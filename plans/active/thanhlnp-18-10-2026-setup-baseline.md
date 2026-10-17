@@ -135,6 +135,10 @@ Trước khi làm số, nhóm có đủ 3 thứ: **bảng số chuẩn** để m
 
 | Ngày | Đã làm | Kết quả / số ra được | Vướng mắc, cách xử lý |
 |---|---|---|---|
+| 18/10 | Lập `checks/numbers_of_record.csv` | <ul><li>140 số, mỗi số có cột nguồn</li><li>Các khoản cầu nối cả năm cộng ra −2.425.904,77, đúng bằng Sổ cái − Flash</li><li>Tháng 12 cộng ra −258.492,60, lệch 0,01 so với −258.492,59</li><li>12 tháng cộng lại đúng tổng năm</li></ul> | Phần lệch 0,01 của tháng 12 là do slide 36 làm tròn từng dòng đến 2 chữ số. Nằm trong mức chấp nhận ≤ 1 USD |
+| 18/10 | Viết `docs/cau_truc_du_lieu.md` | Đủ 4 nguồn, 4 bảng danh mục, 5 loại bút toán, tên truy vấn, cột `q_Transactions`, cột `BR_Long`, 15 dòng danh mục khoản | Đã so tên cột với dữ liệu thật bằng Python: không có tên nào sai |
+| 18/10 | Chạy thử Excel tự động (3 lần) | <ul><li>Lần 1: 1 truy vấn đọc file Flash qua ô đường dẫn → 156 dòng, tổng 31.124.401, không có hộp thoại nào</li><li>Lần 2: 1 truy vấn ghép file POS với bảng cửa hàng ở file khác → chạy được, cả khi bật và tắt "bỏ qua mức riêng tư"</li><li>Lần 3: chép dữ liệu sang thư mục có dấu cách trong tên, chỉ đổi ô đường dẫn → vẫn 156 dòng</li></ul> | Lần 3 lúc đầu lỗi vì script chạy thử truyền đường dẫn có dấu cách bị cắt đôi; đã sửa cách truyền tham số. Excel không có lỗi |
+| 18/10 | Ghi 8 câu hỏi xin mentor vào `plans/backlog.md` | Đủ 3 câu của `docs/ghi_chu_ky_thuat.md` và 5 câu mới | |
 
 ---
 
@@ -142,6 +146,10 @@ Trước khi làm số, nhóm có đủ 3 thứ: **bảng số chuẩn** để m
 
 | Ngày | Quyết định | Lý do | Có phải sửa file quy ước không |
 |---|---|---|---|
+| 18/10 | Cột mô tả trong `numbers_of_record.csv` viết tiếng Việt không dấu | File chữ CSV (Comma-Separated Values) mở bằng Excel hay Python đều không lỗi font | Không |
+| 18/10 | Mỗi truy vấn nạp dữ liệu tự đọc ô `FolderPath` ở bước đầu, rồi tìm file trong thư mục bằng `Folder.Files` theo phần đầu tên file | <ul><li>Đã chạy thử: không bị Excel chặn khi ghép nhiều file</li><li>Không cần bật "bỏ qua mức riêng tư", nên mở trên máy khác không phải chỉnh gì</li><li>Tên file đổi phần đuôi (ví dụ năm) vẫn đọc được</li></ul> | Không |
+| 18/10 | Mã khoản cầu nối (`item_code`) viết tiếng Anh, ví dụ `discount`, `fx`; tên hiển thị tiếng Việt | Slide 7 yêu cầu tên cột, tên file giữ tiếng Anh; mã tiếng Anh dùng được trong công thức Excel và DAX mà không lỗi dấu | Không |
+| 18/10 | Lỗi chuyển dữ liệu tính tại từng ô cửa hàng × ngày ghi sổ, đổi ra USD theo tỷ giá ngày của ngày ghi sổ | Cần một cách đổi tiền cố định để dòng tỷ giá và dòng kiểm tra khớp nhau. Năm 2025 chỉ có NX057 (cửa hàng ở Mỹ, tiền USD) nên không ảnh hưởng số | Không (bổ sung vào `docs/cau_truc_du_lieu.md`) |
 
 ---
 
@@ -149,10 +157,20 @@ Trước khi làm số, nhóm có đủ 3 thứ: **bảng số chuẩn** để m
 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
+| 18/10 | Chép số chuẩn từ tài liệu và slide vào file CSV | Toàn bộ `checks/numbers_of_record.csv` | <ul><li>Cộng các khoản cầu nối cả năm và tháng 12, so với Sổ cái − Flash</li><li>Cộng 12 tháng, so với tổng năm</li><li>Nên dò lại bằng mắt 10 số bất kỳ với slide</li></ul> |
+| 18/10 | Viết bản mô tả cấu trúc dữ liệu và danh mục khoản | Toàn bộ `docs/cau_truc_du_lieu.md` | So tên cột, số dòng, số bút toán từng loại với dữ liệu thật bằng Python |
+| 18/10 | Viết script chạy thử Excel tự động và Power BI tự động | Các script trong thư mục nháp (không đưa vào kho) | Đọc lại file Excel đã lưu bằng Python, so số dòng và tổng với bảng tổng kiểm soát |
 
 ---
 
 ## 11. Chuẩn bị vấn đáp
+
+1. **Hỏi:** Một dòng của sổ cái đại diện cho cái gì? Khác gì một dòng của file POS?
+   **Trả lời:** Một dòng POS là một món hàng trên một hóa đơn. Một dòng sổ cái là một bút toán. Bút toán tự động gộp nhiều giao dịch: cửa hàng thì gộp theo cửa hàng × ngày ghi sổ, online thì gộp theo ngày giao × loại tiền. Vì vậy không thể ghép từng dòng POS với từng dòng sổ cái, mà phải cộng POS lên cùng mức cửa hàng × ngày ghi sổ rồi mới so (xem `docs/cau_truc_du_lieu.md`, mục 1 và 3).
+2. **Hỏi:** Vì sao nhóm lấy sổ cái làm chuẩn?
+   **Trả lời:** Sổ cái đã khóa sổ từng tháng, ghi theo chuẩn mực kế toán VAS 14 (Chuẩn mực kế toán Việt Nam số 14 về doanh thu) và có giấy tờ làm căn cứ. Flash chỉ là báo cáo nhanh của phòng Kinh doanh, tính theo giá trước giảm giá và gồm cả đơn hủy.
+3. **Hỏi:** Ngưỡng 200 USD và 1% được chọn lúc nào?
+   **Trả lời:** Chọn trước khi tính số, ghi trong `docs/quy_uoc_va_so_chuan.md` và lưu lên GitHub ngày 15/10, theo nguyên tắc "đặt ngưỡng trước khi nhìn số" của slide 39.
 
 ---
 
