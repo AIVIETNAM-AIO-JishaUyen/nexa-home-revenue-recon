@@ -94,7 +94,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 |---|---|---|---|
 | 1 | `setup-baseline` | Xong 18/10 | [thanhlnp-18-10-2026-setup-baseline.md](../completed/thanhlnp-18-10-2026-setup-baseline.md) |
 | 2 | `load-clean-data` | Xong 18/10 | [thanhlnp-18-10-2026-load-clean-data.md](../completed/thanhlnp-18-10-2026-load-clean-data.md) |
-| 3 | `python-check` | Chưa làm | |
+| 3 | `python-check` | Xong 18/10 | [thanhlnp-18-10-2026-python-check.md](../completed/thanhlnp-18-10-2026-python-check.md) |
 | 4 | `powerbi-totals` | Chưa làm | |
 | 5 | `report-skeleton` | Chưa làm | |
 | 6 | `transactions-quality` | Chưa làm | |
@@ -137,6 +137,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 18/10 | <ul><li>Đọc roadmap, slide, rubric, file mẫu</li><li>Kiểm tra dữ liệu gốc</li><li>Lập plan tổng</li></ul> | <ul><li>13 chỉ tiêu tổng kiểm soát khớp</li><li>Chênh lệch 12 tháng và 3 kênh khớp slide</li><li>Bản nháp cầu nối cả năm khớp số chuẩn</li></ul> | Số làm tròn có 3 phiên bản khác nhau (slide 1,01; tài liệu nhóm 0,96; dashboard mẫu 2,33). Đã chốt 1,01 khi rà soát plan 1 |
 | 18/10 | Xong plan 1 `setup-baseline` | <ul><li>Có bảng số chuẩn và bản mô tả cấu trúc dữ liệu</li><li>Đã cài Power BI; chạy thử được Excel tự động và Power BI tự động</li><li>Sửa quy ước: tỷ giá −57.598,01, làm tròn +1,01 (theo slide 34)</li></ul> | Chi tiết ở file plan 1 |
 | 18/10 | Xong plan 2 `load-clean-data` | <ul><li>File Excel Power Query dựng từ 14 file .m bằng script, mọi bước có ghi chú</li><li>13/13 chỉ tiêu QC_Summary khớp; chênh lệch 12 tháng, cả năm, 3 kênh khớp slide</li><li>Bảng 5 bẫy có số trước và sau khi xử lý</li></ul> | Lần dựng đầu bị quá giờ do bước tìm dòng trùng chậm; đã sửa, dựng mất khoảng 2 phút |
+| 18/10 | Xong plan 3 `python-check` | <ul><li>Bảng cầu nối 4 bảng × 12 tháng × 15 khoản tính bằng Python, dùng làm đáp án nội bộ</li><li>Khớp số chuẩn cả năm, tháng 12 (slide 36), các cặp tháng; dòng kiểm tra 0; 0 dòng sai</li><li>Thêm cách tính tỷ giá thứ hai và kiểm tra từng ô online, vì dòng kiểm tra một mình không bắt được lỗi xếp nhầm tháng</li></ul> | Rà soát chỉ ra dòng kiểm tra luôn bằng 0 theo cách định nghĩa; đã thêm các phép kiểm tra độc lập |
 
 ---
 
