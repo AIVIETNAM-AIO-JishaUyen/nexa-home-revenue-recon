@@ -27,7 +27,7 @@
 - **Làm xong plan này mới tạo plan tiếp theo.**
 - Mỗi plan đi qua các bước:
   1. Tạo file plan trong `plans/active/`, điền mục tiêu, phạm vi, điều kiện xong, các bước trước khi làm.
-  2. Làm từng bước. Lưu lên GitHub (commit) theo từng đầu việc nhỏ. **Không đẩy lên GitHub (push).**
+  2. Làm từng bước. Lưu vào Git (commit) theo từng đầu việc nhỏ. **Không đẩy lên GitHub (push).**
   3. Ghi nhật ký, quyết định, phần dùng AI, chuẩn bị vấn đáp.
   4. Một trợ lý AI khác (subagent) rà soát: kiểm tra lại số, quy ước, cách viết; sửa lỗi nhỏ. Không chạy Excel hay Power BI trong lúc rà soát.
   5. Xem lại phần đã sửa, lưu, chuyển file plan sang `plans/completed/`, cập nhật bảng trạng thái ở mục 5.
@@ -92,7 +92,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 
 | # | Plan | Trạng thái | File plan |
 |---|---|---|---|
-| 1 | `setup-baseline` | Chưa làm | |
+| 1 | `setup-baseline` | Xong 18/10 | [thanhlnp-18-10-2026-setup-baseline.md](../completed/thanhlnp-18-10-2026-setup-baseline.md) |
 | 2 | `load-clean-data` | Chưa làm | |
 | 3 | `python-check` | Chưa làm | |
 | 4 | `powerbi-totals` | Chưa làm | |
@@ -134,7 +134,8 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 
 | Ngày | Đã làm | Kết quả | Vướng mắc, cách xử lý |
 |---|---|---|---|
-| 18/10 | <ul><li>Đọc roadmap, slide, rubric, file mẫu</li><li>Kiểm tra dữ liệu gốc</li><li>Lập plan tổng</li></ul> | <ul><li>13 chỉ tiêu tổng kiểm soát khớp</li><li>Chênh lệch 12 tháng và 3 kênh khớp slide</li><li>Bản nháp cầu nối cả năm khớp số chuẩn</li></ul> | Số làm tròn có 3 phiên bản khác nhau (slide 1,01; tài liệu nhóm 0,96; dashboard mẫu 2,33). Để plan 3 chốt |
+| 18/10 | <ul><li>Đọc roadmap, slide, rubric, file mẫu</li><li>Kiểm tra dữ liệu gốc</li><li>Lập plan tổng</li></ul> | <ul><li>13 chỉ tiêu tổng kiểm soát khớp</li><li>Chênh lệch 12 tháng và 3 kênh khớp slide</li><li>Bản nháp cầu nối cả năm khớp số chuẩn</li></ul> | Số làm tròn có 3 phiên bản khác nhau (slide 1,01; tài liệu nhóm 0,96; dashboard mẫu 2,33). Đã chốt 1,01 khi rà soát plan 1 |
+| 18/10 | Xong plan 1 `setup-baseline` | <ul><li>Có bảng số chuẩn và bản mô tả cấu trúc dữ liệu</li><li>Đã cài Power BI; chạy thử được Excel tự động và Power BI tự động</li><li>Sửa quy ước: tỷ giá −57.598,01, làm tròn +1,01 (theo slide 34)</li></ul> | Chi tiết ở file plan 1 |
 
 ---
 
@@ -150,4 +151,4 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 
 - **Điều kiện xong:**
 - **Việc còn lại:**
-- **Các lần lưu lên GitHub:**
+- **Các lần lưu vào Git (commit):**

@@ -78,7 +78,7 @@ flowchart LR
 - **Mọi con số ghi trong plan đều kèm nơi lấy số** (file, sheet hoặc truy vấn), giống nguyên tắc của roadmap.
 - **Ghi lại phần dùng AI ở mục "Dùng AI" của plan.** Khi viết báo cáo, nhóm gom các mục này thành phụ lục khai báo dùng AI.
 - **Ghi lại phần báo cáo liên quan.** Báo cáo được viết dần, nên mỗi plan ghi rõ kết quả của mình sẽ đưa vào phần nào trong 8 phần của báo cáo (slide 45).
-- **Lưu lên GitHub (trang web lưu file và lịch sử sửa file) sau mỗi buổi làm.** Lời nhắn khi lưu ghi tên plan đang làm.
+- **Lưu vào Git (phần mềm lưu lịch sử sửa file) bằng lệnh commit sau mỗi đầu việc nhỏ.** Lời nhắn khi lưu bắt đầu bằng tên việc của plan, ví dụ `load-clean-data: ...`. Việc đẩy lên GitHub (trang web lưu file chung của nhóm, lệnh push) do người dùng tự quyết.
 
 ---
 
@@ -88,4 +88,5 @@ Cập nhật bảng này mỗi khi tạo, xong hoặc hủy một plan.
 
 | Plan | Thuộc việc trong roadmap | Người làm | Trạng thái | Ngày xong |
 |---|---|---|---|---|
-| (chưa có) | | | | |
+| [Plan tổng](active/thanhlnp-18-10-2026-master-plan.md) | Cả 8 việc | thanhlnp | Đang làm | |
+| [setup-baseline](completed/thanhlnp-18-10-2026-setup-baseline.md) | Việc 1 – Hiểu đề và chốt quy ước tính | thanhlnp | Xong | 18/10/2026 |

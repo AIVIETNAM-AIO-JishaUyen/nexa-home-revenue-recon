@@ -8,12 +8,12 @@
 |---|---|
 | Người làm | Lê Nguyễn Phước Thành (thanhlnp), làm cùng AI (trí tuệ nhân tạo) Claude |
 | Ngày bắt đầu | 18/10/2026 |
-| Ngày xong | |
+| Ngày xong | 18/10/2026 |
 | Nhánh (branch) | `baseline` |
 | Thuộc việc nào trong roadmap | Việc 1 – Hiểu đề và chốt quy ước tính (phần còn lại) |
 | Mốc phải đạt | Mốc 2 (19/10) |
 | Phần báo cáo liên quan | Phần II (Dữ liệu và chuẩn bị): bảng mô tả nguồn dữ liệu, quy tắc ghi nhận |
-| Trạng thái | Đang làm |
+| Trạng thái | Xong |
 | Plan liên quan | <ul><li>Làm sau plan: [plan tổng](../active/thanhlnp-18-10-2026-master-plan.md)</li><li>Plan tiếp theo dùng kết quả này: `load-clean-data`, `python-check`, `powerbi-totals`</li></ul> |
 
 ---
@@ -127,7 +127,7 @@ Trước khi làm số, nhóm có đủ 3 thứ: **bảng số chuẩn** để m
 - [x] **Bước 6: Lập câu hỏi xin mentor**
   - Làm: ghi vào `plans/backlog.md`.
   - Kiểm tra: có đủ các câu trong `docs/ghi_chu_ky_thuat.md` và các điểm mới phát hiện (số làm tròn, file nộp Power BI).
-- [x] **Bước cuối: lưu lên GitHub**
+- [x] **Bước cuối: lưu vào Git (commit)**
   - Làm: plan này không có phần báo cáo riêng; bản mô tả cấu trúc dữ liệu sẽ được dùng ở phần II khi dựng khung báo cáo.
   - Kiểm tra: lời nhắn khi lưu ghi tên plan.
 
@@ -144,6 +144,7 @@ Trước khi làm số, nhóm có đủ 3 thứ: **bảng số chuẩn** để m
 | 18/10 | Cài Power BI Desktop bản Microsoft Store bằng winget | Phiên bản 2.159.883.0, không cần quyền quản trị | Tải mất khoảng 15 phút |
 | 18/10 | Chạy thử Power BI tự động | <ul><li>Dự án viết bằng file chữ (3 bảng, 3 quan hệ trong đó 1 quan hệ bị động, 2 công thức, 1 trang có ô số, bộ lọc, biểu đồ thác nước) mở được trong Power BI Desktop</li><li>Làm mới dữ liệu bằng lệnh gửi từ script: chạy được</li><li>Hỏi số bằng DAX: Flash = 31.124.401; đơn online đặt năm 2025 tính sau giảm giá = 16.062.746,09</li><li>Chụp riêng cửa sổ Power BI: thấy đủ 3 hình có dữ liệu</li></ul> | <ul><li>Lần mở đầu tiên Power BI tự tắt; mở lại thì chạy bình thường (có thể do lần chạy đầu tiên sau khi cài)</li><li>Lần chụp đầu tiên chụp cả màn hình, dính cửa sổ khác của người dùng → đã xóa ảnh, đổi sang chỉ chụp cửa sổ Power BI</li><li>Thư viện hỏi số đi kèm Power BI phải nạp bằng `Reflection.Assembly.LoadFrom`, nạp kiểu khác bị lỗi</li><li>Bấm Ctrl+S bằng script không lưu được bản dữ liệu đệm, vì Power BI coi như không có gì thay đổi</li></ul> |
 | 18/10 | Thư mục `excel/`, `powerbi/`, `report/` | Chưa tạo | <ul><li>Git không lưu thư mục rỗng</li><li>Các plan sau tạo thư mục khi có file đầu tiên</li></ul> |
+| 18/10 | Trợ lý AI khác rà soát plan | <ul><li>Tính lại từ dữ liệu mọi số tính được trong bảng số chuẩn: khớp</li><li>Dựng thử bảng cầu nối đúng theo định nghĩa ở `docs/cau_truc_du_lieu.md`: dòng kiểm tra về 0 ở cả 12 tháng, cả 4 bảng</li><li>Sửa nhỏ: thêm tên đầy đủ cho từ viết tắt, tách ô nhiều ý thành gạch đầu dòng, thêm 1 mục backlog về phiên bản Power BI của cả nhóm</li></ul> | <ul><li>Phát hiện dòng tỷ giá và làm tròn trong file quy ước chia khác slide 34 → đã sửa (xem mục 9)</li><li>3 số của slide chưa tái lập được → đánh dấu chỉ tham khảo</li><li>Bằng chứng chạy thử nằm ở thư mục nháp, sẽ mất khi dọn máy → nhóm chấp nhận dùng nhật ký này làm bằng chứng</li></ul> |
 
 ---
 
@@ -156,7 +157,9 @@ Trước khi làm số, nhóm có đủ 3 thứ: **bảng số chuẩn** để m
 | 18/10 | Mã khoản cầu nối (`item_code`) viết tiếng Anh, ví dụ `discount`, `fx`; tên hiển thị tiếng Việt | Slide 7 yêu cầu tên cột, tên file giữ tiếng Anh; mã tiếng Anh dùng được trong công thức Excel và DAX mà không lỗi dấu | Không |
 | 18/10 | Dự án Power BI viết dưới dạng file chữ (`.pbip`: mô hình viết bằng TMDL – Tabular Model Definition Language, báo cáo dạng PBIR – Power BI enhanced report format). Kiểm tra số bằng cách mở trong Power BI Desktop, làm mới, rồi hỏi bằng DAX từ script | <ul><li>Đã chạy thử được đủ chuỗi việc này</li><li>File chữ đọc và so sánh được trên GitHub</li></ul> | Không |
 | 18/10 | Không lưu bản dữ liệu đệm (`cache.abf`) vào kho. Ai mở dự án Power BI thì bấm "Refresh now" một lần | <ul><li>Không tự lưu được bằng script</li><li>Dữ liệu đệm là file nhị phân lớn</li></ul> | Không. Ghi vào hướng dẫn mở file ở plan `powerbi-totals` |
-| 18/10 | Lỗi chuyển dữ liệu tính tại từng ô cửa hàng × ngày ghi sổ, đổi ra USD theo tỷ giá ngày của ngày ghi sổ | <ul><li>Cần một cách đổi tiền cố định để dòng tỷ giá và dòng kiểm tra khớp nhau</li><li>Năm 2025 chỉ có NX057 (cửa hàng ở Mỹ, tiền USD) nên không ảnh hưởng số</li></ul> | Không (bổ sung vào `docs/cau_truc_du_lieu.md`) |
+| 18/10 | Lỗi chuyển dữ liệu tính tại từng ô cửa hàng × ngày ghi sổ, đổi ra USD theo tỷ giá ngày của ngày ghi sổ | <ul><li>Cần một cách đổi tiền cố định để dòng tỷ giá và dòng kiểm tra khớp nhau</li><li>Năm 2025 chỉ có NX057 (cửa hàng ở Mỹ, tiền USD) nên không ảnh hưởng số</li></ul> | Có: thêm ngoại lệ vào dòng "Tỷ giá dùng trong từng khoản" và mục 4 (lịch sử thay đổi) của `docs/quy_uoc_va_so_chuan.md` |
+| 18/10 | Dòng tỷ giá tính từ nội tệ ÷ tỷ giá cuối tháng **chưa làm tròn**; phần sổ cái làm tròn từng bút toán đưa vào dòng làm tròn. Tỷ giá cả năm −57.597,96 → −57.598,01; làm tròn +0,96 → +1,01 | <ul><li>Trợ lý rà soát phát hiện file quy ước cũ để phần làm tròn của sổ cái (+0,05) lọt vào dòng tỷ giá</li><li>Đã tự tính lại: Flash làm tròn +0,95, sổ cái làm tròn +0,05, tỷ giá −57.598,01</li><li>Khớp định nghĩa slide 34 và số slide 32 (1,01); tháng 12 khớp slide 36</li></ul> | Có: sửa bảng cầu nối cả năm, dòng "Tỷ giá dùng trong từng khoản", thêm mục 4 (lịch sử thay đổi) của `docs/quy_uoc_va_so_chuan.md`; sửa `checks/numbers_of_record.csv` và câu hỏi mentor số 4 |
+| 18/10 | 3 số của slide chưa tái lập được từ dữ liệu: 22 cửa hàng vượt ngưỡng khi chưa xử lý (tháng 11), NX008 −716, online −12.064 theo ngày đặt | Trợ lý rà soát thử nhiều cách đều ra số hơi khác (ví dụ 21 cửa hàng, −726). Cần biết slide tính "chưa xử lý" theo cách nào | Không. Đánh dấu "CHI THAM KHAO" trong `checks/numbers_of_record.csv`; plan `store-recon` và `web-return-recon` tìm lại cách tính |
 
 ---
 
@@ -164,7 +167,7 @@ Trước khi làm số, nhóm có đủ 3 thứ: **bảng số chuẩn** để m
 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
-| 18/10 | Chép số chuẩn từ tài liệu và slide vào file CSV | Toàn bộ `checks/numbers_of_record.csv` | <ul><li>Cộng các khoản cầu nối cả năm và tháng 12, so với Sổ cái − Flash</li><li>Cộng 12 tháng, so với tổng năm</li><li>Nên dò lại bằng mắt 10 số bất kỳ với slide</li></ul> |
+| 18/10 | Chép số chuẩn từ tài liệu và slide vào file CSV | Toàn bộ `checks/numbers_of_record.csv` | <ul><li>Cộng các khoản cầu nối cả năm và tháng 12, so với Sổ cái − Flash</li><li>Cộng 12 tháng, so với tổng năm</li><li>Trợ lý rà soát đã tính lại từ dữ liệu mọi số tính được và dò hơn 25 số với slide và file quy ước: khớp</li></ul> |
 | 18/10 | Viết bản mô tả cấu trúc dữ liệu và danh mục khoản | Toàn bộ `docs/cau_truc_du_lieu.md` | So tên cột, số dòng, số bút toán từng loại với dữ liệu thật bằng Python |
 | 18/10 | Viết script chạy thử Excel tự động và Power BI tự động | Các script trong thư mục nháp (không đưa vào kho) | Đọc lại file Excel đã lưu bằng Python, so số dòng và tổng với bảng tổng kiểm soát |
 
@@ -187,13 +190,15 @@ Trước khi làm số, nhóm có đủ 3 thứ: **bảng số chuẩn** để m
 - **Đã đưa vào báo cáo:** chưa; `docs/cau_truc_du_lieu.md` mục 1–3 sẽ thành phần II của báo cáo ở plan `report-skeleton`.
 - **Việc còn lại:**
   - Hỏi mentor 8 câu → `plans/backlog.md` mục 1.
-  - Chốt số làm tròn → plan `python-check`.
+  - Kiểm tra lại số tỷ giá và làm tròn theo từng tháng → plan `python-check`.
+  - Thêm `docs/cau_truc_du_lieu.md` vào danh sách tạo file Word (`tools/build_docx`) → plan `review-submit`.
+  - Bộ lọc tháng của Power BI có mục "(Blank)" do đơn hủy không có ngày giao → xử lý ở plan `powerbi-totals`.
   - Tạo thư mục `excel/`, `powerbi/`, `report/` → các plan dùng tới.
-- **Các lần lưu lên GitHub:** `5fc134b` (tạo plan), `46c0200` (bảng số chuẩn), `680a24c` (mô tả cấu trúc dữ liệu), `ab3293e` (câu hỏi mentor), `3d5f727` (nhật ký chạy thử Excel), `fe681f4` (cài Power BI, kết quả chạy thử Power BI, điền điều kiện xong), và lần lưu đóng plan.
+- **Các lần lưu vào Git (commit):** `5fc134b` (tạo plan), `46c0200` (bảng số chuẩn), `680a24c` (mô tả cấu trúc dữ liệu), `ab3293e` (câu hỏi mentor), `3d5f727` (nhật ký chạy thử Excel), `fe681f4` (cài Power BI, kết quả chạy thử Power BI, điền điều kiện xong), `d65e309` (sửa theo rà soát), và các lần lưu sửa quy ước, đóng plan.
 
 **Tự soát trước khi đóng plan:**
 - [x] Không còn chỗ `< >` chưa điền.
 - [x] Mọi con số trong plan đều ghi rõ lấy từ đâu.
 - [x] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
-- [ ] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
-- [ ] Đã chuyển file sang `plans/completed/` bằng `git mv`.
+- [x] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
+- [x] Đã chuyển file sang `plans/completed/` bằng `git mv`.

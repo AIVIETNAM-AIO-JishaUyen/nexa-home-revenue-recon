@@ -93,7 +93,7 @@ Mỗi bước là một việc làm xong thì kiểm tra được ngay.
 - [ ] **Bước 2: <làm gì>**
   - Làm: <…>
   - Kiểm tra: <…> → kết quả mong đợi: <…>
-- [ ] **Bước cuối: viết phần báo cáo liên quan và lưu lên GitHub**
+- [ ] **Bước cuối: viết phần báo cáo liên quan và lưu vào Git (commit)**
   - Làm: <đưa kết quả vào phần … của báo cáo>
   - Kiểm tra: báo cáo vẫn chuyển ra PDF (Portable Document Format) được; lời nhắn khi lưu ghi tên plan.
 
@@ -143,7 +143,7 @@ Phần này được gom vào phụ lục khai báo dùng AI của báo cáo.
 - **Điều kiện xong:** <đạt hết / dòng nào chưa đạt và vì sao>
 - **Đã đưa vào báo cáo:** <phần nào, đoạn nào>
 - **Việc còn lại:** <… → chuyển sang plan nào>
-- **Các lần lưu lên GitHub:** <mã lần lưu (commit) và nội dung chính>
+- **Các lần lưu vào Git (commit):** <mã lần lưu (commit) và nội dung chính>
 
 **Tự soát trước khi đóng plan:**
 - [ ] Không còn chỗ `< >` chưa điền.
