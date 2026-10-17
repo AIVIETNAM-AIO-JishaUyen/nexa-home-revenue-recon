@@ -16,14 +16,14 @@
 | Thứ tự các bước trong bảng cầu nối | <ol><li>Flash</li><li>Chiết khấu</li><li>Dòng POS trùng (POS – Point of Sale, bán tại cửa hàng)</li><li>Đơn hủy</li><li>Lệch thời điểm online</li><li>Lệch ngày ghi sổ của cửa hàng</li><li>Lỗi chuyển dữ liệu</li><li>Hàng trả</li><li>Phí vận chuyển</li><li>Chuyển kênh MJ-RCL (chỉ có ở bảng cầu nối theo kênh)</li><li>Tỷ giá</li><li>Làm tròn</li><li>Chưa giải thích</li><li>Sổ cái</li></ol> |
 | Tên các khoản so với slide 12 | <ul><li>"Trùng dòng" = dòng POS trùng.</li><li>"Ngày hạch toán" = lệch ngày ghi sổ của cửa hàng.</li><li>"Thiếu bút toán" = lỗi chuyển dữ liệu.</li><li>"Bút toán tay" = phí vận chuyển (và chuyển kênh, ở bảng theo kênh). Bút toán ADJ-0925 tách riêng, xem dòng dưới.</li></ul> |
 | Vì sao theo thứ tự này | <ul><li>Flash tính theo giá trước giảm giá và đã gồm cả dòng trùng lẫn đơn hủy.</li><li>Trừ chiết khấu trước thì dòng trùng và đơn hủy được tính theo giá sau giảm giá, giống cách sổ cái ghi.</li></ul> |
-| Tỷ giá dùng trong từng khoản | <ul><li>Mọi khoản đứng trước dòng tỷ giá đều đổi ra USD theo **tỷ giá của ngày đặt hàng / ngày bán**.</li><li>Hàng trả cũng tính theo tỷ giá **ngày đặt hàng**: ra −349.148,23.</li><li>Để so sánh:<ul><li>Nếu dùng tỷ giá ngày trả hàng: −349.652,76.</li><li>Sổ cái dùng tỷ giá cuối tháng: −349.066,23.</li></ul></li><li>Dòng tỷ giá = (số USD trên sổ cái, tính theo tỷ giá cuối tháng) − (cũng các giao dịch đó, tính theo tỷ giá ngày).</li></ul> |
+| Tỷ giá dùng trong từng khoản | <ul><li>Mọi khoản đứng trước dòng tỷ giá đều đổi ra USD theo **tỷ giá của ngày đặt hàng / ngày bán**.</li><li>Hàng trả cũng tính theo tỷ giá **ngày đặt hàng**: ra −349.148,23.</li><li>Để so sánh:<ul><li>Nếu dùng tỷ giá ngày trả hàng: −349.652,76.</li><li>Sổ cái dùng tỷ giá cuối tháng: −349.066,23.</li></ul></li><li>Dòng tỷ giá = (nội tệ trên các bút toán sổ cái ghi tự động ÷ tỷ giá cuối tháng, **chưa làm tròn**) − (cũng các giao dịch đó ÷ tỷ giá ngày), đúng định nghĩa slide 34.</li><li>Phần sổ cái làm tròn từng bút toán đến 2 chữ số **không** nằm trong dòng tỷ giá mà nằm trong dòng làm tròn (sửa ngày 18/10, xem mục 4).</li><li>Ngoại lệ: lỗi chuyển dữ liệu (bút toán sổ cái thiếu hoặc thừa so với POS) đổi theo tỷ giá ngày của **ngày ghi sổ**, vì bút toán sổ cái không ghi ngày bán. Năm 2025 chỉ có NX057 (tiền USD) nên không đổi số.</li></ul> |
 | Bút toán ADJ-0925 (ADJ = Adjustment, bút toán điều chỉnh; 1.250 USD) | <ul><li>Luôn để ở dòng **"Chưa giải thích được"**.</li><li>Không gộp vào dòng phí vận chuyển hay dòng làm tròn.</li><li>Slide 32 gộp nó chung với phí vận chuyển dưới tên "bút toán tay", **không chép theo cách đó**.</li></ul> |
 | Bút toán MJ-RCL-2506 (MJ = Manual Journal, bút toán tay; RCL = Reclassification, phân loại lại): bút toán tay chuyển 3.480 USD từ cửa hàng NX019 sang online, tháng 6 | <ul><li>Bảng cầu nối toàn công ty không cần dòng này (tổng = 0).</li><li>**Bảng cầu nối theo kênh bắt buộc có dòng riêng**.</li></ul> |
 | Nhãn nguồn số liệu | <ul><li>Mọi kết luận trong báo cáo và dashboard ghi kèm nhãn cho biết số lấy từ bảng nào.</li><li>`[QC]`: bảng tổng kiểm soát (QC = Quality Control, kiểm soát chất lượng).</li><li>`[RC-CH]`, `[RC-WEB]`, `[RC-RET]`: bảng đối soát cửa hàng, online, hàng trả (RC = Reconciliation, đối soát; CH = cửa hàng; RET = Return, hàng trả).</li><li>`[BR-Tổng]`, `[BR-CH]`, `[BR-WEB]`: bảng cầu nối toàn công ty, cửa hàng, online (BR = Bridge, cầu nối).</li><li>`[EX-xx]`: dòng xx của nhật ký ngoại lệ (EX = Exception, ngoại lệ).</li><li>Phụ lục có bảng tra từ nhãn sang sheet hoặc truy vấn (truy vấn = một chuỗi bước xử lý trong Power Query, cho ra một bảng).</li></ul> |
 
 ---
 
-## 2. Bảng số chuẩn để đối chiếu (sẽ lưu thành file `checks/numbers_of_record.csv` khi bắt đầu làm)
+## 2. Bảng số chuẩn để đối chiếu (đã lưu thành file `checks/numbers_of_record.csv` ngày 18/10)
 
 Đây là các con số **đúng** mà mọi cách tính của nhóm (Power Query, DAX – ngôn ngữ công thức của Power BI, bảng tính kiểm tra viết bằng Python – một ngôn ngữ lập trình) phải khớp. Số lấy từ slide đề bài; khi lập kế hoạch, các số cả năm đã được tính lại từ 4 file dữ liệu gốc bằng Python và khớp.
 
@@ -57,8 +57,8 @@
 | Lỗi chuyển dữ liệu từ POS sang sổ cái, cửa hàng NX057 | 0 cả năm<ul><li>Tháng 11: −7.227,56</li><li>Tháng 12: +7.227,56</li></ul> | Lỗi dữ liệu |
 | Hàng trả lại (tỷ giá ngày đặt) | −349.148,23 | Quy tắc ghi nhận |
 | Phí vận chuyển<ul><li>12 bút toán tay MJ-SHIP (SHIP = Shipping, vận chuyển)</li></ul> | +94.766,95 | Quy tắc ghi nhận |
-| Tỷ giá | −57.597,96 | Quy tắc ghi nhận |
-| Làm tròn | +0,96 | Sai số chấp nhận được |
+| Tỷ giá<ul><li>Sửa ngày 18/10, trước là −57.597,96 (xem mục 4)</li></ul> | −57.598,01 | Quy tắc ghi nhận |
+| Làm tròn<ul><li>Flash làm tròn từng dòng đến USD: +0,95</li><li>Sổ cái làm tròn từng bút toán đến 2 chữ số: +0,05</li><li>Sửa ngày 18/10, trước là +0,96; nay khớp slide 32 và 34 (1,01)</li></ul> | +1,01 | Sai số chấp nhận được |
 | Chưa giải thích (bút toán ADJ-0925, tháng 9) | +1.250,00 | Chưa giải thích được |
 | **Doanh thu theo sổ cái** | **28.698.496,23** | |
 
@@ -92,5 +92,14 @@ Mỗi dòng có đủ các cột: Mã · Phát hiện ở bước nào · Nguồ
 | Quy tắc ghi nhận | <ul><li>Chiết khấu</li><li>Đơn hủy</li><li>Lệch thời điểm online; tách riêng phần đơn đặt năm này nhưng giao năm sau: đầu năm +122 nghìn, cuối năm −175 nghìn</li><li>Lệch ngày ghi sổ của cửa hàng (3 cặp tháng)</li><li>Hàng trả</li><li>Phí vận chuyển</li><li>Tỷ giá</li><li>Bút toán chuyển kênh MJ-RCL (chỉ ở bảng theo kênh)</li></ul> |
 | Lỗi dữ liệu | <ul><li>12 dòng POS bị trùng ở NX007 ngày 29/03</li><li>Lỗi chuyển dữ liệu ở NX057, gồm 2 vế: thiếu ngày 21/11 và được bổ sung ngày 02/12</li><li>Ghi chú: tháng 11 đã khóa sổ mà vẫn thiếu doanh thu</li></ul> |
 | Chưa giải thích được | <ul><li>Bút toán ADJ-0925: 1.250 USD, tháng 9</li><li>Không gắn kênh nào (UNALLOCATED)</li><li>Không có giấy tờ làm căn cứ</li><li>Cần hỏi phòng Tài chính</li></ul> |
-| Sai số chấp nhận được | <ul><li>Làm tròn: +0,96 cả năm, ≤ 5 USD/tháng</li></ul> |
+| Sai số chấp nhận được | <ul><li>Làm tròn: +1,01 cả năm (Flash +0,95, sổ cái +0,05), ≤ 5 USD/tháng</li></ul> |
 | Rủi ro cần theo dõi (không phải khoản lệch của năm 2025) | <ul><li>7 đơn bị trả trong tháng 01/2026, thuộc các đơn đặt/giao năm 2025.</li><li>Khách trả hàng 5–25 ngày sau khi nhận.</li><li>Dữ liệu chỉ lấy đến ngày 15/01/2026, nên các đơn giao từ khoảng 21/12/2025 vẫn có thể bị trả sau ngày lấy dữ liệu.</li><li>Hàng trả được ghi giảm doanh thu vào ngày nhận hàng trả, nên không làm đổi số năm 2025, nhưng sẽ rơi vào tháng 01/2026.</li><li>5 đơn bị trả trong tháng 12/2024, nằm ngoài năm đối soát.</li></ul> |
+
+---
+
+## 4. Lịch sử thay đổi quy ước
+
+| Ngày | Thay đổi | Lý do | Ảnh hưởng |
+|---|---|---|---|
+| 18/10 | <ul><li>Dòng tỷ giá cả năm: −57.597,96 → −57.598,01</li><li>Dòng làm tròn cả năm: +0,96 → +1,01</li></ul> | <ul><li>Bản cũ tính dòng tỷ giá từ số USD sổ cái **đã làm tròn** từng bút toán, nên phần làm tròn của sổ cái (+0,05) lọt vào dòng tỷ giá</li><li>Slide 34 định nghĩa: tỷ giá tính từ nội tệ ÷ tỷ giá (chưa làm tròn); làm tròn gồm cả phần của Flash và phần của sổ cái</li><li>Bản mới khớp slide 32 và 34 (làm tròn 1,01), và khớp tháng 12 ở slide 36 (tỷ giá −27.080,93, làm tròn 0,67)</li><li>Phát hiện khi rà soát plan `setup-baseline`</li></ul> | Tổng hai dòng không đổi (−57.597,00), dòng kiểm tra vẫn về 0. Đã sửa `checks/numbers_of_record.csv` và câu hỏi mentor số 4 |
+| 18/10 | Thêm ngoại lệ: lỗi chuyển dữ liệu đổi ra USD theo tỷ giá ngày của ngày ghi sổ | Bút toán sổ cái không ghi ngày bán nên không biết tỷ giá ngày bán | Không đổi số năm 2025 (NX057 dùng USD) |

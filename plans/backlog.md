@@ -23,9 +23,9 @@
    - Báo cáo PDF (Portable Document Format).
    - Có cần nộp kèm các file `.m` (file code của Power Query) không?
 4. **Số làm tròn chuẩn là bao nhiêu?**
-   - Slide 32 và 34 ghi 1,01 USD; dashboard mẫu dạng trang web HTML (HyperText Markup Language) ghi 2,33 USD.
-   - Nhóm tính từ nội tệ ÷ tỷ giá, không làm tròn từng dòng, theo định nghĩa slide 34.
-   - Mentor có chấp nhận chênh vài USD ở khoản chiết khấu, tỷ giá, làm tròn do cách làm tròn không?
+   - Nhóm tính từ nội tệ ÷ tỷ giá, không làm tròn từng dòng, theo định nghĩa slide 34. Ra làm tròn **+1,01 USD** (Flash +0,95, sổ cái +0,05) và tỷ giá −57.598,01: **khớp slide 32 và 34**.
+   - Dashboard mẫu dạng trang web HTML (HyperText Markup Language) lại ghi làm tròn 2,33 USD, chiết khấu −1.834.298,38, tỷ giá −57.598,50, vì nó cộng các cột USD đã làm tròn sẵn từng dòng trong file Recon_Dataset.
+   - Mentor có chấp nhận số của nhóm (theo slide) không, và có chấp nhận chênh vài USD so với dashboard mẫu không?
 5. **Thứ tự các bước cầu nối:** slide 12, 32 và 38 xếp thứ tự khác nhau. Nhóm theo slide 32 và 36 (chiết khấu → dòng trùng → đơn hủy → lệch thời điểm → … → tỷ giá → làm tròn). Có được không?
 6. **File mẫu nộp chỉ có 1 bảng cầu nối toàn công ty.** Nhóm thêm 2 sheet cùng bố cục cho cửa hàng và online (có dòng chuyển kênh MJ-RCL – MJ = Manual Journal, bút toán tay; RCL = Reclassification, phân loại lại). Có được không?
 7. **"guide_report_template" ở slide 45** có phải là file `main.tex` (bài mẫu Steel Plates) mentor đã gửi không? Nhóm giữ khung trình bày của file đó nhưng chia nội dung theo 8 phần của slide 45.

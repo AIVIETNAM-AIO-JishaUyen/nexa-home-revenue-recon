@@ -15,10 +15,10 @@ qc_gl_rows,qc,So cai - so but toan,2025,ALL,6940,count,QC_Summary dong 10
 qc_gl_amount_usd,qc,So cai - tong amount_usd theo dau ke toan,2025,ALL,-28698496.23,USD,QC_Summary dong 11
 qc_flash_rows,qc,Flash - so dong chi tiet,2025,ALL,156,count,QC_Summary dong 12
 qc_flash_total,qc,Flash - tong doanh so,2025,ALL,31124401,USD,QC_Summary dong 13
-tot_flash,total,Doanh so Flash ca nam,2025,ALL,31124401,USD,slide 3 va 32
-tot_gl,total,Doanh thu so cai ca nam,2025,ALL,28698496.23,USD,slide 3 va 32
-tot_delta,total,Chenh lech = So cai - Flash ca nam,2025,ALL,-2425904.77,USD,tinh tu 2 dong tren
-tot_delta_pct_flash,total,Chenh lech chia Flash ca nam,2025,ALL,-0.077942,ratio,slide 3 (7.8%)
+tot_flash,total,Doanh so Flash ca nam,2025,COMPANY,31124401,USD,slide 3 va 32
+tot_gl,total,Doanh thu so cai ca nam,2025,COMPANY,28698496.23,USD,slide 3 va 32
+tot_delta,total,Chenh lech = So cai - Flash ca nam,2025,COMPANY,-2425904.77,USD,tinh tu 2 dong tren
+tot_delta_pct_flash,total,Chenh lech chia Flash ca nam,2025,COMPANY,-0.077942,ratio,slide 3 (7.8%)
 ch_flash_store,channel,Flash kenh cua hang,2025,STORE,14060500,USD,slide 26
 ch_flash_web,channel,Flash kenh online,2025,WEB,17063901,USD,slide 26
 ch_flash_unallocated,channel,Flash chua gan kenh,2025,UNALLOCATED,0,USD,slide 26
@@ -28,42 +28,42 @@ ch_gl_unallocated,channel,So cai chua gan kenh (ADJ-0925),2025,UNALLOCATED,1250,
 ch_delta_store,channel,Chenh lech kenh cua hang,2025,STORE,-878601.75,USD,slide 26 ghi Flash - So cai = 878.602 (trai dau quy uoc nhom)
 ch_delta_web,channel,Chenh lech kenh online,2025,WEB,-1548553.02,USD,slide 26 ghi Flash - So cai = 1.548.553 (trai dau quy uoc nhom)
 ch_delta_unallocated,channel,Chenh lech chua gan kenh,2025,UNALLOCATED,1250,USD,slide 26 ghi Flash - So cai = -1.250 (trai dau quy uoc nhom)
-m01_flash,month,Flash thang 1,2025-01,ALL,2859589,USD,slide 25 va dashboard mau HTML
-m01_gl,month,So cai thang 1,2025-01,ALL,2626167.29,USD,slide 25 va dashboard mau HTML
-m01_delta,month,Chenh lech thang 1,2025-01,ALL,-233421.71,USD,slide 25 (nghin USD)
-m02_flash,month,Flash thang 2,2025-02,ALL,3490159,USD,slide 25 va dashboard mau HTML
-m02_gl,month,So cai thang 2,2025-02,ALL,3102906.99,USD,slide 25 va dashboard mau HTML
-m02_delta,month,Chenh lech thang 2,2025-02,ALL,-387252.01,USD,slide 25 (nghin USD)
-m03_flash,month,Flash thang 3,2025-03,ALL,2001911,USD,slide 25 va dashboard mau HTML
-m03_gl,month,So cai thang 3,2025-03,ALL,2100928.53,USD,slide 25 va dashboard mau HTML
-m03_delta,month,Chenh lech thang 3 (so cai cao hon Flash),2025-03,ALL,99017.53,USD,slide 25 (nghin USD)
-m04_flash,month,Flash thang 4,2025-04,ALL,1035907,USD,slide 25 va dashboard mau HTML
-m04_gl,month,So cai thang 4,2025-04,ALL,898049.36,USD,slide 25 va dashboard mau HTML
-m04_delta,month,Chenh lech thang 4,2025-04,ALL,-137857.64,USD,slide 25 (nghin USD)
-m05_flash,month,Flash thang 5,2025-05,ALL,2802769,USD,slide 25 va dashboard mau HTML
-m05_gl,month,So cai thang 5,2025-05,ALL,2478745.50,USD,slide 25 va dashboard mau HTML
-m05_delta,month,Chenh lech thang 5,2025-05,ALL,-324023.50,USD,slide 25 (nghin USD)
-m06_flash,month,Flash thang 6,2025-06,ALL,2506912,USD,slide 25 va dashboard mau HTML
-m06_gl,month,So cai thang 6,2025-06,ALL,2412461.84,USD,slide 25 va dashboard mau HTML
-m06_delta,month,Chenh lech thang 6,2025-06,ALL,-94450.16,USD,slide 25 (nghin USD)
-m07_flash,month,Flash thang 7,2025-07,ALL,2248805,USD,slide 25 va dashboard mau HTML
-m07_gl,month,So cai thang 7,2025-07,ALL,2089895.01,USD,slide 25 va dashboard mau HTML
-m07_delta,month,Chenh lech thang 7,2025-07,ALL,-158909.99,USD,slide 25 (nghin USD)
-m08_flash,month,Flash thang 8,2025-08,ALL,2569740,USD,slide 25 va dashboard mau HTML
-m08_gl,month,So cai thang 8,2025-08,ALL,2274164.62,USD,slide 25 va dashboard mau HTML
-m08_delta,month,Chenh lech thang 8,2025-08,ALL,-295575.38,USD,slide 25 (nghin USD)
-m09_flash,month,Flash thang 9,2025-09,ALL,2576818,USD,slide 25 va dashboard mau HTML
-m09_gl,month,So cai thang 9,2025-09,ALL,2494221.48,USD,slide 25 va dashboard mau HTML
-m09_delta,month,Chenh lech thang 9,2025-09,ALL,-82596.52,USD,slide 25 (nghin USD)
-m10_flash,month,Flash thang 10,2025-10,ALL,2743824,USD,slide 25 va dashboard mau HTML
-m10_gl,month,So cai thang 10,2025-10,ALL,2493635.92,USD,slide 25 va dashboard mau HTML
-m10_delta,month,Chenh lech thang 10,2025-10,ALL,-250188.08,USD,slide 25 (nghin USD)
-m11_flash,month,Flash thang 11,2025-11,ALL,2806714,USD,slide 25 va dashboard mau HTML
-m11_gl,month,So cai thang 11,2025-11,ALL,2504559.28,USD,slide 25 va dashboard mau HTML
-m11_delta,month,Chenh lech thang 11,2025-11,ALL,-302154.72,USD,slide 25 (nghin USD)
-m12_flash,month,Flash thang 12,2025-12,ALL,3481253,USD,slide 25 va 36
-m12_gl,month,So cai thang 12,2025-12,ALL,3222760.41,USD,slide 25 va 36
-m12_delta,month,Chenh lech thang 12,2025-12,ALL,-258492.59,USD,slide 25 va 36
+m01_flash,month,Flash thang 1,2025-01,COMPANY,2859589,USD,slide 25 va dashboard mau HTML
+m01_gl,month,So cai thang 1,2025-01,COMPANY,2626167.29,USD,slide 25 va dashboard mau HTML
+m01_delta,month,Chenh lech thang 1,2025-01,COMPANY,-233421.71,USD,slide 25 (nghin USD)
+m02_flash,month,Flash thang 2,2025-02,COMPANY,3490159,USD,slide 25 va dashboard mau HTML
+m02_gl,month,So cai thang 2,2025-02,COMPANY,3102906.99,USD,slide 25 va dashboard mau HTML
+m02_delta,month,Chenh lech thang 2,2025-02,COMPANY,-387252.01,USD,slide 25 (nghin USD)
+m03_flash,month,Flash thang 3,2025-03,COMPANY,2001911,USD,slide 25 va dashboard mau HTML
+m03_gl,month,So cai thang 3,2025-03,COMPANY,2100928.53,USD,slide 25 va dashboard mau HTML
+m03_delta,month,Chenh lech thang 3 (so cai cao hon Flash),2025-03,COMPANY,99017.53,USD,slide 25 (nghin USD)
+m04_flash,month,Flash thang 4,2025-04,COMPANY,1035907,USD,slide 25 va dashboard mau HTML
+m04_gl,month,So cai thang 4,2025-04,COMPANY,898049.36,USD,slide 25 va dashboard mau HTML
+m04_delta,month,Chenh lech thang 4,2025-04,COMPANY,-137857.64,USD,slide 25 (nghin USD)
+m05_flash,month,Flash thang 5,2025-05,COMPANY,2802769,USD,slide 25 va dashboard mau HTML
+m05_gl,month,So cai thang 5,2025-05,COMPANY,2478745.50,USD,slide 25 va dashboard mau HTML
+m05_delta,month,Chenh lech thang 5,2025-05,COMPANY,-324023.50,USD,slide 25 (nghin USD)
+m06_flash,month,Flash thang 6,2025-06,COMPANY,2506912,USD,slide 25 va dashboard mau HTML
+m06_gl,month,So cai thang 6,2025-06,COMPANY,2412461.84,USD,slide 25 va dashboard mau HTML
+m06_delta,month,Chenh lech thang 6,2025-06,COMPANY,-94450.16,USD,slide 25 (nghin USD)
+m07_flash,month,Flash thang 7,2025-07,COMPANY,2248805,USD,slide 25 va dashboard mau HTML
+m07_gl,month,So cai thang 7,2025-07,COMPANY,2089895.01,USD,slide 25 va dashboard mau HTML
+m07_delta,month,Chenh lech thang 7,2025-07,COMPANY,-158909.99,USD,slide 25 (nghin USD)
+m08_flash,month,Flash thang 8,2025-08,COMPANY,2569740,USD,slide 25 va dashboard mau HTML
+m08_gl,month,So cai thang 8,2025-08,COMPANY,2274164.62,USD,slide 25 va dashboard mau HTML
+m08_delta,month,Chenh lech thang 8,2025-08,COMPANY,-295575.38,USD,slide 25 (nghin USD)
+m09_flash,month,Flash thang 9,2025-09,COMPANY,2576818,USD,slide 25 va dashboard mau HTML
+m09_gl,month,So cai thang 9,2025-09,COMPANY,2494221.48,USD,slide 25 va dashboard mau HTML
+m09_delta,month,Chenh lech thang 9,2025-09,COMPANY,-82596.52,USD,slide 25 (nghin USD)
+m10_flash,month,Flash thang 10,2025-10,COMPANY,2743824,USD,slide 25 va dashboard mau HTML
+m10_gl,month,So cai thang 10,2025-10,COMPANY,2493635.92,USD,slide 25 va dashboard mau HTML
+m10_delta,month,Chenh lech thang 10,2025-10,COMPANY,-250188.08,USD,slide 25 (nghin USD)
+m11_flash,month,Flash thang 11,2025-11,COMPANY,2806714,USD,slide 25 va dashboard mau HTML
+m11_gl,month,So cai thang 11,2025-11,COMPANY,2504559.28,USD,slide 25 va dashboard mau HTML
+m11_delta,month,Chenh lech thang 11,2025-11,COMPANY,-302154.72,USD,slide 25 (nghin USD)
+m12_flash,month,Flash thang 12,2025-12,COMPANY,3481253,USD,slide 25 va 36
+m12_gl,month,So cai thang 12,2025-12,COMPANY,3222760.41,USD,slide 25 va 36
+m12_delta,month,Chenh lech thang 12,2025-12,COMPANY,-258492.59,USD,slide 25 va 36
 br_y_flash,bridge_year,Doanh so Flash,2025,COMPANY,31124401,USD,docs/quy_uoc_va_so_chuan.md (slide 32)
 br_y_discount,bridge_year,Chiet khau,2025,COMPANY,-1834297.47,USD,docs/quy_uoc_va_so_chuan.md (slide 32: -1.834.297)
 br_y_pos_duplicate,bridge_year,Dong POS trung (gia sau giam gia),2025,COMPANY,-12622.20,USD,docs/quy_uoc_va_so_chuan.md (slide 35)
@@ -73,11 +73,10 @@ br_y_store_posting,bridge_year,Lech ngay ghi so cua hang,2025,COMPANY,0,USD,slid
 br_y_transfer_error,bridge_year,Loi chuyen du lieu POS sang so cai (NX057),2025,COMPANY,0,USD,slide 32 (ca nam bang 0)
 br_y_returns,bridge_year,Hang tra lai (ty gia ngay dat),2025,COMPANY,-349148.23,USD,docs/quy_uoc_va_so_chuan.md (slide 32: -349.148)
 br_y_shipping,bridge_year,Phi van chuyen (12 but toan MJ-SHIP),2025,COMPANY,94766.95,USD,docs/quy_uoc_va_so_chuan.md (slide 32 gop voi ADJ-0925 = 96.017)
-br_y_fx,bridge_year,Ty gia,2025,COMPANY,-57597.96,USD,docs/quy_uoc_va_so_chuan.md (slide 32: -57.598) - plan python-check xem lai
-br_y_rounding,bridge_year,Lam tron,2025,COMPANY,0.96,USD,docs/quy_uoc_va_so_chuan.md (slide 32 va 34 ghi 1.01) - plan python-check xem lai
+br_y_fx,bridge_year,Ty gia,2025,COMPANY,-57598.01,USD,slide 34 dinh nghia (noi te / ty gia - chua lam tron); slide 32: -57.598; sua 18/10 tu -57597.96
+br_y_rounding,bridge_year,Lam tron,2025,COMPANY,1.01,USD,slide 32 va 34: Flash +0.95 + so cai +0.05; sua 18/10 tu 0.96
 br_y_unexplained,bridge_year,Chua giai thich (ADJ-0925),2025,COMPANY,1250,USD,slide 35
 br_y_gl,bridge_year,Doanh thu so cai,2025,COMPANY,28698496.23,USD,slide 32
-alt_slide_rounding,alt_reference,Lam tron theo slide 32 va 34,2025,COMPANY,1.01,USD,slide 32 va 34 (de doi chieu)
 alt_html_discount,alt_reference,Chiet khau theo dashboard mau HTML,2025,COMPANY,-1834298.38,USD,docs/template/Nexa_Home_Recon_Dashboard.html (tinh tu USD da lam tron tung dong)
 alt_html_fx,alt_reference,Ty gia theo dashboard mau HTML,2025,COMPANY,-57598.50,USD,docs/template/Nexa_Home_Recon_Dashboard.html
 alt_html_rounding,alt_reference,Lam tron theo dashboard mau HTML,2025,COMPANY,2.33,USD,docs/template/Nexa_Home_Recon_Dashboard.html
@@ -122,15 +121,15 @@ det_reclass_amount,detail,But toan MJ-RCL-2506 chuyen tu NX019 sang online,2025-
 nov_store_day_cells,nov,Thang 11 - so o cua hang x ngay,2025-11,STORE,453,count,slide 44
 nov_cells_mismatch_business_date,nov,Thang 11 - o lech neu so theo ngay ban,2025-11,STORE,347,count,slide 44
 nov_cells_mismatch_posting_date,nov,Thang 11 - o lech neu so theo ngay ghi so,2025-11,STORE,1,count,slide 44
-nov_stores_over_threshold_raw,nov,Thang 11 - cua hang vuot nguong khi chua xu ly,2025-11,STORE,22,count,slide 44
+nov_stores_over_threshold_raw,nov,Thang 11 - cua hang vuot nguong khi chua xu ly,2025-11,STORE,22,count,slide 44 - CHI THAM KHAO: chua tai lap duoc tu du lieu (xem plan store-recon / web-return-recon)
 nov_stores_over_threshold_norm,nov,Thang 11 - cua hang vuot nguong sau khi dua ve cung cach tinh,2025-11,STORE,1,count,slide 44
 nov_nx057_delta,nov,Thang 11 - chenh lech NX057 sau khi dua ve cung cach tinh,2025-11,STORE,-7227.56,USD,slide 28 va 30 (slide 44 ghi -7.228)
 nov_nx057_delta_pct_gl,nov,Thang 11 - chenh lech NX057 chia |so cai|,2025-11,STORE,-0.746,ratio,slide 28 va 44
 nov_nx057_gl,nov,Thang 11 - so cai NX057,2025-11,STORE,9695,USD,slide 28 (lam tron)
 nov_nx057_pos_norm,nov,Thang 11 - POS NX057 sau khi dua ve cung cach tinh,2025-11,STORE,16923,USD,slide 28 (lam tron)
-nov_nx008_delta_raw,nov,Thang 11 - chenh lech NX008 khi chua xu ly (ve 0 sau khi xu ly),2025-11,STORE,-716,USD,slide 28 (lam tron)
+nov_nx008_delta_raw,nov,Thang 11 - chenh lech NX008 khi chua xu ly (ve 0 sau khi xu ly),2025-11,STORE,-716,USD,slide 28 (lam tron) - CHI THAM KHAO: chua tai lap duoc tu du lieu (xem plan store-recon / web-return-recon)
 nov_nx033_delta,nov,Thang 11 - chenh lech NX033 (trong nguong),2025-11,STORE,-14,USD,slide 28 (lam tron)
-nov_web_delta_order_date,nov,Thang 11 - chenh lech online neu so theo ngay dat,2025-11,WEB,-12064,USD,slide 28 va 44 (lam tron)
+nov_web_delta_order_date,nov,Thang 11 - chenh lech online neu so theo ngay dat,2025-11,WEB,-12064,USD,slide 28 va 44 (lam tron) - CHI THAM KHAO: chua tai lap duoc tu du lieu (xem plan store-recon / web-return-recon)
 nov_web_delta_delivery_date,nov,Thang 11 - chenh lech online neu so theo ngay giao,2025-11,WEB,0,USD,slide 44
 dec_rules_total,dec,Thang 12 - tong cac khoan quy tac ghi nhan,2025-12,COMPANY,-265721,USD,slide 43 (lam tron)
 dec_data_errors_total,dec,Thang 12 - tong cac khoan loi du lieu,2025-12,COMPANY,7228,USD,slide 43 (lam tron)
@@ -139,3 +138,7 @@ cfg_threshold_abs,config,Nguong do lon chenh lech cua hang x thang,2025,STORE,20
 cfg_threshold_pct,config,Nguong % chenh lech chia |so cai|,2025,STORE,0.01,ratio,docs/quy_uoc_va_so_chuan.md (slide 28)
 cfg_rounding_tolerance,config,Sai so lam tron chap nhan moi thang,2025,ALL,5,USD,docs/quy_uoc_va_so_chuan.md (slide 34)
 cfg_check_tolerance,config,Dong kiem tra cau noi chap nhan sai,2025,ALL,1,USD,docs/quy_uoc_va_so_chuan.md
+alt_old_fx,alt_reference,Ty gia theo ban quy uoc cu (tinh tu USD so cai da lam tron),2025,COMPANY,-57597.96,USD,docs/quy_uoc_va_so_chuan.md truoc 18/10 (de doi chieu)
+alt_old_rounding,alt_reference,Lam tron theo ban quy uoc cu,2025,COMPANY,0.96,USD,docs/quy_uoc_va_so_chuan.md truoc 18/10 (de doi chieu)
+br_y_rounding_flash,bridge_year_detail,Lam tron - phan Flash (lam tron tung dong den USD),2025,COMPANY,0.95,USD,tinh tu du lieu theo slide 34
+br_y_rounding_gl,bridge_year_detail,Lam tron - phan so cai (lam tron tung but toan 2 chu so),2025,COMPANY,0.05,USD,tinh tu du lieu theo slide 34
