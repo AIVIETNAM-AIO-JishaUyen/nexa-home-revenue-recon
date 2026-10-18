@@ -8,12 +8,12 @@
 |---|---|
 | Người làm | Lê Nguyễn Phước Thành (thanhlnp), làm cùng AI (trí tuệ nhân tạo) Claude |
 | Ngày bắt đầu | 18/10/2026 |
-| Ngày xong | |
+| Ngày xong | 18/10/2026 |
 | Nhánh (branch) | `baseline` |
 | Thuộc việc nào trong roadmap | Việc 4 – Bảng cầu nối và nhật ký ngoại lệ (phần bảng cầu nối) |
 | Mốc phải đạt | Mốc 4 (25/10) |
 | Phần báo cáo liên quan | <ul><li>Phần IV.4 (bảng cầu nối 12 tháng)</li><li>Phụ lục D (ba phiên bản số làm tròn: thay số Python bằng số Power Query)</li><li>Câu hỏi riêng 2 (tháng nào còn lệch sau khi trừ quy tắc ghi nhận)</li></ul> |
-| Trạng thái | Đang làm |
+| Trạng thái | Xong |
 | Plan liên quan | <ul><li>Làm sau plan: [web-return-recon](../completed/thanhlnp-18-10-2026-web-return-recon.md)</li><li>Plan tiếp theo dùng kết quả này: `bridge-template-log` (file mẫu nộp đọc `BR_Long`), `dax-bridge` (so DAX với Power Query), `dashboard`</li></ul> |
 
 ---
@@ -164,8 +164,8 @@ Dựng **bảng cầu nối 12 tháng bằng Power Query** cho 4 bảng: cửa h
 - **Các lần lưu vào Git (commit):** `b88f3e4` (tạo plan), `7944a6c` (bảng cầu nối dạng dài), `bd7b051` (cảnh báo, bảng ngang), `954df2c` (nạp sheet, file Excel), `0a5ec63` (báo cáo IV.4, phụ lục D), `19478bd` (ghi kết quả, quyết định, chuẩn bị vấn đáp), và các lần lưu rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
-- [ ] Không còn chỗ `< >` chưa điền.
-- [ ] Mọi con số trong plan đều ghi rõ lấy từ đâu.
-- [ ] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
-- [ ] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
-- [ ] Đã chuyển file sang `plans/completed/` bằng `git mv`.
+- [x] Không còn chỗ `< >` chưa điền.
+- [x] Mọi con số trong plan đều ghi rõ lấy từ đâu.
+- [x] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
+- [x] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
+- [x] Đã chuyển file sang `plans/completed/` bằng `git mv`.
