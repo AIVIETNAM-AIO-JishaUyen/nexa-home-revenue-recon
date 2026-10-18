@@ -45,7 +45,7 @@
 | Dùng gì | Đường dẫn | Ghi chú |
 |---|---|---|
 | Bảng giao dịch chung | `excel/queries/q_Transactions.m` | Dòng `channel` = WEB: `status` (Delivered, Returned, Cancelled), `sale_date` = ngày đặt, `recognition_date` = ngày giao, `return_date`, `net_local`, `net_usd_daily`, `net_usd_month_end`, `net_usd_month_end_return`, `discount_usd_daily` |
-| Sổ cái | `excel/queries/q_GL.m` | Bút toán `WEB_DELIVERY`, `WEB_RETURN`, bút toán tay (`MANUAL`: MJ-SHIP, MJ-RCL, ADJ-0925) |
+| Sổ cái | `excel/queries/q_GL.m` | Bút toán `WEB_DELIVERY`, `WEB_RETURN`, bút toán tay (`MANUAL`: MJ-SHIP, MJ-RCL, ADJ-0925; MJ = Manual Journal, bút toán tay; ADJ = Adjustment, bút toán điều chỉnh) |
 | Flash | `excel/queries/q_FLASH.m` | Danh sách tháng đối soát (không ghi cứng năm) |
 | Đối soát cửa hàng | `excel/queries/q_RC_Store*.m` | Lệch ngày ghi sổ, lỗi chuyển dữ liệu, dòng trùng cho bảng 5 lý do |
 | Số đúng | `checks/numbers_of_record.csv` | `det_web_*`, `det_cancelled_*`, `det_returns_*`, `tim_web_*`, `br_y_*`, `nov_web_*` |
@@ -123,8 +123,9 @@
 |---|---|---|---|
 | 18/10 | Chạy thử bằng Python trên sheet giao dịch chung và dữ liệu `det` của dashboard mẫu | <ul><li>Dòng online của dashboard mẫu tháng 11: chưa xử lý 1.205.561,30 = đơn chưa hủy theo tháng đặt, tỷ giá cuối tháng đặt; sổ cái 1.193.497,04 = `WEB_DELIVERY` + `WEB_RETURN`; chênh lệch −12.064,26</li><li>1.647 / 159 ô trong kỳ khớp 100%; ngoài kỳ có 155 ô online và 12 ô hàng trả</li><li>Các số chuẩn của đơn hủy, hàng trả, chiết khấu, lệch thời điểm, tỷ giá đều ra đúng</li></ul> | |
 | 18/10 | Viết 6 truy vấn, nạp 6 sheet, dựng lại file (2 lần) | <ul><li>Online 1.647/1.647 ô khớp, hàng trả 159/159; ngoài kỳ 155 và 12 ô</li><li>Online chưa xử lý: 12/12 tháng vượt ngưỡng; sau xử lý: 0 tháng, mỗi tháng lệch ≤ 0,05 USD</li><li>Lệch thời điểm online cả năm −52.597,90 = +122.107,89 − 174.705,79; tháng 3 +281.787,98</li><li>Bảng 5 lý do: 14 dòng, mọi số tiền khớp số chuẩn; làm tròn 1,01 = 0,95 + 0,05</li></ul> | <ul><li>Lần dựng đầu, số chèn vào cột chữ của bảng 5 lý do viết kiểu Mỹ (17,124; 0.95); đổi sang kiểu Việt Nam (vi-VN) rồi dựng lại</li><li>Mỗi lần dựng mất khoảng 15 phút; tăng giới hạn thời gian của script lên 30 phút</li></ul> |
-| 18/10 | Cập nhật ghi chú số chuẩn | Số −12.064 của slide nay đã tái lập; cả 3 số "chỉ tham khảo" của plan `setup-baseline` đều đã giải thích | Phát hiện 2 dòng ghi chú (dòng 130, 132) có dấu phẩy làm lệch cột CSV từ commit `c2d1beb` của plan 7; đã sửa, `python_check.py` chạy lại vẫn đạt |
+| 18/10 | Cập nhật ghi chú số chuẩn | Số −12.064 của slide nay đã tái lập; cả 3 số "chỉ tham khảo" của plan `setup-baseline` đều đã giải thích | Phát hiện 2 dòng ghi chú (dòng 130, 132) có dấu phẩy làm lệch cột CSV (Comma-Separated Values, file chữ ngăn cột bằng dấu phẩy) từ commit `c2d1beb` của plan 7; đã sửa, `python_check.py` chạy lại vẫn đạt |
 | 18/10 | Viết phần IV.2 và IV.3 (Bảng 11–13, Hình 3) | PDF 21 trang | Tiêu đề hình bị cắt vì quá dài; rút ngắn |
+| 18/10 | Rà soát plan: đọc lại 7 sheet bằng pandas, đọc 6 truy vấn, lời văn IV.2–IV.3 | <ul><li>Mọi số ở mục 5 và mục 11 khớp sheet; cả 140 đơn vào tháng 3 đều đặt tháng 2 (22/02–28/02), cả 20 đơn rời tháng 3 đều giao tháng 4</li><li>Mọi bước có tên tiếng Việt và ghi chú `//`; không ghi cứng năm; nhóm của từng khoản khớp `docs/cau_truc_du_lieu.md` mục 7</li><li>PDF 22 trang</li></ul> | <ul><li>Lời văn và tiêu đề Hình 3 gọi +281.787,98 là số "nhận từ đơn đặt tháng trước", thật ra là số nhận về (315.819,08) trừ số chuyển đi (34.031,10): sửa lời văn, tiêu đề hình (`make_figures.py`), thêm phép tính "bỏ khoản này thì tháng 3 còn −182.770,45"</li><li>Bảng 12 dòng 1b ghi "2025-03": `make_figures.py` đổi thành "tháng 3"</li><li>Phụ lục nhãn nguồn chưa có các sheet mới: thêm vào dòng RC-WEB, RC-RET</li></ul> |
 
 ---
 
@@ -135,7 +136,7 @@
 | 18/10 | Kỳ đối soát = các tháng có trong Flash; ô ngoài kỳ ghi "Ngoài kỳ đối soát", không tính là lệch và không tô đỏ | Không ghi cứng năm; sổ cái chỉ có năm 2025 nên đơn giao tháng 12/2024 hay tháng 1/2026 luôn "thiếu" bên sổ cái mà không phải lỗi | Không |
 | 18/10 | Online theo tháng: "chưa xử lý" theo tháng đặt, tỷ giá cuối tháng đặt; sổ cái chỉ lấy `WEB_DELIVERY` và `WEB_RETURN` | Đúng cách dashboard mẫu tính (tái lập −12.064,26); bút toán tay là khoản riêng của bảng cầu nối | Không |
 | 18/10 | Danh mục khoản `q_BridgeItems` là bảng gõ tay duy nhất, ghi cả lý do xếp nhóm | Nhóm là quyết định phân loại, không phải số liệu; bảng cầu nối, nhật ký ngoại lệ, dashboard cùng đọc một chỗ | Không |
-| 18/10 | Dòng POS trùng và lỗi chuyển dữ liệu không gắn vào lý do nào trong 5 lý do | Đó là lỗi dữ liệu, không phải khác biệt về cách tính; gắn vào thì sai nghĩa của 5 lý do | Không |
+| 18/10 | Dòng POS (Point of Sale, bán tại cửa hàng) trùng và lỗi chuyển dữ liệu không gắn vào lý do nào trong 5 lý do | Đó là lỗi dữ liệu, không phải khác biệt về cách tính; gắn vào thì sai nghĩa của 5 lý do | Không |
 | 18/10 | Nhãn nhóm làm tròn ghi "Sai số chấp nhận" | Đúng chữ của file mẫu nộp (nhật ký ngoại lệ) | Không |
 
 ---
@@ -153,11 +154,11 @@
 1. **Hỏi:** Đối soát online so ở mức nào, kết quả ra sao?
    **Trả lời:** Ở đúng mức sổ cái ghi: một bút toán `WEB_DELIVERY` cho mỗi ngày giao × loại tiền, một bút toán `WEB_RETURN` cho mỗi ngày nhận hàng trả × loại tiền. So bằng nội tệ, 1.647/1.647 ô doanh thu và 159/159 ô hàng trả khớp đến từng xu. Hệ thống chuyển đơn online sang sổ cái không có lỗi; chênh lệch online hoàn toàn do quy tắc ghi nhận.
 2. **Hỏi:** Vì sao tháng 3 sổ cái cao hơn Flash?
-   **Trả lời:** Lệch thời điểm online: Flash ghi theo ngày đặt, sổ cái theo ngày giao. Tháng 3 nhận +315.819,08 USD từ 140 đơn đặt tháng 2 giao tháng 3, chỉ chuyển đi 34.031,10 sang tháng 4, nên khoản lệch thời điểm tháng 3 là +281.787,98, lớn hơn mọi khoản làm giảm doanh thu của tháng đó.
+   **Trả lời:** Lệch thời điểm online: Flash ghi theo ngày đặt, sổ cái theo ngày giao. Tháng 3 nhận +315.819,08 USD từ 140 đơn đặt từ 22/02 đến 28/02 nhưng giao tháng 3, chỉ chuyển đi 34.031,10 sang tháng 4 (20 đơn), nên khoản lệch thời điểm tháng 3 là +281.787,98 (sheet `Lech_thoi_diem_online`). Chênh lệch sổ cái − Flash tháng 3 là +99.017,53 (sheet `Chenh_lech_thang`); bỏ khoản này đi thì còn −182.770,45, tức sổ cái thấp hơn Flash như mọi tháng khác. Khoản này lớn hơn cả tổng 4 khoản làm giảm doanh thu tháng 3 (chiết khấu, dòng trùng, đơn hủy, hàng trả: −199.029,23 theo bảng kiểm tra Python `checks/python_bridge.csv`).
 3. **Hỏi:** Lệch thời điểm online cả năm sao không bằng 0?
    **Trả lời:** Vì có đơn vắt qua năm: 77 đơn đặt tháng 12/2024 giao năm 2025 (+122.107,89, sổ cái có, Flash không có) và 105 đơn đặt năm 2025 giao năm 2026 (−174.705,79). Cộng hai phần ra đúng −52.597,90; trong năm mọi tháng tự bù trừ.
 4. **Hỏi:** Chứng minh 5 lý do bằng số thế nào?
-   **Trả lời:** Sheet `Nam_ly_do`: thời điểm (860 đơn đặt và giao khác tháng, 267 dòng POS ghi sổ sang tháng sau), giá trị (chiết khấu −1.834.297,47), phạm vi (124 đơn hủy −215.658,92, 169 đơn trả −349.148,23, 12 bút toán phí vận chuyển +94.766,95), tiền tệ (khoản tỷ giá −57.598,01; cùng hàng trả cho 3 số tùy tỷ giá), mức chi tiết (17.124 dòng POS → 5.119 bút toán, 9.441 đơn → 1.806 bút toán; làm tròn 1,01).
+   **Trả lời:** Sheet `Nam_ly_do`: thời điểm (860 đơn đặt năm 2025 nhưng giao tháng khác, 267 dòng POS ghi sổ sang tháng sau), giá trị (chiết khấu −1.834.297,47), phạm vi (124 đơn hủy −215.658,92, 169 đơn trả −349.148,23, 12 bút toán phí vận chuyển +94.766,95), tiền tệ (khoản tỷ giá −57.598,01; cùng hàng trả cho 3 số tùy tỷ giá), mức chi tiết (17.124 dòng POS → 5.119 bút toán, 8.596 lượt đơn giao và trả trong kỳ → 1.806 bút toán; làm tròn 1,01).
 5. **Hỏi:** Dòng online "vượt ngưỡng" trong 22 dòng của slide 44 là gì?
    **Trả lời:** Online tháng 11 so theo tháng đặt lệch −12.064,26 USD, tức −1,01% so với |sổ cái|, vừa vượt ngưỡng 1%. So theo tháng giao và trừ hàng trả theo tháng trả thì còn −0,01.
 

@@ -70,12 +70,13 @@ let
     // ---- Lý do 5: mức chi tiết của một dòng
     // Số dòng POS (mỗi dòng là một món hàng trên hóa đơn)
     #"Số dòng POS" = Table.RowCount(Table.SelectRows(#"Giao dịch", each [channel] = "STORE")),
-    // Số đơn online
-    #"Số đơn online" = Table.RowCount(Table.SelectRows(#"Giao dịch", each [channel] = "WEB")),
+    // Số đơn online trong cùng phạm vi với bút toán online: đơn giao trong kỳ + đơn trả trong kỳ (không tính đơn hủy, đơn ngoài kỳ)
+    #"Số đơn online" = Table.RowCount(Table.SelectRows(#"Giao dịch", each [channel] = "WEB" and [status] <> "Cancelled" and #"Trong kỳ?"([recognition_period])))
+        + Table.RowCount(#"Hàng trả trong kỳ"),
     // Số bút toán doanh thu POS của sổ cái
     #"Số bút toán POS" = Table.RowCount(Table.SelectRows(#"Sổ cái", each Text.StartsWith([journal_type], "POS_"))),
-    // Số bút toán online của sổ cái (giao hàng và hàng trả)
-    #"Số bút toán online" = Table.RowCount(Table.SelectRows(#"Sổ cái", each [journal_type] = "WEB_DELIVERY" or [journal_type] = "WEB_RETURN")),
+    // Số bút toán online của sổ cái trong kỳ (giao hàng và hàng trả)
+    #"Số bút toán online" = Table.RowCount(Table.SelectRows(#"Sổ cái", each ([journal_type] = "WEB_DELIVERY" or [journal_type] = "WEB_RETURN") and #"Trong kỳ?"([period]))),
     // Số dòng của Flash
     #"Số dòng Flash" = Table.RowCount(q_FLASH),
     // Làm tròn: Flash làm tròn từng dòng đến USD; sổ cái làm tròn từng bút toán đến 2 chữ số
@@ -116,7 +117,7 @@ let
                 "Số dòng POS so với số bút toán POS: " & Number.ToText(#"Số dòng POS", "N0", "vi-VN") & " dòng → " & Number.ToText(#"Số bút toán POS", "N0", "vi-VN") & " bút toán",
                 #"Số dòng POS" / #"Số bút toán POS", "dòng / bút toán", null, ""},
             {"5c", "5. Mức chi tiết", "Một dòng online = một đơn", "Một bút toán gộp mọi đơn giao (hoặc trả) trong ngày cùng loại tiền",
-                "Số đơn online so với số bút toán online: " & Number.ToText(#"Số đơn online", "N0", "vi-VN") & " đơn → " & Number.ToText(#"Số bút toán online", "N0", "vi-VN") & " bút toán",
+                "Đơn giao và đơn trả trong kỳ so với số bút toán online: " & Number.ToText(#"Số đơn online", "N0", "vi-VN") & " lượt đơn → " & Number.ToText(#"Số bút toán online", "N0", "vi-VN") & " bút toán",
                 #"Số đơn online" / #"Số bút toán online", "đơn / bút toán", null, ""},
             {"5d", "5. Mức chi tiết", "Làm tròn từng dòng đến USD", "Làm tròn từng bút toán đến 2 chữ số",
                 "Khoản làm tròn = phần Flash (" & Number.ToText(#"Làm tròn phần Flash", "N2", "vi-VN") & ") + phần sổ cái (" & Number.ToText(#"Làm tròn phần sổ cái", "N2", "vi-VN") & ")",

@@ -204,7 +204,7 @@ for side in ["top", "right"]:
 imax = int(vals.values.argmax())
 ax.annotate(vn(vals.iloc[imax]), (imax, vals.iloc[imax]), xytext=(0, 4), textcoords="offset points", ha="center", color=INK, fontsize=9)
 ax.set_ylim(vals.min() * 1.2, vals.max() * 1.2)
-ax.set_title(f"Tháng {int(wtm.index[imax][-2:])} nhận {vn(vals.iloc[imax])} nghìn USD từ đơn đặt tháng trước, mức lệch lớn nhất trong năm",
+ax.set_title(f"Tháng {int(wtm.index[imax][-2:])} nhận về nhiều hơn chuyển đi {vn(vals.iloc[imax])} nghìn USD, mức lệch lớn nhất trong năm",
              loc="left", fontsize=11, color=INK, fontweight="bold")
 fig.tight_layout()
 fig.savefig(OUT / "hinh_lech_thoi_diem_online.png")
@@ -219,7 +219,9 @@ def so(v, d=0):
 rows = []
 for r in nld.itertuples():
     sl = "" if pd.isna(r.so_luong) else (vn(r.so_luong, 1 if r.so_luong != int(r.so_luong) else 0) + " " + esc(r.don_vi))
-    rows.append(f"{esc(r.ly_do) if r.stt.endswith(('a', '2')) or r.stt == '2' else ''} & {r.stt} & {esc(r.bang_chung)} & {sl} & {so(r.usd, 2)} \\\\")
+    # Tháng trong cột chữ ghi "tháng 3" thay cho "2025-03" (quy ước viết của báo cáo)
+    bc = re.sub(r"\b\d{4}-(\d{2})\b", lambda m: f"tháng {int(m.group(1))}", str(r.bang_chung))
+    rows.append(f"{esc(r.ly_do) if r.stt.endswith(('a', '2')) or r.stt == '2' else ''} & {r.stt} & {esc(bc)} & {sl} & {so(r.usd, 2)} \\\\")
 write("bang_nam_ly_do.tex", "\n".join([
     r"{\small", r"\begin{longtable}{@{}L{2.2cm} l L{6.9cm} r r@{}}", r"\toprule",
     r"Lý do & Dòng & Bằng chứng trên dữ liệu & Số lượng & USD \\", r"\midrule", r"\endhead",
@@ -278,6 +280,11 @@ macros.update({
     "SoOnlineVuotTruoc": str(int(rwm.flag_raw.sum())), "SoOnlineVuotSau": str(int(rwm.flag_norm.sum())),
     "SoLechOnlineNam": vn(wt.loc["Cả năm", "online_timing_usd"], 2), "SoLechOnlineThangMax": f"tháng {int(r3[-2:])}",
     "SoLechOnlineMax": vn(wtm.online_timing_usd.max(), 2),
+    "SoLechOnlineMaxVao": vn(wtm.loc[r3, "moved_in_usd"], 2), "SoLechOnlineMaxDonVao": vn(wtm.loc[r3, "orders_in"]),
+    "SoLechOnlineMaxRa": vn(-wtm.loc[r3, "moved_out_usd"], 2),
+    "SoLechOnlineMaxThangTruoc": f"tháng {(int(r3[-2:]) - 2) % 12 + 1}", "SoLechOnlineMaxThangSau": f"tháng {int(r3[-2:]) % 12 + 1}",
+    # Chênh lệch sổ cái − Flash của tháng đó nếu bỏ khoản lệch thời điểm online
+    "SoLechOnlineMaxBoKhoan": vn(months.loc[months.period == r3, "delta_usd"].sum() - wtm.online_timing_usd.max(), 2),
     "SoVatDauKy": vn(wt.loc["Trong đó: đặt trước kỳ, giao trong kỳ", "online_timing_usd"], 2),
     "SoDonVatDauKy": vn(wt.loc["Trong đó: đặt trước kỳ, giao trong kỳ", "orders_in"]),
     "SoVatCuoiKy": vn(wt.loc["Trong đó: đặt trong kỳ, giao sau kỳ", "online_timing_usd"], 2),

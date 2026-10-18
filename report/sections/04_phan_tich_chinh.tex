@@ -65,7 +65,7 @@ Vậy hệ thống chuyển đơn online sang sổ cái \textbf{không có lỗi
 {\small\input{generated/bang_online_thang.tex}}
 \end{table}
 
-\textbf{Lệch thời điểm online, và vì sao tháng 3 đi ngược chiều.} Flash ghi đơn theo ngày đặt, sổ cái theo ngày giao. Khoản lệch thời điểm của mỗi tháng là đơn chưa hủy cộng theo tháng giao trừ cộng theo tháng đặt, đổi theo tỷ giá ngày đặt như mọi khoản khác của bảng cầu nối (Hình~\ref{fig:thoidiem}; trục dọc là tiền theo tháng giao trừ tiền theo tháng đặt). Tháng nhận về nhiều hơn hẳn số chuyển đi là \SoLechOnlineThangMax{}: \SoLechOnlineMax{} USD, từ các đơn đặt cuối tháng 2 nhưng giao trong tháng 3. Khoản này đủ lớn để đẩy sổ cái tháng 3 lên cao hơn Flash, nên giả thuyết ở mục~III được dữ liệu xác nhận.
+\textbf{Lệch thời điểm online, và vì sao tháng 3 đi ngược chiều.} Flash ghi đơn theo ngày đặt, sổ cái theo ngày giao. Khoản lệch thời điểm của mỗi tháng là đơn chưa hủy cộng theo tháng giao trừ cộng theo tháng đặt, đổi theo tỷ giá ngày đặt như mọi khoản khác của bảng cầu nối (Hình~\ref{fig:thoidiem}; trục dọc là tiền theo tháng giao trừ tiền theo tháng đặt). Khoản lệch lớn nhất rơi vào \SoLechOnlineThangMax{}: +\SoLechOnlineMax{} USD. Tháng này nhận về \SoLechOnlineMaxVao{} USD từ \SoLechOnlineMaxDonVao{} đơn đặt cuối \SoLechOnlineMaxThangTruoc{} nhưng giao trong \SoLechOnlineThangMax{}, và chỉ chuyển đi \SoLechOnlineMaxRa{} USD sang \SoLechOnlineMaxThangSau{}. Chênh lệch sổ cái $-$ Flash của \SoLechOnlineThangMax{} là +\SoThangBaChenhLech{} USD; bỏ khoản lệch thời điểm online đi thì còn \SoLechOnlineMaxBoKhoan{} USD, tức sổ cái thấp hơn Flash như mọi tháng khác. Vậy giả thuyết ở mục~III được dữ liệu xác nhận.
 
 \begin{figure}[H]
 \centering
@@ -91,7 +91,7 @@ Dòng kiểm tra ``cả năm $-$ hai phần'' của sheet \texttt{Lech\_thoi\_di
 Ba điều rút ra từ bảng:
 \begin{itemize}
   \item \textbf{Giá trị và phạm vi chiếm phần lớn chênh lệch}: chiết khấu \SoChietKhau{} USD, hàng trả \SoTienTra{}, đơn hủy \SoTienHuy{}. Ba khoản này đều làm sổ cái thấp hơn Flash và không tự bù trừ.
-  \item \textbf{Cùng một khoản hàng trả cho ba con số} tùy cách đổi tiền: \SoTienTra{} (tỷ giá ngày đặt), \SoTienTraNgayTra{} (tỷ giá ngày trả), \SoTienTraSoCai{} (sổ cái, tỷ giá cuối tháng). Vì vậy thứ tự các bước cầu nối và tỷ giá dùng cho từng khoản phải chốt trước; nhóm dùng tỷ giá ngày đặt cho mọi khoản, phần còn lại dồn vào một dòng tỷ giá (\SoTyGia{} USD).
+  \item \textbf{Cùng một khoản hàng trả cho ba con số} tùy cách đổi tiền: \SoTienTra{} (tỷ giá ngày đặt), \SoTienTraNgayTra{} (tỷ giá ngày trả), \SoTienTraSoCai{} (sổ cái, tỷ giá cuối tháng). Vì vậy thứ tự các bước cầu nối và tỷ giá dùng cho từng khoản phải chốt trước; nhóm dùng tỷ giá ngày đặt (online) hoặc ngày bán (cửa hàng) cho mọi khoản, phần còn lại dồn vào một dòng tỷ giá (\SoTyGia{} USD).
   \item \textbf{Mức chi tiết quyết định cách so}: một bút toán POS gộp cả ngày của một cửa hàng, một bút toán online gộp mọi đơn giao trong ngày cùng loại tiền. Không thể so từng dòng hóa đơn với sổ cái; mức chi tiết nhỏ nhất so được là ô cửa hàng $\times$ ngày ghi sổ và ô ngày giao $\times$ loại tiền như hai mục trên.
 \end{itemize}
 

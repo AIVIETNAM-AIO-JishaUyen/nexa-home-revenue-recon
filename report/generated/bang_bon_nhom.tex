@@ -5,16 +5,16 @@ Thứ tự & Khoản & Nhóm & Vì sao xếp vào nhóm này \\
 \midrule
 \endhead
 1 & Chiết khấu & Quy tắc ghi nhận & Flash ghi giá niêm yết, sổ cái ghi giá sau giảm giá; cả hai đều đúng theo cách của mình \\
-2 & Dòng POS bị trùng & Lỗi dữ liệu & 12 dòng hóa đơn bị xuất ra file 2 lần; Flash đếm cả bản trùng, sổ cái không – Flash sai \\
+2 & Dòng POS bị trùng & Lỗi dữ liệu & Dòng hóa đơn bị xuất ra file 2 lần; Flash đếm cả bản trùng, sổ cái không – Flash sai \\
 3 & Đơn online bị hủy & Quy tắc ghi nhận & Flash tính mọi đơn đặt, sổ cái không ghi đơn chưa giao; đúng theo quy tắc của mỗi bên \\
 4 & Lệch thời điểm online & Quy tắc ghi nhận & Flash ghi theo ngày đặt, sổ cái theo ngày giao; tự bù trừ ở tháng sau, trừ phần đơn vắt qua năm \\
 5 & Lệch ngày ghi sổ của cửa hàng & Quy tắc ghi nhận & Bán ngày nghỉ thì sổ cái ghi ngày làm việc kế tiếp; tự bù trừ ở tháng sau, cả năm bằng 0 \\
-6 & Lỗi chuyển dữ liệu từ POS sang sổ cái & Lỗi dữ liệu & Doanh thu NX057 ngày 21/11 không sang được sổ cái, ghi bù ngày 02/12; sổ cái tháng 11 thiếu, tháng 12 thừa \\
+6 & Lỗi chuyển dữ liệu từ POS sang sổ cái & Lỗi dữ liệu & Doanh thu POS của một ngày không sang được sổ cái, được ghi bù vào ngày sau; sổ cái tháng đó thiếu, tháng ghi bù thừa \\
 7 & Hàng trả lại & Quy tắc ghi nhận & Flash không trừ hàng trả, sổ cái trừ vào ngày nhận hàng trả; đúng theo quy tắc của mỗi bên \\
 8 & Phí vận chuyển (bút toán tay MJ-SHIP) & Quy tắc ghi nhận & Sổ cái ghi phí vận chuyển vào doanh thu bằng bút toán tay có giấy tờ, Flash không có khoản này \\
 9 & Chuyển kênh (bút toán tay MJ-RCL) & Quy tắc ghi nhận & Bút toán tay có giấy tờ chuyển doanh thu giữa hai kênh; toàn công ty không đổi \\
 10 & Tỷ giá & Quy tắc ghi nhận & Flash đổi theo tỷ giá ngày đặt / ngày bán, sổ cái theo tỷ giá cuối tháng ghi sổ \\
 11 & Làm tròn & Sai số chấp nhận & Flash làm tròn từng dòng đến USD, sổ cái làm tròn từng bút toán đến 2 chữ số; vài USD mỗi năm \\
-12 & Chưa giải thích được (bút toán ADJ-0925) & Chưa giải thích được & Bút toán điều chỉnh 1.250 USD không gắn kênh, không có giấy tờ; dữ liệu không đủ để biết nguyên nhân \\
+12 & Chưa giải thích được (bút toán ADJ-0925) & Chưa giải thích được & Bút toán điều chỉnh không gắn kênh, không có giấy tờ; dữ liệu không đủ để biết nguyên nhân \\
 \bottomrule
 \end{longtable}}

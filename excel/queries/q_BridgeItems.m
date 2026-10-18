@@ -10,7 +10,7 @@ let
             {"discount", 1, "Chiết khấu", "Quy tắc ghi nhận", "Cửa hàng, online", "2. Giá trị",
                 "Flash ghi giá niêm yết, sổ cái ghi giá sau giảm giá; cả hai đều đúng theo cách của mình"},
             {"pos_duplicate", 2, "Dòng POS bị trùng", "Lỗi dữ liệu", "Cửa hàng", "",
-                "12 dòng hóa đơn bị xuất ra file 2 lần; Flash đếm cả bản trùng, sổ cái không – Flash sai"},
+                "Dòng hóa đơn bị xuất ra file 2 lần; Flash đếm cả bản trùng, sổ cái không – Flash sai"},
             {"cancelled", 3, "Đơn online bị hủy", "Quy tắc ghi nhận", "Online", "3. Phạm vi",
                 "Flash tính mọi đơn đặt, sổ cái không ghi đơn chưa giao; đúng theo quy tắc của mỗi bên"},
             {"online_timing", 4, "Lệch thời điểm online", "Quy tắc ghi nhận", "Online", "1. Thời điểm",
@@ -18,7 +18,7 @@ let
             {"store_posting", 5, "Lệch ngày ghi sổ của cửa hàng", "Quy tắc ghi nhận", "Cửa hàng", "1. Thời điểm",
                 "Bán ngày nghỉ thì sổ cái ghi ngày làm việc kế tiếp; tự bù trừ ở tháng sau, cả năm bằng 0"},
             {"transfer_error", 6, "Lỗi chuyển dữ liệu từ POS sang sổ cái", "Lỗi dữ liệu", "Cửa hàng", "",
-                "Doanh thu NX057 ngày 21/11 không sang được sổ cái, ghi bù ngày 02/12; sổ cái tháng 11 thiếu, tháng 12 thừa"},
+                "Doanh thu POS của một ngày không sang được sổ cái, được ghi bù vào ngày sau; sổ cái tháng đó thiếu, tháng ghi bù thừa"},
             {"returns", 7, "Hàng trả lại", "Quy tắc ghi nhận", "Online", "3. Phạm vi",
                 "Flash không trừ hàng trả, sổ cái trừ vào ngày nhận hàng trả; đúng theo quy tắc của mỗi bên"},
             {"shipping", 8, "Phí vận chuyển (bút toán tay MJ-SHIP)", "Quy tắc ghi nhận", "Online", "3. Phạm vi",
@@ -30,7 +30,7 @@ let
             {"rounding", 11, "Làm tròn", "Sai số chấp nhận", "Cả 4 bảng", "5. Mức chi tiết",
                 "Flash làm tròn từng dòng đến USD, sổ cái làm tròn từng bút toán đến 2 chữ số; vài USD mỗi năm"},
             {"unexplained", 12, "Chưa giải thích được (bút toán ADJ-0925)", "Chưa giải thích được", "Chưa gắn kênh", "",
-                "Bút toán điều chỉnh 1.250 USD không gắn kênh, không có giấy tờ; dữ liệu không đủ để biết nguyên nhân"},
+                "Bút toán điều chỉnh không gắn kênh, không có giấy tờ; dữ liệu không đủ để biết nguyên nhân"},
             {"gl", 13, "Doanh thu theo sổ cái", "", "Cả 4 bảng", "", "Điểm kết thúc của bảng cầu nối"},
             {"check", 14, "Kiểm tra (Flash + các khoản − sổ cái)", "", "Cả 4 bảng", "", "Phải về 0 (chấp nhận ≤ 1 USD)"}
         })

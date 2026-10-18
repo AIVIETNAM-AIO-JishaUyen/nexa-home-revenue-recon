@@ -21,8 +21,8 @@ Nhãn & Bảng & Nơi xem trong file Excel Power Query \\
 \endhead
 \nguon{QC} & Kiểm tra tổng, 5 bẫy, chất lượng dữ liệu & Sheet \texttt{Kiem\_tra}, \texttt{Bay\_du\_lieu}, \texttt{Chat\_luong\_du\_lieu}; truy vấn \texttt{q\_Check}, \texttt{q\_Traps}, \texttt{q\_DataQuality} \\
 \nguon{RC-CH} & Đối soát cửa hàng: theo ngày ghi sổ (sheet \texttt{Doi\_soat\_CH\_ngay}), so với ngày bán (\texttt{So\_ngay\_ban\_ngay\_ghi\_so}), theo tháng có cờ vượt ngưỡng (\texttt{Doi\_soat\_CH\_thang}), lệch ngày ghi sổ (\texttt{Lech\_ngay\_ghi\_so}) & Truy vấn \texttt{q\_RC\_Store}, \texttt{q\_RC\_Store\_DayCompare}, \texttt{q\_RC\_Store\_Month}, \texttt{q\_RC\_Store\_Timing} \\
-\nguon{RC-WEB} & Đối soát online $\times$ ngày giao $\times$ loại tiền & Truy vấn \texttt{q\_RC\_Web} \\
-\nguon{RC-RET} & Đối soát hàng trả $\times$ ngày trả $\times$ loại tiền & Truy vấn \texttt{q\_RC\_Return} \\
+\nguon{RC-WEB} & Đối soát online: theo ngày giao $\times$ loại tiền (sheet \texttt{Doi\_soat\_online}), theo tháng có cờ vượt ngưỡng (\texttt{Doi\_soat\_online\_thang}), lệch thời điểm online (\texttt{Lech\_thoi\_diem\_online}); bảng 5 lý do (\texttt{Nam\_ly\_do}) và danh mục khoản, nhóm (\texttt{Danh\_muc\_khoan}) & Truy vấn \texttt{q\_RC\_Web}, \texttt{q\_RC\_Web\_Month}, \texttt{q\_Web\_Timing}, \texttt{q\_FiveReasons}, \texttt{q\_BridgeItems} \\
+\nguon{RC-RET} & Đối soát hàng trả $\times$ ngày trả $\times$ loại tiền (sheet \texttt{Doi\_soat\_hang\_tra}) & Truy vấn \texttt{q\_RC\_Return} \\
 \nguon{BR-Tổng} & Bảng cầu nối toàn công ty (dòng Flash, sổ cái: sheet \texttt{Chenh\_lech\_thang}) & Truy vấn \texttt{q\_BR\_Long}, cột \texttt{bridge} = COMPANY \\
 \nguon{BR-CH},\newline \nguon{BR-WEB} & Bảng cầu nối cửa hàng, online (dòng Flash, sổ cái: sheet \texttt{Chenh\_lech\_kenh}) & Truy vấn \texttt{q\_BR\_Long}, cột \texttt{bridge} = STORE, WEB \\
 \nguon{EX-xx} & Dòng xx của nhật ký ngoại lệ & Truy vấn \texttt{q\_ExceptionLog} \\
