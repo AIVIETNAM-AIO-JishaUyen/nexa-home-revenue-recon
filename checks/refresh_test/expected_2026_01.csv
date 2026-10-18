@@ -1,0 +1,12 @@
+period,item_code,usd
+2026-01,flash,468890.0
+2026-01,discount,-25276.06
+2026-01,pos_duplicate,-898.18
+2026-01,cancelled,-12014.65
+2026-01,online_timing,174705.79
+2026-01,store_posting,0.0
+2026-01,transfer_error,0.0
+2026-01,returns,-28560.36
+2026-01,shipping,7512.36
+2026-01,unexplained,0.0
+2026-01,gl,567717.89
