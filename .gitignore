@@ -10,3 +10,16 @@ tools/build_docx/.cache/
 # File riêng của từng máy do Power BI Desktop tạo khi lưu dự án
 **/.pbi/localSettings.json
 **/.pbi/cache.abf
+
+# File tạm khi chuyển báo cáo LaTeX ra PDF
+report/*.aux
+report/*.log
+report/*.bbl
+report/*.blg
+report/*.bcf
+report/*.out
+report/*.toc
+report/*.run.xml
+report/*-blx.bib
+report/*.glsdefs
+report/*.synctex.gz

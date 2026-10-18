@@ -1,0 +1,25 @@
+%% ============================================================
+%% tvietlistings.sty  (ban tai tao tuong duong)
+%% Ho tro ky tu tieng Viet UTF-8 ben trong moi truong listings,
+%% du phong cho truong hop khoi code co dau tieng Viet.
+%% ============================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{tvietlistings}[2026/08/01 v1.0 Vietnamese chars in listings (reconstructed)]
+\RequirePackage{listings}
+\lstset{extendedchars=true, inputencoding=utf8}
+\lstset{literate=%
+  {á}{{\'a}}1 {à}{{\`a}}1 {ả}{{\h{a}}}1 {ã}{{\~a}}1 {ạ}{{\d{a}}}1
+  {ă}{{\u{a}}}1 {ắ}{{\'\u{a}}}1 {ằ}{{\`\u{a}}}1 {ẳ}{{\h{\u{a}}}}1 {ẵ}{{\~\u{a}}}1 {ặ}{{\d{\u{a}}}}1
+  {â}{{\^a}}1 {ấ}{{\'\^a}}1 {ầ}{{\`\^a}}1 {ẩ}{{\h{\^a}}}1 {ẫ}{{\~\^a}}1 {ậ}{{\d{\^a}}}1
+  {é}{{\'e}}1 {è}{{\`e}}1 {ẻ}{{\h{e}}}1 {ẽ}{{\~e}}1 {ẹ}{{\d{e}}}1
+  {ê}{{\^e}}1 {ế}{{\'\^e}}1 {ề}{{\`\^e}}1 {ể}{{\h{\^e}}}1 {ễ}{{\~\^e}}1 {ệ}{{\d{\^e}}}1
+  {í}{{\'i}}1 {ì}{{\`i}}1 {ỉ}{{\h{i}}}1 {ĩ}{{\~i}}1 {ị}{{\d{i}}}1
+  {ó}{{\'o}}1 {ò}{{\`o}}1 {ỏ}{{\h{o}}}1 {õ}{{\~o}}1 {ọ}{{\d{o}}}1
+  {ô}{{\^o}}1 {ố}{{\'\^o}}1 {ồ}{{\`\^o}}1 {ổ}{{\h{\^o}}}1 {ỗ}{{\~\^o}}1 {ộ}{{\d{\^o}}}1
+  {ơ}{{\horn{o}}}1 {ớ}{{\'\horn{o}}}1 {ờ}{{\`\horn{o}}}1 {ở}{{\h{\horn{o}}}}1 {ỡ}{{\~\horn{o}}}1 {ợ}{{\d{\horn{o}}}}1
+  {ú}{{\'u}}1 {ù}{{\`u}}1 {ủ}{{\h{u}}}1 {ũ}{{\~u}}1 {ụ}{{\d{u}}}1
+  {ư}{{\horn{u}}}1 {ứ}{{\'\horn{u}}}1 {ừ}{{\`\horn{u}}}1 {ử}{{\h{\horn{u}}}}1 {ữ}{{\~\horn{u}}}1 {ự}{{\d{\horn{u}}}}1
+  {ý}{{\'y}}1 {ỳ}{{\`y}}1 {ỷ}{{\h{y}}}1 {ỹ}{{\~y}}1 {ỵ}{{\d{y}}}1
+  {đ}{{\dj}}1 {Đ}{{\DJ}}1
+}
+\endinput

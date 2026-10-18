@@ -1,0 +1,26 @@
+%% ============================================================
+%% vipythonhighlight.sty  (ban tai tao tuong duong)
+%% Goi goc thuoc template AIO2026 cua lop; nhom khong co file goc
+%% nen ban nay duoc dung lai voi day du dinh nghia ma
+%% "Thuc_hanh.tex" can de bien dich: ngon ngu Excel cho listings.
+%% Cac mau sac va style (mystyle, aivncodebox...) da nam san
+%% trong preamble cua file chinh nen KHONG dinh nghia lai o day.
+%% ============================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{vipythonhighlight}[2026/08/01 v1.0 Excel/Python listings support (reconstructed)]
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+
+% ---- Ngon ngu "Excel" cho cac khoi cong thuc -----------------
+\lstdefinelanguage{Excel}{
+  morekeywords={IF,IFS,IFERROR,AND,OR,NOT,TRUE,FALSE,
+    SUM,SUMPRODUCT,ROUND,POWER,LOG10,LOG,EXP,ABS,MAX,MIN,
+    COUNT,COUNTA,COUNTIF,COUNTIFS,COUNTBLANK,QUARTILE,AVERAGE,MEDIAN,MODE,
+    STDEV,VAR,CORREL,VLOOKUP,HLOOKUP,INDEX,MATCH,SEARCH,FIND,
+    VALUE,TEXT,LEFT,RIGHT,MID,LEN,TRIM,CLEAN,LOWER,UPPER,PROPER,SUBSTITUTE,
+    DATE,DAY,MONTH,YEAR,ISNUMBER,ISTEXT,ISBLANK,LET,SWITCH,NA},
+  sensitive=false,
+  morestring=[b]",
+  morecomment=[l]{//},
+}
+\endinput
