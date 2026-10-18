@@ -1,0 +1,62 @@
+\section{Vấn đề và câu hỏi phân tích}
+
+\subsection{Hai con số cho cùng một năm}
+
+Nexa Home bán đồ gia dụng và điện tử qua 57 cửa hàng ở 8 nước và một website. Đầu tháng 1/2026, hai phòng gửi lên Giám đốc Tài chính hai con số doanh thu năm 2025 khác nhau:
+\begin{itemize}
+  \item \textbf{Flash} (báo cáo nhanh doanh số của phòng Kinh doanh): \SoFlashNam{} USD.
+  \item \textbf{Sổ cái} (GL -- General Ledger, sổ kế toán của phòng Tài chính): \SoSoCaiNam{} USD.
+\end{itemize}
+Chênh lệch là \SoChenhLechNam{} USD, tức \SoPctNam{} so với Flash \nguon{QC}.
+
+Đây là một bài \textbf{đối soát}: so hai nguồn số để tìm ra chỗ lệch, đo từng khoản lệch, tách khoản nào là quy tắc ghi nhận hợp lệ với khoản nào là lỗi, và đề xuất thay đổi quy trình. Bài này \textbf{không} phân tích tăng trưởng, sản phẩm bán chạy hay mùa vụ.
+
+\subsection{Ba câu hỏi của Giám đốc Tài chính}
+
+\begin{enumerate}
+  \item Flash và sổ cái lệch bao nhiêu, theo tháng và theo kênh bán?
+  \item Chênh lệch gồm những khoản nào, mỗi khoản bao nhiêu tiền, khoản nào là lỗi?
+  \item Quy trình cần đổi gì để tháng sau đối soát nhanh hơn?
+\end{enumerate}
+
+\subsection{Ba câu hỏi riêng của nhóm}
+
+Ba câu hỏi của Giám đốc Tài chính trả lời "lệch bao nhiêu, gồm gì". Nhóm đặt thêm ba câu hỏi để biết \textbf{phần nào cần hành động}, mỗi câu đo được bằng một con số trong bảng của nhóm.
+
+\captab{Câu hỏi riêng của nhóm, thước đo và nơi lấy số}\nopagebreak[4]
+\begin{longtable}{@{}p{0.5cm} p{6.2cm} p{4.6cm} p{3.6cm}@{}}
+\toprule
+\# & Câu hỏi & Đo bằng & Lấy số ở \\
+\midrule
+\endhead
+Q1 & Trong \SoChenhLechNam{} USD chênh lệch, bao nhiêu là hợp lệ do hai bên ghi nhận khác nhau, bao nhiêu là lỗi dữ liệu cần sửa, bao nhiêu chưa giải thích được? & Tổng các khoản của bảng cầu nối theo 4 nhóm, và tỷ lệ trên độ lớn chênh lệch & Bảng cầu nối toàn công ty \nguon{BR-Tổng} \\
+\midrule
+Q2 & Sau khi trừ các khoản do quy tắc ghi nhận, tháng nào vẫn còn lệch vượt ngưỡng 200 USD, tức là tháng nào thật sự cần điều tra? & "Chênh lệch còn lại" từng tháng = chênh lệch $-$ các khoản quy tắc ghi nhận & Bảng cầu nối 12 tháng \nguon{BR-Tổng} \\
+\midrule
+Q3 & Các khoản lệch do thời điểm ghi nhận có tự bù trừ ở tháng sau không, và bao nhiêu tiền vắt qua năm nên không tự bù trong năm 2025? & Cặp tháng âm/dương của khoản lệch ngày ghi sổ và lệch thời điểm online; phần đơn đặt năm này giao năm sau & Bảng đối soát cửa hàng, online \nguon{RC-CH}, \nguon{RC-WEB} \\
+\bottomrule
+\end{longtable}
+
+\subsection{Quy ước chốt trước khi tính}
+
+Các quy ước dưới đây được chốt và lưu lên GitHub ngày 15/10/2026, \textbf{trước khi tính bất kỳ con số nào}, theo nguyên tắc "đặt ngưỡng trước khi nhìn số" của đề \cite{slide_project1}.
+
+\captab{Quy ước tính}\nopagebreak[4]
+\begin{longtable}{@{}p{4.2cm} p{10.8cm}@{}}
+\toprule
+Nội dung & Thống nhất \\
+\midrule
+\endhead
+Nguồn chuẩn & Sổ cái: đã khóa sổ từng tháng, ghi theo chuẩn mực kế toán VAS 14 \cite{vas14}, có giấy tờ làm căn cứ. \\
+Chênh lệch & Chênh lệch = Sổ cái $-$ Flash. Trong bảng cầu nối, khoản nào làm Flash cao hơn sổ cái thì ghi số âm. \\
+\% chênh lệch & Trên thẻ số liệu chính: chia cho Flash. Khi đánh dấu cửa hàng $\times$ tháng vượt ngưỡng: chia cho |sổ cái|. \\
+Ngưỡng phải giải thích & |Chênh lệch| $> 200$ USD \textbf{và} |\% chênh lệch| $> 1\%$, tính cho một cửa hàng trong một tháng, sau khi đã đưa hai bên về cùng cách tính. \\
+Sai số chấp nhận & Làm tròn $\le 5$ USD mỗi tháng; dòng kiểm tra của bảng cầu nối $\le 1$ USD. \\
+Thứ tự các bước cầu nối & Flash $\rightarrow$ chiết khấu $\rightarrow$ dòng POS trùng $\rightarrow$ đơn hủy $\rightarrow$ lệch thời điểm online $\rightarrow$ lệch ngày ghi sổ cửa hàng $\rightarrow$ lỗi chuyển dữ liệu $\rightarrow$ hàng trả $\rightarrow$ phí vận chuyển $\rightarrow$ (chuyển kênh, chỉ ở bảng theo kênh) $\rightarrow$ tỷ giá $\rightarrow$ làm tròn $\rightarrow$ chưa giải thích $\rightarrow$ sổ cái. Trừ chiết khấu trước để dòng trùng và đơn hủy được tính theo giá sau giảm giá, giống cách sổ cái ghi. \\
+Bút toán ADJ-0925 & Bút toán điều chỉnh 1.250 USD không có giấy tờ: luôn để ở dòng "Chưa giải thích được", không gộp vào khoản khác. \\
+\bottomrule
+\end{longtable}
+
+\begin{notebox}
+Ngày 18/10/2026 nhóm sửa một quy ước: dòng tỷ giá tính từ nội tệ chia tỷ giá, chưa làm tròn; phần sổ cái làm tròn từng bút toán đưa vào dòng làm tròn. Cách này đúng định nghĩa của đề (slide 34) và cho dòng làm tròn cả năm +1,01 USD như slide 32. Lý do và so sánh ở Phụ lục~D.
+\end{notebox}

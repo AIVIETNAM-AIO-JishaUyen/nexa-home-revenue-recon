@@ -1,0 +1,91 @@
+\section{Dữ liệu và chuẩn bị}
+
+\subsection{Bốn nguồn dữ liệu}
+
+Bốn nguồn ghi doanh thu ở bốn mức chi tiết khác nhau, nên không thể ghép từng dòng của nguồn này với từng dòng của nguồn kia (Bảng~\ref{tab:nguon}). Dữ liệu là bộ giả lập dựng từ Contoso Data Generator V2 \cite{contoso_v2}.
+
+\captab{Bốn nguồn dữ liệu: một dòng là gì, khóa, ngày, tiền, dấu}\label{tab:nguon}\nopagebreak[4]
+{\small
+\begin{longtable}{@{}p{2.6cm} p{3.4cm} p{2.4cm} p{3.0cm} p{3.4cm}@{}}
+\toprule
+Nguồn & Một dòng là & Khóa & Ngày & Tiền, dấu \\
+\midrule
+\endhead
+POS (Point of Sale, bán tại cửa hàng) & 1 món hàng trên 1 hóa đơn & \texttt{receipt\_no} + \texttt{line\_no} & Ngày bán & Nội tệ của nước có cửa hàng; dương \\
+\midrule
+WEB (đơn online) & 1 đơn hàng & \texttt{web\_order\_id} & Ngày đặt, ngày giao, ngày trả (kiểu Mỹ MM/DD/YYYY) & Tiền khách trả; dương \\
+\midrule
+Sổ cái & 1 bút toán, gộp cửa hàng $\times$ ngày ghi sổ hoặc ngày giao $\times$ loại tiền & \texttt{journal\_id} & Ngày ghi sổ & Nội tệ và USD theo tỷ giá cuối tháng; doanh thu âm, hàng trả dương \\
+\midrule
+Flash & 1 tháng $\times$ 1 kênh $\times$ 1 thị trường & Không có & Tháng đặt hàng & USD theo tỷ giá ngày đặt, làm tròn đến USD; dương \\
+\bottomrule
+\end{longtable}}
+
+\subsection{Mỗi bên ghi doanh thu thế nào: năm lý do lệch}
+
+Hai bên đều đúng theo cách của mình nhưng khác nhau ở năm điểm (đề gọi là "năm trục khác biệt"). Mục~IV chứng minh từng lý do bằng số trên dữ liệu.
+
+\captab{Quy tắc ghi nhận của từng bên}\nopagebreak[4]
+{\small
+\begin{longtable}{@{}p{2.6cm} p{4.0cm} p{4.2cm} p{4.0cm}@{}}
+\toprule
+Lý do lệch & Flash & Sổ cái -- cửa hàng & Sổ cái -- online \\
+\midrule
+\endhead
+Thời điểm & Ngày khách đặt hàng & Ngày ghi sổ; bán ngày nghỉ thì ghi ngày làm việc kế tiếp & Ngày giao thành công; hàng trả ghi giảm vào ngày nhận hàng trả \\
+Giá trị & Giá niêm yết, trước giảm giá & Sau giảm giá & Sau giảm giá \\
+Phạm vi & Gồm cả đơn sau đó bị hủy, không trừ hàng trả & Mọi hóa đơn POS & Không ghi đơn hủy, trừ hàng trả, có thêm bút toán tay phí vận chuyển \\
+Tiền tệ & Tỷ giá ngày đặt & Tỷ giá cuối tháng ghi sổ & Tỷ giá cuối tháng ghi sổ \\
+Mức chi tiết & Tháng $\times$ kênh $\times$ thị trường & Cửa hàng $\times$ ngày ghi sổ & Ngày giao $\times$ loại tiền \\
+\bottomrule
+\end{longtable}}
+
+\subsection{Nạp dữ liệu bằng Power Query}
+
+Toàn bộ dữ liệu được nạp và xử lý bằng Power Query (công cụ nạp và xử lý dữ liệu có sẵn trong Excel), theo luồng ở Hình~\ref{fig:luong}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=0.55cm and 0.55cm, every node/.style={font=\small},
+  hop/.style={draw=aivnGreen, rounded corners=3pt, fill=green!4, align=center, minimum height=1.1cm, text width=2.55cm},
+  mui/.style={-{Stealth[length=2.2mm]}, thick, color=black!60}]
+\node[hop] (tep) {4 file dữ liệu\\+ file danh mục\\(thư mục \texttt{data})};
+\node[hop, right=of tep] (nap) {8 truy vấn nạp\\\texttt{q\_POS}, \texttt{q\_WEB},\\\texttt{q\_GL}, \texttt{q\_FLASH}…};
+\node[hop, right=of nap] (gd) {Bảng giao dịch\\chung\\\texttt{q\_Transactions}};
+\node[hop, right=of gd] (ds) {Đối soát\\cửa hàng, online,\\hàng trả};
+\node[hop, below=of ds] (cn) {Bảng cầu nối\\\texttt{q\_BR\_Long},\\nhật ký ngoại lệ};
+\node[hop, below=of nap] (kt) {Kiểm tra tổng,\\5 bẫy, chênh lệch\\tháng và kênh};
+\draw[mui] (tep) -- (nap); \draw[mui] (nap) -- (gd); \draw[mui] (gd) -- (ds); \draw[mui] (ds) -- (cn);
+\draw[mui] (nap) -- (kt);
+\end{tikzpicture}
+
+\capfig{Luồng xử lý trong file Power Query. Mỗi truy vấn là một file \texttt{.m} (file code của Power Query) trong thư mục \texttt{excel/queries}.}\label{fig:luong}
+\end{figure}
+
+Bốn quyết định khi nạp:
+\begin{itemize}
+  \item \textbf{Một ô đường dẫn thư mục.} Mọi truy vấn đọc ô \texttt{FolderPath} rồi tìm file theo phần đầu tên, không ghi cứng đường dẫn hay năm. Thư mục phải có đúng 1 file khớp tên; nếu không, truy vấn báo lỗi rõ ràng thay vì lấy bừa.
+  \item \textbf{Đổi kiểu theo vùng en-US.} Mọi bước đổi kiểu số và ngày ghi rõ vùng English -- United States, để máy cài tiếng Việt vẫn đọc đúng.
+  \item \textbf{Giữ dòng trùng, chỉ đánh dấu.} 12 dòng POS bị xuất trùng được giữ lại kèm cờ và lý do, để số dòng khớp bảng tổng kiểm soát và để đo được số tiền của dòng trùng.
+  \item \textbf{Code truy vấn là bản gốc.} File Excel được dựng lại từ các file \texttt{.m} bằng một script, mọi bước có tên tiếng Việt và ghi chú.
+\end{itemize}
+
+\subsection{Năm bẫy khi nạp và cách xử lý}
+
+Bảng~\ref{tab:bay} lấy thẳng từ sheet \texttt{Bay\_du\_lieu}: mọi số được tính lại mỗi lần làm mới dữ liệu.
+
+\captab{Năm bẫy: số trước và sau khi xử lý}\label{tab:bay}\nopagebreak[4]
+\input{generated/bang_bay.tex}
+
+Bẫy nguy hiểm nhất là ngày kiểu Mỹ: nếu đọc theo kiểu ngày/tháng của Việt Nam, phần lớn đơn báo lỗi, nhưng hơn ba nghìn đơn còn lại \textbf{đọc được mà sai tháng}, không có cảnh báo nào.
+
+\subsection{Kiểm tra tổng}
+
+Sau khi nạp, sheet \texttt{Kiem\_tra} tự so 13 chỉ tiêu với bảng tổng kiểm soát QC\_Summary của đề: \SoQCDat/\SoQCTong{} chỉ tiêu khớp, chênh lệch bằng 0 \nguon{QC}.
+
+\captab{Kiểm tra tổng so với QC\_Summary}\nopagebreak[4]
+{\small\input{generated/bang_kiem_tra.tex}}
+
+\subsection{Cách tính thứ hai: mô hình Power BI}
+
+Để kiểm tra lại số của Power Query, nhóm dựng mô hình Power BI trên file dữ liệu mentor đã nối sẵn (\texttt{Nexa\_Home\_Recon\_Dataset.xlsx}): 6 bảng danh mục, 4 bảng giao dịch, nối với một bảng ngày. Ngày ghi nhận của sổ cái (ngày ghi sổ, ngày giao) là quan hệ chủ động; ngày bán, ngày đặt, ngày trả là quan hệ bị động, chỉ bật bằng hàm \texttt{USERELATIONSHIP} khi cần. Số tổng tính bằng DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI) khớp với Power Query ở cả năm, 12 tháng và 3 kênh. Phần so từng khoản cầu nối ở mục~IV.5.

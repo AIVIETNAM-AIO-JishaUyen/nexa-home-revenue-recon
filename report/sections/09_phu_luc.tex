@@ -1,0 +1,58 @@
+\section*{Phụ lục}
+\addcontentsline{toc}{section}{Phụ lục}
+\renewcommand{\thesubsection}{\Alph{subsection}.}
+\setcounter{subsection}{0}
+
+\subsection{Mã Power Query}
+\choviet{report-draft}
+
+\subsection{Nhật ký ngoại lệ đầy đủ}
+\choviet{bridge-template-log}
+
+\subsection{Bảng tra nhãn nguồn số liệu}
+
+Mỗi kết luận trong báo cáo ghi kèm nhãn cho biết con số lấy từ bảng nào.
+
+\captab{Nhãn nguồn số liệu}\nopagebreak[4]
+\begin{longtable}{@{}p{3.0cm} p{6.0cm} p{6.0cm}@{}}
+\toprule
+Nhãn & Bảng & Nơi xem trong file Excel Power Query \\
+\midrule
+\endhead
+\nguon{QC} & Kiểm tra tổng, 5 bẫy, chất lượng dữ liệu & Sheet \texttt{Kiem\_tra}, \texttt{Bay\_du\_lieu}; truy vấn \texttt{q\_Check}, \texttt{q\_Traps} \\
+\nguon{RC-CH} & Đối soát cửa hàng $\times$ ngày ghi sổ & Truy vấn \texttt{q\_RC\_Store} \\
+\nguon{RC-WEB} & Đối soát online $\times$ ngày giao $\times$ loại tiền & Truy vấn \texttt{q\_RC\_Web} \\
+\nguon{RC-RET} & Đối soát hàng trả $\times$ ngày trả $\times$ loại tiền & Truy vấn \texttt{q\_RC\_Return} \\
+\nguon{BR-Tổng} & Bảng cầu nối toàn công ty (dòng Flash, sổ cái: sheet \texttt{Chenh\_lech\_thang}) & Truy vấn \texttt{q\_BR\_Long}, cột \texttt{bridge} = COMPANY \\
+\nguon{BR-CH}, \nguon{BR-WEB} & Bảng cầu nối cửa hàng, online (dòng Flash, sổ cái: sheet \texttt{Chenh\_lech\_kenh}) & Truy vấn \texttt{q\_BR\_Long}, cột \texttt{bridge} = STORE, WEB \\
+\nguon{EX-xx} & Dòng xx của nhật ký ngoại lệ & Truy vấn \texttt{q\_ExceptionLog} \\
+\bottomrule
+\end{longtable}
+
+\subsection{Ba phiên bản số làm tròn}
+
+Đề có ba nguồn cho cùng một bảng cầu nối cả năm, khác nhau vài USD ở ba khoản (Bảng~\ref{tab:lamtron}). Tổng các khoản luôn đúng bằng chênh lệch; khác nhau chỉ ở chỗ phần làm tròn nằm ở dòng nào.
+
+\begin{table}[H]
+\captab{Ba phiên bản của ba khoản cầu nối cả năm, USD}\label{tab:lamtron}
+\centering
+\begin{tabular}{@{}p{7.2cm} r r r@{}}
+\toprule
+Nguồn & Chiết khấu & Tỷ giá & Làm tròn \\
+\midrule
+Nhóm: đổi tiền từ nội tệ $\div$ tỷ giá, không làm tròn từng dòng (định nghĩa slide 34) & $-$1.834.297,47 & $-$57.598,01 & +1,01 \\
+Slide 32 & $-$1.834.297 & $-$57.598 & +1,01 \\
+Dashboard mẫu của mentor: cộng các cột USD đã làm tròn sẵn từng dòng & $-$1.834.298,38 & $-$57.598,50 & +2,33 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Lý do nhóm chọn cách đầu: dòng làm tròn khi đó chỉ gồm phần Flash làm tròn từng dòng đến USD (+0,95) và phần sổ cái làm tròn từng bút toán đến 2 chữ số (+0,05), đúng nghĩa "làm tròn", và mỗi tháng không quá 1,83 USD (ngưỡng 5 USD). Số của nhóm ở bảng này hiện lấy từ bảng kiểm tra nội bộ viết bằng Python; sẽ thay bằng số của bảng cầu nối Power Query ở plan \texttt{bridge-monthly}.
+
+\subsection{So sánh khi đổi thứ tự các bước cầu nối}
+\choviet{bridge-template-log}
+
+\subsection{Khai báo dùng AI}
+
+Nhóm dùng trợ lý AI (trí tuệ nhân tạo) Claude để viết nháp code Power Query, DAX, script kiểm tra và một phần lời văn. Mỗi phần việc có một file plan trong thư mục \texttt{plans/} ghi rõ: nhờ AI làm gì, phần nào do AI viết ra, và nhóm kiểm tra lại bằng cách nào (so với bảng tổng kiểm soát của đề, với slide, với một cách tính độc lập). Bảng tổng hợp đầy đủ:
+\choviet{report-draft}
