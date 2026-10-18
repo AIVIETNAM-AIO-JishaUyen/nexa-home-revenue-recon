@@ -7,7 +7,9 @@
 \choviet{report-draft}
 
 \subsection{Nhật ký ngoại lệ đầy đủ}
-\choviet{bridge-template-log}
+Sinh từ truy vấn \texttt{q\_ExceptionLog} (sheet \texttt{Nhat\_ky\_du\_lieu}); sheet \texttt{Nhat\_ky\_ngoai\_le} của file mẫu đọc lại đúng bảng này. Cột ``Phát hiện ở bước'' và ``Nguồn'' xem trong file Excel.
+
+\input{generated/bang_nhat_ky.tex}
 
 \subsection{Bảng tra nhãn nguồn số liệu}
 
@@ -50,7 +52,13 @@ Dashboard mẫu của mentor: cộng các cột USD đã làm tròn sẵn từng
 Lý do nhóm chọn cách đầu: dòng làm tròn khi đó chỉ gồm phần Flash làm tròn từng dòng đến USD (khoảng +0,95) và phần sổ cái làm tròn từng bút toán đến 2 chữ số (khoảng +0,05), đúng nghĩa ``làm tròn'', và mỗi tháng không quá \SoBRLamTronMax{} USD (ngưỡng 5 USD). Số của nhóm ở bảng này lấy từ bảng cầu nối Power Query \nguon{BR-Tổng}; bảng tính kiểm tra viết bằng Python ra cùng số.
 
 \subsection{So sánh khi đổi thứ tự các bước cầu nối}
-\choviet{bridge-template-log}
+Cùng một khoản lệch có thể ra số khác nhau tùy bước nào tính trước, dù tổng các khoản không đổi (Bảng~\ref{tab:doithutu}). Ví dụ dòng POS trùng tính trước chiết khấu thì thành \SoDoiTrungMoi{} USD (theo giá trước giảm giá); hàng trả tính sau tỷ giá thì thành \SoDoiTraMoi{} USD (theo tỷ giá ngày trả), còn dòng tỷ giá thành \SoDoiTyGiaMoi{}. Vì vậy thứ tự các bước được chốt trước khi tính và ghi rõ trong quy ước. Nhóm chọn tính chiết khấu trước mọi khoản khác để các khoản sau đều đo theo giá thực bán, và đổi mọi khoản theo tỷ giá ngày đặt để toàn bộ phần do tỷ giá nằm ở một dòng.
+
+\begin{table}[H]
+\captab{Số của hai khoản khi đổi thứ tự các bước, USD cả năm toàn công ty \nguon{BR-Tổng}}\label{tab:doithutu}
+\centering
+\input{generated/bang_doi_thu_tu.tex}
+\end{table}
 
 \subsection{Khai báo dùng AI}
 

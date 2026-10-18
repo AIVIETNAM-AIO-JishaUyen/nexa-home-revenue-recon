@@ -313,6 +313,28 @@ write("bang_con_lai.tex", "\n".join([
     r"Tháng & Lỗi dữ liệu & \makecell[r]{Chưa giải\\thích được} & \makecell[r]{Sai số\\chấp nhận} & \makecell[r]{Còn lại sau khi trừ\\quy tắc ghi nhận} & \makecell[c]{Vượt\\200 USD} \\",
     r"\midrule", *rows, r"\bottomrule", r"\end{tabular}", ""]))
 
+# ---------------------------------------------------------------- Nhật ký ngoại lệ (sheet Nhat_ky_du_lieu) và bảng đổi thứ tự (sheet Doi_thu_tu)
+nk = sheet("Nhat_ky_du_lieu")
+rows = [f"{r['Mã']} & {esc(r['Mô tả'])} & {vn(r['Ảnh hưởng (USD)'], 2)} & {esc(r['Kỳ'])} & {esc(r['Phân loại'])} & {esc(r['Hướng xử lý'])} & "
+        f"{esc(r['Người phụ trách'])}; {esc(r['Trạng thái'])} \\\\" for _, r in nk.iterrows()]
+write("bang_nhat_ky.tex", "\n".join([
+    r"{\scriptsize", r"\begin{longtable}{@{}L{0.85cm} L{4.05cm} r L{1.6cm} L{1.6cm} L{2.85cm} L{1.7cm}@{}}", r"\toprule",
+    r"Mã & Mô tả & USD & Kỳ & Phân loại & Hướng xử lý & Phụ trách; trạng thái \\", r"\midrule", r"\endhead",
+    *rows, r"\midrule", f"& \\textbf{{Tổng (= chênh lệch sổ cái $-$ Flash cả năm)}} & \\textbf{{{vn(nk['Ảnh hưởng (USD)'].sum(), 2)}}} & & & & \\\\",
+    r"\bottomrule", r"\end{longtable}}", ""]))
+od = sheet("Doi_thu_tu")
+rows = []
+for r in od.itertuples():
+    # Mỗi cách đổi: một dòng tên in nghiêng trải hết bảng, rồi hai khoản bị ảnh hưởng
+    rows.append(f"\\multicolumn{{4}}{{@{{}}l}}{{\\textit{{{r.stt}. {esc(r.cach_doi)}}}}} \\\\")
+    rows.append(f"\\quad {esc(r.khoan_1)} & {vn(r.cu_1, 2)} & {vn(r.moi_1, 2)} & {vn(r.moi_1 - r.cu_1, 2)} \\\\")
+    rows.append(f"\\quad {esc(r.khoan_2)} & {vn(r.cu_2, 2)} & {vn(r.moi_2, 2)} & {vn(r.moi_2 - r.cu_2, 2)} \\\\")
+    rows.append(r"\midrule")
+write("bang_doi_thu_tu.tex", "\n".join([
+    r"{\small", r"\begin{tabular}{@{}l r r r@{}}", r"\toprule",
+    r"Cách đổi thứ tự và khoản bị ảnh hưởng & Thứ tự đã chốt & Khi đổi & Thay đổi \\", r"\midrule",
+    *rows[:-1], r"\bottomrule", r"\end{tabular}}", ""]))
+
 # ---------------------------------------------------------------- Vài con số dùng trong lời văn (macro LaTeX), để không gõ tay
 web = body[body.channel_code == "WEB"].iloc[0]
 macros = {
@@ -386,5 +408,14 @@ macros.update({
     "SoThangConLai": str(int(rem.vuot.sum())),
     "SoThangConLaiDS": ", ".join(f"tháng {int(p[-2:])}" for p in rem.index[rem.vuot]),
     "SoQuyTacNam": vn(Y[rule].sum(), 2), "SoConLaiNam": vn(rem.con_lai.sum(), 2),
+})
+# Số của nhật ký ngoại lệ và bảng đổi thứ tự
+tt = nk["Trạng thái"].value_counts()
+O = od.set_index("stt")
+macros.update({
+    "SoNhatKyDong": str(len(nk)), "SoNhatKyTong": vn(nk["Ảnh hưởng (USD)"].sum(), 2),
+    "SoNhatKyTrangThai": "; ".join(f"{k}: {v}" for k, v in tt.items()),
+    "SoDoiTrungMoi": vn(O.loc[1, "moi_1"], 2), "SoDoiHuyMoi": vn(O.loc[2, "moi_1"], 2), "SoDoiTraMoi": vn(O.loc[3, "moi_1"], 2),
+    "SoDoiTyGiaMoi": vn(O.loc[3, "moi_2"], 2),
 })
 write("so_lieu.tex", "\n".join(f"\\newcommand{{\\{n}}}{{{v}}}" for n, v in macros.items()) + "\n")
