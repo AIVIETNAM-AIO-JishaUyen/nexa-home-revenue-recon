@@ -21,10 +21,290 @@ table _Measures
 		formatString: 0.00%
 		displayFolder: 1. Số tổng
 
-	/// Mẫu Δ % của slide 29: chia cho |sổ cái|. Dùng ở mức tháng, kênh. Cờ vượt ngưỡng cửa hàng × tháng dùng chênh lệch sau khi đưa về cùng cách tính (slide 30, plan dax-bridge), vì Flash không có số theo cửa hàng
+	/// Mẫu Δ % của slide 29: chia cho |sổ cái|. Dùng ở mức tháng, kênh. Cờ vượt ngưỡng cửa hàng × tháng không dùng công thức này mà dùng chênh lệch Sổ cái − POS sau khi đưa về cùng cách tính (thư mục 4, slide 30), vì Flash không có số theo cửa hàng
 	measure '% chênh lệch so với sổ cái' = DIVIDE ( [Chênh lệch], ABS ( [Sổ cái] ) )
 		formatString: 0.00%
 		displayFolder: 1. Số tổng
+
+	/// Dòng POS đã bỏ dòng xuất lặp, nội tệ ÷ tỷ giá ngày bán. Theo quan hệ đang dùng (ngày ghi sổ); muốn theo ngày bán thì bọc USERELATIONSHIP
+	measure 'Phần POS bỏ trùng (tỷ giá ngày bán)' =
+			SUMX ( FILTER ( fact_pos_line, NOT fact_pos_line[is_duplicate] ), fact_pos_line[net_amount_local] / fact_pos_line[fx_rate_daily] )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)\Phần tính chung
+
+	/// Đơn online chưa hủy (đã giao, kể cả đơn sau đó bị trả), nội tệ ÷ tỷ giá ngày đặt. Theo quan hệ đang dùng (ngày giao)
+	measure 'Phần online chưa hủy (tỷ giá ngày đặt)' =
+			SUMX ( FILTER ( fact_web_order, fact_web_order[order_status] <> "Cancelled" ), fact_web_order[net_amount_local] / fact_web_order[fx_rate_order_date] )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)\Phần tính chung
+
+	/// Đơn bị trả, xếp theo ngày nhận hàng trả, nội tệ ÷ tỷ giá ngày đặt (số dương)
+	measure 'Phần hàng trả theo ngày trả (tỷ giá ngày đặt)' =
+			CALCULATE (
+			    SUMX ( FILTER ( fact_web_order, fact_web_order[order_status] = "Returned" ), fact_web_order[net_amount_local] / fact_web_order[fx_rate_order_date] ),
+			    USERELATIONSHIP ( fact_web_order[return_date], dim_date[date] )
+			)
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)\Phần tính chung
+
+	/// Doanh thu sổ cái tính lại = −nội tệ ÷ tỷ giá cuối tháng, chưa làm tròn từng bút toán
+	measure 'Phần sổ cái chưa làm tròn' =
+			SUMX ( fact_gl_entry, - fact_gl_entry[amount_local] / fact_gl_entry[fx_rate_month_end] )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)\Phần tính chung
+
+	/// So ô cửa hàng × ngày ghi sổ: bút toán POS trên sổ cái (POS_DAILY, POS_CATCHUP) trừ dòng POS bỏ trùng, cả hai theo tỷ giá ngày của ngày ghi sổ. Ô khớp có hiệu bằng 0, nên tổng chỉ còn các ô lệch
+	measure 'Phần lỗi chuyển dữ liệu (chưa lọc kỳ)' =
+			SUMX (
+			    FILTER ( fact_gl_entry, fact_gl_entry[journal_type] IN { "POS_DAILY", "POS_CATCHUP" } ),
+			    - fact_gl_entry[amount_local] / fact_gl_entry[fx_rate_daily_posting]
+			)
+			    - SUMX ( FILTER ( fact_pos_line, NOT fact_pos_line[is_duplicate] ), fact_pos_line[net_amount_local] / fact_pos_line[fx_rate_daily_posting] )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)\Phần tính chung
+
+	/// Doanh số Flash, chỉ các tháng đối soát
+	measure 'Flash trong kỳ' =
+			CALCULATE ( [Flash], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 1. Chiết khấu của mọi dòng POS (kể cả dòng trùng, theo ngày bán) và mọi đơn online (kể cả đơn hủy, theo ngày đặt), theo tỷ giá ngày bán / ngày đặt; ghi âm
+	measure 'Chiết khấu' =
+			CALCULATE (
+			    - CALCULATE ( SUMX ( fact_pos_line, fact_pos_line[discount_amount_local] / fact_pos_line[fx_rate_daily] ), USERELATIONSHIP ( fact_pos_line[business_date], dim_date[date] ) )
+			        - CALCULATE ( SUMX ( fact_web_order, fact_web_order[discount_amount_local] / fact_web_order[fx_rate_order_date] ), USERELATIONSHIP ( fact_web_order[order_date], dim_date[date] ) ),
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 2. Dòng POS xuất lặp, giá sau giảm giá, theo ngày bán và tỷ giá ngày bán; ghi âm (Flash đếm cả bản trùng)
+	measure 'Dòng POS bị trùng' =
+			CALCULATE (
+			    - CALCULATE (
+			        SUMX ( FILTER ( fact_pos_line, fact_pos_line[is_duplicate] ), fact_pos_line[net_amount_local] / fact_pos_line[fx_rate_daily] ),
+			        USERELATIONSHIP ( fact_pos_line[business_date], dim_date[date] )
+			    ),
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 3. Đơn hủy, giá sau giảm giá, theo ngày đặt và tỷ giá ngày đặt; ghi âm (đơn hủy không có ngày giao)
+	measure 'Đơn online bị hủy' =
+			CALCULATE (
+			    - CALCULATE (
+			        SUMX ( FILTER ( fact_web_order, fact_web_order[order_status] = "Cancelled" ), fact_web_order[net_amount_local] / fact_web_order[fx_rate_order_date] ),
+			        USERELATIONSHIP ( fact_web_order[order_date], dim_date[date] )
+			    ),
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 4. Đơn chưa hủy theo tháng giao (sổ cái) trừ cùng các đơn đó theo tháng đặt (Flash), cùng tỷ giá ngày đặt
+	measure 'Lệch thời điểm online' =
+			CALCULATE (
+			    [Phần online chưa hủy (tỷ giá ngày đặt)]
+			        - CALCULATE ( [Phần online chưa hủy (tỷ giá ngày đặt)], USERELATIONSHIP ( fact_web_order[order_date], dim_date[date] ) ),
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 5. Dòng POS bỏ trùng theo tháng ghi sổ (sổ cái) trừ theo tháng bán (Flash), cùng tỷ giá ngày bán
+	measure 'Lệch ngày ghi sổ của cửa hàng' =
+			CALCULATE (
+			    [Phần POS bỏ trùng (tỷ giá ngày bán)]
+			        - CALCULATE ( [Phần POS bỏ trùng (tỷ giá ngày bán)], USERELATIONSHIP ( fact_pos_line[business_date], dim_date[date] ) ),
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 6. Ô cửa hàng × ngày ghi sổ mà sổ cái thiếu hoặc thừa so với POS, theo tỷ giá ngày của ngày ghi sổ
+	measure 'Lỗi chuyển dữ liệu' =
+			CALCULATE ( [Phần lỗi chuyển dữ liệu (chưa lọc kỳ)], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 7. Đơn bị trả, theo tháng nhận hàng trả, tỷ giá ngày đặt; ghi âm
+	measure 'Hàng trả lại' =
+			CALCULATE ( - [Phần hàng trả theo ngày trả (tỷ giá ngày đặt)], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 8. Bút toán tay MJ-SHIP (MJ = Manual Journal, bút toán tay) trên sổ cái, số sổ cái ghi
+	measure 'Phí vận chuyển' =
+			CALCULATE ( SUM ( fact_gl_entry[revenue_usd] ), LEFT ( fact_gl_entry[source_ref], 7 ) = "MJ-SHIP", KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 9 (chỉ ở bảng theo kênh). Bút toán tay MJ-RCL (RCL = Reclassification, phân loại lại) chuyển doanh thu giữa hai kênh; toàn công ty bằng 0
+	measure 'Chuyển kênh' =
+			CALCULATE ( SUM ( fact_gl_entry[revenue_usd] ), LEFT ( fact_gl_entry[source_ref], 6 ) = "MJ-RCL", KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 10 (slide 34). Bút toán sổ cái ghi tự động (POS và online) theo tỷ giá cuối tháng, chưa làm tròn, trừ cùng các giao dịch đó theo tỷ giá ngày bán / ngày đặt (POS bỏ trùng + lỗi chuyển dữ liệu; online chưa hủy − hàng trả)
+	measure 'Tỷ giá' =
+			CALCULATE (
+			    CALCULATE ( [Phần sổ cái chưa làm tròn], fact_gl_entry[journal_type] IN { "POS_DAILY", "POS_CATCHUP", "WEB_DELIVERY", "WEB_RETURN" } )
+			        - [Phần POS bỏ trùng (tỷ giá ngày bán)]
+			        - [Phần lỗi chuyển dữ liệu (chưa lọc kỳ)]
+			        - [Phần online chưa hủy (tỷ giá ngày đặt)]
+			        + [Phần hàng trả theo ngày trả (tỷ giá ngày đặt)],
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 11. (Giá trước giảm giá của mọi dòng POS và đơn online theo ngày bán / ngày đặt, chưa làm tròn − Flash) + (sổ cái đã làm tròn − sổ cái chưa làm tròn)
+	measure 'Làm tròn' =
+			CALCULATE (
+			    CALCULATE ( SUMX ( fact_pos_line, fact_pos_line[gross_amount_local] / fact_pos_line[fx_rate_daily] ), USERELATIONSHIP ( fact_pos_line[business_date], dim_date[date] ) )
+			        + CALCULATE ( SUMX ( fact_web_order, fact_web_order[gross_amount_local] / fact_web_order[fx_rate_order_date] ), USERELATIONSHIP ( fact_web_order[order_date], dim_date[date] ) )
+			        - [Flash]
+			        + SUM ( fact_gl_entry[revenue_usd] )
+			        - [Phần sổ cái chưa làm tròn],
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Khoản 12. Bút toán tay MJ-ADJ (ADJ-0925), không gắn kênh, không có giấy tờ; không gán vào khoản nào khác
+	measure 'Chưa giải thích được' =
+			CALCULATE ( SUM ( fact_gl_entry[revenue_usd] ), LEFT ( fact_gl_entry[source_ref], 6 ) = "MJ-ADJ", KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Doanh thu sổ cái, chỉ các tháng đối soát
+	measure 'Sổ cái trong kỳ' =
+			CALCULATE ( [Sổ cái], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Flash + các khoản − sổ cái; phải bằng 0. Mọi khoản tính trực tiếp, không khoản nào là phần dư
+	measure 'Kiểm tra cầu nối' =
+			[Flash trong kỳ] + [Chiết khấu] + [Dòng POS bị trùng] + [Đơn online bị hủy] + [Lệch thời điểm online] + [Lệch ngày ghi sổ của cửa hàng]
+			    + [Lỗi chuyển dữ liệu] + [Hàng trả lại] + [Phí vận chuyển] + [Chuyển kênh] + [Tỷ giá] + [Làm tròn] + [Chưa giải thích được]
+			    - [Sổ cái trong kỳ]
+		formatString: #,0.00
+		displayFolder: 2. Cầu nối (DAX)
+
+	/// Số của khoản đang chọn trong bảng danh mục khoản (dim_bridge_item), tính bằng DAX. Dùng cho bảng cầu nối và ô đối chiếu trên dashboard
+	measure 'Cầu nối (DAX)' =
+			SWITCH (
+			    SELECTEDVALUE ( dim_bridge_item[item_code] ),
+			    "flash", [Flash trong kỳ],
+			    "discount", [Chiết khấu],
+			    "pos_duplicate", [Dòng POS bị trùng],
+			    "cancelled", [Đơn online bị hủy],
+			    "online_timing", [Lệch thời điểm online],
+			    "store_posting", [Lệch ngày ghi sổ của cửa hàng],
+			    "transfer_error", [Lỗi chuyển dữ liệu],
+			    "returns", [Hàng trả lại],
+			    "shipping", [Phí vận chuyển],
+			    "channel_reclass", [Chuyển kênh],
+			    "fx", [Tỷ giá],
+			    "rounding", [Làm tròn],
+			    "unexplained", [Chưa giải thích được],
+			    "gl", [Sổ cái trong kỳ],
+			    "check", [Kiểm tra cầu nối]
+			)
+		formatString: #,0.00
+		displayFolder: 3. So với Power Query
+
+	/// Số của cùng khoản và tháng trong bảng cầu nối Power Query (pq_br_long). Chọn đúng 1 kênh thì lấy bảng của kênh đó, không thì lấy bảng toàn công ty
+	measure 'Cầu nối (Power Query)' =
+			VAR kenh =
+			    IF ( HASONEVALUE ( dim_channel[channel_code] ) && ISFILTERED ( dim_channel[channel_code] ), VALUES ( dim_channel[channel_code] ), "COMPANY" )
+			RETURN
+			    CALCULATE (
+			        SUM ( pq_br_long[usd] ),
+			        pq_br_long[bridge] = kenh,
+			        TREATAS ( CALCULATETABLE ( VALUES ( dim_date[period] ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) ), pq_br_long[period] )
+			    )
+		formatString: #,0.00
+		displayFolder: 3. So với Power Query
+
+	/// Phải bằng 0 (chấp nhận ≤ 0,01 USD). Ô trống ở một bên tính là 0
+	measure 'Lệch DAX − Power Query' =
+			( [Cầu nối (DAX)] + 0 ) - ( [Cầu nối (Power Query)] + 0 )
+		formatString: #,0.00
+		displayFolder: 3. So với Power Query
+
+	/// Bút toán doanh thu POS ghi tự động (POS_DAILY, POS_CATCHUP), theo tháng ghi sổ
+	measure 'Sổ cái bút toán POS' =
+			CALCULATE ( [Sổ cái], fact_gl_entry[journal_type] IN { "POS_DAILY", "POS_CATCHUP" } )
+		formatString: #,0.00
+		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
+
+	/// Cách dashboard mẫu: mọi dòng POS (kể cả dòng trùng), theo tháng bán, đổi theo tỷ giá cuối tháng bán
+	measure 'POS chưa xử lý' =
+			CALCULATE (
+			    SUMX ( fact_pos_line, fact_pos_line[net_amount_local] / fact_pos_line[fx_rate_month_end_sale] ),
+			    USERELATIONSHIP ( fact_pos_line[business_date], dim_date[date] )
+			)
+		formatString: #,0.00
+		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
+
+	/// Bỏ dòng trùng, theo tháng ghi sổ (quan hệ đang dùng), đổi theo tỷ giá cuối tháng ghi sổ – giống cách sổ cái ghi
+	measure 'POS cùng cách tính với sổ cái' =
+			SUMX ( FILTER ( fact_pos_line, NOT fact_pos_line[is_duplicate] ), fact_pos_line[net_amount_local] / fact_pos_line[fx_rate_month_end] )
+		formatString: #,0.00
+		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
+
+	/// Sổ cái − POS chưa xử lý, làm tròn 2 chữ số
+	measure 'Chênh lệch cửa hàng trước xử lý' =
+			ROUND ( [Sổ cái bút toán POS] - [POS chưa xử lý], 2 )
+		formatString: #,0.00
+		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
+
+	/// Sổ cái − POS cùng cách tính, làm tròn 2 chữ số. Còn lệch sau bước này thì là lỗi dữ liệu, không phải lệch thời điểm
+	measure 'Chênh lệch cửa hàng sau xử lý' =
+			ROUND ( [Sổ cái bút toán POS] - [POS cùng cách tính với sổ cái], 2 )
+		formatString: #,0.00
+		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
+
+	/// 1 nếu |chênh lệch| > 200 USD và > 1% của |sổ cái| (sổ cái = 0 thì chỉ xét 200 USD); dùng ở mức cửa hàng × tháng
+	measure 'Vượt ngưỡng trước xử lý' =
+			VAR d = [Chênh lệch cửa hàng trước xử lý]
+			VAR g = [Sổ cái bút toán POS]
+			RETURN
+			    IF ( ABS ( d ) > 200 && ( g = 0 || ABS ( d ) / ABS ( g ) > 0.01 ), 1, 0 )
+		formatString: 0
+		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
+
+	/// Như trên, với chênh lệch sau xử lý
+	measure 'Vượt ngưỡng sau xử lý' =
+			VAR d = [Chênh lệch cửa hàng sau xử lý]
+			VAR g = [Sổ cái bút toán POS]
+			RETURN
+			    IF ( ABS ( d ) > 200 && ( g = 0 || ABS ( d ) / ABS ( g ) > 0.01 ), 1, 0 )
+		formatString: 0
+		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
+
+	/// Đếm ô cửa hàng × tháng vượt ngưỡng (chỉ cửa hàng kênh STORE, tháng đối soát); SUMX tính lại cờ cho từng ô
+	measure 'Số ô vượt ngưỡng trước xử lý' =
+			CALCULATE (
+			    SUMX ( CROSSJOIN ( VALUES ( dim_date[period] ), VALUES ( dim_store[store_key] ) ), [Vượt ngưỡng trước xử lý] ),
+			    KEEPFILTERS ( dim_store[channel_code] = "STORE" ),
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: 0
+		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
+
+	/// Như trên, sau xử lý
+	measure 'Số ô vượt ngưỡng sau xử lý' =
+			CALCULATE (
+			    SUMX ( CROSSJOIN ( VALUES ( dim_date[period] ), VALUES ( dim_store[store_key] ) ), [Vượt ngưỡng sau xử lý] ),
+			    KEEPFILTERS ( dim_store[channel_code] = "STORE" ),
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: 0
+		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
 
 	column GhiChu
 		dataType: string

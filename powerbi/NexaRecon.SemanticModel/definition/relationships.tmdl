@@ -74,3 +74,6 @@ relationship web_order_status
 	fromColumn: fact_web_order.order_status
 	toColumn: dim_order_status.order_status
 
+relationship pq_br_long_item
+	fromColumn: pq_br_long.item_code
+	toColumn: dim_bridge_item.item_code

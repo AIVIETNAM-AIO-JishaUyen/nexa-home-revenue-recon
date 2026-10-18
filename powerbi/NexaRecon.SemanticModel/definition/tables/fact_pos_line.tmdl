@@ -113,6 +113,21 @@ table fact_pos_line
 		summarizeBy: none
 		sourceColumn: export_seq
 
+	/// Dòng xuất lặp: cùng số hóa đơn + số dòng với một dòng khác, và là lần xuất sau (export_seq lớn hơn lần xuất đầu)
+	column is_duplicate = fact_pos_line[export_seq] > CALCULATE ( MIN ( fact_pos_line[export_seq] ), ALLEXCEPT ( fact_pos_line, fact_pos_line[receipt_no], fact_pos_line[line_no] ) )
+		dataType: boolean
+		summarizeBy: none
+
+	/// Tỷ giá ngày của NGÀY GHI SỔ (không phải ngày bán), dùng cho khoản lỗi chuyển dữ liệu: so ô cửa hàng × ngày ghi sổ theo cùng một tỷ giá với sổ cái
+	column fx_rate_daily_posting = LOOKUPVALUE ( fact_fx_daily[usd_to_ccy], fact_fx_daily[date], fact_pos_line[posting_date], fact_fx_daily[currency], fact_pos_line[currency] )
+		dataType: double
+		summarizeBy: none
+
+	/// Tỷ giá cuối THÁNG BÁN (tháng của business_date), dùng cho chênh lệch cửa hàng × tháng "trước xử lý"
+	column fx_rate_month_end_sale = LOOKUPVALUE ( fact_fx_month_end[usd_to_ccy], fact_fx_month_end[month_end_date], EOMONTH ( fact_pos_line[business_date], 0 ), fact_fx_month_end[currency], fact_pos_line[currency] )
+		dataType: double
+		summarizeBy: none
+
 	partition fact_pos_line = m
 		mode: import
 		source =

@@ -101,6 +101,11 @@ table dim_date
 		summarizeBy: none
 		sourceColumn: is_fiscal_2025
 
+	/// TRUE nếu tháng của ngày này có trong Flash: kỳ đối soát = các tháng có trong Flash (không ghi cứng năm). Mọi công thức cầu nối chỉ tính trong các tháng này
+	column trong_ky_doi_soat = dim_date[month_end_date] IN ALL ( fact_sales_flash[month_end_date] )
+		dataType: boolean
+		summarizeBy: none
+
 	partition dim_date = m
 		mode: import
 		source =

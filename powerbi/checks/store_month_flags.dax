@@ -1,0 +1,8 @@
+// Số ô cửa hàng × tháng vượt ngưỡng (200 USD và 1% của |sổ cái|), trước và sau khi đưa về cùng cách tính; cả kỳ và riêng tháng 11
+EVALUATE
+ROW (
+    "ca_ky_truoc", [Số ô vượt ngưỡng trước xử lý],
+    "ca_ky_sau", [Số ô vượt ngưỡng sau xử lý],
+    "thang_11_truoc", CALCULATE ( [Số ô vượt ngưỡng trước xử lý], dim_date[month] = 11 ),
+    "thang_11_sau", CALCULATE ( [Số ô vượt ngưỡng sau xử lý], dim_date[month] = 11 )
+)

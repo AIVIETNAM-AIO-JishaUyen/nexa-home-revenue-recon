@@ -1,0 +1,37 @@
+// So từng khoản cầu nối: DAX (tính lại từ dữ liệu mentor) với Power Query (bảng q_BR_Long), mỗi bảng × tháng × khoản
+// Toàn công ty: không lọc kênh. Theo kênh: nhóm theo dim_channel (STORE, WEB, UNALLOCATED)
+EVALUATE
+VAR toan_cong_ty =
+    SELECTCOLUMNS (
+        SUMMARIZECOLUMNS (
+            dim_date[period],
+            dim_bridge_item[item_code],
+            TREATAS ( { TRUE () }, dim_date[trong_ky_doi_soat] ),
+            "dax", [Cầu nối (DAX)],
+            "pq", [Cầu nối (Power Query)]
+        ),
+        "bridge", "COMPANY",
+        "period", dim_date[period],
+        "item_code", dim_bridge_item[item_code],
+        "dax", [dax],
+        "pq", [pq]
+    )
+VAR theo_kenh =
+    SELECTCOLUMNS (
+        SUMMARIZECOLUMNS (
+            dim_channel[channel_code],
+            dim_date[period],
+            dim_bridge_item[item_code],
+            TREATAS ( { TRUE () }, dim_date[trong_ky_doi_soat] ),
+            "dax", [Cầu nối (DAX)],
+            "pq", [Cầu nối (Power Query)]
+        ),
+        "bridge", dim_channel[channel_code],
+        "period", dim_date[period],
+        "item_code", dim_bridge_item[item_code],
+        "dax", [dax],
+        "pq", [pq]
+    )
+RETURN
+    UNION ( toan_cong_ty, theo_kenh )
+ORDER BY [bridge], [period], [item_code]

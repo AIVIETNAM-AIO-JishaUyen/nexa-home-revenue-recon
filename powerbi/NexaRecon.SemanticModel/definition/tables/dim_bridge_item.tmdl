@@ -1,0 +1,34 @@
+/// Danh mục khoản cầu nối: mã, thứ tự, tên, nhóm. Đọc từ bảng q_BridgeItems của file Power Query để hai cách tính dùng chung một danh mục
+table dim_bridge_item
+
+	column item_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: item_code
+
+	column item_order
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: item_order
+
+	column item_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: item_name
+		sortByColumn: item_order
+
+	column item_group
+		dataType: string
+		summarizeBy: none
+		sourceColumn: item_group
+
+	partition dim_bridge_item = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(PQFile), null, true),
+				    LayBang = Nguon{[Item = "q_BridgeItems", Kind = "Table"]}[Data],
+				    ChonCot = Table.SelectColumns(LayBang, {"item_code", "item_order", "item_name", "item_group"}),
+				    DoiKieu = Table.TransformColumnTypes(ChonCot, {{"item_code", type text}, {"item_order", Int64.Type}, {"item_name", type text}, {"item_group", type text}}, "en-US")
+				in
+				    DoiKieu

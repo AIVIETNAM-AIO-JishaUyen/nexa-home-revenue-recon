@@ -1,0 +1,15 @@
+// Cửa hàng × tháng: chênh lệch Sổ cái − POS trước và sau khi đưa về cùng cách tính, cờ vượt ngưỡng (slide 30)
+// So với sheet Doi_soat_CH_thang (truy vấn q_RC_Store_Month) của file Power Query
+EVALUATE
+SUMMARIZECOLUMNS (
+    dim_store[finance_store_code],
+    dim_date[period],
+    TREATAS ( { TRUE () }, dim_date[trong_ky_doi_soat] ),
+    TREATAS ( { "STORE" }, dim_store[channel_code] ),
+    "gl_usd", [Sổ cái bút toán POS],
+    "diff_raw_usd", [Chênh lệch cửa hàng trước xử lý],
+    "diff_norm_usd", [Chênh lệch cửa hàng sau xử lý],
+    "flag_raw", [Vượt ngưỡng trước xử lý],
+    "flag_norm", [Vượt ngưỡng sau xử lý]
+)
+ORDER BY dim_date[period], dim_store[finance_store_code]

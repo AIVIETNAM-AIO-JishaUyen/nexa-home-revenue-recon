@@ -3,3 +3,7 @@ expression DataFolder = "D:\DS-AI\AIO-BA\Sale-Domain-ProjectI\data\" meta [IsPar
 
 	annotation PBI_ResultType = Text
 
+/// Đường dẫn file Power Query (excel/Nexa_Home_Recon_PQ.xlsx). Dùng để đọc danh mục khoản và bảng cầu nối dạng dài, so với công thức DAX. Đổi máy thì sửa ở Home > Transform data > Edit parameters, rồi bấm Refresh.
+expression PQFile = "D:\DS-AI\AIO-BA\Sale-Domain-ProjectI\excel\Nexa_Home_Recon_PQ.xlsx" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+
+	annotation PBI_ResultType = Text

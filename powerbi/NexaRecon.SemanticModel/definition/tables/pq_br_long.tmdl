@@ -1,0 +1,34 @@
+/// Bảng cầu nối dạng dài do Power Query tính (bảng q_BR_Long, 708 dòng): bảng (COMPANY, STORE, WEB, UNALLOCATED) × tháng × khoản. Chỉ dùng để so với công thức DAX
+table pq_br_long
+
+	column bridge
+		dataType: string
+		summarizeBy: none
+		sourceColumn: bridge
+
+	column period
+		dataType: string
+		summarizeBy: none
+		sourceColumn: period
+
+	column item_code
+		dataType: string
+		summarizeBy: none
+		sourceColumn: item_code
+
+	column usd
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: usd
+
+	partition pq_br_long = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(PQFile), null, true),
+				    LayBang = Nguon{[Item = "q_BR_Long", Kind = "Table"]}[Data],
+				    ChonCot = Table.SelectColumns(LayBang, {"bridge", "period", "item_code", "usd"}),
+				    DoiKieu = Table.TransformColumnTypes(ChonCot, {{"bridge", type text}, {"period", type text}, {"item_code", type text}, {"usd", type number}}, "en-US")
+				in
+				    DoiKieu

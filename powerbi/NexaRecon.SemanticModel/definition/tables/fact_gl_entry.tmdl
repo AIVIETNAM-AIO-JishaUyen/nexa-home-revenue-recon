@@ -83,6 +83,11 @@ table fact_gl_entry
 		summarizeBy: none
 		sourceColumn: source_ref
 
+	/// Tỷ giá ngày của ngày ghi sổ, dùng cho khoản lỗi chuyển dữ liệu
+	column fx_rate_daily_posting = LOOKUPVALUE ( fact_fx_daily[usd_to_ccy], fact_fx_daily[date], fact_gl_entry[posting_date], fact_fx_daily[currency], fact_gl_entry[currency] )
+		dataType: double
+		summarizeBy: none
+
 	partition fact_gl_entry = m
 		mode: import
 		source =
