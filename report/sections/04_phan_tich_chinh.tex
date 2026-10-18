@@ -174,7 +174,7 @@ Ba điểm thiết kế:
 \end{itemize}
 Còn hai phần của yêu cầu chưa làm: nút ``Đặt lại'' đưa mọi bộ lọc về mặc định, và tô tháng đang chọn trên các biểu đồ, bảng 12 tháng (hiện mọi tháng đều có nhãn số, nhưng không thấy tháng nào đang được chọn).
 
-Số trên dashboard khớp Power Query. Truy vấn DAX \texttt{powerbi/checks/dashboard\_numbers.dax} cho ra:
+Số trên dashboard khớp Power Query. Truy vấn DAX kiểm tra (file \texttt{dashboard\_numbers.dax} trong \texttt{powerbi/checks}) cho ra:
 \begin{itemize}
   \item 4 nhóm cả năm đúng bằng bảng cầu nối.
   \item \SoOCuaHang{} ô cửa hàng $\times$ ngày; \SoDashOLechGhiSo{} ô lệch khi so theo ngày ghi sổ, so với \SoDashOLechNgayBan{} ô nếu so theo ngày bán.

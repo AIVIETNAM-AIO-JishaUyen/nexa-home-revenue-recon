@@ -1,2 +1,48 @@
 \section{Đề xuất cải tiến quy trình}
-\choviet{conclusions}
+
+\subsection{Đề xuất xếp theo lợi ích so với công sức}
+
+Mỗi đề xuất gắn với một khoản lệch đã đo được. Bảng~\ref{tab:dexuat} xếp các đề xuất theo lợi ích so với công sức: việc lợi nhiều, tốn ít công đứng trước.
+
+\begin{table}[H]
+\captab{Đề xuất cải tiến, theo thứ tự ưu tiên}\label{tab:dexuat}
+\centering
+{\scriptsize
+\begin{tabular}{@{}L{0.3cm} L{3.6cm} L{1.6cm} L{2.0cm} L{3.4cm} L{3.4cm}@{}}
+\toprule
+\# & Đề xuất & Bộ phận & Khi nào & Chỉ số theo dõi (mục tiêu) & Lợi ích / công sức \\
+\midrule
+1 & Trước khi khóa sổ mỗi tháng, so từng ô cửa hàng $\times$ ngày ghi sổ giữa POS và sổ cái; ô lệch phải xử lý xong mới khóa & Tài chính & Mỗi tháng, trước ngày khóa sổ & Số ô lệch còn mở khi khóa sổ (= 0) & Bắt được lỗi NX057 (7.227,56 USD) trước khi tháng 11 bị chốt. Truy vấn đã có sẵn, chạy khoảng 3 phút \\
+2 & Chặn xuất trùng ở hệ thống POS; khi nạp thì kiểm tra khóa số hóa đơn + số dòng & IT (công nghệ thông tin) & Ngay & Số dòng trùng mỗi tháng (= 0) & Bỏ khoản \SoNhomLoi{} USD. Phép kiểm tra đã có trong file \\
+3 & Mọi bút toán tay phải có mã tham chiếu, giấy tờ và gắn kênh; bút toán chưa đủ thì không được khóa sổ & Tài chính & Ngay; xử lý ADJ-0925 trong kỳ này & Số bút toán tay thiếu giấy tờ (= 0) & Giải quyết khoản \SoNhomChuaGT{} USD chưa giải thích được. Chỉ cần thêm một quy định \\
+4 & Flash báo thêm doanh số thuần (trừ chiết khấu, đơn hủy, hàng trả) bên cạnh doanh số gộp hiện nay & Kinh doanh & Từ báo cáo tháng sau & \% chênh lệch giữa Flash thuần và sổ cái (dưới 1\%) & Chênh lệch cả năm từ \SoPctNam{} còn \SoFlashThuanTraPct{}. Phải sửa mẫu báo cáo Flash \\
+5 & Ghi rõ trên Flash: doanh thu online tính theo ngày đặt, sổ cái theo ngày giao; kèm bảng đơn đặt chưa giao cuối tháng & Kinh doanh, Tài chính & Mỗi tháng & Số tiền đơn chưa giao cuối tháng & Giải thích ngay khoản lệch thời điểm (tháng 3: +\SoLechOnlineMax{} USD). Công sức thấp \\
+6 & Theo dõi hàng trả sau ngày lấy dữ liệu (đơn giao cuối năm bị trả đầu năm sau) & Tài chính & Đầu mỗi năm, tháng 1 & Hàng trả của đơn năm trước (năm 2025: 7 đơn trong tháng 01/2026) & Tránh bất ngờ ở kỳ sau. Công sức thấp \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Đề xuất 1–3 sửa ba lỗi đã thấy và gần như không tốn công, vì phép kiểm tra đã có trong file Power Query. Đề xuất 4 có lợi nhất về lâu dài: hai phòng sẽ so cùng một thứ, nhưng phải sửa mẫu báo cáo của phòng Kinh doanh nên đặt sau.
+
+\subsection{Danh sách việc trước khi khóa sổ mỗi tháng}
+
+\begin{notebox}
+\begin{enumerate}
+  \item Thay 4 file dữ liệu và file danh mục bản mới vào thư mục, mở file Power Query, chọn Data > Refresh All (khoảng 3 phút).
+  \item Sheet \texttt{Kiem\_tra}: 13 chỉ tiêu đều \texttt{TRUE}. Sheet \texttt{Chat\_luong\_du\_lieu}: xem mọi dòng ``Cần xem''.
+  \item Sheet \texttt{Doi\_soat\_CH\_ngay}: không còn ô nào khác ``Khớp'' trong tháng sắp khóa. Nếu còn, hỏi IT và kế toán cửa hàng trước khi khóa.
+  \item Sheet \texttt{Doi\_soat\_online}, \texttt{Doi\_soat\_hang\_tra}: mọi ô trong kỳ ``Khớp''.
+  \item Sheet \texttt{Canh\_bao\_cau\_noi}: tháng sắp khóa không có dòng ``Cần xem''. Nếu có, ghi vào nhật ký ngoại lệ trước khi khóa.
+  \item Bút toán tay của tháng: đủ mã tham chiếu, giấy tờ, kênh.
+  \item Cập nhật trạng thái các dòng còn treo trong nhật ký ngoại lệ, gửi bảng cầu nối cho Giám đốc Tài chính.
+\end{enumerate}
+\end{notebox}
+
+\subsection{Hai cách xử lý tỷ giá}
+
+Flash đổi ra USD theo tỷ giá ngày giao dịch, sổ cái theo tỷ giá cuối tháng. Bảng cầu nối có thể xử lý phần lệch này theo hai cách:
+\begin{itemize}
+  \item \textbf{Cách nhóm chọn (một dòng tỷ giá riêng).} Mọi khoản đổi theo tỷ giá ngày đặt / ngày bán, giống Flash. Toàn bộ phần do tỷ giá dồn vào một dòng: \SoTyGia{} USD, đúng định nghĩa slide 34. Ưu điểm: mỗi khoản khác chỉ phản ánh đúng một nguyên nhân; Giám đốc Tài chính thấy ngay tỷ giá ảnh hưởng bao nhiêu.
+  \item \textbf{Cách khác (đổi mỗi khoản theo tỷ giá của sổ cái).} Mỗi khoản đổi theo tỷ giá cuối tháng, giống sổ cái. Khi đó phần tỷ giá rải vào từng khoản. Ví dụ hàng trả thành \SoTienTraSoCai{} USD thay vì \SoTienTra{} USD, và dòng tỷ giá thành \SoDoiTyGiaMoi{} USD (Phụ lục~E). Ưu điểm: từng khoản khớp đúng số sổ cái ghi. Nhược điểm: mỗi khoản lẫn một phần tỷ giá, tháng tỷ giá biến động mạnh thì khó giải thích.
+\end{itemize}
+Nhóm giữ cách thứ nhất. Lý do là đề hỏi ``khoản nào gây lệch'', nên mỗi dòng của bảng cầu nối chỉ nên có một nguyên nhân.

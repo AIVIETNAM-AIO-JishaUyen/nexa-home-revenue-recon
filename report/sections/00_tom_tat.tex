@@ -3,5 +3,22 @@
 Năm 2025, báo cáo nhanh doanh số của phòng Kinh doanh (Flash) ghi \SoFlashNam{} USD (đô la Mỹ), sổ cái của phòng Tài chính ghi \SoSoCaiNam{} USD. Chênh lệch sổ cái $-$ Flash là \SoChenhLechNam{} USD, tức \SoPctNam{} so với Flash \nguon{QC}. Sổ cái thấp hơn Flash ở \SoThangThap{}/12 tháng; riêng tháng 3 sổ cái cao hơn \SoThangBaChenhLech{} USD \nguon{BR-Tổng}. Kênh online chiếm \SoOnlineTyTrong{} phần chênh lệch \nguon{BR-WEB}.
 
 \smallskip
-\noindent\textit{Phần trả lời ``vì sao lệch, khoản nào là lỗi, ai cần sửa gì'' được viết sau khi xong bảng cầu nối (plan \texttt{conclusions}).}
+\noindent\textbf{Vì sao lệch.} \SoNhomQuyTacPct{} chênh lệch (\SoNhomQuyTac{} USD) là do hai phòng ghi theo quy tắc khác nhau. Flash tính giá trước chiết khấu (\SoChietKhau{} USD), tính cả đơn hủy, không trừ hàng trả, ghi đơn online theo ngày đặt. Sổ cái làm ngược lại \nguon{BR-Tổng}. Nếu Flash báo thêm doanh số thuần, chênh lệch chỉ còn \SoFlashThuanTraPct{}.
+
+\smallskip
+\noindent\textbf{Khoản nào là lỗi.} Chỉ có 2 lỗi dữ liệu và 1 khoản chưa giải thích được:
+\begin{itemize}
+  \item 12 dòng POS bị xuất trùng: \SoNhomLoi{} USD.
+  \item Ngày 21/11 cửa hàng NX057 thiếu bút toán \SoNXNamBayLech{} USD, ghi bù tháng 12 
+guon{EX-10}.
+  \item Bút toán ADJ-0925: +\SoNhomChuaGT{} USD, không có giấy tờ \nguon{EX-xx}.
+\end{itemize}
+
+\smallskip
+\noindent\textbf{Ai cần làm gì.}
+\begin{itemize}
+  \item Tài chính: so từng ô cửa hàng $\times$ ngày trước khi khóa sổ; đòi chứng từ cho ADJ-0925.
+  \item IT (công nghệ thông tin): chặn xuất trùng ở POS.
+  \item Kinh doanh: báo thêm doanh số thuần (phần~VI).
+\end{itemize}
 \end{infobox}

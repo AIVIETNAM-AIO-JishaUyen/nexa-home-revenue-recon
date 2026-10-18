@@ -446,6 +446,20 @@ macros.update({
     "SoDaxCoTruoc": str(int(fl.ca_ky_truoc)), "SoDaxCoSau": str(int(fl.ca_ky_sau)),
     "SoDaxCoTruocThangMuoiMot": str(int(fl.thang_11_truoc)), "SoDaxCoSauThangMuoiMot": str(int(fl.thang_11_sau)),
 })
+# Số cho phần V–VII: tổng theo 4 nhóm, tỷ trọng từng khoản, phần còn lại nếu Flash báo thêm doanh số thuần
+nhom = {g: Y[[c for c in Y.index if grp.get(c) == g]].sum() for g in ["Quy tắc ghi nhận", "Lỗi dữ liệu", "Chưa giải thích được", "Sai số chấp nhận"]}
+delta = year.delta_usd
+thuan = delta - Y["discount"] - Y["cancelled"]      # chênh lệch còn lại nếu Flash trừ sẵn chiết khấu và đơn hủy
+thuan_tra = thuan - Y["returns"]                     # ... và trừ thêm hàng trả
+macros.update({
+    "SoNhomQuyTac": vn(nhom["Quy tắc ghi nhận"], 2), "SoNhomLoi": vn(nhom["Lỗi dữ liệu"], 2),
+    "SoNhomChuaGT": vn(nhom["Chưa giải thích được"], 2), "SoNhomSaiSo": vn(nhom["Sai số chấp nhận"], 2),
+    "SoNhomQuyTacPct": pct(nhom["Quy tắc ghi nhận"] / delta, 1),
+    "SoTongNhom": vn(sum(nhom.values()), 2),
+    "SoChietKhauPct": pct(Y["discount"] / delta, 0), "SoTraPct": pct(Y["returns"] / delta, 0), "SoHuyPct": pct(Y["cancelled"] / delta, 0),
+    "SoFlashThuanConLai": vn(thuan, 2), "SoFlashThuanPct": pct(thuan / year.flash_usd, 2),
+    "SoFlashThuanTraConLai": vn(thuan_tra, 2), "SoFlashThuanTraPct": pct(thuan_tra / year.flash_usd, 2),
+})
 # Số của dashboard (truy vấn powerbi/checks/dashboard_numbers.dax)
 dn = pd.read_csv(CHK / "dashboard_numbers.csv", encoding="utf-8-sig").iloc[0]
 macros.update({

@@ -1,2 +1,28 @@
 \section{Giới hạn và bước tiếp theo}
-\choviet{conclusions}
+
+\subsection{Giới hạn của kết luận}
+
+\begin{itemize}
+  \item \textbf{Chỉ kết luận điều dữ liệu cho thấy.} Dữ liệu cho biết NX057 thiếu bút toán ngày 21/11 và được ghi bù ngày 02/12, nhưng không cho biết vì sao. Dữ liệu cũng không cho biết ADJ-0925 ghi cho việc gì. Hai câu này phải hỏi IT và phòng Tài chính; nhóm không đoán.
+  \item \textbf{Số làm tròn có ba phiên bản.} Nhóm tính +\SoLamTron{} USD theo định nghĩa slide 34. Dashboard mẫu của mentor ra số khác vài USD, vì cộng các cột USD đã làm tròn từng dòng (Phụ lục~D). Chênh vài USD này không đổi kết luận.
+  \item \textbf{Một số quy ước chờ mentor xác nhận}, ví dụ thứ tự các bước cầu nối, cách đặt ADJ-0925 (8 câu hỏi trong \texttt{plans/backlog.md}). Nếu mentor trả lời khác, số từng khoản có thể đổi, nhưng tổng chênh lệch không đổi.
+  \item \textbf{Chạy lại cho tháng mới mới thử bằng dữ liệu giả, ở một thư mục khác} (mục~II.8). Chưa thử trên máy thật thứ hai. Phần Power BI chưa thử với tháng mới, vì file dữ liệu cho Power BI chỉ có năm 2025.
+  \item \textbf{Dashboard chưa có nút ``Đặt lại'' bộ lọc}, và chưa tô tháng đang chọn trên biểu đồ 12 tháng (mục~IV.6).
+\end{itemize}
+
+\subsection{Rủi ro đề không nhắc tới}
+
+\begin{itemize}
+  \item \textbf{Hàng trả sau ngày lấy dữ liệu.} Dữ liệu chỉ lấy đến 15/01/2026. Đã có 7 đơn giao năm 2025 bị trả trong tháng 01/2026 (nhật ký EX-13); các đơn giao cuối tháng 12 vẫn có thể bị trả tiếp. Hàng trả ghi giảm doanh thu vào ngày nhận, nên không đổi số năm 2025 nhưng làm giảm doanh thu tháng 01/2026.
+  \item \textbf{Sổ cái tháng 11 đã khóa mà vẫn thiếu doanh thu.} Lỗi NX057 được sửa bằng bút toán ghi bù tháng 12, nên báo cáo tháng 11 gửi đi thấp hơn thực tế 7.227,56 USD. Đề xuất 1 nhằm chặn đúng việc này.
+  \item \textbf{Mã cửa hàng khác nhau giữa POS và sổ cái.} Một số cửa hàng có nhiều mã POS cho một mã sổ cái (ví dụ NX003, NX007). Năm 2025 mỗi mã sổ cái chỉ có một mã POS còn bán, nên chưa gây lệch. Nếu bảng danh mục cửa hàng không cập nhật kịp khi mở hoặc chuyển cửa hàng, doanh thu POS sẽ không ghép được với sổ cái. Phép kiểm tra số 9 (mã cửa hàng không có trong danh mục) sẽ báo.
+  \item \textbf{Flash không có số theo cửa hàng.} Vì vậy chỉ so được Flash với sổ cái ở mức tháng, kênh, nước. Ở mức cửa hàng, nhóm phải so POS với sổ cái.
+\end{itemize}
+
+\subsection{Bước tiếp theo}
+
+\begin{enumerate}
+  \item Hỏi mentor 8 câu trong backlog; nếu câu trả lời khác quy ước thì sửa file quy ước và chạy lại (khoảng 5 phút).
+  \item Hỏi phòng Tài chính chứng từ của ADJ-0925, hỏi IT nguyên nhân lỗi NX057 và lỗi xuất trùng.
+  \item Chạy lại toàn bộ trên một máy thứ hai trước khi nộp.
+\end{enumerate}
