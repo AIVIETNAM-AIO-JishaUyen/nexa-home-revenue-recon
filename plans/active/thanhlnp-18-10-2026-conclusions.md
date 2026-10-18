@@ -104,6 +104,8 @@ Trả lời 3 câu hỏi của Giám đốc Tài chính và 3 câu hỏi riêng 
 |---|---|---|---|
 | 18/10 | Thêm 13 macro vào `make_figures.py`: tổng 4 nhóm, tỷ trọng chiết khấu / hàng trả / đơn hủy, phần còn lại nếu Flash báo doanh số thuần | <ul><li>Quy tắc ghi nhận 99,5% chênh lệch</li><li>Chiết khấu 76%, hàng trả 14%, đơn hủy 9%</li><li>Flash thuần (trừ chiết khấu, đơn hủy): còn −375.948,38 (−1,21%); trừ thêm hàng trả: còn −26.800,15 (−0,09%)</li></ul> | |
 | 18/10 | Viết phần V, VI, VII, hộp tóm tắt; chuyển ra PDF | <ul><li>V: trả lời 3 + 3 câu hỏi, bảng 4 nhóm, 4 giả thuyết bị bác bỏ, 3 điều bất ngờ</li><li>VI: 6 đề xuất xếp ưu tiên, danh sách 7 việc trước khi khóa sổ, so 2 cách xử lý tỷ giá</li><li>VII: 5 giới hạn, 4 rủi ro đề không nhắc, 3 bước tiếp theo</li></ul> | Lệnh `sed` làm hỏng chuỗi `\nguon` ở hộp tóm tắt (lỡ lưu vào Git một lần); sửa lại bằng công cụ sửa file |
+| 18/10 | Rà soát phần V–VII và hộp tóm tắt: đối chiếu từng số, từng khẳng định với dữ liệu (pandas), nhật ký ngoại lệ, phần IV, rubric | <ul><li>Đúng: 4 tháng còn lệch quá 200 USD ứng đúng 3 sự việc; NX003 (2 mã POS), NX007 (3 mã POS), mỗi mã sổ cái chỉ 1 mã POS còn bán; 7 đơn giao 2025 trả tháng 01/2026; 140 đơn tháng 3 đều đặt 22–28/02; Flash online = tiền trước giảm giá của mọi đơn đặt 2025, kể cả đơn hủy và đơn trả; phép kiểm tra số 9 đúng nội dung</li><li>Đã sửa: "Đề xuất 1–3 sửa ba lỗi" (thật ra 2 lỗi + 1 khoản chưa giải thích); câu trả lời câu 3 của Giám đốc Tài chính lệch thứ tự ưu tiên của phần VI; mục tiêu "dưới 1%" của đề xuất 4 chỉ đúng cho cả năm (tháng 3 còn lệch 14% do thời điểm); hàng trả theo cách tỷ giá khác lấy nhầm số sổ cái (−349.066,23) thay vì số Phụ lục E (−349.066,20); "giả thuyết đặt trước khi tính" không có trong phần III; "ADJ-0925 chỉ lộ ra khi cộng các kênh" (phép kiểm tra chất lượng cũng bắt được); "dữ liệu không cho biết vì sao" NX057 (bút toán ghi "lỗi interface")</li><li>Thêm: giới hạn "chỉ có dữ liệu một năm" (slide 41); mục tiêu cho đề xuất 5, 6; tách ô "Lợi ích, công sức"; chuyển "Flash không có số theo cửa hàng" sang giới hạn (đề đã nêu ở slide 22)</li></ul> | Không chạy lại PDF trong lúc rà soát; cần chuyển ra PDF lại để xem bảng 19 sau khi tách ô |
+| 18/10 | Sau rà soát: xếp danh sách việc trước khi khóa sổ theo 5 ngày của tuần chốt sổ (slide 5) | Rubric Band 5 có ý "hiểu chu kỳ chốt sổ" | |
 
 ---
 
@@ -111,7 +113,7 @@ Trả lời 3 câu hỏi của Giám đốc Tài chính và 3 câu hỏi riêng 
 
 | Ngày | Quyết định | Lý do | Có phải sửa file quy ước không |
 |---|---|---|---|
-| 18/10 | Xếp đề xuất theo lợi ích so với công sức: so ô trước khóa sổ, chặn xuất trùng, quy định bút toán tay lên đầu; Flash báo doanh số thuần đứng thứ 4 | Ba việc đầu sửa đúng 3 lỗi đã thấy và gần như không tốn công (phép kiểm tra đã có trong file Power Query); việc thứ 4 có lợi nhất về lâu dài nhưng phải sửa mẫu báo cáo của phòng Kinh doanh | Không |
+| 18/10 | Xếp đề xuất theo lợi ích so với công sức: so ô trước khóa sổ, chặn xuất trùng, quy định bút toán tay lên đầu; Flash báo doanh số thuần đứng thứ 4 | Ba việc đầu nhắm đúng 2 lỗi dữ liệu và 1 khoản chưa giải thích được, tốn ít công (phép kiểm tra để phát hiện đã có trong file Power Query); việc thứ 4 có lợi nhất về lâu dài nhưng phải sửa mẫu báo cáo của phòng Kinh doanh | Không |
 | 18/10 | Chỉ nêu điều dữ liệu cho thấy; nguyên nhân lỗi NX057 và nội dung ADJ-0925 ghi là "phải hỏi" | Dữ liệu không có thông tin này; rubric cấm suy diễn nguyên nhân | Không |
 | 18/10 | Giữ cách xử lý tỷ giá một dòng riêng | Mỗi dòng của bảng cầu nối chỉ nên có một nguyên nhân; trình bày cả cách khác (đổi mỗi khoản theo tỷ giá sổ cái) với số minh họa từ phụ lục E | Không |
 
@@ -122,6 +124,7 @@ Trả lời 3 câu hỏi của Giám đốc Tài chính và 3 câu hỏi riêng 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
 | 18/10 | Viết nháp phần V–VII và hộp tóm tắt, thêm macro số | `05_phat_hien.tex`, `06_de_xuat.tex`, `07_gioi_han.tex`, `00_tom_tat.tex`; phần macro mới trong `make_figures.py` | <ul><li>Mọi số là macro sinh từ file Power Query, không gõ tay (trừ vài số đã có trong nhật ký như 7 đơn, 12 dòng)</li><li>Đối chiếu từng kết luận với bảng có nhãn nguồn</li></ul> |
+| 18/10 | Rà soát phần V–VII và hộp tóm tắt | Sửa lời văn trong `00_tom_tat.tex`, `03_kham_pha.tex` (1 câu), `05_phat_hien.tex`, `06_de_xuat.tex`, `07_gioi_han.tex` | Kiểm lại từng khẳng định bằng pandas trên file dữ liệu gốc và file Power Query (xem dòng rà soát ở mục 8) |
 
 ---
 
@@ -130,11 +133,11 @@ Trả lời 3 câu hỏi của Giám đốc Tài chính và 3 câu hỏi riêng 
 1. **Hỏi:** Tóm lại vì sao sổ cái thấp hơn Flash 2,43 triệu USD?
    **Trả lời:** 99,5% là do hai phòng đo hai thứ khác nhau: Flash tính giá trước chiết khấu (−1,83 triệu), tính cả đơn hủy (−0,22 triệu), không trừ hàng trả (−0,35 triệu), ghi online theo ngày đặt. Lỗi thật chỉ có 12 dòng POS trùng (−12.622,20) và NX057 (cả năm bằng 0); còn ADJ-0925 (+1.250) chưa giải thích được.
 2. **Hỏi:** Đề xuất nào làm trước?
-   **Trả lời:** So từng ô cửa hàng × ngày trước khi khóa sổ (Tài chính, mỗi tháng): truy vấn đã có, chạy 3 phút, bắt được lỗi NX057 trước khi tháng 11 bị chốt. Tiếp đến chặn xuất trùng ở POS (IT) và quy định bút toán tay phải có giấy tờ (Tài chính).
+   **Trả lời:** So từng ô cửa hàng × ngày trước khi khóa sổ (Tài chính, mỗi tháng): truy vấn đã có, làm mới khoảng 3 đến 5 phút, bắt được lỗi NX057 trước khi tháng 11 bị chốt. Tiếp đến chặn xuất trùng ở POS (IT) và quy định bút toán tay phải có giấy tờ (Tài chính).
 3. **Hỏi:** Nhóm đã kiểm những giả thuyết nào và bác bỏ ra sao?
    **Trả lời:** Bốn giả thuyết: lỗi nhập liệu là chính (bác bỏ, chỉ 0,5%); tháng 11 nhiều cửa hàng ghi thiếu (bác bỏ, 21 cửa hàng còn 1 sau khi so cùng ngày ghi sổ); tháng 3 ghi thừa (bác bỏ, là đơn đặt cuối tháng 2 giao tháng 3); tỷ giá là chính (bác bỏ, chỉ −57.598,01).
 4. **Hỏi:** Rủi ro nào đề không nhắc?
-   **Trả lời:** Hàng trả sau ngày lấy dữ liệu (đã có 7 đơn trong tháng 01/2026); sổ cái tháng 11 đã khóa mà thiếu doanh thu; mã cửa hàng khác nhau giữa POS và sổ cái; Flash không có số theo cửa hàng.
+   **Trả lời:** Hàng trả sau ngày lấy dữ liệu (đã có 7 đơn trong tháng 01/2026); sổ cái tháng 11 đã khóa mà thiếu doanh thu; mã cửa hàng khác nhau giữa POS và sổ cái (NX003 có 2 mã POS, NX007 có 3 mã).
 
 ---
 

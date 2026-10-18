@@ -2,9 +2,9 @@
 
 \subsection{Trả lời ba câu hỏi của Giám đốc Tài chính}
 
-\textbf{1. Lệch bao nhiêu, theo tháng và theo kênh?} Cả năm sổ cái thấp hơn Flash \SoChenhLechNam{} USD (\SoPctNam{} so với Flash) \nguon{QC}. Sổ cái thấp hơn ở \SoThangThap{}/12 tháng. Riêng tháng 3 sổ cái cao hơn \SoThangBaChenhLech{} USD, vì nhiều đơn đặt cuối tháng 2 được giao trong tháng 3 \nguon{BR-Tổng}. Kênh online chiếm \SoOnlineTyTrong{} chênh lệch (\SoOnlineChenhLech{} USD) \nguon{BR-WEB}. Phần còn lại thuộc kênh cửa hàng, cộng với \SoChuaGanKenh{} USD của bút toán không gắn kênh nào.
+\textbf{1. Lệch bao nhiêu, theo tháng và theo kênh?} Cả năm sổ cái thấp hơn Flash \SoChenhLechNam{} USD (\SoPctNam{} so với Flash) \nguon{QC}. Sổ cái thấp hơn ở \SoThangThap{}/12 tháng. Riêng tháng 3 sổ cái cao hơn \SoThangBaChenhLech{} USD, vì nhiều đơn đặt cuối tháng 2 được giao trong tháng 3 \nguon{BR-Tổng}, \nguon{RC-WEB}. Kênh online chiếm \SoOnlineTyTrong{} chênh lệch (\SoOnlineChenhLech{} USD) \nguon{BR-WEB}. Phần còn lại thuộc kênh cửa hàng, cộng với \SoChuaGanKenh{} USD của bút toán không gắn kênh nào.
 
-\textbf{2. Gồm những khoản nào, khoản nào là lỗi?} Bảng cầu nối tách chênh lệch thành 4 nhóm. Mỗi khoản được tính thẳng từ dữ liệu, dòng kiểm tra bằng 0 (Bảng~\ref{tab:bonnhom-v}). Cùng kết quả được tính lại bằng DAX trên dữ liệu khác, lệch không quá 0,01 USD (mục~IV.5).
+\textbf{2. Gồm những khoản nào, khoản nào là lỗi?} Bảng cầu nối tách chênh lệch thành 4 nhóm. Mỗi khoản được tính thẳng từ dữ liệu, dòng kiểm tra bằng 0 (Bảng~\ref{tab:bonnhom-v}). Mỗi khoản được tính lại lần hai bằng DAX trên file dữ liệu mentor chuẩn bị cho Power BI; không ô nào lệch quá 0,01 USD (mục~IV.5).
 
 \begin{table}[H]
 \captab{Chênh lệch cả năm theo 4 nhóm, toàn công ty \nguon{BR-Tổng}}\label{tab:bonnhom-v}
@@ -14,8 +14,8 @@
 \toprule
 Nhóm & USD & Gồm \\
 \midrule
-Quy tắc ghi nhận & \SoNhomQuyTac{} & Chiết khấu (\SoChietKhauPct{} chênh lệch), hàng trả (\SoTraPct{}), đơn hủy (\SoHuyPct{}), tỷ giá, lệch thời điểm online, phí vận chuyển. Hai bên đều ghi đúng theo cách của mình; không ai sai. \\
-Lỗi dữ liệu & \SoNhomLoi{} & 12 dòng POS bị xuất trùng (tháng 3, NX007). Lỗi chuyển dữ liệu của NX057 ($-$7.227,56 tháng 11, +7.227,56 tháng 12) cộng cả năm bằng 0. \\
+Quy tắc ghi nhận & \SoNhomQuyTac{} & Chiết khấu (\SoChietKhauPct{} chênh lệch), hàng trả (\SoTraPct{}), đơn hủy (\SoHuyPct{}), tỷ giá, lệch thời điểm online, phí vận chuyển.\newline Hai bên đều ghi đúng theo cách của mình; không ai sai. \\
+Lỗi dữ liệu & \SoNhomLoi{} & 12 dòng POS bị xuất trùng (tháng 3, NX007).\newline Lỗi chuyển dữ liệu của NX057 ($-$7.227,56 tháng 11, +7.227,56 tháng 12) cộng cả năm bằng 0. \\
 Chưa giải thích được & \SoNhomChuaGT{} & Bút toán ADJ-0925, không gắn kênh, không có giấy tờ. \\
 Sai số chấp nhận & \SoNhomSaiSo{} & Làm tròn; tháng lớn nhất \SoBRLamTronMax{} USD, dưới ngưỡng 5 USD. \\
 \midrule
@@ -31,11 +31,17 @@ Như vậy \textbf{\SoNhomQuyTacPct{} chênh lệch đến từ quy tắc ghi nh
 \end{itemize}
 Ngoài ra còn một khoản chưa biết nguồn gốc: ADJ-0925 (EX-18, ``Chờ phản hồi'') \nguon{EX-18}.
 
-\textbf{3. Quy trình cần đổi gì?} Ba việc có lợi nhất: so từng ô cửa hàng $\times$ ngày trước khi khóa sổ; chặn xuất trùng ở POS; Flash báo thêm doanh số thuần bên cạnh doanh số gộp. Chi tiết và thứ tự ưu tiên ở phần~VI.
+\textbf{3. Quy trình cần đổi gì?} Theo thứ tự ưu tiên ở phần~VI:
+\begin{enumerate}
+  \item So từng ô cửa hàng $\times$ ngày trước khi khóa sổ.
+  \item Chặn xuất trùng ở POS.
+  \item Bút toán tay phải có giấy tờ và gắn kênh.
+  \item Flash báo thêm doanh số thuần bên cạnh doanh số gộp. Đây là việc có lợi nhất về lâu dài, nhưng tốn công hơn ba việc trên.
+\end{enumerate}
 
 \subsection{Trả lời ba câu hỏi riêng của nhóm}
 
-\textbf{Câu 1: Bước so ô cửa hàng $\times$ ngày trước khi khóa sổ bắt được gì?} Năm 2025 bước này bắt được đúng 2 ô lệch trong \SoOCuaHang{} ô: NX057 ngày 21/11 (POS có, sổ cái không có) và ngày 02/12 (sổ cái ghi bù) \nguon{RC-CH}. Nếu chạy trước khi khóa sổ tháng 11, sổ cái tháng 11 đã không thiếu 7.227,56 USD.
+\textbf{Câu 1: Bước so ô cửa hàng $\times$ ngày trước khi khóa sổ bắt được gì?} Năm 2025 bước này bắt được đúng 2 ô lệch trong \SoOCuaHang{} ô: NX057 ngày 21/11 (POS có, sổ cái không có) và ngày 02/12 (sổ cái ghi bù) \nguon{RC-CH}. Nếu bước này chạy trước khi khóa sổ tháng 11, kế toán đã kịp ghi bù và sổ cái tháng 11 không thiếu 7.227,56 USD.
 
 \textbf{Câu 2: Tháng nào thật sự cần điều tra?} Sau khi trừ các khoản do quy tắc ghi nhận, chỉ \SoThangConLai{} tháng còn lệch quá 200 USD: \SoThangConLaiDS{} \nguon{BR-Tổng}. Mỗi tháng ứng với một lỗi đã tìm ra:
 \begin{itemize}
@@ -53,10 +59,10 @@ Tám tháng còn lại chỉ lệch vài USD do làm tròn.
 
 \subsection{Giả thuyết đã kiểm tra}
 
-Trước khi tính, nhóm đặt ra một số giả thuyết hợp lý. Dữ liệu bác bỏ cả bốn (Bảng~\ref{tab:giathuyet}).
+Nhìn các con số tổng, người đọc dễ nghĩ tới bốn cách giải thích dưới đây. Nhóm kiểm từng cách trên dữ liệu; dữ liệu bác bỏ cả bốn (Bảng~\ref{tab:giathuyet}). Còn giả thuyết của nhóm ở mục~III (tháng 3 cao vì lệch thời điểm online) thì được dữ liệu xác nhận.
 
 \begin{table}[H]
-\captab{Giả thuyết ban đầu và kết quả kiểm tra}\label{tab:giathuyet}
+\captab{Bốn cách giải thích dễ nghĩ tới và kết quả kiểm tra}\label{tab:giathuyet}
 \centering
 {\small
 \begin{tabular}{@{}L{4.4cm} L{4.3cm} L{5.9cm}@{}}
@@ -64,7 +70,7 @@ Trước khi tính, nhóm đặt ra một số giả thuyết hợp lý. Dữ li
 Giả thuyết & Kiểm bằng & Kết quả \\
 \midrule
 Chênh lệch lớn như vậy chủ yếu do nhập sai dữ liệu & Xếp từng khoản vào 4 nhóm & \textbf{Bác bỏ.} Lỗi dữ liệu chỉ \SoNhomLoi{} USD; \SoNhomQuyTacPct{} là quy tắc ghi nhận \nguon{BR-Tổng} \\
-Tháng 11 nhiều cửa hàng ghi thiếu doanh thu & So cửa hàng $\times$ ngày theo ngày bán rồi theo ngày ghi sổ & \textbf{Bác bỏ.} \SoCHVuotTruocTMM{} cửa hàng vượt ngưỡng chỉ vì so sai ngày; đưa về cùng cách tính thì còn \SoCHVuotSauTMM{} (NX057) \nguon{RC-CH} \\
+Tháng 11 nhiều cửa hàng ghi thiếu doanh thu & So cửa hàng $\times$ ngày theo ngày bán rồi theo ngày ghi sổ & \textbf{Bác bỏ.} So theo ngày bán thì \SoCHVuotTruocTMM{} cửa hàng vượt ngưỡng. Đưa về cùng ngày ghi sổ thì chỉ còn \SoCHVuotSauTMM{} (NX057) \nguon{RC-CH} \\
 Tháng 3 sổ cái ghi thừa doanh thu & Tách khoản lệch thời điểm online của tháng 3 & \textbf{Bác bỏ.} Tháng 3 nhận \SoLechOnlineMaxVao{} USD từ \SoLechOnlineMaxDonVao{} đơn đặt cuối tháng 2; đây là lệch thời điểm, không phải ghi thừa \nguon{RC-WEB} \\
 Tỷ giá gây phần lớn chênh lệch (8 nước, 5 loại tiền) & Dòng tỷ giá theo định nghĩa slide 34 & \textbf{Bác bỏ.} Chỉ \SoTyGia{} USD \nguon{BR-Tổng} \\
 \bottomrule
@@ -75,6 +81,6 @@ Tỷ giá gây phần lớn chênh lệch (8 nước, 5 loại tiền) & Dòng t
 
 \begin{itemize}
   \item \textbf{So sai ngày thì thấy lỗi ở khắp nơi.} So POS theo ngày bán với sổ cái theo ngày ghi sổ thì \SoOLechNgayBanNam{}/\SoOCuaHang{} ô lệch. Đưa về cùng ngày ghi sổ và bỏ dòng trùng thì chỉ còn \SoOCuaHangLech{} ô \nguon{RC-CH}. Nếu bỏ qua bước đưa về cùng cách tính, kế toán sẽ mất công điều tra hàng nghìn ô không có lỗi.
-  \item \textbf{ADJ-0925 chỉ lộ ra khi cộng các kênh.} Tổng cửa hàng và online thiếu đúng \SoChuaGanKenh{} USD so với tổng sổ cái. Nếu chỉ so cả công ty, khoản này lẫn vào phần còn lại \nguon{BR-Tổng}.
-  \item \textbf{Nếu Flash báo thêm doanh số thuần} (đã trừ chiết khấu và đơn hủy), chênh lệch còn \SoFlashThuanConLai{} USD (\SoFlashThuanPct{} so với Flash). Trừ thêm hàng trả thì chỉ còn \SoFlashThuanTraConLai{} USD (\SoFlashThuanTraPct{}) \nguon{BR-Tổng}. Phần lớn ``chênh lệch'' là do hai phòng đo hai thứ khác nhau.
+  \item \textbf{ADJ-0925 không lộ ra nếu chỉ so cả công ty.} Khoản \SoChuaGanKenh{} USD lẫn vào hàng triệu USD chênh lệch. Nó lộ ra theo hai cách: cộng các kênh thì tổng cửa hàng và online thiếu đúng \SoChuaGanKenh{} USD so với tổng sổ cái \nguon{BR-Tổng}; rà bút toán tay thì 2 phép kiểm tra chất lượng dữ liệu báo ``Cần xem'' \nguon{QC}.
+  \item \textbf{Nếu Flash báo thêm doanh số thuần} (đã trừ chiết khấu và đơn hủy), chênh lệch cả năm còn \SoFlashThuanConLai{} USD (\SoFlashThuanPct{} so với Flash). Trừ thêm hàng trả thì chỉ còn \SoFlashThuanTraConLai{} USD (\SoFlashThuanTraPct{}) \nguon{BR-Tổng}. Phần lớn ``chênh lệch'' là do hai phòng đo hai thứ khác nhau. Riêng từng tháng vẫn còn lệch thời điểm online (tháng 3: +\SoLechOnlineMax{} USD), nên việc này phải đi cùng đề xuất~5 ở phần~VI.
 \end{itemize}
