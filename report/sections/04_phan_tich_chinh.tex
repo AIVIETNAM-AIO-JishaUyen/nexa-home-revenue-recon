@@ -6,14 +6,14 @@
 
 \textbf{Kết quả: \SoOCuaHang{} ô, \SoOCuaHangKhop{} ô khớp đến từng xu, \SoOCuaHangLech{} ô lệch} \nguon{RC-CH}. Hai ô lệch là một cặp của cửa hàng NX057:
 \begin{itemize}
-  \item Ngày 21/11: POS có 7.227,56 USD, sổ cái không có bút toán nào (\emph{chỉ có ở POS}).
+  \item Ngày 21/11: POS có 7.227,56 USD (đô la Mỹ), sổ cái không có bút toán nào (\emph{chỉ có ở POS}).
   \item Ngày 02/12: sổ cái có bút toán \texttt{JE20251206231} loại \texttt{POS\_CATCHUP}, đúng 7.227,56 USD, ghi chú ``Bổ sung doanh thu POS ngày 21/11/2025 (lỗi interface)'', còn POS ngày đó không có gì (\emph{chỉ có ở sổ cái}).
 \end{itemize}
-Vậy đây là \textbf{lỗi chuyển dữ liệu} từ POS sang sổ cái: doanh thu của một ngày không sang được sổ cái, 11 ngày sau mới được ghi bù. Hậu quả là sổ cái tháng 11 thiếu và tháng 12 thừa đúng số tiền này. Cả năm thì không lệch, nhưng số tháng 11 đã báo cáo là sai.
+Vậy đây là \textbf{lỗi chuyển dữ liệu} từ POS sang sổ cái: doanh thu của một ngày không sang được sổ cái, 11 ngày sau mới được ghi bù. Hậu quả là sổ cái tháng 11 thiếu và tháng 12 thừa đúng số tiền này. Cả năm thì không lệch, nhưng số của sổ cái ở cả tháng 11 lẫn tháng 12 đều sai.
 
 \textbf{Vì sao phải đưa hai bên về cùng cách tính trước khi so.} Bảng~\ref{tab:cuahang} so cùng dữ liệu theo hai cách:
 \begin{itemize}
-  \item \textbf{So theo ngày bán, chưa bỏ dòng trùng} (cách ``chưa xử lý''): \SoOLechNgayBanNam{} ô lệch cả năm, riêng tháng 11 là \SoOLechNgayBanTMM{}/\SoOThangMuoiMot{} ô. Gần như toàn bộ là lệch giả: doanh thu bán thứ Bảy, Chủ nhật nằm ở ô ngày thứ Hai bên sổ cái.
+  \item \textbf{So theo ngày bán, chưa bỏ dòng trùng} (cách ``chưa xử lý''): \SoOLechNgayBanNam{} ô lệch cả năm, riêng tháng 11 là \SoOLechNgayBanTMM{}/\SoOThangMuoiMot{} ô. Gần như toàn bộ là lệch giả: doanh thu bán ngày nghỉ (thứ Bảy, Chủ nhật, ngày lễ) nằm ở ô ngày làm việc kế tiếp bên sổ cái.
   \item \textbf{Cộng lên cửa hàng $\times$ tháng} và đặt cờ khi lệch quá 200 USD \emph{và} quá 1\% so với |sổ cái|: trước khi xử lý có \SoCHVuotTruocNam{} lượt cửa hàng $\times$ tháng bị cờ, sau khi xử lý chỉ còn \SoCHVuotSauNam{} (NX057 tháng 11 và tháng 12).
 \end{itemize}
 
@@ -25,15 +25,15 @@ Vậy đây là \textbf{lỗi chuyển dữ liệu} từ POS sang sổ cái: doa
 
 Điều nhóm thấy bất ngờ là cờ trước khi xử lý \textbf{chỉ rơi vào tháng 3, 5, 6, 8, 9, 11, 12}. Tra lịch thì thấy lý do:
 \begin{itemize}
-  \item Ngày cuối của tháng 5 (31/05) và tháng 8 (31/08) là cuối tuần, tháng 11 có hai ngày cuối (29 và 30/11) là thứ Bảy, Chủ nhật. Doanh thu những ngày đó được ghi sổ ở tháng sau, nên tháng đó thiếu và tháng sau thừa ở hầu hết cửa hàng.
-  \item Các tháng còn lại kết thúc vào ngày làm việc. Doanh thu cuối tuần chỉ dời vài ngày \emph{trong cùng tháng} nên cộng theo tháng thì tự triệt tiêu, dù theo ngày vẫn lệch hàng trăm ô.
+  \item Tháng 5 kết thúc vào thứ Bảy (31/05); tháng 8 và tháng 11 có hai ngày cuối là thứ Bảy, Chủ nhật (30--31/08 và 29--30/11). Doanh thu những ngày đó được ghi sổ ở tháng sau, nên tháng đó thiếu và tháng sau thừa ở các cửa hàng có bán vào những ngày này: mỗi tháng có 19 đến 28 trong 57 cửa hàng bị cờ.
+  \item Các tháng còn lại kết thúc vào ngày làm việc. Doanh thu ngày nghỉ chỉ dời vài ngày \emph{trong cùng tháng} nên cộng theo tháng thì tự triệt tiêu, dù theo ngày vẫn lệch từ 93 đến 273 ô mỗi tháng.
   \item Tháng 3 có 1 cờ là cửa hàng NX007, do 12 dòng POS bị xuất trùng ngày 29/03.
 \end{itemize}
 
 Ví dụ tháng 11, khớp với slide 28 và 44 \cite{slide_project1}:
 \begin{itemize}
-  \item \textbf{NX008}: chưa xử lý lệch \SoNXKhongTamTruoc{} USD, sau xử lý còn \SoNXKhongTamSau{} USD. Toàn bộ là doanh thu bán ngày 29--30/11 được ghi sổ sang tháng 12.
-  \item \textbf{NX057}: chưa xử lý lệch \SoNXNamBayTruoc{} USD; sau xử lý vẫn còn \SoNXNamBayLech{} USD (sổ cái \SoNXNamBaySoCai{}, POS \SoNXNamBayPOS{}, tức \SoNXNamBayPct{} so với |sổ cái|). Phần còn lại này chính là ô lỗi chuyển dữ liệu ở trên. Slide ghi $-$74,6\% vì tính từ số đã làm tròn (7.228 / 9.695); tính từ số đủ là $-$74,55\%.
+  \item \textbf{NX008}: chưa xử lý lệch \SoNXKhongTamTruoc{} USD, sau xử lý còn \SoNXKhongTamSau{} USD. Toàn bộ là doanh thu của 2 dòng bán thứ Bảy 29/11, được ghi sổ ngày 01/12 (sang tháng 12).
+  \item \textbf{NX057}: chưa xử lý lệch \SoNXNamBayTruoc{} USD; sau xử lý vẫn còn \SoNXNamBayLech{} USD (sổ cái \SoNXNamBaySoCai{}, POS \SoNXNamBayPOS{}, tức \SoNXNamBayPct{} so với |sổ cái|). Phần còn lại này chính là ô lỗi chuyển dữ liệu ở trên. Slide ghi $-$74,6\% vì chia hai số đã làm tròn (7.228 / 9.695).
 \end{itemize}
 
 Nhóm tái lập được đúng các con số ``chưa xử lý'' của slide với cách tính: POS lấy mọi dòng kể cả dòng trùng, cộng theo \emph{tháng bán}, đổi ra USD theo tỷ giá cuối \emph{tháng bán}; sổ cái theo tháng ghi sổ. Slide ghi ``22 cửa hàng vượt ngưỡng'' ở tháng 11: con số đó gồm \SoCHVuotTruocTMM{} cửa hàng và 1 dòng của kênh online, phần online được xét ở mục sau.

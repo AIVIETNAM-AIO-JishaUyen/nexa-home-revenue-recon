@@ -40,7 +40,8 @@
 
 | Dùng gì | Đường dẫn | Ghi chú |
 |---|---|---|
-| Bảng giao dịch chung | `excel/queries/q_Transactions.m` | Cột `store_code`, `recognition_date`, `net_local`, `net_usd_month_end`, `is_duplicate` |
+| Bảng giao dịch chung | `excel/queries/q_Transactions.m` | Cột `store_code`, `sale_date`, `recognition_date`, `sale_period`, `recognition_period`, `currency`, `net_local`, `net_usd_daily`, `net_usd_month_end`, `is_duplicate` |
+| Tỷ giá ngày, tỷ giá cuối tháng | `excel/queries/q_FX_Daily.m`, `excel/queries/q_FX_MonthEnd.m` | Đổi phần lệch của ô ra USD (tỷ giá ngày của ngày ghi sổ); đổi POS "chưa xử lý" theo tỷ giá cuối tháng bán |
 | Sổ cái | `excel/queries/q_GL.m` | Bút toán `POS_DAILY`, `POS_CATCHUP` |
 | Số đúng | `checks/numbers_of_record.csv` | `det_store_*`, `nov_*`, `tim_store_pair_*` |
 | Dashboard mẫu của mentor | `docs/template/Nexa_Home_Recon_Dashboard.html` | Dữ liệu `det` (cửa hàng × tháng: chưa xử lý, sổ cái, sau khi đưa về cùng cách tính), `ncells`, `wrong` (số ô, số ô lệch theo ngày bán) |
@@ -110,8 +111,9 @@
 | 18/10 | Đọc dữ liệu `det` của dashboard mẫu để tìm cách slide tính các số "chưa xử lý" | <ul><li>Tháng 11 có 22 dòng vượt ngưỡng khi chưa xử lý, trong đó có dòng kênh online (mã 999999): 21 cửa hàng + 1 online</li><li>NX008 tháng 11: chưa xử lý −716,19, sau khi đưa về cùng cách tính +0,02</li><li>Online tháng 11: −12.064,26 khi so theo ngày đặt</li><li>"Chưa xử lý" = POS theo tháng bán, chưa bỏ dòng trùng, quy đổi theo tỷ giá cuối tháng bán; sổ cái theo tháng ghi sổ</li></ul> | Giải được 3 số mà plan `setup-baseline` đánh dấu "chỉ tham khảo" |
 | 18/10 | Viết 4 truy vấn đối soát cửa hàng, nạp vào 4 sheet, dựng lại file | <ul><li>5.120 ô: 5.118 khớp, 1 ô chỉ có ở POS (NX057 21/11), 1 ô chỉ có ở sổ cái (NX057 02/12, bút toán ghi bù có ghi chú "lỗi interface")</li><li>So theo ngày bán: 2.929 ô lệch cả năm, tháng 11 là 347/453</li><li>Cửa hàng × tháng vượt ngưỡng: trước xử lý 137 lượt (tháng 3, 5, 6, 8, 9, 11, 12), sau xử lý 2 lượt (NX057 tháng 11 và 12)</li><li>3 cặp tháng lệch ngày ghi sổ, 267 dòng, cả năm 0</li></ul> | <ul><li>Lần dựng file mất hơn 10 phút (trước là 4 phút) vì 4 truy vấn mới đều đọc lại bảng giao dịch chung; vẫn trong giới hạn 15 phút của script</li><li>Lệnh `sed` làm hỏng dấu `\` khi sửa phụ lục; sửa lại bằng script Python</li></ul> |
 | 18/10 | Thử lại số −716 của NX008 | <ul><li>Dùng tỷ giá cuối tháng ghi nhận: −726,34</li><li>Dùng tỷ giá cuối **tháng bán**: −716,19, đúng bằng dashboard mẫu</li></ul> | Nhật ký trước ghi lý do là "dashboard làm tròn từng dòng" là sai; lý do đúng là tỷ giá cuối tháng bán |
-| 18/10 | Tìm vì sao cờ "chưa xử lý" chỉ có ở 7 tháng | <ul><li>Ngày 31/05, 31/08, 29–30/11 là cuối tuần: doanh thu sang tháng sau ở hầu hết cửa hàng</li><li>Các tháng khác kết thúc vào ngày làm việc nên dời trong tháng tự triệt tiêu</li><li>Tháng 3: NX007 do 12 dòng trùng ngày 29/03</li></ul> | |
-| 18/10 | Viết phần IV.1, thêm Bảng 10 và 21 số vào `so_lieu.tex`, sửa bảng tra nhãn nguồn ở phụ lục | PDF 17 trang, phần IV.1 ở trang 12–14 | |
+| 18/10 | Tìm vì sao cờ "chưa xử lý" chỉ có ở 7 tháng | <ul><li>Ngày 31/05, 30–31/08, 29–30/11 là cuối tuần: doanh thu sang tháng sau ở 21–29 trong 57 cửa hàng (19–28 cửa hàng bị cờ mỗi tháng)</li><li>Các tháng khác kết thúc vào ngày làm việc nên dời trong tháng tự triệt tiêu</li><li>Tháng 3: NX007 do 12 dòng trùng ngày 29/03</li></ul> | |
+| 18/10 | Viết phần IV.1, thêm Bảng 10 và 20 số vào `so_lieu.tex`, sửa bảng tra nhãn nguồn ở phụ lục | PDF 17 trang, phần IV.1 ở trang 12–14 | |
+| 18/10 | Rà soát plan: đọc lại 4 sheet bằng Python, so từng số ở mục 5 và lời văn phần IV.1 | <ul><li>Mọi số ở mục 5 khớp sheet; cờ ⚠ tính lại từ ngưỡng khớp 679/679 dòng</li><li>NX033 tháng 11 chưa xử lý −13,98 (slide 28 ghi −14), trong ngưỡng</li></ul> | <ul><li>NX008: doanh thu sang tháng 12 chỉ là 2 dòng bán ngày 29/11, không có ngày 30/11; đã sửa lời văn</li><li>Tháng 8 có 2 ngày cuối tuần (30–31/08), không chỉ 31/08; "hầu hết cửa hàng" sửa thành số cửa hàng thật</li><li>% của NX057 thống nhất 2 chữ số thập phân (−74,55%)</li></ul> |
 
 ---
 
@@ -145,7 +147,7 @@
 3. **Hỏi:** Slide nói 22 cửa hàng vượt ngưỡng ở tháng 11, nhóm ra 21?
    **Trả lời:** Con số 22 của slide gồm 21 cửa hàng và 1 dòng của kênh online (trong dữ liệu dashboard mẫu dòng đó có mã 999999). Nhóm tái lập đúng cách tính "chưa xử lý": POS lấy mọi dòng kể cả dòng trùng, cộng theo tháng bán, đổi theo tỷ giá cuối tháng bán; ra đúng −716,19 của NX008. Phần online xét ở plan `web-return-recon`.
 4. **Hỏi:** Vì sao trước khi xử lý chỉ có 7 tháng bị cờ?
-   **Trả lời:** Chỉ những tháng có ngày cuối rơi vào cuối tuần (31/05, 31/08, 29–30/11) mới đẩy doanh thu sang tháng sau, nên tháng đó và tháng sau (6, 9, 12) bị cờ ở hầu hết cửa hàng. Các tháng khác doanh thu cuối tuần chỉ dời trong cùng tháng nên tự triệt tiêu. Tháng 3 là NX007 do 12 dòng POS xuất trùng.
+   **Trả lời:** Chỉ những tháng có ngày cuối rơi vào cuối tuần (31/05, 30–31/08, 29–30/11) mới đẩy doanh thu sang tháng sau, nên tháng đó và tháng sau (6, 9, 12) bị cờ ở 19–28 trong 57 cửa hàng (các cửa hàng có bán vào những ngày đó). Các tháng khác doanh thu cuối tuần chỉ dời trong cùng tháng nên tự triệt tiêu. Tháng 3 là NX007 do 12 dòng POS xuất trùng.
 5. **Hỏi:** Lệch ngày ghi sổ có tự bù trừ không? (câu hỏi riêng 3)
    **Trả lời:** Có. 3 cặp tháng: tháng 5 sang 6 là 41.464,78 USD, 8 sang 9 là 75.240,30, 11 sang 12 là 80.588,85, cộng 267 dòng; cả năm bằng 0. Ngày 31/12/2025 là thứ Tư nên không có doanh thu cửa hàng nào vắt sang năm 2026.
 6. **Hỏi:** Bước so ô cửa hàng × ngày trước khóa sổ có đáng làm không? (câu hỏi riêng 1)

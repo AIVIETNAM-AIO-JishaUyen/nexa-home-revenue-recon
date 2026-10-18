@@ -192,7 +192,7 @@ macros.update({
     "SoOCuaHang": vn(len(rcd)), "SoOCuaHangKhop": vn((rcd.match_status == "Khớp").sum()), "SoOCuaHangLech": str(len(lech)),
     "SoOLechNgayBanNam": vn(cy.mismatch_sale_date), "SoOThangMuoiMot": vn(n11.cells_posting), "SoOLechNgayBanTMM": vn(n11.mismatch_sale_date),
     "SoCHVuotTruocTMM": str(int(nov.flag_raw.sum())), "SoCHVuotSauTMM": str(int(nov.flag_norm.sum())),
-    "SoNXNamBayLech": vn(x57.diff_norm_usd, 2), "SoNXNamBayPct": pct(x57.pct_norm, 1),
+    "SoNXNamBayLech": vn(x57.diff_norm_usd, 2), "SoNXNamBayPct": pct(x57.pct_norm),
     "SoNXNamBaySoCai": vn(x57.gl_usd, 2), "SoNXNamBayPOS": vn(x57.pos_norm_usd, 2), "SoNXNamBayTruoc": vn(x57.diff_raw_usd, 2),
     "SoNXKhongTamTruoc": vn(nov.loc["NX008"].diff_raw_usd, 2), "SoNXKhongTamSau": vn(nov.loc["NX008"].diff_norm_usd, 2),
     "SoCHVuotTruocNam": str(int(co.flag_raw.sum())), "SoCHVuotSauNam": str(int(co.flag_norm.sum())),
