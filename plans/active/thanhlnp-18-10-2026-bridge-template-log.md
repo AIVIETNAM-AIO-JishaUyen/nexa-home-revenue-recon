@@ -150,6 +150,14 @@
 
 ## 12. Kết quả khi đóng plan
 
+- **Điều kiện xong:** đạt hết 6 dòng số và 3 việc phải có (mục 5).
+- **Đã đưa vào báo cáo:** đoạn "File mẫu nộp và nhật ký ngoại lệ" cuối mục IV.4; phụ lục B (nhật ký 17 dòng); phụ lục E (Bảng 18, so khi đổi thứ tự các bước).
+- **Việc còn lại:**
+  - Tạo bản sao file mẫu nộp riêng (chỉ giữ giá trị hoặc giữ công thức) trong bộ file nộp → `review-submit`.
+  - Thời gian dựng file khoảng 55 phút → backlog mục 8, xem lại ở `refresh-test`.
+  - Trang nhật ký trên dashboard đọc `q_ExceptionLog` → `dashboard`.
+- **Các lần lưu vào Git (commit):** `0ec7a91` (tạo plan), `6b35c60` (2 truy vấn), `276db09` (điền file mẫu, nạp sheet, file Excel), `d954238` (báo cáo IV.4, phụ lục B, E), `aae875a` (ghi kết quả, quyết định, chuẩn bị vấn đáp, backlog), và các lần lưu rà soát, đóng plan.
+
 **Tự soát trước khi đóng plan:**
 - [ ] Không còn chỗ `< >` chưa điền.
 - [ ] Mọi con số trong plan đều ghi rõ lấy từ đâu.
