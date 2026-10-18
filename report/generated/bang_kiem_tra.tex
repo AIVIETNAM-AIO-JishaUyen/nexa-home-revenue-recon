@@ -1,0 +1,20 @@
+\begin{longtable}{@{}r p{1.1cm} p{5.0cm} >{\raggedleft\arraybackslash}p{2.5cm} >{\raggedleft\arraybackslash}p{2.5cm} r c@{}}
+\toprule
+STT & Nguồn & Chỉ tiêu & Đề (QC\_Summary) & Nhóm & Lệch & Kết quả \\
+\midrule
+\endhead
+1 & POS & Số dòng & 17.124 & 17.124 & 0,00 & Đạt \\
+2 & POS & Số hóa đơn khác nhau (receipt\_no) & 7.130 & 7.130 & 0,00 & Đạt \\
+3 & POS & Khoảng ngày business\_date & 2025-01-01 $\rightarrow$ 2025-12-31 & 2025-01-01 $\rightarrow$ 2025-12-31 & 0,00 & Đạt \\
+4 & POS & Tổng qty & 53.872 & 53.872 & 0,00 & Đạt \\
+5 & POS & Tổng line\_amount (cộng thẳng mọi loại tiền, chỉ để kiểm tra nạp đủ) & 14.706.296,35 & 14.706.296,35 & 0,00 & Đạt \\
+6 & POS & Tổng discount\_amount (cộng thẳng mọi loại tiền) & 872.455,82 & 872.455,82 & 0,00 & Đạt \\
+7 & WEB & Số dòng (số đơn) & 9.441 & 9.441 & 0,00 & Đạt \\
+8 & WEB & Số đơn theo trạng thái Delivered / Cancelled / Returned & 9121 / 139 / 181 & 9121 / 139 / 181 & 0,00 & Đạt \\
+9 & WEB & Tổng net\_amount (cộng thẳng mọi loại tiền) & 18.712.884,87 & 18.712.884,87 & 0,00 & Đạt \\
+10 & Sổ cái & Số bút toán & 6.940 & 6.940 & 0,00 & Đạt \\
+11 & Sổ cái & Tổng amount\_usd (theo dấu kế toán) & $-$28.698.496,23 & $-$28.698.496,23 & 0,00 & Đạt \\
+12 & Flash & Số dòng chi tiết (không tính tiêu đề và dòng tổng) & 156 & 156 & 0,00 & Đạt \\
+13 & Flash & Tổng doanh số (USD) & 31.124.401 & 31.124.401 & 0,00 & Đạt \\
+\bottomrule
+\end{longtable}
