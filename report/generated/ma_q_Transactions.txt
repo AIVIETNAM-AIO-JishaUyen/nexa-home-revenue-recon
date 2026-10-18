@@ -1,4 +1,4 @@
-// q_Transactions – Bảng giao dịch chung: mỗi dòng là 1 dòng POS (bán tại cửa hàng) hoặc 1 đơn online,
+// q_Transactions - Bảng giao dịch chung: mỗi dòng là 1 dòng POS (bán tại cửa hàng) hoặc 1 đơn online,
     .. đưa về cùng một dạng
 // để đối soát và lập bảng cầu nối. Tiền đổi ra USD bằng cách CHIA nội tệ cho tỷ giá, không làm tròn
     .. từng dòng.

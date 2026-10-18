@@ -7,7 +7,7 @@ Truy vấn & Làm gì & Nạp ra sheet \\
 \texttt{q\_FX\_Daily} & Tỷ giá theo ngày. Tỷ giá là số ngoại tệ đổi được 1 USD, nên muốn đổi nội tệ ra USD thì CHIA cho tỷ giá. & Chỉ tạo kết nối \\
 \texttt{q\_FX\_MonthEnd} & Tỷ giá ngày cuối tháng, sổ cái dùng tỷ giá này để đổi nội tệ ra USD. Cũng CHIA cho tỷ giá. & Chỉ tạo kết nối \\
 \texttt{q\_WEB\_Raw} & Đọc thẳng file đơn online (WEB), mọi cột vẫn là chữ, chưa xử lý gì. & Chỉ tạo kết nối \\
-\texttt{q\_FLASH\_Raw} & Đọc thẳng sheet đầu tiên của file Flash, chưa bỏ dòng tiêu đề hay dòng tổng. Các cột tên Column1…Column5. & Chỉ tạo kết nối \\
+\texttt{q\_FLASH\_Raw} & Đọc thẳng sheet đầu tiên của file Flash, chưa bỏ dòng tiêu đề hay dòng tổng. Các cột tên Column1\ldots{}Column5. & Chỉ tạo kết nối \\
 \texttt{q\_POS} & Bán hàng tại cửa hàng (POS – Point of Sale): mỗi dòng là 1 món hàng trên 1 hóa đơn (khóa receipt\_no + line\_no). & Chỉ tạo kết nối \\
 \texttt{q\_WEB} & Đơn online, mỗi dòng là 1 đơn hàng (khóa web\_order\_id). & Chỉ tạo kết nối \\
 \texttt{q\_GL} & Sổ cái doanh thu (GL – General Ledger) của phòng Tài chính: mỗi dòng là 1 bút toán (khóa journal\_id). & Chỉ tạo kết nối \\
@@ -17,21 +17,21 @@ Truy vấn & Làm gì & Nạp ra sheet \\
 \texttt{q\_Delta\_Month} & Flash và sổ cái theo từng tháng và cả năm. Chênh lệch = Sổ cái $-$ Flash; \% chênh lệch chia cho Flash. & Chenh\_lech\_thang \\
 \texttt{q\_Delta\_Channel} & Flash và sổ cái theo kênh bán cả năm: cửa hàng (STORE), online (WEB), chưa gắn kênh (UNALLOCATED). & Chenh\_lech\_kenh \\
 \texttt{q\_Transactions} & Bảng giao dịch chung: mỗi dòng là 1 dòng POS (bán tại cửa hàng) hoặc 1 đơn online, đưa về cùng một dạng & Giao\_dich\_chung \\
-\texttt{q\_FLASH} & Báo cáo nhanh doanh số của phòng Kinh doanh: mỗi dòng là 1 tháng × 1 kênh × 1 thị trường. & Flash \\
+\texttt{q\_FLASH} & Báo cáo nhanh doanh số của phòng Kinh doanh: mỗi dòng là 1 tháng $\times$ 1 kênh $\times$ 1 thị trường. & Flash \\
 \texttt{q\_Store} & Danh mục cửa hàng: nối mã cửa hàng bên POS (pos\_store\_id) với mã bên kế toán (finance\_store\_code, dạng NX001). & Cua\_hang \\
 \texttt{q\_Calendar} & Lịch từng ngày, thêm cột ngày ghi sổ posting\_date. & Lich \\
-\texttt{q\_RC\_Store} & Đối soát cửa hàng × ngày ghi sổ × loại tiền, so bằng nội tệ. Nhãn nguồn khi trích số: [RC-CH]. & Doi\_soat\_CH\_ngay \\
-\texttt{q\_RC\_Store\_DayCompare} & Theo từng tháng: số ô cửa hàng × ngày, số ô lệch khi so theo ngày ghi sổ (đúng cách), & So\_ngay\_ban\_ngay\_ghi\_so \\
-\texttt{q\_RC\_Store\_Month} & Cửa hàng × tháng: chênh lệch Sổ cái $-$ POS TRƯỚC và SAU khi đưa hai bên về cùng cách tính, cờ ⚠ vượt ngưỡng. & Doi\_soat\_CH\_thang \\
+\texttt{q\_RC\_Store} & Đối soát cửa hàng $\times$ ngày ghi sổ $\times$ loại tiền, so bằng nội tệ. Nhãn nguồn khi trích số: [RC-CH]. & Doi\_soat\_CH\_ngay \\
+\texttt{q\_RC\_Store\_DayCompare} & Theo từng tháng: số ô cửa hàng $\times$ ngày, số ô lệch khi so theo ngày ghi sổ (đúng cách), & So\_ngay\_ban\_ngay\_ghi\_so \\
+\texttt{q\_RC\_Store\_Month} & Cửa hàng $\times$ tháng: chênh lệch Sổ cái $-$ POS TRƯỚC và SAU khi đưa hai bên về cùng cách tính, cờ (cờ) vượt ngưỡng. & Doi\_soat\_CH\_thang \\
 \texttt{q\_RC\_Store\_Timing} & Lệch ngày ghi sổ của cửa hàng theo tháng. & Lech\_ngay\_ghi\_so \\
-\texttt{q\_RC\_Web} & Đối soát online × ngày giao × loại tiền, so bằng nội tệ. & Doi\_soat\_online \\
-\texttt{q\_RC\_Return} & Đối soát hàng trả × ngày trả × loại tiền, so bằng nội tệ. & Doi\_soat\_hang\_tra \\
-\texttt{q\_RC\_Web\_Month} & Kênh online theo tháng: chênh lệch Sổ cái $-$ WEB TRƯỚC và SAU khi đưa về cùng cách tính, cờ ⚠ vượt ngưỡng. & Doi\_soat\_online\_thang \\
+\texttt{q\_RC\_Web} & Đối soát online $\times$ ngày giao $\times$ loại tiền, so bằng nội tệ. & Doi\_soat\_online \\
+\texttt{q\_RC\_Return} & Đối soát hàng trả $\times$ ngày trả $\times$ loại tiền, so bằng nội tệ. & Doi\_soat\_hang\_tra \\
+\texttt{q\_RC\_Web\_Month} & Kênh online theo tháng: chênh lệch Sổ cái $-$ WEB TRƯỚC và SAU khi đưa về cùng cách tính, cờ (cờ) vượt ngưỡng. & Doi\_soat\_online\_thang \\
 \texttt{q\_Web\_Timing} & Lệch thời điểm online theo tháng. & Lech\_thoi\_diem\_online \\
 \texttt{q\_FiveReasons} & 5 lý do khiến Flash và sổ cái lệch nhau, mỗi lý do chứng minh bằng số tính từ dữ liệu (không chép mô tả của đề). & Nam\_ly\_do \\
 \texttt{q\_BridgeItems} & Danh mục các khoản của bảng cầu nối: mã, thứ tự, tên, nhóm (1 trong 4 nhóm), bảng nào có khoản này, & Danh\_muc\_khoan \\
-\texttt{q\_BR\_Long} & Bảng cầu nối 12 tháng dạng dài: mỗi dòng là một bảng × một tháng × một khoản. & BR\_Long \\
-\texttt{q\_BR\_Check} & Tự cảnh báo trên bảng cầu nối, theo từng bảng × tháng. & Canh\_bao\_cau\_noi \\
+\texttt{q\_BR\_Long} & Bảng cầu nối 12 tháng dạng dài: mỗi dòng là một bảng $\times$ một tháng $\times$ một khoản. & BR\_Long \\
+\texttt{q\_BR\_Check} & Tự cảnh báo trên bảng cầu nối, theo từng bảng $\times$ tháng. & Canh\_bao\_cau\_noi \\
 \texttt{q\_BR\_Company} & Bảng cầu nối toàn công ty dạng ngang để đọc: mỗi khoản một dòng, mỗi tháng một cột, thêm cột cả năm. & Cau\_noi\_toan\_cong\_ty \\
 \texttt{q\_ExceptionLog} & Nhật ký ngoại lệ: mỗi khoản lệch một dòng, đủ 10 cột của file mẫu nộp (sheet Nhat\_ky\_ngoai\_le). & Nhat\_ky\_du\_lieu \\
 \texttt{q\_OrderSwap} & Nếu đổi thứ tự các bước cầu nối thì số của từng khoản đổi thế nào (cả năm, toàn công ty). & Doi\_thu\_tu \\

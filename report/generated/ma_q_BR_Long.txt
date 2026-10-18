@@ -1,16 +1,16 @@
-// q_BR_Long – Bảng cầu nối 12 tháng dạng dài: mỗi dòng là một bảng × một tháng × một khoản. Nhãn
+// q_BR_Long - Bảng cầu nối 12 tháng dạng dài: mỗi dòng là một bảng x một tháng x một khoản. Nhãn
     .. nguồn: [BR-Tổng], [BR-CH], [BR-WEB].
 // Bảng (cột bridge): STORE (cửa hàng), WEB (online), UNALLOCATED (bút toán không gắn kênh), COMPANY
     .. (toàn công ty = tổng 3 bảng trên).
-// Mỗi khoản tính TRỰC TIẾP từ dữ liệu (không lấy phần dư); dòng kiểm tra = Flash + các khoản − sổ cái,
-    .. phải ≈ 0.
+// Mỗi khoản tính TRỰC TIẾP từ dữ liệu (không lấy phần dư); dòng kiểm tra = Flash + các khoản - sổ cái,
+    .. phải ~ 0.
 // Tỷ giá: mọi khoản theo tỷ giá ngày đặt / ngày bán; lỗi chuyển dữ liệu theo tỷ giá ngày của ngày ghi
     .. sổ; dòng tỷ giá theo định nghĩa slide 34.
 // Danh mục khoản (thứ tự, tên, nhóm) lấy từ q_BridgeItems. Kỳ đối soát = các tháng có trong Flash.
 let
     // Các tháng đối soát = các tháng có trong Flash
     #"Tháng đối soát" = List.Buffer(List.Sort(List.Distinct(q_FLASH[period]))),
-    // Hàm cộng một cột theo tháng, gắn tên bảng và mã khoản; dau = +1 hoặc −1
+    // Hàm cộng một cột theo tháng, gắn tên bảng và mã khoản; dau = +1 hoặc -1
     #"Cộng theo tháng" = (t as table, cot_thang as text, cot_tien as text, bang as text, khoan as text,
         .. dau as number) as table =>
         let
@@ -33,7 +33,7 @@ let
     #"POS bỏ trùng" = Table.Buffer(Table.SelectRows(#"POS", each not [is_duplicate])),
     // Dòng POS bị trùng
     #"POS trùng" = Table.SelectRows(#"POS", each [is_duplicate]),
-    // Mọi đơn online (kể cả đơn hủy – Flash có tính)
+    // Mọi đơn online (kể cả đơn hủy - Flash có tính)
     #"WEB" = Table.Buffer(Table.SelectRows(#"Giao dịch", each [channel] = "WEB")),
     // Đơn online chưa hủy (đã giao)
     #"WEB chưa hủy" = Table.Buffer(Table.SelectRows(#"WEB", each [status] <> "Cancelled")),
@@ -41,7 +41,7 @@ let
     #"WEB hủy" = Table.SelectRows(#"WEB", each [status] = "Cancelled"),
     // Đơn online bị trả
     #"WEB trả" = Table.Buffer(Table.SelectRows(#"WEB", each [status] = "Returned")),
-    // Sổ cái, thêm USD chưa làm tròn = nội tệ ÷ tỷ giá cuối tháng của chính bút toán
+    // Sổ cái, thêm USD chưa làm tròn = nội tệ / tỷ giá cuối tháng của chính bút toán
     #"Sổ cái" = Table.Buffer(Table.AddColumn(q_GL, "usd_unrounded", each [revenue_local] /
         .. [fx_rate_month_end], type number)),
     // Hàm lọc bút toán tay theo phần đầu mã tham chiếu (MJ-SHIP, MJ-RCL, MJ-ADJ)
@@ -64,7 +64,7 @@ let
     #"Flash cửa hàng" = Table.SelectRows(q_FLASH, each [channel_code] = "STORE"),
     // Flash online
     #"Flash online" = Table.SelectRows(q_FLASH, each [channel_code] = "WEB"),
-    // Ô lỗi chuyển dữ liệu (cửa hàng × ngày ghi sổ), phần lệch đã đổi theo tỷ giá ngày của ngày ghi sổ
+    // Ô lỗi chuyển dữ liệu (cửa hàng x ngày ghi sổ), phần lệch đã đổi theo tỷ giá ngày của ngày ghi sổ
     #"Ô cửa hàng" = Table.Buffer(q_RC_Store),
 
     // ---- Bảng cửa hàng (STORE): từng mảnh của từng khoản
@@ -79,12 +79,12 @@ let
         #"Cộng theo tháng"(#"Ô cửa hàng", "period", "diff_usd", "STORE", "transfer_error", 1),
         #"Cộng theo tháng"(#"Bút toán tay"("STORE", "MJ-RCL"), "period", "revenue_usd", "STORE",
             .. "channel_reclass", 1),
-        // Tỷ giá = bút toán POS chưa làm tròn − (POS đã bỏ trùng theo tháng ghi sổ + lỗi chuyển dữ
+        // Tỷ giá = bút toán POS chưa làm tròn - (POS đã bỏ trùng theo tháng ghi sổ + lỗi chuyển dữ
             .. liệu), cùng theo tỷ giá ngày
         #"Cộng theo tháng"(#"Bút toán POS", "period", "usd_unrounded", "STORE", "fx", 1),
         #"Cộng theo tháng"(#"POS bỏ trùng", "recognition_period", "net_usd_daily", "STORE", "fx", -1),
         #"Cộng theo tháng"(#"Ô cửa hàng", "period", "diff_usd", "STORE", "fx", -1),
-        // Làm tròn = (Flash tính lại chưa làm tròn − Flash trong file) + (sổ cái đã làm tròn − chưa
+        // Làm tròn = (Flash tính lại chưa làm tròn - Flash trong file) + (sổ cái đã làm tròn - chưa
             .. làm tròn)
         #"Cộng theo tháng"(#"POS", "sale_period", "gross_usd_daily", "STORE", "rounding", 1),
         #"Cộng theo tháng"(#"Flash cửa hàng", "period", "revenue_usd", "STORE", "rounding", -1),
@@ -105,7 +105,7 @@ let
             .. "shipping", 1),
         #"Cộng theo tháng"(#"Bút toán tay"("WEB", "MJ-RCL"), "period", "revenue_usd", "WEB",
             .. "channel_reclass", 1),
-        // Tỷ giá = bút toán online chưa làm tròn − (đơn chưa hủy theo tháng giao − hàng trả theo tháng
+        // Tỷ giá = bút toán online chưa làm tròn - (đơn chưa hủy theo tháng giao - hàng trả theo tháng
             .. trả), cùng theo tỷ giá ngày đặt
         #"Cộng theo tháng"(#"Bút toán online", "period", "usd_unrounded", "WEB", "fx", 1),
         #"Cộng theo tháng"(#"WEB chưa hủy", "recognition_period", "net_usd_daily", "WEB", "fx", -1),
@@ -135,9 +135,9 @@ let
     #"Cộng mảnh" = Table.Group(#"Nối các mảnh", {"bridge", "period", "item_code"}, {{"usd", each
         .. List.Sum([usd]), type number}}),
 
-    // ---- Lưới đủ: 3 bảng × mọi tháng × mọi khoản (trừ dòng kiểm tra); khoản không áp dụng = 0
+    // ---- Lưới đủ: 3 bảng x mọi tháng x mọi khoản (trừ dòng kiểm tra); khoản không áp dụng = 0
     #"Mã khoản" = List.RemoveItems(q_BridgeItems[item_code], {"check"}),
-    // Lưới bảng × tháng × khoản
+    // Lưới bảng x tháng x khoản
     #"Lưới" = Table.FromRows(List.Combine(List.Transform({"STORE", "WEB", "UNALLOCATED"}, (b) =>
         List.Combine(List.Transform(#"Tháng đối soát", (p) => List.Transform(#"Mã khoản", (c) => {b, p,
             .. c}))))),
@@ -158,7 +158,7 @@ let
     // Bốn bảng
     #"Bốn bảng" = Table.Combine({#"Toàn công ty", #"Ba bảng kênh"}),
 
-    // ---- Dòng kiểm tra = Flash + các khoản ở giữa − sổ cái, theo từng bảng × tháng
+    // ---- Dòng kiểm tra = Flash + các khoản ở giữa - sổ cái, theo từng bảng x tháng
     #"Dòng kiểm tra" = Table.AddColumn(Table.Group(#"Bốn bảng", {"bridge", "period"},
         {{"usd", each List.Sum(List.Transform(Table.ToRecords(_), (r) => if r[item_code] = "gl" then -
             .. r[usd] else r[usd])), type number}}),

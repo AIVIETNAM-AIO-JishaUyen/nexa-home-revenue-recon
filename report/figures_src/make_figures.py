@@ -4,6 +4,7 @@ Số trong báo cáo lấy từ đây, không gõ tay. Chạy lại mỗi khi l�
 Chạy:  D:/Anaconda/python.exe -I report/figures_src/make_figures.py
 Ra:    report/generated/*.png, report/generated/*.tex
 """
+import html
 import re
 import sys
 from pathlib import Path
@@ -53,7 +54,11 @@ def esc(s):
 
 def write(name, text):
     # Dấu trừ "−" (Unicode) chưa có trong bộ mã T1 của LaTeX: đổi sang dấu trừ dạng toán
-    (OUT / name).write_text(text.replace("−", "$-$"), encoding="utf-8")
+    # Vài ký hiệu khác cũng chưa có trong phông chữ: đổi sang ký hiệu toán của LaTeX
+    for a, b in [("−", "$-$"), ("×", r"$\times$"), ("÷", r"$\div$"), ("≈", r"$\approx$"), ("≤", r"$\le$"), ("≥", r"$\ge$"),
+                 ("…", r"\ldots{}"), ("⚠", "(cờ)")]:
+        text = text.replace(a, b)
+    (OUT / name).write_text(text, encoding="utf-8")
     print("ghi", name)
 
 
@@ -492,7 +497,11 @@ def wrap_code(text, width=104):
 
 for q in ["q_Transactions", "q_BR_Long"]:
     with open(OUT / f"ma_{q}.txt", "w", encoding="utf-8", newline="\n") as f:
-        f.write(wrap_code((QDIR / f"{q}.m").read_text(encoding="utf-8")))
+        code = (QDIR / f"{q}.m").read_text(encoding="utf-8")
+        # Khối code in nguyên văn, không dùng được ký hiệu toán: đổi các ký hiệu phông chữ không có sang chữ ASCII
+        for a, b in [("−", "-"), ("×", "x"), ("÷", "/"), ("≈", "~"), ("≤", "<="), ("≥", ">="), ("…", "..."), ("⚠", "(!)"), ("–", "-")]:
+            code = code.replace(a, b)
+        f.write(wrap_code(code))
     print("ghi", f"ma_{q}.txt")
 macros.update({"SoTruyVan": str(len(man)), "SoDongMa": vn(sum(len((QDIR / f"{q}.m").read_text(encoding="utf-8").splitlines()) for q in man["query"]))})
 
@@ -501,12 +510,15 @@ macros.update({"SoTruyVan": str(len(man)), "SoDongMa": vn(sum(len((QDIR / f"{q}.
 
 def md_to_tex(s):
     """Đổi chữ Markdown trong ô bảng plan sang LaTeX: `code`, **đậm**, danh sách <ul><li>."""
-    s = s.replace("**", "")
+    s = html.unescape(s.replace("**", ""))     # "&amp;" trong file Markdown thành "&"
     parts = re.split(r"(`[^`]*`)", s)
     out = []
     for p in parts:
         if p.startswith("`") and p.endswith("`"):
-            out.append(r"\texttt{" + esc(p[1:-1]).replace("{", r"\{").replace("}", r"\}").replace("$", r"\$") + "}")
+            # Đường dẫn dài: cho phép xuống dòng sau "/", "_" và "." để không tràn sang cột bên
+            t = esc(p[1:-1]).replace("{", r"\{").replace("}", r"\}").replace("$", r"\$")
+            t = t.replace("/", r"/\allowbreak{}").replace(r"\_", r"\_\allowbreak{}").replace(".", r".\allowbreak{}")
+            out.append(r"\texttt{" + t + "}")
         else:
             p = esc(p).replace("{", r"\{").replace("}", r"\}").replace("$", r"\$").replace("~", r"\textasciitilde{}")
             out.append(p)
@@ -530,7 +542,7 @@ for slug in slugs:
         c = [x.strip() for x in l.strip().strip("|").split(" | ")]
         if len(c) < 4:
             continue
-        ai_rows.append(f"\\texttt{{{esc(slug)}}} & {md_to_tex(c[1])} & {md_to_tex(c[2])} & {md_to_tex(c[3])} \\\\")
+        ai_rows.append(f"{esc(slug)} & {md_to_tex(c[1])} & {md_to_tex(c[2])} & {md_to_tex(c[3])} \\\\")
 write("bang_ai.tex", "\n".join([
     r"{\scriptsize", r"\begin{longtable}{@{}L{2.1cm} L{3.6cm} L{4.2cm} L{5.2cm}@{}}", r"\toprule",
     r"Plan & Nhờ AI làm gì & Phần do AI viết ra & Nhóm kiểm tra lại bằng cách nào \\", r"\midrule", r"\endhead",
