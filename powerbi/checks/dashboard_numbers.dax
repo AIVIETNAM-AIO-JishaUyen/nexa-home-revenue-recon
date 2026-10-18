@@ -41,5 +41,15 @@ RETURN
         "tieu_de_3a", [Tiêu đề (chênh lệch cửa hàng)],
         "tieu_de_3b", [Tiêu đề (chênh lệch online)],
         "tieu_de_4a", [Tiêu đề (tỷ lệ hàng trả)],
-        "tieu_de_4c", [Tiêu đề (bút toán tay)]
+        "tieu_de_4c", [Tiêu đề (bút toán tay)],
+        // Trường hợp biên: tháng đầu kỳ, tháng không còn ô lệch, chọn kênh hoặc nước
+        "t01_doi_chenh_lech", CALCULATE ( [Thay đổi so với tháng trước (Chênh lệch)], TREATAS ( { "2025-01" }, dim_date[period] ) ),
+        "t01_doi_don_huy", CALCULATE ( [Thay đổi so với tháng trước (Số đơn hủy)], TREATAS ( { "2025-01" }, dim_date[period] ) ),
+        "t01_doi_ty_le_tra", CALCULATE ( [Thay đổi so với tháng trước (Tỷ lệ hàng trả)], TREATAS ( { "2025-01" }, dim_date[period] ) ),
+        "t06_diem_chinh_3", CALCULATE ( [Điểm chính trang 3], TREATAS ( { "2025-06" }, dim_date[period] ) ),
+        "t06_tieu_de_o_lech", CALCULATE ( [Tiêu đề (ô còn lệch)], TREATAS ( { "2025-06" }, dim_date[period] ) ),
+        "online_diem_chinh_3", CALCULATE ( [Điểm chính trang 3], t12, dim_channel[channel_code] = "WEB" ),
+        "cua_hang_diem_chinh_4", CALCULATE ( [Điểm chính trang 4], t12, dim_channel[channel_code] = "STORE" ),
+        "canada_diem_chinh_2", CALCULATE ( [Điểm chính trang 2], t12, dim_store[country] = "Canada" ),
+        "canada_tieu_de_doi_chieu", CALCULATE ( [Tiêu đề (đối chiếu)], dim_store[country] = "Canada" )
     )

@@ -268,7 +268,7 @@
 // 5. Dashboard
 // ====================================================================================================
 
-// Tháng đang chọn (ví dụ T12/2025) hoặc "Cả kỳ" khi chọn nhiều tháng
+// Tháng đang chọn (ví dụ "Tháng 12/2025") hoặc "Cả kỳ đã chọn" khi chọn nhiều tháng
 [Kỳ đang xem] =
     IF ( HASONEVALUE ( dim_date[period] ), "Tháng " & FORMAT ( MIN ( dim_date[date] ), "MM/yyyy" ), "Cả kỳ đã chọn" )
 
@@ -296,11 +296,11 @@
 [Nhóm lỗi dữ liệu] =
     CALCULATE ( [Cầu nối (DAX, cộng các khoản)], dim_bridge_item[item_group] = "Lỗi dữ liệu" ) + 0
 
-// Bút toán ADJ-0925
+// Tổng các khoản nhóm Chưa giải thích được (bút toán ADJ-0925)
 [Nhóm chưa giải thích được] =
     CALCULATE ( [Cầu nối (DAX, cộng các khoản)], dim_bridge_item[item_group] = "Chưa giải thích được" ) + 0
 
-// Làm tròn
+// Tổng các khoản nhóm Sai số chấp nhận (làm tròn)
 [Nhóm sai số chấp nhận] =
     CALCULATE ( [Cầu nối (DAX, cộng các khoản)], dim_bridge_item[item_group] = "Sai số chấp nhận" ) + 0
 
@@ -316,49 +316,55 @@
 [Thay đổi so với tháng trước (Flash)] =
     VAR c = [Flash trong kỳ]
     VAR p = CALCULATE ( [Flash trong kỳ], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước (nghìn USD)
 [Thay đổi so với tháng trước (Sổ cái)] =
     VAR c = [Sổ cái (nghìn USD)]
     VAR p = CALCULATE ( [Sổ cái (nghìn USD)], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0.0;-#,0.0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0.0;-#,0.0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Chênh lệch)] =
     VAR c = [Chênh lệch trong kỳ]
     VAR p = CALCULATE ( [Chênh lệch trong kỳ], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Lỗi dữ liệu)] =
     VAR c = [Nhóm lỗi dữ liệu]
     VAR p = CALCULATE ( [Nhóm lỗi dữ liệu], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Chưa giải thích)] =
     VAR c = [Nhóm chưa giải thích được]
     VAR p = CALCULATE ( [Nhóm chưa giải thích được], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Quy tắc ghi nhận)] =
     VAR c = [Nhóm quy tắc ghi nhận]
     VAR p = CALCULATE ( [Nhóm quy tắc ghi nhận], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Câu tóm tắt trang Tổng quan
 [Điểm chính trang 1] =
@@ -398,11 +404,11 @@
 
 // Cùng tổng, lấy từ bảng cầu nối Power Query
 [Tổng các khoản (Power Query)] =
-    CALCULATE ( SUMX ( VALUES ( dim_bridge_item[item_code] ), [Cầu nối (Power Query)] ), NOT dim_bridge_item[item_code] IN { "flash", "gl", "check" } )
+    IF ( ISFILTERED ( dim_store[country] ), BLANK (), CALCULATE ( SUMX ( VALUES ( dim_bridge_item[item_code] ), [Cầu nối (Power Query)] ), NOT dim_bridge_item[item_code] IN { "flash", "gl", "check" } ) )
 
 // Phải bằng 0
 [Lệch tổng DAX − Power Query] =
-    [Tổng các khoản (DAX)] - [Tổng các khoản (Power Query)]
+    IF ( ISFILTERED ( dim_store[country] ), BLANK (), [Tổng các khoản (DAX)] - [Tổng các khoản (Power Query)] )
 
 // Tên khoản có độ lớn lớn nhất trong kỳ đang chọn
 [Khoản lớn nhất] =
@@ -415,7 +421,8 @@
     VAR k = [Khoản lớn nhất]
     VAR v = CALCULATE ( [Cầu nối (DAX, cộng các khoản)], dim_bridge_item[item_name] = k )
     RETURN [Kỳ đang xem] & ": khoản lớn nhất là " & k & " (" & FORMAT ( v, "#,0" ) & " USD, " & FORMAT ( DIVIDE ( ABS ( v ), ABS ( [Chênh lệch trong kỳ] ) ), "0%" )
-        & " độ lớn chênh lệch). Dòng kiểm tra = " & FORMAT ( [Kiểm tra cầu nối], "0.00" ) & " USD; DAX và Power Query lệch " & FORMAT ( [Lệch tổng DAX − Power Query], "0.00" ) & " USD."
+        & " độ lớn chênh lệch). Dòng kiểm tra = " & FORMAT ( [Kiểm tra cầu nối], "0.00" ) & " USD; "
+        & IF ( ISFILTERED ( dim_store[country] ), "không so được với Power Query theo nước.", "DAX và Power Query lệch " & FORMAT ( [Lệch tổng DAX − Power Query], "0.00" ) & " USD." )
 
 // Tiêu đề biểu đồ thác nước trang 2
 [Tiêu đề (thác nước từng khoản)] =
@@ -431,7 +438,8 @@
 // Tiêu đề bảng đối chiếu DAX – Power Query
 [Tiêu đề (đối chiếu)] =
     VAR m = MAXX ( CALCULATETABLE ( VALUES ( dim_date[period] ), REMOVEFILTERS ( dim_date ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) ), VAR q = dim_date[period] RETURN ABS ( CALCULATE ( [Lệch tổng DAX − Power Query], REMOVEFILTERS ( dim_date ), dim_date[period] = q ) ) )
-    RETURN "Đối chiếu: DAX và Power Query lệch tối đa " & FORMAT ( m, "0.00" ) & " USD/tháng"
+    RETURN IF ( ISFILTERED ( dim_store[country] ), "Đối chiếu DAX – Power Query: bảng Power Query không có số theo nước, bỏ chọn nước để so",
+        "Đối chiếu: DAX và Power Query lệch tối đa " & FORMAT ( m, "0.00" ) & " USD/tháng" )
 
 // Bút toán WEB_DELIVERY và WEB_RETURN (bỏ bút toán tay)
 [Sổ cái online tự động] =
@@ -515,18 +523,19 @@
         KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
     )
 
-// Đỏ khi ô cửa hàng × tháng vượt ngưỡng sau xử lý
+// Đỏ khi cửa hàng có ít nhất một tháng vượt ngưỡng sau xử lý trong các tháng đang chọn
 [Màu cờ cửa hàng] =
-    IF ( [Vượt ngưỡng sau xử lý] = 1, "#C0392B" )
+    IF ( [Số ô vượt ngưỡng sau xử lý] > 0, "#C0392B" )
 
-// Ký hiệu ⚠ cho ô cửa hàng × tháng vượt ngưỡng sau xử lý
+// Ký hiệu ⚠ khi cửa hàng có ít nhất một tháng vượt ngưỡng sau xử lý trong các tháng đang chọn
 [Cờ vượt ngưỡng (ký hiệu)] =
-    IF ( [Vượt ngưỡng sau xử lý] = 1, "⚠ vượt ngưỡng", "" )
+    IF ( [Số ô vượt ngưỡng sau xử lý] > 0, "⚠ vượt ngưỡng", "" )
 
 // Câu tóm tắt trang Đối soát chi tiết
 [Điểm chính trang 3] =
-    [Kỳ đang xem] & ": so theo ngày bán thì " & FORMAT ( [Số ô lệch theo ngày bán], "#,0" ) & "/" & FORMAT ( [Số ô cửa hàng × ngày], "#,0" ) & " ô cửa hàng × ngày lệch; đưa về ngày ghi sổ và bỏ dòng trùng thì còn "
-        & FORMAT ( [Số ô lệch theo ngày ghi sổ], "#,0" ) & " ô. Ô cửa hàng × tháng vượt ngưỡng: " & FORMAT ( CALCULATE ( [Số ô vượt ngưỡng trước xử lý] ), "#,0" ) & " → " & FORMAT ( [Số ô vượt ngưỡng sau xử lý], "#,0" ) & "."
+    IF ( ISBLANK ( [Số ô cửa hàng × ngày] ), [Kỳ đang xem] & ": kênh hoặc nước đang chọn không có dòng bán tại cửa hàng (POS) nào.",
+        [Kỳ đang xem] & ": so theo ngày bán thì " & FORMAT ( [Số ô lệch theo ngày bán], "#,0" ) & "/" & FORMAT ( [Số ô cửa hàng × ngày], "#,0" ) & " ô cửa hàng × ngày lệch; đưa về ngày ghi sổ và bỏ dòng trùng thì còn "
+        & FORMAT ( [Số ô lệch theo ngày ghi sổ] + 0, "#,0" ) & " ô. Ô cửa hàng × tháng vượt ngưỡng: " & FORMAT ( CALCULATE ( [Số ô vượt ngưỡng trước xử lý] ), "#,0" ) & " → " & FORMAT ( [Số ô vượt ngưỡng sau xử lý], "#,0" ) & "." )
 
 // Tiêu đề đường chênh lệch cửa hàng
 [Tiêu đề (chênh lệch cửa hàng)] =
@@ -538,13 +547,13 @@
 
 // Tiêu đề bảng ô cửa hàng × ngày còn lệch
 [Tiêu đề (ô còn lệch)] =
-    [Số ô lệch theo ngày ghi sổ] & " ô cửa hàng × ngày còn lệch sau khi đưa về cùng cách tính (bấm một dòng để lọc các hình khác)"
+    ( [Số ô lệch theo ngày ghi sổ] + 0 ) & " ô cửa hàng × ngày còn lệch sau khi đưa về cùng cách tính (bấm một dòng để lọc các hình khác)"
 
 // Giá trị hàng trả theo ngày nhận hàng trả, tỷ giá ngày đặt (số dương)
 [Hàng trả] =
     CALCULATE ( [Phần hàng trả theo ngày trả (tỷ giá ngày đặt)], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
 
-// Hàng trả ÷ doanh thu online đã giao trong cùng tháng (cùng tỷ giá ngày đặt)
+// Hàng trả (theo tháng nhận hàng trả) ÷ doanh thu online đã giao trong cùng tháng (đơn chưa hủy theo tháng giao, kể cả đơn sau đó bị trả); cả hai theo tỷ giá ngày đặt
 [Tỷ lệ hàng trả] =
     DIVIDE ( [Hàng trả], CALCULATE ( [Phần online chưa hủy (tỷ giá ngày đặt)], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) ) )
 
@@ -552,9 +561,10 @@
 [Thay đổi so với tháng trước (Tỷ lệ hàng trả)] =
     VAR c = [Tỷ lệ hàng trả]
     VAR p = CALCULATE ( [Tỷ lệ hàng trả], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( ( c - p ) * 100, "+0.00;-0.00;0" ) & " điểm % " & IF ( c > p, "(xấu đi)", "(tốt lên)" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( ( c - p ) * 100, "+0.00;-0.00;0" ) & " điểm % " & IF ( c > p, "(xấu đi)", IF ( c < p, "(tốt lên)", "(không đổi)" ) ) ) )
 
 // Đơn hủy, theo tháng đặt
 [Số đơn hủy] =
@@ -572,17 +582,19 @@
 [Thay đổi so với tháng trước (Số đơn hủy)] =
     VAR c = [Số đơn hủy]
     VAR p = CALCULATE ( [Số đơn hủy], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Hàng trả)] =
     VAR c = [Hàng trả]
     VAR p = CALCULATE ( [Hàng trả], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Đỏ cho bút toán tay không có giấy tờ làm căn cứ (MJ-ADJ)
 [Màu bút toán tay] =
@@ -594,7 +606,8 @@
 
 // Câu tóm tắt trang Hoàn trả, hủy và chất lượng dữ liệu
 [Điểm chính trang 4] =
-    [Kỳ đang xem] & ": hàng trả " & FORMAT ( [Hàng trả], "#,0" ) & " USD (" & FORMAT ( [Tỷ lệ hàng trả], "0.0%" ) & " doanh thu online đã giao), " & [Số đơn hủy] & " đơn hủy, "
+    [Kỳ đang xem] & ": " & IF ( ISBLANK ( [Tỷ lệ hàng trả] ), "kênh hoặc nước đang chọn không có đơn online đã giao, ",
+            "hàng trả " & FORMAT ( [Hàng trả] + 0, "#,0" ) & " USD (" & FORMAT ( [Tỷ lệ hàng trả], "0.0%" ) & " doanh thu online đã giao), " ) & [Số đơn hủy] & " đơn hủy, "
         & [Số dòng POS trùng] & " dòng POS trùng, " & [Số bút toán tay] & " bút toán tay. Cả năm có " & CALCULATE ( COUNTROWS ( pq_data_quality ), pq_data_quality[trang_thai] <> "Đạt" ) & "/" & COUNTROWS ( pq_data_quality ) & " phép kiểm tra dữ liệu cần xem."
 
 // Tiêu đề đường tỷ lệ hàng trả
@@ -619,65 +632,73 @@
 [Thay đổi so với tháng trước (Số dòng POS trùng)] =
     VAR c = [Số dòng POS trùng]
     VAR p = CALCULATE ( [Số dòng POS trùng], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Số bút toán tay)] =
     VAR c = [Số bút toán tay]
     VAR p = CALCULATE ( [Số bút toán tay], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Số ô cửa hàng × ngày)] =
     VAR c = [Số ô cửa hàng × ngày]
     VAR p = CALCULATE ( [Số ô cửa hàng × ngày], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Số ô lệch theo ngày bán)] =
     VAR c = [Số ô lệch theo ngày bán]
     VAR p = CALCULATE ( [Số ô lệch theo ngày bán], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Số ô vượt ngưỡng trước xử lý)] =
     VAR c = [Số ô vượt ngưỡng trước xử lý]
     VAR p = CALCULATE ( [Số ô vượt ngưỡng trước xử lý], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Số ô vượt ngưỡng sau xử lý)] =
     VAR c = [Số ô vượt ngưỡng sau xử lý]
     VAR p = CALCULATE ( [Số ô vượt ngưỡng sau xử lý], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Chênh lệch online theo ngày giao)] =
     VAR c = [Chênh lệch online theo ngày giao]
     VAR p = CALCULATE ( [Chênh lệch online theo ngày giao], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0.00;-#,0.00;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0.00;-#,0.00;0" ) ) )
 
 // Mức thay đổi so với tháng trước
 [Thay đổi so với tháng trước (Sổ cái trong kỳ)] =
     VAR c = [Sổ cái trong kỳ]
     VAR p = CALCULATE ( [Sổ cái trong kỳ], PREVIOUSMONTH ( dim_date[date] ) )
+    VAR co_truoc = CALCULATE ( COUNTROWS ( dim_date ), PREVIOUSMONTH ( dim_date[date] ), dim_date[trong_ky_doi_soat] = TRUE () ) > 0
     RETURN
         IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
-            IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+            IF ( NOT co_truoc, "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
 
 // Ô số liệu chính trang 1: chênh lệch kèm % so với Flash
 [Chênh lệch (USD và %)] =

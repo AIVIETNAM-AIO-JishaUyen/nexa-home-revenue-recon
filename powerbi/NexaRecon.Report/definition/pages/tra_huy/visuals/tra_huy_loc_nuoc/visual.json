@@ -124,6 +124,13 @@
                               "Value": "'Online'"
                             }
                           }
+                        ],
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
                         ]
                       ]
                     }

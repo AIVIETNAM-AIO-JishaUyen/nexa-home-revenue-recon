@@ -172,6 +172,7 @@ Ba điểm thiết kế:
   \item \textbf{Bộ lọc dùng chung.} Ba bộ lọc tháng (mặc định 12/2025), kênh và quốc gia nằm ở đầu mỗi trang và đồng bộ giữa 4 trang. Biểu đồ 12 tháng không bị bộ lọc tháng tác động, để luôn thấy xu hướng. Chọn một nước thì kênh online tự bị bỏ, vì Flash chia online theo 5 thị trường, không khớp 8 nước của cửa hàng.
   \item \textbf{Chỉ một màu nhấn.} Flash màu xám, sổ cái màu xanh. Màu đỏ chỉ dùng cho chỗ vượt ngưỡng: tháng còn lệch quá 200 USD, ô cửa hàng $\times$ tháng có cờ, bút toán không có giấy tờ, phép kiểm tra dữ liệu ``Cần xem''.
 \end{itemize}
+Còn hai phần của yêu cầu chưa làm: nút ``Đặt lại'' đưa mọi bộ lọc về mặc định, và tô tháng đang chọn trên các biểu đồ, bảng 12 tháng (hiện mọi tháng đều có nhãn số, nhưng không thấy tháng nào đang được chọn).
 
 Số trên dashboard khớp Power Query. Truy vấn DAX \texttt{powerbi/checks/dashboard\_numbers.dax} cho ra:
 \begin{itemize}
@@ -184,12 +185,12 @@ Số trên dashboard khớp Power Query. Truy vấn DAX \texttt{powerbi/checks/d
 \centering
 \includegraphics[width=\textwidth]{../powerbi/checks/dashboard_trang_1.png}
 
-\capfig{Dashboard trang 1 (Tổng quan), tháng 12/2025. Thác nước đi từ Flash qua 4 nhóm đến sổ cái; cột đỏ ở góc dưới phải là các tháng còn lệch quá 200 USD sau khi trừ quy tắc ghi nhận. Số hiển thị theo kiểu Anh -- Mỹ (dấu phẩy ngăn hàng nghìn) vì mô hình Power BI đặt vùng en-US.}\label{fig:dash1}
+\capfig{Dashboard trang 1 (Tổng quan), tháng 12/2025. Thác nước đi từ Flash qua các nhóm lệch đến sổ cái (cột cuối, Power BI ghi là ``Total''); nhóm chưa giải thích được bằng 0 trong tháng 12 nên không có cột. Cột đỏ ở góc dưới phải là các tháng còn lệch quá 200 USD sau khi trừ quy tắc ghi nhận. Số hiển thị theo kiểu Anh -- Mỹ (dấu phẩy ngăn hàng nghìn) vì mô hình Power BI đặt vùng en-US.}\label{fig:dash1}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{../powerbi/checks/dashboard_trang_2.png}
 
-\capfig{Dashboard trang 2 (Cầu nối), tháng 12/2025. Thác nước từng khoản đi từ 0 đến tổng chênh lệch (cột cuối); bảng góc dưới phải đối chiếu tổng các khoản tính bằng DAX với Power Query từng tháng.}\label{fig:dash2}
+\capfig{Dashboard trang 2 (Cầu nối), tháng 12/2025. Thác nước từng khoản đi từ 0 đến tổng chênh lệch (cột cuối, Power BI ghi là ``Total''); khoản bằng 0 trong tháng 12 (dòng POS trùng, chưa giải thích được) không có cột; bảng góc dưới phải đối chiếu tổng các khoản tính bằng DAX với Power Query từng tháng.}\label{fig:dash2}
 \end{figure}

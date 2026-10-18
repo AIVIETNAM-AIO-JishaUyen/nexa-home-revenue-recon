@@ -1,5 +1,5 @@
 """build_report.py – Sinh các file báo cáo Power BI dạng PBIR (Power BI enhanced report format) trong powerbi/NexaRecon.Report/definition
-từ phần mô tả trang và hình ở cuối file. Sửa trang/hình thì sửa file này rồi chạy lại; không sửa tay các file JSON sinh ra.
+từ phần mô tả trang và hình ở cuối file. Sửa trang/hình thì sửa file này rồi chạy lại; không sửa tay các file JSON (JavaScript Object Notation, file chữ lưu dữ liệu có cấu trúc) sinh ra.
 
 Dashboard 4 trang theo docs/yeu_cau_dashboard.md: Tổng quan · Cầu nối · Đối soát chi tiết · Hoàn trả, hủy và chất lượng dữ liệu.
 Bộ lọc tháng (mặc định 12/2025), kênh, quốc gia đặt ở đầu mỗi trang và đồng bộ giữa các trang. Biểu đồ 12 tháng không bị bộ lọc tháng
@@ -149,7 +149,7 @@ def slicers(page):
         sl("loc_thang", 725, "dim_date", "period", "Tháng", "thang", [where_in("dim_date", "trong_ky_doi_soat", ["true"])], "'2025-12'"),
         sl("loc_kenh", 905, "dim_channel", "channel_name", "Kênh", "kenh", [where_in("dim_channel", "channel_code", ["'UNALLOCATED'"], True)]),
         sl("loc_nuoc", 1085, "dim_store", "country", "Quốc gia (bỏ online)", "nuoc",
-           [where_in("dim_store", "country", ["'Online'"], True)]),
+           [where_in("dim_store", "country", ["'Online'", "null"], True)]),
     ]
 
 
@@ -201,7 +201,8 @@ NOT_FLASH_GL = where_in("dim_bridge_item", "item_code", ["'flash'", "'gl'", "'ch
 
 
 def waterfall(name, x, y, w, h, category, title_measure, drop):
-    """Thác nước: xanh là khoản làm tăng, xám là khoản làm giảm; cột cuối (tổng) xanh. Ẩn chú thích tiếng Anh, hiện đủ số."""
+    """Thác nước: xanh là khoản làm tăng, xám là khoản làm giảm; cột cuối (tổng) xanh. Ẩn chú thích tiếng Anh, hiện đủ số.
+    Cột tổng do Power BI tự thêm vẫn ghi chữ "Total"; khoản trống (không có số) trong tháng đang chọn thì không có cột."""
     objects = {"labels": [{"properties": {"show": lit("true"), "fontSize": lit("7D"), "labelDisplayUnits": lit("1D")}}],
                "legend": [{"properties": {"show": lit("false")}}],
                "sentimentColors": [{"properties": {"increaseFill": {"solid": {"color": lit(f"'{BLUE}'")}},

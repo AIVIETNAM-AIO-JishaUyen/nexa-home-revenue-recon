@@ -21,7 +21,7 @@
 - 6 bảng danh mục (dim): `dim_date`, `dim_store`, `dim_channel`, `dim_currency`, `dim_journal_type`, `dim_order_status`.
 - 4 bảng giao dịch (fact): `fact_pos_line`, `fact_web_order`, `fact_gl_entry`, `fact_sales_flash`.
 - 2 bảng tỷ giá: `fact_fx_daily`, `fact_fx_month_end` (không nối với bảng nào; các bảng giao dịch đã có sẵn cột tỷ giá).
-- 2 bảng đọc từ file Power Query (tham số `PQFile`), để hai cách tính dùng chung danh mục khoản và so số với nhau:
+- 3 bảng đọc từ file Power Query (tham số `PQFile`), để hai cách tính dùng chung danh mục khoản, so số với nhau và hiện kết quả kiểm tra dữ liệu:
   - `dim_bridge_item`: danh mục khoản cầu nối (mã, thứ tự, tên, nhóm), từ bảng `q_BridgeItems`.
   - `pq_br_long`: bảng cầu nối dạng dài Power Query tính, từ bảng `q_BR_Long` (708 dòng); nối `item_code` → `dim_bridge_item`.
   - `pq_data_quality`: 13 phép kiểm tra chất lượng dữ liệu, từ bảng `q_DataQuality` (hiện ở trang 4 của dashboard, số cả năm, không đổi theo bộ lọc).
@@ -64,13 +64,13 @@
 
 | Công thức | Cách tính |
 |---|---|
-| `Flash` | Tổng `fact_sales_flash[revenue_usd]` |
+| `Flash` | <ul><li>Tổng `fact_sales_flash[revenue_usd]`</li><li>Khi chọn nước (`dim_store[country]`): chỉ lấy dòng Flash cửa hàng có thị trường là nước đó (xem lưu ý ở mục 2)</li></ul> |
 | `Sổ cái` | Tổng `fact_gl_entry[revenue_usd]` (đã đổi dấu) |
 | `Chênh lệch` | `[Sổ cái] − [Flash]` |
 | `% chênh lệch so với Flash` | Chênh lệch ÷ Flash (thẻ KPI – Key Performance Indicator, slide 12) |
 | `% chênh lệch so với sổ cái` | <ul><li>Chênh lệch ÷ \|Sổ cái\| (\|x\| là giá trị tuyệt đối, tức bỏ dấu âm), mẫu "Δ %" của slide 29</li><li>Dùng được ở mức tháng hoặc kênh</li><li>Cờ vượt ngưỡng cửa hàng × tháng (slide 28, 30) không dùng công thức này, vì Flash không có số theo cửa hàng: cờ dùng chênh lệch sổ cái − POS sau khi đưa về cùng cách tính (thư mục "4. Đối soát cửa hàng × tháng" bên dưới)</li></ul> |
 
-**Thư mục "2. Cầu nối (DAX)":** mỗi khoản một công thức, cùng định nghĩa với truy vấn `q_BR_Long` của Power Query, tính lại từ nội tệ ÷ tỷ giá từng dòng (không cộng cột USD đã làm tròn).
+**Thư mục "2. Cầu nối (DAX)":** mỗi khoản một công thức, cùng định nghĩa với truy vấn `q_BR_Long` của Power Query, tính lại từ nội tệ ÷ tỷ giá từng dòng (không cộng cột USD (đô la Mỹ) đã làm tròn).
 
 | Khoản | Tính theo ngày nào (quan hệ) | Tỷ giá |
 |---|---|---|
@@ -114,7 +114,9 @@ Sinh bằng `build_report.py` theo [yêu cầu dashboard](../docs/yeu_cau_dashbo
 | 4 · Hoàn trả, hủy, chất lượng dữ liệu | Hàng trả, tỷ lệ hàng trả (thay đổi tính bằng điểm phần trăm), số đơn hủy, số dòng POS trùng, số bút toán tay | <ul><li>Đường tỷ lệ hàng trả</li><li>Cột số đơn hủy theo tháng đặt</li><li>Bảng bút toán tay, đỏ cho bút toán không có giấy tờ</li><li>Bảng 13 phép kiểm tra dữ liệu</li></ul> |
 
 - Bộ lọc tháng (mặc định 12/2025, chỉ các tháng đối soát), kênh (cửa hàng, online), quốc gia ở đầu mỗi trang, đồng bộ giữa 4 trang. Biểu đồ 12 tháng không bị bộ lọc tháng tác động, để luôn thấy xu hướng.
-- Số hiển thị theo kiểu Anh – Mỹ (dấu phẩy ngăn hàng nghìn, dấu chấm thập phân) vì mô hình đặt vùng en-US; báo cáo PDF dùng kiểu Việt Nam.
+- Số hiển thị theo kiểu Anh – Mỹ (dấu phẩy ngăn hàng nghìn, dấu chấm thập phân) vì mô hình đặt vùng en-US; báo cáo PDF (Portable Document Format) dùng kiểu Việt Nam.
+- Cột cuối của 2 biểu đồ thác nước là cột tổng do Power BI tự thêm, ghi chữ "Total": ở trang 1 là sổ cái, ở trang 2 là tổng chênh lệch. Khoản nào bằng 0 (hoặc không có số) trong tháng đang chọn thì không có cột.
+- Chưa làm (xem `plans/backlog.md` mục 10): nút **Đặt lại** đưa bộ lọc về mặc định; tô tháng đang chọn trên các biểu đồ 12 tháng và trên bảng cầu nối 12 tháng ở trang 2.
 
 ---
 
