@@ -8,12 +8,12 @@
 |---|---|
 | Người làm | Lê Nguyễn Phước Thành (thanhlnp), làm cùng AI (trí tuệ nhân tạo) Claude |
 | Ngày bắt đầu | 18/10/2026 |
-| Ngày xong | |
+| Ngày xong | 18/10/2026 |
 | Nhánh (branch) | `baseline` |
 | Thuộc việc nào trong roadmap | Việc 3 – Đối soát chi tiết (phần cửa hàng) |
 | Mốc phải đạt | Mốc 3 (23/10) |
 | Phần báo cáo liên quan | Phần IV.1 (đối soát cửa hàng theo ngày ghi sổ); câu hỏi riêng 1 và 3 |
-| Trạng thái | Đang làm |
+| Trạng thái | Xong |
 | Plan liên quan | <ul><li>Làm sau plan: [transactions-quality](../completed/thanhlnp-18-10-2026-transactions-quality.md)</li><li>Plan tiếp theo dùng kết quả này: `web-return-recon`, `bridge-monthly`, `dashboard` (trang 3)</li></ul> |
 
 ---
