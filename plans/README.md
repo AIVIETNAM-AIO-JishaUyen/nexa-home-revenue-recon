@@ -103,3 +103,4 @@ Cập nhật bảng này mỗi khi tạo, xong hoặc hủy một plan.
 | [refresh-test](completed/thanhlnp-18-10-2026-refresh-test.md) | Việc 2 – Nạp và làm sạch dữ liệu (chạy thử làm mới) | thanhlnp | Xong | 18/10/2026 |
 | [dashboard](completed/thanhlnp-18-10-2026-dashboard.md) | Việc 6 – Dashboard 4 trang | thanhlnp | Xong | 18/10/2026 |
 | [conclusions](completed/thanhlnp-18-10-2026-conclusions.md) | Việc 7 – Kết luận và đề xuất | thanhlnp | Xong | 18/10/2026 |
+| [report-draft](completed/thanhlnp-18-10-2026-report-draft.md) | Việc 8 – Báo cáo, vấn đáp và nộp bài (bản nháp đủ) | thanhlnp | Xong | 18/10/2026 |

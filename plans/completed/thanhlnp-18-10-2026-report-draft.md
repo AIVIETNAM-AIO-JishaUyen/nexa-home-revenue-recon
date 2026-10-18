@@ -8,12 +8,12 @@
 |---|---|
 | Người làm | Lê Nguyễn Phước Thành (thanhlnp), làm cùng AI (trí tuệ nhân tạo) Claude |
 | Ngày bắt đầu | 18/10/2026 |
-| Ngày xong | |
+| Ngày xong | 19/10/2026 |
 | Nhánh (branch) | `baseline` |
 | Thuộc việc nào trong roadmap | Việc 8 – Báo cáo, vấn đáp và nộp bài (bản nháp đủ) |
 | Mốc phải đạt | Mốc 5 (29/10): đủ mọi sản phẩm ở dạng bản nháp, kể cả báo cáo |
 | Phần báo cáo liên quan | <ul><li>Phụ lục A (mã Power Query), phụ lục khai báo AI</li><li>Rà toàn bộ 8 phần</li></ul> |
-| Trạng thái | Đang làm |
+| Trạng thái | Xong |
 | Plan liên quan | <ul><li>Làm sau plan: [conclusions](../completed/thanhlnp-18-10-2026-conclusions.md)</li><li>Plan tiếp theo dùng kết quả này: `review-submit`</li></ul> |
 
 ---
@@ -137,8 +137,8 @@ Báo cáo PDF (Portable Document Format) đủ 8 phần và phụ lục, không 
 - **Các lần lưu vào Git (commit):** `5c0b2cc` (tạo plan), `c838e4f` (sinh bảng, code, khai báo AI), `a86ac63` (phụ lục A, khai báo AI), và các lần lưu ghi kết quả, rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
-- [ ] Không còn chỗ `< >` chưa điền.
-- [ ] Mọi con số trong plan đều ghi rõ lấy từ đâu.
-- [ ] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
-- [ ] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
-- [ ] Đã chuyển file sang `plans/completed/` bằng `git mv`.
+- [x] Không còn chỗ `< >` chưa điền.
+- [x] Mọi con số trong plan đều ghi rõ lấy từ đâu.
+- [x] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
+- [x] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
+- [x] Đã chuyển file sang `plans/completed/` bằng `git mv`.
