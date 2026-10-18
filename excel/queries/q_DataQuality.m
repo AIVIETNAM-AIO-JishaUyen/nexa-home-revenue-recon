@@ -40,25 +40,36 @@ let
     #"Mã cửa hàng không ghép được" = Table.SelectRows(#"Giao dịch chung", each [channel] = "STORE" and [store_code] = null),
     // Kiểm tra 10: bút toán tay điều chỉnh không có giấy tờ (mã MJ-ADJ)
     #"Bút toán tay không có giấy tờ" = Table.SelectRows(#"Sổ cái", each [journal_type] = "MANUAL" and [source_ref] <> null and Text.StartsWith([source_ref], "MJ-ADJ")),
+    // Kiểm tra 11: dòng có tháng ghi nhận (hoặc tháng nhận hàng trả) mà thiếu tỷ giá cuối tháng – xảy ra khi nạp tháng mới mà sheet fx_month_end chưa có tháng đó
+    #"Dòng thiếu tỷ giá cuối tháng" = Table.SelectRows(#"Giao dịch chung", each ([recognition_date] <> null and [fx_month_end] = null) or ([return_date] <> null and [fx_month_end_return] = null)),
+    // Kiểm tra 12: dòng POS không tìm được ngày ghi sổ – xảy ra khi ngày bán nằm ngoài sheet calendar
+    #"Dòng POS thiếu ngày ghi sổ" = Table.SelectRows(#"Giao dịch chung", each [channel] = "STORE" and [recognition_date] = null),
+    // Kiểm tra 13: số dòng bảng giao dịch chung phải đúng bằng số dòng POS + số đơn online (ghép bảng không được làm nhân đôi hay mất dòng)
+    #"Số dòng lệch khi gộp" = Table.RowCount(#"Giao dịch chung") - (Table.RowCount(q_POS) + Table.RowCount(#"Đơn online")),
+    // Hàm phụ: tên cửa hàng để ghi chi tiết (trống thì ghi rõ là không rõ cửa hàng)
+    #"Tên cửa hàng" = (ma as nullable text) as text => if ma = null then "(không rõ cửa hàng)" else ma,
 
     // Gom kết quả thành bảng
     #"Bảng kiểm tra" = #table(
         type table [stt = Int64.Type, kiem_tra = text, bang_nguon = text, so_luong = Int64.Type, mong_doi = Int64.Type, chi_tiet = text],
         {
-            {1, "Dòng POS trùng khóa receipt_no + line_no", "q_POS", Table.RowCount(#"Dòng POS trùng"), 0,
-                #"Gộp chi tiết"(List.Distinct(List.Transform(Table.ToRecords(#"Dòng POS trùng"), each [store_code] & " ngày " & #"Ngày kiểu Việt Nam"([sale_date]))))},
+            {1, "Dòng POS trùng khóa receipt_no + line_no", "q_Transactions (cờ từ q_POS)", Table.RowCount(#"Dòng POS trùng"), 0,
+                #"Gộp chi tiết"(List.Distinct(List.Transform(Table.ToRecords(#"Dòng POS trùng"), each #"Tên cửa hàng"([store_code]) & " ngày " & #"Ngày kiểu Việt Nam"([sale_date]))))},
             {2, "Ô cửa hàng × ngày ghi sổ có bán mà sổ cái thiếu bút toán", "q_Transactions, q_GL", Table.RowCount(#"Ô có bán mà thiếu bút toán"), 0,
-                #"Gộp chi tiết"(List.Transform(Table.ToRecords(#"Ô có bán mà thiếu bút toán"), each [store_code] & " ngày " & #"Ngày kiểu Việt Nam"([recognition_date])))},
+                #"Gộp chi tiết"(List.Transform(Table.ToRecords(#"Ô có bán mà thiếu bút toán"), each #"Tên cửa hàng"([store_code]) & " ngày " & #"Ngày kiểu Việt Nam"([recognition_date])))},
             {3, "Bút toán sổ cái không gắn cửa hàng", "q_GL", Table.RowCount(#"Bút toán không gắn cửa hàng"), 0,
                 #"Gộp chi tiết"(List.Transform(Table.ToRecords(#"Bút toán không gắn cửa hàng"), each [journal_id] & " (" & (if [source_ref] = null then "" else [source_ref]) & ")"))},
             {4, "Đơn hủy mà có ngày giao", "q_WEB", Table.RowCount(#"Đơn hủy có ngày giao"), 0, ""},
             {5, "Đơn giao trước ngày đặt", "q_WEB", Table.RowCount(#"Đơn giao trước ngày đặt"), 0, ""},
             {6, "Hàng trả trước ngày giao", "q_WEB", Table.RowCount(#"Hàng trả trước ngày giao"), 0, ""},
-            {7, "Dòng POS bán sau ngày cửa hàng đóng cửa", "q_POS, q_Store", Table.RowCount(#"Bán ở cửa hàng đã đóng"), 0, ""},
+            {7, "Dòng POS bán sau ngày cửa hàng đóng cửa", "q_Transactions, q_Store", Table.RowCount(#"Bán ở cửa hàng đã đóng"), 0, ""},
             {8, "Dòng thiếu tỷ giá ngày (không đổi được ra USD)", "q_Transactions", Table.RowCount(#"Dòng thiếu tỷ giá ngày"), 0, ""},
             {9, "Dòng POS có mã cửa hàng không có trong danh mục", "q_Transactions, q_Store", Table.RowCount(#"Mã cửa hàng không ghép được"), 0, ""},
             {10, "Bút toán tay điều chỉnh không có giấy tờ (mã MJ-ADJ)", "q_GL", Table.RowCount(#"Bút toán tay không có giấy tờ"), 0,
-                #"Gộp chi tiết"(List.Transform(Table.ToRecords(#"Bút toán tay không có giấy tờ"), each [journal_id] & " " & #"Ngày kiểu Việt Nam"([posting_date]) & " " & Number.ToText([revenue_usd], "#,##0.00", "vi-VN") & " USD"))}
+                #"Gộp chi tiết"(List.Transform(Table.ToRecords(#"Bút toán tay không có giấy tờ"), each [journal_id] & " " & #"Ngày kiểu Việt Nam"([posting_date]) & " " & Number.ToText([revenue_usd], "#,##0.00", "vi-VN") & " USD"))},
+            {11, "Dòng thiếu tỷ giá cuối tháng (tháng ghi nhận hoặc tháng nhận hàng trả)", "q_Transactions, q_FX_MonthEnd", Table.RowCount(#"Dòng thiếu tỷ giá cuối tháng"), 0, ""},
+            {12, "Dòng POS không tìm được ngày ghi sổ (ngày bán ngoài lịch)", "q_Transactions, q_Calendar", Table.RowCount(#"Dòng POS thiếu ngày ghi sổ"), 0, ""},
+            {13, "Số dòng bảng giao dịch chung − (dòng POS + đơn online)", "q_Transactions, q_POS, q_WEB", #"Số dòng lệch khi gộp", 0, ""}
         }),
     // Trạng thái: "Đạt" khi số lượng bằng mong đợi, ngược lại "Cần xem"
     #"Thêm trạng thái" = Table.AddColumn(#"Bảng kiểm tra", "trang_thai", each if [so_luong] = [mong_doi] then "Đạt" else "Cần xem", type text),
