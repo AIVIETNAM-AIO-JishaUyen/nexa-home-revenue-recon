@@ -22,6 +22,17 @@ table dim_bridge_item
 		summarizeBy: none
 		sourceColumn: item_group
 
+	/// Cột cho biểu đồ thác nước theo nhóm (trang 1): Flash, 4 nhóm lệch, Sổ cái; dòng kiểm tra để trống
+	column nhom_thac_nuoc = SWITCH ( dim_bridge_item[item_code], "flash", "Flash", "gl", "Sổ cái", "check", BLANK (), dim_bridge_item[item_group] )
+		dataType: string
+		summarizeBy: none
+		sortByColumn: thu_tu_nhom
+
+	/// Thứ tự cột nhóm trên biểu đồ thác nước
+	column thu_tu_nhom = SWITCH ( dim_bridge_item[item_code], "flash", 0, "gl", 5, "check", 9, SWITCH ( dim_bridge_item[item_group], "Quy tắc ghi nhận", 1, "Lỗi dữ liệu", 2, "Chưa giải thích được", 3, "Sai số chấp nhận", 4, 9 ) )
+		dataType: int64
+		summarizeBy: none
+
 	partition dim_bridge_item = m
 		mode: import
 		source =

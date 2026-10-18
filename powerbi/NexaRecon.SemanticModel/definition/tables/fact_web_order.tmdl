@@ -116,6 +116,11 @@ table fact_web_order
 		summarizeBy: none
 		sourceColumn: net_usd_month_end_return
 
+	/// Tỷ giá cuối THÁNG ĐẶT, dùng cho chênh lệch online "trước xử lý" (cộng theo tháng đặt như dashboard mẫu)
+	column fx_rate_month_end_order = LOOKUPVALUE ( fact_fx_month_end[usd_to_ccy], fact_fx_month_end[month_end_date], EOMONTH ( fact_web_order[order_date], 0 ), fact_fx_month_end[currency], fact_web_order[currency] )
+		dataType: double
+		summarizeBy: none
+
 	partition fact_web_order = m
 		mode: import
 		source =

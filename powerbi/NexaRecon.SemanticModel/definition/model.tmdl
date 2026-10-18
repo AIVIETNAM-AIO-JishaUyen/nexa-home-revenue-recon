@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["DataFolder","dim_date","dim_store","dim_channel","dim_currency","dim_journal_type","dim_order_status","fact_pos_line","fact_web_order","fact_gl_entry","fact_sales_flash","fact_fx_daily","fact_fx_month_end","PQFile","dim_bridge_item","pq_br_long","_Measures"]
+annotation PBI_QueryOrder = ["DataFolder","dim_date","dim_store","dim_channel","dim_currency","dim_journal_type","dim_order_status","fact_pos_line","fact_web_order","fact_gl_entry","fact_sales_flash","fact_fx_daily","fact_fx_month_end","PQFile","dim_bridge_item","pq_br_long","pq_data_quality","_Measures"]
 
 ref table _Measures
 ref table dim_date
@@ -26,3 +26,4 @@ ref table fact_fx_daily
 ref table fact_fx_month_end
 ref table dim_bridge_item
 ref table pq_br_long
+ref table pq_data_quality

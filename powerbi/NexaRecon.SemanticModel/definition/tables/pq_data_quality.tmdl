@@ -1,0 +1,44 @@
+/// 13 phép kiểm tra chất lượng dữ liệu do Power Query tính (bảng q_DataQuality, sheet Chat_luong_du_lieu), hiện ở trang 4
+table pq_data_quality
+
+	column stt
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: stt
+
+	column kiem_tra
+		dataType: string
+		summarizeBy: none
+		sourceColumn: kiem_tra
+		sortByColumn: stt
+
+	column so_luong
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: so_luong
+
+	column mong_doi
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: mong_doi
+
+	column trang_thai
+		dataType: string
+		summarizeBy: none
+		sourceColumn: trang_thai
+
+	column chi_tiet
+		dataType: string
+		summarizeBy: none
+		sourceColumn: chi_tiet
+
+	partition pq_data_quality = m
+		mode: import
+		source =
+				let
+				    Nguon = Excel.Workbook(File.Contents(PQFile), null, true),
+				    LayBang = Nguon{[Item = "q_DataQuality", Kind = "Table"]}[Data],
+				    ChonCot = Table.SelectColumns(LayBang, {"stt", "kiem_tra", "so_luong", "mong_doi", "trang_thai", "chi_tiet"}),
+				    DoiKieu = Table.TransformColumnTypes(ChonCot, {{"stt", Int64.Type}, {"kiem_tra", type text}, {"so_luong", Int64.Type}, {"mong_doi", Int64.Type}, {"trang_thai", type text}, {"chi_tiet", type text}}, "en-US")
+				in
+				    DoiKieu

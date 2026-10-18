@@ -1,8 +1,13 @@
 /// Bảng chỉ để chứa các công thức DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI; mỗi công thức là một measure) của dự án; cột GhiChu bị ẩn
 table _Measures
 
-	/// Doanh số Flash (báo cáo nhanh của phòng Kinh doanh): theo tháng đặt hàng, giá trước giảm giá, làm tròn đến USD
-	measure Flash = SUM ( fact_sales_flash[revenue_usd] )
+	/// Doanh số Flash (báo cáo nhanh của phòng Kinh doanh): theo tháng đặt hàng, giá trước giảm giá, làm tròn đến USD. Flash chỉ nối với bảng ngày và bảng kênh; khi chọn nước thì lấy dòng Flash cửa hàng có thị trường là nước đó (online chia theo 5 thị trường, không khớp nước)
+	measure Flash =
+			IF (
+			    ISFILTERED ( dim_store[country] ),
+			    CALCULATE ( SUM ( fact_sales_flash[revenue_usd] ), TREATAS ( VALUES ( dim_store[country] ), fact_sales_flash[market] ), fact_sales_flash[channel_code] = "STORE" ),
+			    SUM ( fact_sales_flash[revenue_usd] )
+			)
 		formatString: #,0
 		displayFolder: 1. Số tổng
 
@@ -66,7 +71,7 @@ table _Measures
 	/// Doanh số Flash, chỉ các tháng đối soát
 	measure 'Flash trong kỳ' =
 			CALCULATE ( [Flash], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
-		formatString: #,0.00
+		formatString: #,0
 		displayFolder: 2. Cầu nối (DAX)
 
 	/// Khoản 1. Chiết khấu của mọi dòng POS (kể cả dòng trùng, theo ngày bán) và mọi đơn online (kể cả đơn hủy, theo ngày đặt), theo tỷ giá ngày bán / ngày đặt; ghi âm
@@ -182,7 +187,7 @@ table _Measures
 	/// Doanh thu sổ cái, chỉ các tháng đối soát
 	measure 'Sổ cái trong kỳ' =
 			CALCULATE ( [Sổ cái], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
-		formatString: #,0.00
+		formatString: #,0
 		displayFolder: 2. Cầu nối (DAX)
 
 	/// Flash + các khoản − sổ cái; phải bằng 0. Mọi khoản tính trực tiếp, không khoản nào là phần dư
@@ -305,6 +310,529 @@ table _Measures
 			)
 		formatString: 0
 		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
+
+	/// Tháng đang chọn (ví dụ T12/2025) hoặc "Cả kỳ" khi chọn nhiều tháng
+	measure 'Kỳ đang xem' =
+			IF ( HASONEVALUE ( dim_date[period] ), "Tháng " & FORMAT ( MIN ( dim_date[date] ), "MM/yyyy" ), "Cả kỳ đã chọn" )
+		displayFolder: 5. Dashboard
+
+	/// Cộng [Cầu nối (DAX)] của mọi khoản đang có trong bộ lọc (dùng cho nhóm khoản và biểu đồ thác nước)
+	measure 'Cầu nối (DAX, cộng các khoản)' =
+			SUMX ( VALUES ( dim_bridge_item[item_code] ), [Cầu nối (DAX)] )
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Sổ cái − Flash, chỉ các tháng đối soát
+	measure 'Chênh lệch trong kỳ' =
+			[Sổ cái trong kỳ] - [Flash trong kỳ]
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Chênh lệch ÷ Flash (thẻ KPI, slide 12)
+	measure '% chênh lệch trong kỳ' =
+			DIVIDE ( [Chênh lệch trong kỳ], [Flash trong kỳ] )
+		formatString: 0.0%
+		displayFolder: 5. Dashboard
+
+	/// Sổ cái trong kỳ, đơn vị nghìn USD
+	measure 'Sổ cái (nghìn USD)' =
+			DIVIDE ( [Sổ cái trong kỳ], 1000 )
+		formatString: #,0.0
+		displayFolder: 5. Dashboard
+
+	/// Tổng các khoản nhóm Quy tắc ghi nhận
+	measure 'Nhóm quy tắc ghi nhận' =
+			CALCULATE ( [Cầu nối (DAX, cộng các khoản)], dim_bridge_item[item_group] = "Quy tắc ghi nhận" ) + 0
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Tổng các khoản nhóm Lỗi dữ liệu (dòng POS trùng, lỗi chuyển dữ liệu)
+	measure 'Nhóm lỗi dữ liệu' =
+			CALCULATE ( [Cầu nối (DAX, cộng các khoản)], dim_bridge_item[item_group] = "Lỗi dữ liệu" ) + 0
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Bút toán ADJ-0925
+	measure 'Nhóm chưa giải thích được' =
+			CALCULATE ( [Cầu nối (DAX, cộng các khoản)], dim_bridge_item[item_group] = "Chưa giải thích được" ) + 0
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Làm tròn
+	measure 'Nhóm sai số chấp nhận' =
+			CALCULATE ( [Cầu nối (DAX, cộng các khoản)], dim_bridge_item[item_group] = "Sai số chấp nhận" ) + 0
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Chênh lệch − phần do quy tắc ghi nhận = lỗi dữ liệu + chưa giải thích + làm tròn
+	measure 'Còn lại sau quy tắc ghi nhận' =
+			[Chênh lệch trong kỳ] - [Nhóm quy tắc ghi nhận]
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Đỏ khi phần còn lại vượt 200 USD (bỏ dấu âm), xám khi không
+	measure 'Màu còn lại' =
+			IF ( ABS ( [Còn lại sau quy tắc ghi nhận] ) > 200, "#C0392B", "#9E9E9E" )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Flash)' =
+			VAR c = [Flash trong kỳ]
+			VAR p = CALCULATE ( [Flash trong kỳ], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước (nghìn USD)
+	measure 'Thay đổi so với tháng trước (Sổ cái)' =
+			VAR c = [Sổ cái (nghìn USD)]
+			VAR p = CALCULATE ( [Sổ cái (nghìn USD)], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0.0;-#,0.0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Chênh lệch)' =
+			VAR c = [Chênh lệch trong kỳ]
+			VAR p = CALCULATE ( [Chênh lệch trong kỳ], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Lỗi dữ liệu)' =
+			VAR c = [Nhóm lỗi dữ liệu]
+			VAR p = CALCULATE ( [Nhóm lỗi dữ liệu], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Chưa giải thích)' =
+			VAR c = [Nhóm chưa giải thích được]
+			VAR p = CALCULATE ( [Nhóm chưa giải thích được], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Quy tắc ghi nhận)' =
+			VAR c = [Nhóm quy tắc ghi nhận]
+			VAR p = CALCULATE ( [Nhóm quy tắc ghi nhận], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Câu tóm tắt trang Tổng quan
+	measure 'Điểm chính trang 1' =
+			[Kỳ đang xem] & ": sổ cái " & IF ( [Chênh lệch trong kỳ] < 0, "thấp hơn", "cao hơn" ) & " Flash " & FORMAT ( ABS ( [Chênh lệch trong kỳ] ), "#,0" ) & " USD ("
+			    & FORMAT ( [% chênh lệch trong kỳ], "0.0%" ) & "). Quy tắc ghi nhận giải thích " & FORMAT ( [Nhóm quy tắc ghi nhận], "#,0" ) & " USD; lỗi dữ liệu "
+			    & FORMAT ( [Nhóm lỗi dữ liệu], "#,0" ) & " USD; chưa giải thích được " & FORMAT ( [Nhóm chưa giải thích được], "#,0" ) & " USD."
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề biểu đồ đường 12 tháng
+	measure 'Tiêu đề (Flash và sổ cái)' =
+			VAR thang = CALCULATETABLE ( VALUES ( dim_date[period] ), REMOVEFILTERS ( dim_date ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+			VAR thap = COUNTROWS ( FILTER ( thang, VAR p = dim_date[period] RETURN CALCULATE ( [Chênh lệch trong kỳ], REMOVEFILTERS ( dim_date ), dim_date[period] = p ) < 0 ) )
+			RETURN "Sổ cái thấp hơn Flash ở " & thap & "/" & COUNTROWS ( thang ) & " tháng (xám: Flash, xanh: sổ cái)"
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề biểu đồ thác nước trang 1
+	measure 'Tiêu đề (thác nước theo nhóm)' =
+			"Quy tắc ghi nhận kéo sổ cái " & IF ( [Nhóm quy tắc ghi nhận] < 0, "xuống ", "lên " ) & FORMAT ( ABS ( [Nhóm quy tắc ghi nhận] ), "#,0" ) & " USD; lỗi dữ liệu " & FORMAT ( [Nhóm lỗi dữ liệu], "#,0" ) & "; chưa giải thích " & FORMAT ( [Nhóm chưa giải thích được], "#,0" )
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề biểu đồ cột % chênh lệch
+	measure 'Tiêu đề (% chênh lệch theo tháng)' =
+			VAR t = TOPN ( 1, CALCULATETABLE ( VALUES ( dim_date[period] ), REMOVEFILTERS ( dim_date ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) ), VAR q = dim_date[period] RETURN ABS ( CALCULATE ( [% chênh lệch trong kỳ], REMOVEFILTERS ( dim_date ), dim_date[period] = q ) ), DESC )
+			VAR p = MAXX ( t, dim_date[period] )
+			RETURN "Tháng lệch nhiều nhất theo %: " & RIGHT ( p, 2 ) & "/" & LEFT ( p, 4 ) & " (" & FORMAT ( CALCULATE ( [% chênh lệch trong kỳ], REMOVEFILTERS ( dim_date ), dim_date[period] = p ), "0.0%" ) & ")"
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề biểu đồ cột phần còn lại
+	measure 'Tiêu đề (còn lại sau quy tắc)' =
+			VAR thang = CALCULATETABLE ( VALUES ( dim_date[period] ), REMOVEFILTERS ( dim_date ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+			VAR n = COUNTROWS ( FILTER ( thang, VAR p = dim_date[period] RETURN ABS ( CALCULATE ( [Còn lại sau quy tắc ghi nhận], REMOVEFILTERS ( dim_date ), dim_date[period] = p ) ) > 200 ) )
+			RETURN n & " tháng còn lệch quá 200 USD sau khi trừ quy tắc ghi nhận (đỏ): cần điều tra"
+		displayFolder: 5. Dashboard
+
+	/// Độ lớn (bỏ dấu âm) của khoản ÷ độ lớn tổng chênh lệch
+	measure '% trên độ lớn chênh lệch' =
+			DIVIDE ( ABS ( [Cầu nối (DAX, cộng các khoản)] ), ABS ( [Chênh lệch trong kỳ] ) )
+		formatString: 0.0%
+		displayFolder: 5. Dashboard
+
+	/// Tổng các khoản giữa Flash và sổ cái, tính bằng DAX
+	measure 'Tổng các khoản (DAX)' =
+			CALCULATE ( [Cầu nối (DAX, cộng các khoản)], NOT dim_bridge_item[item_code] IN { "flash", "gl", "check" } )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Cùng tổng, lấy từ bảng cầu nối Power Query
+	measure 'Tổng các khoản (Power Query)' =
+			CALCULATE ( SUMX ( VALUES ( dim_bridge_item[item_code] ), [Cầu nối (Power Query)] ), NOT dim_bridge_item[item_code] IN { "flash", "gl", "check" } )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Phải bằng 0
+	measure 'Lệch tổng DAX − Power Query' =
+			[Tổng các khoản (DAX)] - [Tổng các khoản (Power Query)]
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Tên khoản có độ lớn lớn nhất trong kỳ đang chọn
+	measure 'Khoản lớn nhất' =
+			VAR t = TOPN ( 1, FILTER ( VALUES ( dim_bridge_item[item_name] ), NOT CALCULATE ( SELECTEDVALUE ( dim_bridge_item[item_code] ) ) IN { "flash", "gl", "check" } ),
+			    ABS ( [Cầu nối (DAX, cộng các khoản)] ), DESC )
+			RETURN MAXX ( t, dim_bridge_item[item_name] )
+		displayFolder: 5. Dashboard
+
+	/// Câu tóm tắt trang Cầu nối
+	measure 'Điểm chính trang 2' =
+			VAR k = [Khoản lớn nhất]
+			VAR v = CALCULATE ( [Cầu nối (DAX, cộng các khoản)], dim_bridge_item[item_name] = k )
+			RETURN [Kỳ đang xem] & ": khoản lớn nhất là " & k & " (" & FORMAT ( v, "#,0" ) & " USD, " & FORMAT ( DIVIDE ( ABS ( v ), ABS ( [Chênh lệch trong kỳ] ) ), "0%" )
+			    & " độ lớn chênh lệch). Dòng kiểm tra = " & FORMAT ( [Kiểm tra cầu nối], "0.00" ) & " USD; DAX và Power Query lệch " & FORMAT ( [Lệch tổng DAX − Power Query], "0.00" ) & " USD."
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề biểu đồ thác nước trang 2
+	measure 'Tiêu đề (thác nước từng khoản)' =
+			VAR k = [Khoản lớn nhất]
+			VAR v = CALCULATE ( [Cầu nối (DAX, cộng các khoản)], dim_bridge_item[item_name] = k )
+			RETURN k & " kéo sổ cái " & IF ( v < 0, "xuống ", "lên " ) & FORMAT ( ABS ( v ), "#,0" ) & " USD, lớn nhất trong các khoản"
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề biểu đồ cột ngang
+	measure 'Tiêu đề (xếp hạng khoản)' =
+			VAR k = [Khoản lớn nhất]
+			RETURN k & " chiếm " & FORMAT ( CALCULATE ( [% trên độ lớn chênh lệch], dim_bridge_item[item_name] = k ), "0%" ) & " độ lớn chênh lệch"
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề bảng đối chiếu DAX – Power Query
+	measure 'Tiêu đề (đối chiếu)' =
+			VAR m = MAXX ( CALCULATETABLE ( VALUES ( dim_date[period] ), REMOVEFILTERS ( dim_date ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) ), VAR q = dim_date[period] RETURN ABS ( CALCULATE ( [Lệch tổng DAX − Power Query], REMOVEFILTERS ( dim_date ), dim_date[period] = q ) ) )
+			RETURN "Đối chiếu: DAX và Power Query lệch tối đa " & FORMAT ( m, "0.00" ) & " USD/tháng"
+		displayFolder: 5. Dashboard
+
+	/// Bút toán WEB_DELIVERY và WEB_RETURN (bỏ bút toán tay)
+	measure 'Sổ cái online tự động' =
+			CALCULATE ( [Sổ cái], fact_gl_entry[journal_type] IN { "WEB_DELIVERY", "WEB_RETURN" } )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Đơn chưa hủy theo tháng đặt, tỷ giá cuối tháng đặt (cách dashboard mẫu)
+	measure 'Online chưa xử lý' =
+			CALCULATE ( SUMX ( FILTER ( fact_web_order, fact_web_order[order_status] <> "Cancelled" ), fact_web_order[net_amount_local] / fact_web_order[fx_rate_month_end_order] ), USERELATIONSHIP ( fact_web_order[order_date], dim_date[date] ) )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Đơn chưa hủy theo tháng giao (tỷ giá cuối tháng giao) trừ hàng trả theo tháng trả (tỷ giá cuối tháng trả)
+	measure 'Online cùng cách tính với sổ cái' =
+			SUMX ( FILTER ( fact_web_order, fact_web_order[order_status] <> "Cancelled" ), fact_web_order[net_amount_local] / fact_web_order[fx_rate_month_end_delivery] )
+			    - CALCULATE ( SUMX ( FILTER ( fact_web_order, fact_web_order[order_status] = "Returned" ), fact_web_order[net_amount_local] / fact_web_order[fx_rate_month_end_return] ), USERELATIONSHIP ( fact_web_order[return_date], dim_date[date] ) )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Sổ cái online − online chưa xử lý
+	measure 'Chênh lệch online theo ngày đặt' =
+			CALCULATE ( ROUND ( [Sổ cái online tự động] - [Online chưa xử lý], 2 ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Sổ cái online − online cùng cách tính; phải ≈ 0
+	measure 'Chênh lệch online theo ngày giao' =
+			CALCULATE ( ROUND ( [Sổ cái online tự động] - [Online cùng cách tính với sổ cái], 2 ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Như công thức thư mục 4, chỉ các tháng đối soát
+	measure 'Chênh lệch cửa hàng trước xử lý (trong kỳ)' =
+			CALCULATE ( [Chênh lệch cửa hàng trước xử lý], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Như công thức thư mục 4, chỉ các tháng đối soát
+	measure 'Chênh lệch cửa hàng sau xử lý (trong kỳ)' =
+			CALCULATE ( [Chênh lệch cửa hàng sau xử lý], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Dòng POS bỏ trùng, nội tệ, theo ngày ghi sổ (quan hệ đang dùng)
+	measure 'POS theo ngày ghi sổ (nội tệ)' =
+			CALCULATE ( SUM ( fact_pos_line[net_amount_local] ), NOT fact_pos_line[is_duplicate] )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Bút toán POS_DAILY, POS_CATCHUP, nội tệ, đổi dấu thành doanh thu
+	measure 'Sổ cái bút toán POS (nội tệ)' =
+			CALCULATE ( - SUM ( fact_gl_entry[amount_local] ), fact_gl_entry[journal_type] IN { "POS_DAILY", "POS_CATCHUP" } )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Sổ cái − POS của một ô cửa hàng × ngày ghi sổ, nội tệ
+	measure 'Lệch ô (nội tệ)' =
+			ROUND ( [Sổ cái bút toán POS (nội tệ)] - [POS theo ngày ghi sổ (nội tệ)], 2 )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// 1 nếu ô cửa hàng × ngày ghi sổ có POS hoặc sổ cái và hai bên lệch quá 0,005 nội tệ
+	measure 'Ô còn lệch' =
+			IF ( ( NOT ISBLANK ( [POS theo ngày ghi sổ (nội tệ)] ) || NOT ISBLANK ( [Sổ cái bút toán POS (nội tệ)] ) ) && ABS ( [Lệch ô (nội tệ)] ) > 0.005, 1 )
+		formatString: 0
+		displayFolder: 5. Dashboard
+
+	/// Số ô cửa hàng × ngày ghi sổ có POS (bỏ trùng) hoặc bút toán POS
+	measure 'Số ô cửa hàng × ngày' =
+			CALCULATE (
+			    COUNTROWS ( DISTINCT ( UNION (
+			        SELECTCOLUMNS ( FILTER ( fact_pos_line, NOT fact_pos_line[is_duplicate] ), "s", fact_pos_line[store_key], "d", fact_pos_line[posting_date] ),
+			        SELECTCOLUMNS ( FILTER ( fact_gl_entry, fact_gl_entry[journal_type] IN { "POS_DAILY", "POS_CATCHUP" } ), "s", fact_gl_entry[store_key], "d", fact_gl_entry[posting_date] ) ) ) ),
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Số ô cửa hàng × ngày ghi sổ mà sổ cái khác POS (bỏ trùng)
+	measure 'Số ô lệch theo ngày ghi sổ' =
+			CALCULATE (
+			    VAR o = DISTINCT ( UNION (
+			        SELECTCOLUMNS ( FILTER ( fact_pos_line, NOT fact_pos_line[is_duplicate] ), "s", fact_pos_line[store_key], "d", fact_pos_line[posting_date] ),
+			        SELECTCOLUMNS ( FILTER ( fact_gl_entry, fact_gl_entry[journal_type] IN { "POS_DAILY", "POS_CATCHUP" } ), "s", fact_gl_entry[store_key], "d", fact_gl_entry[posting_date] ) ) )
+			    RETURN COUNTROWS ( FILTER ( o,
+			        VAR s = [s] VAR d = [d]
+			        VAR pos = CALCULATE ( SUM ( fact_pos_line[net_amount_local] ), REMOVEFILTERS ( dim_date ), fact_pos_line[store_key] = s, fact_pos_line[posting_date] = d, NOT fact_pos_line[is_duplicate] )
+			        VAR gl = CALCULATE ( - SUM ( fact_gl_entry[amount_local] ), REMOVEFILTERS ( dim_date ), fact_gl_entry[store_key] = s, fact_gl_entry[posting_date] = d, fact_gl_entry[journal_type] IN { "POS_DAILY", "POS_CATCHUP" } )
+			        RETURN ABS ( gl - pos ) > 0.005 ) ),
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Nếu so POS chưa xử lý (kể cả dòng trùng) theo NGÀY BÁN với sổ cái theo ngày ghi sổ thì bao nhiêu ô lệch
+	measure 'Số ô lệch theo ngày bán' =
+			CALCULATE (
+			    VAR o = DISTINCT ( UNION (
+			        CALCULATETABLE ( SELECTCOLUMNS ( fact_pos_line, "s", fact_pos_line[store_key], "d", fact_pos_line[business_date] ), USERELATIONSHIP ( fact_pos_line[business_date], dim_date[date] ) ),
+			        SELECTCOLUMNS ( FILTER ( fact_gl_entry, fact_gl_entry[journal_type] IN { "POS_DAILY", "POS_CATCHUP" } ), "s", fact_gl_entry[store_key], "d", fact_gl_entry[posting_date] ) ) )
+			    RETURN COUNTROWS ( FILTER ( o,
+			        VAR s = [s] VAR d = [d]
+			        VAR pos = CALCULATE ( SUM ( fact_pos_line[net_amount_local] ), REMOVEFILTERS ( dim_date ), fact_pos_line[store_key] = s, fact_pos_line[business_date] = d )
+			        VAR gl = CALCULATE ( - SUM ( fact_gl_entry[amount_local] ), REMOVEFILTERS ( dim_date ), fact_gl_entry[store_key] = s, fact_gl_entry[posting_date] = d, fact_gl_entry[journal_type] IN { "POS_DAILY", "POS_CATCHUP" } )
+			        RETURN ABS ( gl - pos ) > 0.005 ) ),
+			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
+			)
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Đỏ khi ô cửa hàng × tháng vượt ngưỡng sau xử lý
+	measure 'Màu cờ cửa hàng' =
+			IF ( [Vượt ngưỡng sau xử lý] = 1, "#C0392B" )
+		displayFolder: 5. Dashboard
+
+	/// Ký hiệu ⚠ cho ô cửa hàng × tháng vượt ngưỡng sau xử lý
+	measure 'Cờ vượt ngưỡng (ký hiệu)' =
+			IF ( [Vượt ngưỡng sau xử lý] = 1, "⚠ vượt ngưỡng", "" )
+		displayFolder: 5. Dashboard
+
+	/// Câu tóm tắt trang Đối soát chi tiết
+	measure 'Điểm chính trang 3' =
+			[Kỳ đang xem] & ": so theo ngày bán thì " & FORMAT ( [Số ô lệch theo ngày bán], "#,0" ) & "/" & FORMAT ( [Số ô cửa hàng × ngày], "#,0" ) & " ô cửa hàng × ngày lệch; đưa về ngày ghi sổ và bỏ dòng trùng thì còn "
+			    & FORMAT ( [Số ô lệch theo ngày ghi sổ], "#,0" ) & " ô. Ô cửa hàng × tháng vượt ngưỡng: " & FORMAT ( CALCULATE ( [Số ô vượt ngưỡng trước xử lý] ), "#,0" ) & " → " & FORMAT ( [Số ô vượt ngưỡng sau xử lý], "#,0" ) & "."
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề đường chênh lệch cửa hàng
+	measure 'Tiêu đề (chênh lệch cửa hàng)' =
+			"Cửa hàng: lệch " & FORMAT ( CALCULATE ( [Chênh lệch cửa hàng trước xử lý (trong kỳ)], REMOVEFILTERS ( dim_date[period] ) ), "#,0" ) & " USD chưa xử lý, còn " & FORMAT ( CALCULATE ( [Chênh lệch cửa hàng sau xử lý (trong kỳ)], REMOVEFILTERS ( dim_date[period] ) ), "#,0.00" ) & " USD sau xử lý (cả kỳ)"
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề đường chênh lệch online
+	measure 'Tiêu đề (chênh lệch online)' =
+			"Online: lệch " & FORMAT ( CALCULATE ( [Chênh lệch online theo ngày đặt], REMOVEFILTERS ( dim_date[period] ) ), "#,0" ) & " USD theo ngày đặt, còn " & FORMAT ( CALCULATE ( [Chênh lệch online theo ngày giao], REMOVEFILTERS ( dim_date[period] ) ), "#,0.00" ) & " USD theo ngày giao (cả kỳ)"
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề bảng ô cửa hàng × ngày còn lệch
+	measure 'Tiêu đề (ô còn lệch)' =
+			[Số ô lệch theo ngày ghi sổ] & " ô cửa hàng × ngày còn lệch sau khi đưa về cùng cách tính (bấm một dòng để lọc các hình khác)"
+		displayFolder: 5. Dashboard
+
+	/// Giá trị hàng trả theo ngày nhận hàng trả, tỷ giá ngày đặt (số dương)
+	measure 'Hàng trả' =
+			CALCULATE ( [Phần hàng trả theo ngày trả (tỷ giá ngày đặt)], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) )
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Hàng trả ÷ doanh thu online đã giao trong cùng tháng (cùng tỷ giá ngày đặt)
+	measure 'Tỷ lệ hàng trả' =
+			DIVIDE ( [Hàng trả], CALCULATE ( [Phần online chưa hủy (tỷ giá ngày đặt)], KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) ) )
+		formatString: 0.00%
+		displayFolder: 5. Dashboard
+
+	/// Thay đổi tính bằng điểm phần trăm; tăng là xấu
+	measure 'Thay đổi so với tháng trước (Tỷ lệ hàng trả)' =
+			VAR c = [Tỷ lệ hàng trả]
+			VAR p = CALCULATE ( [Tỷ lệ hàng trả], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( ( c - p ) * 100, "+0.00;-0.00;0" ) & " điểm % " & IF ( c > p, "(xấu đi)", "(tốt lên)" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Đơn hủy, theo tháng đặt
+	measure 'Số đơn hủy' =
+			CALCULATE ( COUNTROWS ( FILTER ( fact_web_order, fact_web_order[order_status] = "Cancelled" ) ), USERELATIONSHIP ( fact_web_order[order_date], dim_date[date] ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) ) + 0
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Dòng POS xuất lặp, theo ngày bán
+	measure 'Số dòng POS trùng' =
+			CALCULATE ( COUNTROWS ( FILTER ( fact_pos_line, fact_pos_line[is_duplicate] ) ), USERELATIONSHIP ( fact_pos_line[business_date], dim_date[date] ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) ) + 0
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Bút toán MANUAL trên sổ cái (MJ-SHIP, MJ-RCL, MJ-ADJ)
+	measure 'Số bút toán tay' =
+			CALCULATE ( COUNTROWS ( fact_gl_entry ), fact_gl_entry[journal_type] = "MANUAL", KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) ) + 0
+		formatString: #,0
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Số đơn hủy)' =
+			VAR c = [Số đơn hủy]
+			VAR p = CALCULATE ( [Số đơn hủy], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Hàng trả)' =
+			VAR c = [Hàng trả]
+			VAR p = CALCULATE ( [Hàng trả], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Đỏ cho bút toán tay không có giấy tờ làm căn cứ (MJ-ADJ)
+	measure 'Màu bút toán tay' =
+			IF ( LEFT ( SELECTEDVALUE ( fact_gl_entry[source_ref] ), 6 ) = "MJ-ADJ", "#C0392B" )
+		displayFolder: 5. Dashboard
+
+	/// Đỏ cho phép kiểm tra chất lượng dữ liệu cần xem
+	measure 'Màu phép kiểm tra' =
+			IF ( SELECTEDVALUE ( pq_data_quality[trang_thai] ) <> "Đạt", "#C0392B" )
+		displayFolder: 5. Dashboard
+
+	/// Câu tóm tắt trang Hoàn trả, hủy và chất lượng dữ liệu
+	measure 'Điểm chính trang 4' =
+			[Kỳ đang xem] & ": hàng trả " & FORMAT ( [Hàng trả], "#,0" ) & " USD (" & FORMAT ( [Tỷ lệ hàng trả], "0.0%" ) & " doanh thu online đã giao), " & [Số đơn hủy] & " đơn hủy, "
+			    & [Số dòng POS trùng] & " dòng POS trùng, " & [Số bút toán tay] & " bút toán tay. Cả năm có " & CALCULATE ( COUNTROWS ( pq_data_quality ), pq_data_quality[trang_thai] <> "Đạt" ) & "/" & COUNTROWS ( pq_data_quality ) & " phép kiểm tra dữ liệu cần xem."
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề đường tỷ lệ hàng trả
+	measure 'Tiêu đề (tỷ lệ hàng trả)' =
+			VAR t = TOPN ( 1, CALCULATETABLE ( VALUES ( dim_date[period] ), REMOVEFILTERS ( dim_date ), KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () ) ), VAR q = dim_date[period] RETURN CALCULATE ( [Tỷ lệ hàng trả], REMOVEFILTERS ( dim_date ), dim_date[period] = q ), DESC )
+			VAR p = MAXX ( t, dim_date[period] )
+			RETURN "Tỷ lệ hàng trả cao nhất tháng " & RIGHT ( p, 2 ) & "/" & LEFT ( p, 4 ) & " (" & FORMAT ( CALCULATE ( [Tỷ lệ hàng trả], REMOVEFILTERS ( dim_date ), dim_date[period] = p ), "0.0%" ) & ")"
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề cột đơn hủy
+	measure 'Tiêu đề (đơn hủy)' =
+			CALCULATE ( [Số đơn hủy], REMOVEFILTERS ( dim_date[period] ) ) & " đơn hủy cả kỳ, theo tháng đặt"
+		displayFolder: 5. Dashboard
+
+	/// Tiêu đề bảng bút toán tay
+	measure 'Tiêu đề (bút toán tay)' =
+			CALCULATE ( [Số bút toán tay], REMOVEFILTERS ( dim_date[period] ) ) & " bút toán tay cả kỳ (bảng: tháng đang chọn); đỏ: không có giấy tờ làm căn cứ"
+		displayFolder: 5. Dashboard
+
+	/// Bỏ dấu âm, để xếp bảng cửa hàng
+	measure 'Độ lớn chênh lệch cửa hàng sau xử lý' =
+			ABS ( [Chênh lệch cửa hàng sau xử lý (trong kỳ)] )
+		formatString: #,0.00
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Số dòng POS trùng)' =
+			VAR c = [Số dòng POS trùng]
+			VAR p = CALCULATE ( [Số dòng POS trùng], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Số bút toán tay)' =
+			VAR c = [Số bút toán tay]
+			VAR p = CALCULATE ( [Số bút toán tay], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Số ô cửa hàng × ngày)' =
+			VAR c = [Số ô cửa hàng × ngày]
+			VAR p = CALCULATE ( [Số ô cửa hàng × ngày], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Số ô lệch theo ngày bán)' =
+			VAR c = [Số ô lệch theo ngày bán]
+			VAR p = CALCULATE ( [Số ô lệch theo ngày bán], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Số ô vượt ngưỡng trước xử lý)' =
+			VAR c = [Số ô vượt ngưỡng trước xử lý]
+			VAR p = CALCULATE ( [Số ô vượt ngưỡng trước xử lý], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Số ô vượt ngưỡng sau xử lý)' =
+			VAR c = [Số ô vượt ngưỡng sau xử lý]
+			VAR p = CALCULATE ( [Số ô vượt ngưỡng sau xử lý], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Chênh lệch online theo ngày giao)' =
+			VAR c = [Chênh lệch online theo ngày giao]
+			VAR p = CALCULATE ( [Chênh lệch online theo ngày giao], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0.00;-#,0.00;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Mức thay đổi so với tháng trước
+	measure 'Thay đổi so với tháng trước (Sổ cái trong kỳ)' =
+			VAR c = [Sổ cái trong kỳ]
+			VAR p = CALCULATE ( [Sổ cái trong kỳ], PREVIOUSMONTH ( dim_date[date] ) )
+			RETURN
+			    IF ( NOT HASONEVALUE ( dim_date[period] ), "Cả kỳ đã chọn",
+			        IF ( ISBLANK ( p ), "Tháng đầu kỳ, không có tháng trước", "So với tháng trước: " & FORMAT ( c - p, "+#,0;-#,0;0" ) ) )
+		displayFolder: 5. Dashboard
+
+	/// Ô số liệu chính trang 1: chênh lệch kèm % so với Flash
+	measure 'Chênh lệch (USD và %)' =
+			FORMAT ( [Chênh lệch trong kỳ], "#,0" ) & " (" & FORMAT ( [% chênh lệch trong kỳ], "0.0%" ) & ")"
+		displayFolder: 5. Dashboard
 
 	column GhiChu
 		dataType: string
