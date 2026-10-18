@@ -74,21 +74,21 @@
 
 | Kiểm tra | Số đúng | Lấy số đúng ở đâu | Số nhóm ra | Nhóm ra số ở đâu | Đạt? |
 |---|---:|---|---:|---|---|
-| Ô online × ngày giao × loại tiền trong kỳ: tổng / khớp | 1.647 / 1.647 | `det_web_delivery_cells` | | sheet `Doi_soat_online` | |
-| Ô hàng trả × ngày trả × loại tiền trong kỳ: tổng / khớp | 159 / 159 | `det_web_return_cells` | | sheet `Doi_soat_hang_tra` | |
-| Online tháng 11 trước / sau khi đưa về cùng cách tính | −12.064,26 / ≈ 0 | slide 28, 44; dashboard mẫu | | sheet `Doi_soat_online_thang` | |
-| Lệch thời điểm online: cả năm / tháng 3 | −52.597,90 / +281.787,98 | `br_y_online_timing`, file quy ước | | sheet `Lech_thoi_diem_online` | |
-| Đơn vắt qua năm: đầu năm / cuối năm | +122.107,89 (77 đơn) / −174.705,79 (105 đơn) | `tim_web_*` | | như trên | |
-| Đơn hủy đặt trong kỳ: số đơn / USD | 124 / −215.658,92 | `det_cancelled_orders_2025`, `br_y_cancelled` | | sheet `Nam_ly_do` | |
-| Hàng trả nhận trong kỳ: số đơn / USD (tỷ giá ngày đặt) | 169 / −349.148,23 | `det_returned_orders_2025`, `br_y_returns` | | như trên | |
-| Chiết khấu | −1.834.297,47 | `br_y_discount` | | như trên | |
-| Tỷ giá | −57.598,01 | `br_y_fx` | | như trên | |
+| Ô online × ngày giao × loại tiền trong kỳ: tổng / khớp | 1.647 / 1.647 | `det_web_delivery_cells` | 1.647 / 1.647 (8.427 đơn); 155 ô ngoài kỳ | sheet `Doi_soat_online` | Đạt |
+| Ô hàng trả × ngày trả × loại tiền trong kỳ: tổng / khớp | 159 / 159 | `det_web_return_cells` | 159 / 159 (169 đơn); 12 ô ngoài kỳ | sheet `Doi_soat_hang_tra` | Đạt |
+| Online tháng 11 trước / sau khi đưa về cùng cách tính | −12.064,26 / ≈ 0 | slide 28, 44; dashboard mẫu | −12.064,26 / −0,01 | sheet `Doi_soat_online_thang` | Đạt |
+| Lệch thời điểm online: cả năm / tháng 3 | −52.597,90 / +281.787,98 | `br_y_online_timing`, file quy ước | −52.597,90 / +281.787,98 | sheet `Lech_thoi_diem_online` | Đạt |
+| Đơn vắt qua năm: đầu năm / cuối năm | +122.107,89 (77 đơn) / −174.705,79 (105 đơn) | `tim_web_*` | +122.107,89 (77) / −174.705,79 (105); dòng kiểm tra 0,00 | như trên | Đạt |
+| Đơn hủy đặt trong kỳ: số đơn / USD | 124 / −215.658,92 | `det_cancelled_orders_2025`, `br_y_cancelled` | 124 / −215.658,92 | sheet `Nam_ly_do` | Đạt |
+| Hàng trả nhận trong kỳ: số đơn / USD (tỷ giá ngày đặt) | 169 / −349.148,23 | `det_returned_orders_2025`, `br_y_returns` | 169 / −349.148,23 (tỷ giá ngày trả −349.652,76; sổ cái −349.066,23) | như trên | Đạt |
+| Chiết khấu | −1.834.297,47 | `br_y_discount` | −1.834.297,47 | như trên | Đạt |
+| Tỷ giá | −57.598,01 | `br_y_fx` | −57.598,01 | như trên | Đạt |
 
 **Việc phải có (không phải con số):**
-- [ ] Ghép đủ 2 bên, chia 4 trường hợp, ô ngoài kỳ đối soát không bị tính là lệch.
-- [ ] Mỗi lý do trong 5 lý do có ít nhất 1 con số tính từ dữ liệu (không chép mô tả của đề).
-- [ ] Mỗi khoản cầu nối có nhóm và lý do xếp nhóm; ADJ-0925 ở "Chưa giải thích được".
-- [ ] Mọi bước có tên tiếng Việt và ghi chú `//` ngay phía trên; không ghi cứng năm.
+- [x] Ghép đủ 2 bên, chia 4 trường hợp, ô ngoài kỳ đối soát không bị tính là lệch.
+- [x] Mỗi lý do trong 5 lý do có ít nhất 1 con số tính từ dữ liệu (không chép mô tả của đề).
+- [x] Mỗi khoản cầu nối có nhóm và lý do xếp nhóm; ADJ-0925 ở "Chưa giải thích được".
+- [x] Mọi bước có tên tiếng Việt và ghi chú `//` ngay phía trên; không ghi cứng năm.
 
 ---
 
@@ -106,13 +106,13 @@
 
 ## 7. Các bước
 
-- [ ] **Bước 1: Viết `q_RC_Web`, `q_RC_Return`**
+- [x] **Bước 1: Viết `q_RC_Web`, `q_RC_Return`**
   - Kiểm tra: 1.647 và 159 ô trong kỳ, khớp 100%.
-- [ ] **Bước 2: Viết `q_RC_Web_Month`, `q_Web_Timing`**
+- [x] **Bước 2: Viết `q_RC_Web_Month`, `q_Web_Timing`**
   - Kiểm tra: tháng 11 −12.064,26 trước xử lý; lệch thời điểm cả năm, tháng 3, hai phần vắt qua năm.
-- [ ] **Bước 3: Viết `q_BridgeItems`, `q_FiveReasons`**
+- [x] **Bước 3: Viết `q_BridgeItems`, `q_FiveReasons`**
   - Kiểm tra: số tiền từng lý do khớp số chuẩn; mỗi khoản có nhóm.
-- [ ] **Bước 4: Dựng lại file, kiểm tra số, viết phần IV.2 và IV.3, lưu vào Git (commit)**
+- [x] **Bước 4: Dựng lại file, kiểm tra số, viết phần IV.2 và IV.3, lưu vào Git (commit)**
   - Kiểm tra: báo cáo vẫn chuyển ra PDF (Portable Document Format) được.
 
 ---
@@ -122,6 +122,9 @@
 | Ngày | Đã làm | Kết quả / số ra được | Vướng mắc, cách xử lý |
 |---|---|---|---|
 | 18/10 | Chạy thử bằng Python trên sheet giao dịch chung và dữ liệu `det` của dashboard mẫu | <ul><li>Dòng online của dashboard mẫu tháng 11: chưa xử lý 1.205.561,30 = đơn chưa hủy theo tháng đặt, tỷ giá cuối tháng đặt; sổ cái 1.193.497,04 = `WEB_DELIVERY` + `WEB_RETURN`; chênh lệch −12.064,26</li><li>1.647 / 159 ô trong kỳ khớp 100%; ngoài kỳ có 155 ô online và 12 ô hàng trả</li><li>Các số chuẩn của đơn hủy, hàng trả, chiết khấu, lệch thời điểm, tỷ giá đều ra đúng</li></ul> | |
+| 18/10 | Viết 6 truy vấn, nạp 6 sheet, dựng lại file (2 lần) | <ul><li>Online 1.647/1.647 ô khớp, hàng trả 159/159; ngoài kỳ 155 và 12 ô</li><li>Online chưa xử lý: 12/12 tháng vượt ngưỡng; sau xử lý: 0 tháng, mỗi tháng lệch ≤ 0,05 USD</li><li>Lệch thời điểm online cả năm −52.597,90 = +122.107,89 − 174.705,79; tháng 3 +281.787,98</li><li>Bảng 5 lý do: 14 dòng, mọi số tiền khớp số chuẩn; làm tròn 1,01 = 0,95 + 0,05</li></ul> | <ul><li>Lần dựng đầu, số chèn vào cột chữ của bảng 5 lý do viết kiểu Mỹ (17,124; 0.95); đổi sang kiểu Việt Nam (vi-VN) rồi dựng lại</li><li>Mỗi lần dựng mất khoảng 15 phút; tăng giới hạn thời gian của script lên 30 phút</li></ul> |
+| 18/10 | Cập nhật ghi chú số chuẩn | Số −12.064 của slide nay đã tái lập; cả 3 số "chỉ tham khảo" của plan `setup-baseline` đều đã giải thích | Phát hiện 2 dòng ghi chú (dòng 130, 132) có dấu phẩy làm lệch cột CSV từ commit `c2d1beb` của plan 7; đã sửa, `python_check.py` chạy lại vẫn đạt |
+| 18/10 | Viết phần IV.2 và IV.3 (Bảng 11–13, Hình 3) | PDF 21 trang | Tiêu đề hình bị cắt vì quá dài; rút ngắn |
 
 ---
 
@@ -129,6 +132,11 @@
 
 | Ngày | Quyết định | Lý do | Có phải sửa file quy ước không |
 |---|---|---|---|
+| 18/10 | Kỳ đối soát = các tháng có trong Flash; ô ngoài kỳ ghi "Ngoài kỳ đối soát", không tính là lệch và không tô đỏ | Không ghi cứng năm; sổ cái chỉ có năm 2025 nên đơn giao tháng 12/2024 hay tháng 1/2026 luôn "thiếu" bên sổ cái mà không phải lỗi | Không |
+| 18/10 | Online theo tháng: "chưa xử lý" theo tháng đặt, tỷ giá cuối tháng đặt; sổ cái chỉ lấy `WEB_DELIVERY` và `WEB_RETURN` | Đúng cách dashboard mẫu tính (tái lập −12.064,26); bút toán tay là khoản riêng của bảng cầu nối | Không |
+| 18/10 | Danh mục khoản `q_BridgeItems` là bảng gõ tay duy nhất, ghi cả lý do xếp nhóm | Nhóm là quyết định phân loại, không phải số liệu; bảng cầu nối, nhật ký ngoại lệ, dashboard cùng đọc một chỗ | Không |
+| 18/10 | Dòng POS trùng và lỗi chuyển dữ liệu không gắn vào lý do nào trong 5 lý do | Đó là lỗi dữ liệu, không phải khác biệt về cách tính; gắn vào thì sai nghĩa của 5 lý do | Không |
+| 18/10 | Nhãn nhóm làm tròn ghi "Sai số chấp nhận" | Đúng chữ của file mẫu nộp (nhật ký ngoại lệ) | Không |
 
 ---
 
@@ -136,14 +144,35 @@
 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
+| 18/10 | Đọc dữ liệu `det` của dashboard mẫu, viết 6 truy vấn, viết phần IV.2–IV.3 | `excel/queries/q_RC_Web.m`, `q_RC_Return.m`, `q_RC_Web_Month.m`, `q_Web_Timing.m`, `q_FiveReasons.m`, `q_BridgeItems.m`; phần sinh Bảng 11–13 và Hình 3 trong `make_figures.py`; mục IV.2–IV.3 | <ul><li>Chạy thử bằng Python trước khi viết truy vấn</li><li>So từng số với `numbers_of_record.csv`, slide 28 và 44, dữ liệu `det` của dashboard mẫu</li><li>Dòng kiểm tra "cả năm − hai phần vắt qua năm" bằng 0</li></ul> |
 
 ---
 
 ## 11. Chuẩn bị vấn đáp
 
+1. **Hỏi:** Đối soát online so ở mức nào, kết quả ra sao?
+   **Trả lời:** Ở đúng mức sổ cái ghi: một bút toán `WEB_DELIVERY` cho mỗi ngày giao × loại tiền, một bút toán `WEB_RETURN` cho mỗi ngày nhận hàng trả × loại tiền. So bằng nội tệ, 1.647/1.647 ô doanh thu và 159/159 ô hàng trả khớp đến từng xu. Hệ thống chuyển đơn online sang sổ cái không có lỗi; chênh lệch online hoàn toàn do quy tắc ghi nhận.
+2. **Hỏi:** Vì sao tháng 3 sổ cái cao hơn Flash?
+   **Trả lời:** Lệch thời điểm online: Flash ghi theo ngày đặt, sổ cái theo ngày giao. Tháng 3 nhận +315.819,08 USD từ 140 đơn đặt tháng 2 giao tháng 3, chỉ chuyển đi 34.031,10 sang tháng 4, nên khoản lệch thời điểm tháng 3 là +281.787,98, lớn hơn mọi khoản làm giảm doanh thu của tháng đó.
+3. **Hỏi:** Lệch thời điểm online cả năm sao không bằng 0?
+   **Trả lời:** Vì có đơn vắt qua năm: 77 đơn đặt tháng 12/2024 giao năm 2025 (+122.107,89, sổ cái có, Flash không có) và 105 đơn đặt năm 2025 giao năm 2026 (−174.705,79). Cộng hai phần ra đúng −52.597,90; trong năm mọi tháng tự bù trừ.
+4. **Hỏi:** Chứng minh 5 lý do bằng số thế nào?
+   **Trả lời:** Sheet `Nam_ly_do`: thời điểm (860 đơn đặt và giao khác tháng, 267 dòng POS ghi sổ sang tháng sau), giá trị (chiết khấu −1.834.297,47), phạm vi (124 đơn hủy −215.658,92, 169 đơn trả −349.148,23, 12 bút toán phí vận chuyển +94.766,95), tiền tệ (khoản tỷ giá −57.598,01; cùng hàng trả cho 3 số tùy tỷ giá), mức chi tiết (17.124 dòng POS → 5.119 bút toán, 9.441 đơn → 1.806 bút toán; làm tròn 1,01).
+5. **Hỏi:** Dòng online "vượt ngưỡng" trong 22 dòng của slide 44 là gì?
+   **Trả lời:** Online tháng 11 so theo tháng đặt lệch −12.064,26 USD, tức −1,01% so với |sổ cái|, vừa vượt ngưỡng 1%. So theo tháng giao và trừ hàng trả theo tháng trả thì còn −0,01.
+
 ---
 
 ## 12. Kết quả khi đóng plan
+
+- **Điều kiện xong:** đạt hết 9 dòng số và 4 việc phải có (mục 5).
+- **Đã đưa vào báo cáo:** mục IV.2 (Bảng 11, Hình 3), IV.3 (Bảng 12 năm lý do, Bảng 13 bốn nhóm); câu hỏi riêng 3 phần online.
+- **Đã cập nhật số chuẩn:** số online −12.064 của slide nay đã tái lập; không còn số "chỉ tham khảo" nào trong `checks/numbers_of_record.csv`.
+- **Việc còn lại:**
+  - Bảng cầu nối 12 tháng đọc danh mục khoản từ `q_BridgeItems` → `bridge-monthly`.
+  - Nhật ký ngoại lệ lấy nhóm từ danh mục khoản → `bridge-template-log`.
+  - Dashboard trang 3 dùng sheet đối soát online và hàng trả → `dashboard`.
+- **Các lần lưu vào Git (commit):** `3661ba0` (tạo plan), `d60e1c8` (đối soát online, hàng trả), `2233fa3` (online theo tháng, lệch thời điểm), `f3bbad9` (5 lý do, danh mục khoản), `0fb71e0` (số chuẩn), `f0abcb8` (nạp sheet, file Excel), `7f335ca` (báo cáo IV.2–IV.3), và các lần lưu ghi kết quả, rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
 - [ ] Không còn chỗ `< >` chưa điền.
