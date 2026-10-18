@@ -531,6 +531,31 @@ def md_to_tex(s):
 
 PLANS = ROOT / "plans"
 slugs = re.findall(r"^\| \[([a-z-]+)\]\(completed/", (PLANS / "README.md").read_text(encoding="utf-8"), re.M)
+# Tên phần việc bằng tiếng Việt cho người đọc báo cáo (tên plan là tên file nội bộ, khó hiểu)
+TEN_PHAN_VIEC = {
+    "setup-baseline": "Chuẩn bị: số chuẩn, mô tả dữ liệu",
+    "load-clean-data": "Nạp và làm sạch dữ liệu",
+    "python-check": "Bảng kiểm tra bằng Python",
+    "powerbi-totals": "Mô hình Power BI, số tổng",
+    "report-skeleton": "Khung báo cáo, phần I–III",
+    "transactions-quality": "Bảng giao dịch chung, chất lượng dữ liệu",
+    "store-recon": "Đối soát cửa hàng",
+    "web-return-recon": "Đối soát online, hàng trả",
+    "bridge-monthly": "Bảng cầu nối 12 tháng",
+    "bridge-template-log": "File mẫu nộp, nhật ký ngoại lệ",
+    "dax-bridge": "Tính lại bằng DAX",
+    "refresh-test": "Chạy thử tháng mới",
+    "dashboard": "Dashboard",
+    "conclusions": "Kết luận, đề xuất, giới hạn",
+    "report-draft": "Phụ lục, rà toàn bài",
+    "review-submit": "Tự chấm, nộp bài",
+}
+
+
+def ten_phan_viec(slug):
+    return TEN_PHAN_VIEC.get(slug, slug)
+
+
 ai_rows, n_plan = [], 0
 for slug in slugs:
     text = (PLANS / "completed" / f"thanhlnp-18-10-2026-{slug}.md").read_text(encoding="utf-8")
@@ -542,10 +567,12 @@ for slug in slugs:
         c = [x.strip() for x in l.strip().strip("|").split(" | ")]
         if len(c) < 4:
             continue
-        ai_rows.append(f"{esc(slug)} & {md_to_tex(c[1])} & {md_to_tex(c[2])} & {md_to_tex(c[3])} \\\\")
+        # "plan `dax-bridge`" trong ô bảng: đổi sang tên phần việc tiếng Việt
+        c = [re.sub(r"plan `([a-z-]+)`", lambda m: f"phần việc “{ten_phan_viec(m.group(1))}”", x) for x in c]
+        ai_rows.append(f"{esc(ten_phan_viec(slug))} & {md_to_tex(c[1])} & {md_to_tex(c[2])} & {md_to_tex(c[3])} \\\\")
 write("bang_ai.tex", "\n".join([
     r"{\scriptsize", r"\begin{longtable}{@{}L{2.1cm} L{3.6cm} L{4.2cm} L{5.2cm}@{}}", r"\toprule",
-    r"Plan & Nhờ AI làm gì & Phần do AI viết ra & Nhóm kiểm tra lại bằng cách nào \\", r"\midrule", r"\endhead",
+    r"Phần việc & Nhờ AI làm gì & Phần do AI viết ra & Nhóm kiểm tra lại bằng cách nào \\", r"\midrule", r"\endhead",
     *ai_rows, r"\bottomrule", r"\end{longtable}}", ""]))
 macros.update({"SoPlanAI": str(n_plan), "SoDongAI": str(len(ai_rows))})
 

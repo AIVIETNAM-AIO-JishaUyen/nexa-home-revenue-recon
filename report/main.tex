@@ -596,7 +596,7 @@
 
 % Chiều cao vùng title giữa 2 rule
 \newlength{\TitleBlockHeight}
-\setlength{\TitleBlockHeight}{2.2cm}
+\setlength{\TitleBlockHeight}{3.0cm}% tiêu đề 3 dòng, chừa chỗ cho dấu tiếng Việt chồng hai tầng
 
 \pretitle{%
   
@@ -616,7 +616,7 @@
 \title{%
   \parbox[c][\TitleBlockHeight][c]{0.90\textwidth}{%
     \centering
-    {\fontsize{20pt}{24pt}\selectfont\bfseries Đối soát doanh thu Nexa Home năm 2025:\\ vì sao sổ cái thấp hơn báo cáo nhanh 2,43 triệu USD}\\[.5ex]
+    {\fontsize{20pt}{27pt}\selectfont\bfseries Đối soát doanh thu Nexa Home năm 2025:\\ vì sao sổ cái thấp hơn báo cáo nhanh\\ 2,43 triệu USD}\\[.5ex]
   }%
 }
 
@@ -684,10 +684,13 @@
 \DeclareUnicodeCharacter{2212}{\ensuremath{-}}
 % Bảng: chú thích "Bảng N:" giống \capfig của hình ------------------------------
 % \needspace: nếu cuối trang không đủ chỗ cho chú thích và vài dòng đầu của bảng thì sang trang mới,
-% để chú thích không nằm một mình ở cuối trang
+% để chú thích không nằm một mình ở cuối trang.
+% Dùng \Needspace (sang trang ngay lúc kiểm tra), không dùng \needspace (để TeX tự chọn chỗ ngắt về sau):
+% với \needspace, chỗ ngắt được chọn khi longtable đã bắt đầu, nên dòng tiêu đề bảng bị in lên trước chú thích.
+% Trước bảng có dòng đầu cao thì gọi thêm \Needspace{...} lớn hơn ngay trước \captab.
 \usepackage{needspace}
 \newcounter{bang}
-\newcommand{\captab}[1]{\needspace{6\baselineskip}\refstepcounter{bang}\par\noindent\textbf{Bảng~\thebang:}~#1\par\smallskip}
+\newcommand{\captab}[1]{\Needspace{8\baselineskip}\refstepcounter{bang}\par\noindent\textbf{Bảng~\thebang:}~#1\par\smallskip}
 % Cột chữ canh trái (không giãn chữ cho đều hai bên) dùng cho bảng có cột hẹp
 \newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
 % Nhãn nguồn số liệu (xem docs/quy_uoc_va_so_chuan.md) -------------------------

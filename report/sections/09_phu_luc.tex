@@ -5,7 +5,7 @@
 
 \subsection{Mã Power Query}
 
-File Power Query có \SoTruyVan{} truy vấn, tổng \SoDongMa{} dòng code M (ngôn ngữ của Power Query). Mỗi truy vấn là một file \texttt{.m} trong thư mục \texttt{excel/queries}. File Excel được dựng lại từ các file này bằng script \texttt{excel/build\_workbook.ps1}. Bước nào cũng có tên tiếng Việt và ghi chú. Bảng~\ref{tab:truyvan} liệt kê mọi truy vấn, theo thứ tự nạp. Bảng này sinh tự động từ dòng ghi chú đầu tiên của mỗi file.
+File Power Query có \SoTruyVan{} truy vấn, tổng \SoDongMa{} dòng code viết bằng ngôn ngữ M của Power Query. Mỗi truy vấn là một file \texttt{.m} trong thư mục \texttt{excel/queries}. File Excel được dựng lại từ các file này bằng script \texttt{excel/build\_workbook.ps1}. Bước nào cũng có tên tiếng Việt và ghi chú. Bảng~\ref{tab:truyvan} liệt kê mọi truy vấn, theo thứ tự nạp. Bảng này sinh tự động từ dòng ghi chú đầu tiên của mỗi file.
 
 \captab{Các truy vấn Power Query}\label{tab:truyvan}\nopagebreak[4]
 \input{generated/bang_truy_van.tex}
@@ -19,15 +19,18 @@ Dưới đây là code đầy đủ của hai truy vấn chính. Dòng quá dài
 {\fontsize{6.5}{7.5}\selectfont\VerbatimInput{generated/ma_q_BR_Long.txt}}
 
 \subsection{Nhật ký ngoại lệ đầy đủ}
-Sinh từ truy vấn \texttt{q\_ExceptionLog} (sheet \texttt{Nhat\_ky\_du\_lieu}); sheet \texttt{Nhat\_ky\_ngoai\_le} của file mẫu đọc lại đúng bảng này. Cột ``Phát hiện ở bước'' và ``Nguồn'' xem trong file Excel.
+Sinh từ truy vấn \texttt{q\_ExceptionLog} (sheet \texttt{Nhat\_ky\_du\_lieu}); sheet \texttt{Nhat\_ky\_ngoai\_le} của file mẫu đọc lại đúng bảng này. Cột ``Phát hiện ở bước'' và ``Nguồn'' xem trong file Excel (Bảng~\ref{tab:nhatky}).
 
+\captab{Nhật ký ngoại lệ, \SoNhatKyDong{} dòng; cột USD cộng lại bằng chênh lệch cả năm}\label{tab:nhatky}\nopagebreak[4]
 \input{generated/bang_nhat_ky.tex}
 
 \subsection{Bảng tra nhãn nguồn số liệu}
 
-Mỗi kết luận trong báo cáo ghi kèm nhãn cho biết con số lấy từ bảng nào. Chữ viết tắt trong nhãn: QC (Quality Control, kiểm soát chất lượng), RC (Reconciliation, đối soát), BR (Bridge, cầu nối), EX (Exception, ngoại lệ), CH (cửa hàng), RET (Return, hàng trả).
+Mỗi kết luận trong báo cáo ghi kèm nhãn cho biết con số lấy từ bảng nào. Chữ viết tắt trong nhãn: QC (Quality Control, kiểm soát chất lượng), RC (Reconciliation, đối soát), BR (Bridge, cầu nối), EX (Exception, ngoại lệ), CH (cửa hàng), RET (Return, hàng trả). Bảng~\ref{tab:nhan} cho biết mỗi nhãn ứng với sheet và truy vấn nào.
 
-\captab{Nhãn nguồn số liệu}\nopagebreak[4]
+% Dòng đầu của bảng cao khoảng 4 dòng chữ: không để chú thích và dòng tiêu đề nằm một mình ở cuối trang
+\Needspace{12\baselineskip}
+\captab{Nhãn nguồn số liệu}\label{tab:nhan}\nopagebreak[4]
 \begin{longtable}{@{}L{3.0cm} L{6.0cm} L{6.0cm}@{}}
 \toprule
 Nhãn & Bảng & Nơi xem trong file Excel Power Query \\
@@ -90,10 +93,10 @@ Cùng một khoản lệch có thể ra số khác nhau tùy bước nào tính 
 
 \subsection{Khai báo dùng AI}
 
-Nhóm dùng trợ lý AI (trí tuệ nhân tạo) Claude để viết nháp code Power Query, DAX, script kiểm tra và một phần lời văn. Mỗi phần việc có một file plan trong thư mục \texttt{plans/} ghi rõ: nhờ AI làm gì, phần nào do AI viết ra, và nhóm kiểm tra lại bằng cách nào (so với bảng tổng kiểm soát của đề, với slide, với một cách tính độc lập). Bảng~\ref{tab:ai} gom mục ``Dùng AI'' của \SoPlanAI{} plan, sinh tự động từ các file plan.
+Nhóm dùng trợ lý AI (trí tuệ nhân tạo) Claude để viết nháp code Power Query, DAX, script kiểm tra và một phần lời văn. Mỗi phần việc có một file kế hoạch (plan) trong thư mục \texttt{plans/} ghi rõ: nhờ AI làm gì, phần nào do AI viết ra, và nhóm kiểm tra lại bằng cách nào (so với bảng tổng kiểm soát của đề, với slide, với một cách tính độc lập). Bảng~\ref{tab:ai} gom mục ``Dùng AI'' của \SoPlanAI{} phần việc, sinh tự động từ các file kế hoạch; ``mục 5'', ``mục 8'' trong bảng là mục của file kế hoạch đó.
 
-Nguyên tắc chung: mọi con số trong báo cáo đều ra từ file Power Query hoặc truy vấn Power BI, không lấy từ câu trả lời của AI. Mỗi kết quả AI viết ra đều được so với một nguồn độc lập trước khi dùng. Lần rà soát cuối mỗi plan do một phiên AI khác làm; phiên này đọc lại file đầu ra và tính lại số.
+Nguyên tắc chung: mọi con số trong báo cáo đều ra từ file Power Query hoặc truy vấn Power BI, không lấy từ câu trả lời của AI. Mỗi kết quả AI viết ra đều được so với một nguồn độc lập trước khi dùng. Lần rà soát cuối mỗi phần việc do một phiên AI khác làm; phiên này đọc lại file đầu ra và tính lại số.
 
 \newpage
-\captab{Khai báo dùng AI theo từng plan}\label{tab:ai}\nopagebreak[4]
+\captab{Khai báo dùng AI theo từng phần việc}\label{tab:ai}\nopagebreak[4]
 \input{generated/bang_ai.tex}

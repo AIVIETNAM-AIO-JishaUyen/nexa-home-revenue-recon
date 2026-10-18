@@ -25,9 +25,9 @@ Flash & 1 tháng $\times$ 1 kênh $\times$ 1 thị trường & Không có & Thá
 
 \subsection{Mỗi bên ghi doanh thu thế nào: năm lý do lệch}
 
-Hai bên đều đúng theo cách của mình nhưng khác nhau ở năm điểm (đề gọi là ``năm trục khác biệt''). Mục~IV chứng minh từng lý do bằng số trên dữ liệu.
+Hai bên đều đúng theo cách của mình nhưng khác nhau ở năm điểm (đề gọi là ``năm trục khác biệt''). Bảng~\ref{tab:quytac} tóm tắt năm điểm đó; mục~IV chứng minh từng lý do bằng số trên dữ liệu.
 
-\captab{Quy tắc ghi nhận của từng bên}\nopagebreak[4]
+\captab{Quy tắc ghi nhận của từng bên}\label{tab:quytac}\nopagebreak[4]
 {\small
 \begin{longtable}{@{}L{2.6cm} L{4.0cm} L{4.2cm} L{4.0cm}@{}}
 \toprule
@@ -69,14 +69,14 @@ Bốn quyết định khi nạp:
   \item \textbf{Một ô đường dẫn thư mục.} Mọi truy vấn đọc ô \texttt{FolderPath} rồi tìm file theo phần đầu tên, không ghi cứng đường dẫn hay năm. Thư mục phải có đúng 1 file khớp tên; nếu không, truy vấn báo lỗi rõ ràng thay vì lấy bừa.
   \item \textbf{Đổi kiểu theo vùng en-US.} Mọi bước đổi kiểu số và ngày ghi rõ vùng English -- United States, để máy cài tiếng Việt vẫn đọc đúng.
   \item \textbf{Giữ dòng trùng, chỉ đánh dấu.} 12 dòng POS bị xuất trùng được giữ lại kèm cờ và lý do, để số dòng khớp bảng tổng kiểm soát và để đo được số tiền của dòng trùng.
-  \item \textbf{Code truy vấn là bản gốc.} File Excel được dựng lại từ các file \texttt{.m} bằng một script, mọi bước có tên tiếng Việt và ghi chú.
+  \item \textbf{Code truy vấn là bản gốc.} File Excel được dựng lại từ các file \texttt{.m} bằng một script (chương trình nhỏ chạy tự động), mọi bước có tên tiếng Việt và ghi chú.
 \end{itemize}
 
 \subsection{Năm bẫy khi nạp và cách xử lý}
 
 Bảng~\ref{tab:bay} lấy thẳng từ sheet \texttt{Bay\_du\_lieu}: mọi số được tính lại mỗi lần làm mới dữ liệu.
 
-\needspace{14\baselineskip}% dòng đầu của bảng cao khoảng 9 dòng chữ: giữ chú thích đi cùng
+\Needspace{14\baselineskip}% dòng đầu của bảng cao khoảng 9 dòng chữ: giữ chú thích đi cùng
 \captab{Năm bẫy: số trước và sau khi xử lý}\label{tab:bay}\nopagebreak[4]
 \input{generated/bang_bay.tex}
 
@@ -84,25 +84,25 @@ Bẫy nguy hiểm nhất là ngày kiểu Mỹ: nếu đọc theo kiểu ngày/t
 
 \subsection{Kiểm tra tổng}
 
-Sau khi nạp, sheet \texttt{Kiem\_tra} tự so 13 chỉ tiêu với bảng tổng kiểm soát QC\_Summary của đề: \SoQCDat/\SoQCTong{} chỉ tiêu khớp, chênh lệch bằng 0 \nguon{QC}.
+Sau khi nạp, sheet \texttt{Kiem\_tra} tự so 13 chỉ tiêu với bảng tổng kiểm soát QC\_Summary của đề: \SoQCDat/\SoQCTong{} chỉ tiêu khớp, chênh lệch bằng 0 (Bảng~\ref{tab:kiemtra}) \nguon{QC}.
 
-\captab{Kiểm tra tổng so với QC\_Summary}\nopagebreak[4]
+\captab{Kiểm tra tổng so với QC\_Summary}\label{tab:kiemtra}\nopagebreak[4]
 {\small\input{generated/bang_kiem_tra.tex}}
 
 \subsection{Bảng giao dịch chung và kiểm tra chất lượng dữ liệu}
 
 Truy vấn \texttt{q\_Transactions} gộp \SoDongPOS{} dòng POS và \SoDongWEB{} đơn online thành một bảng \SoDongGiaoDich{} dòng cùng một dạng: mã cửa hàng bên kế toán (nối qua \texttt{store\_master}), ngày bán hoặc ngày đặt, ngày sổ cái ghi nhận (ngày ghi sổ hoặc ngày giao), ngày nhận hàng trả, tiền trước giảm giá, chiết khấu, sau giảm giá, và số USD theo cả hai tỷ giá: tỷ giá ngày (cách của Flash) và tỷ giá cuối tháng (cách của sổ cái). Các bảng đối soát và bảng cầu nối ở mục~IV lấy số POS và online từ bảng này.
 
-Mỗi lần làm mới, sheet \texttt{Chat\_luong\_du\_lieu} tự chạy \SoKiemTraChatLuong{} phép kiểm tra (Bảng~\ref{tab:chatluong}). \SoKiemTraCanXem{} phép ra kết quả ``Cần xem'', ứng với 3 lỗi dữ liệu: dòng POS bị xuất trùng; ngày 21/11 cửa hàng NX057 có bán mà sổ cái không có bút toán (sổ cái ghi bù ngày 02/12); bút toán ADJ-0925 vừa không gắn cửa hàng, vừa không có giấy tờ, nên vi phạm 2 phép \nguon{QC}. Các phép còn lại bằng 0. Ô thiếu bút toán được so theo ngày ghi sổ, vì nếu so theo ngày bán thì mọi ngày nghỉ có bán đều thành ô thiếu giả.
+Mỗi lần làm mới, sheet \texttt{Chat\_luong\_du\_lieu} tự chạy \SoKiemTraChatLuong{} phép kiểm tra (Bảng~\ref{tab:chatluong}). \SoKiemTraCanXem{} phép ra kết quả ``Cần xem'', ứng với 3 sự việc (2 lỗi dữ liệu và 1 khoản chưa giải thích được): dòng POS bị xuất trùng; ngày 21/11 cửa hàng NX057 có bán mà sổ cái không có bút toán (sổ cái ghi bù ngày 02/12); bút toán ADJ-0925 vừa không gắn cửa hàng, vừa không có giấy tờ, nên vi phạm 2 phép \nguon{QC}. Các phép còn lại bằng 0. Ô thiếu bút toán được so theo ngày ghi sổ, vì nếu so theo ngày bán thì mọi ngày nghỉ có bán đều thành ô thiếu giả.
 
 % Bảng ngắn (10 dòng): giữ cả bảng trên một trang, không để chú thích và 1–2 dòng đầu nằm một mình ở cuối trang
-\needspace{20\baselineskip}
+\Needspace{20\baselineskip}
 \captab{Kiểm tra chất lượng dữ liệu}\label{tab:chatluong}\nopagebreak[4]
 \input{generated/bang_chat_luong.tex}
 
 \subsection{Cách tính thứ hai: mô hình Power BI}
 
-Để kiểm tra lại số của Power Query, nhóm dựng mô hình Power BI trên file dữ liệu mentor đã nối sẵn (\texttt{Nexa\_Home\_Recon\_Dataset.xlsx}): 12 bảng, gồm 6 bảng danh mục (có bảng ngày), 4 bảng giao dịch và 2 bảng tỷ giá. Ngày ghi nhận của sổ cái (ngày ghi sổ, ngày giao) là quan hệ chủ động; ngày bán, ngày đặt, ngày trả là quan hệ bị động, chỉ bật bằng hàm \texttt{USERELATIONSHIP} khi cần. Số tổng tính bằng DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI) khớp với Power Query ở cả năm, 12 tháng và 3 kênh. Phần so từng khoản cầu nối ở mục~IV.5.
+Để kiểm tra lại số của Power Query, nhóm dựng mô hình Power BI trên file dữ liệu mentor (người hướng dẫn) đã nối sẵn (\texttt{Nexa\_Home\_Recon\_Dataset.xlsx}): 12 bảng, gồm 6 bảng danh mục (có bảng ngày), 4 bảng giao dịch và 2 bảng tỷ giá. Ngày ghi nhận của sổ cái (ngày ghi sổ, ngày giao) là quan hệ chủ động; ngày bán, ngày đặt, ngày trả là quan hệ bị động, chỉ bật bằng hàm \texttt{USERELATIONSHIP} khi cần. Số tổng tính bằng DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI) khớp với Power Query ở cả năm, 12 tháng và 3 kênh. Phần so từng khoản cầu nối ở mục~IV.5.
 
 \subsection{Chạy thử với một tháng mới}
 
@@ -114,7 +114,7 @@ Mỗi lần làm mới, sheet \texttt{Chat\_luong\_du\_lieu} tự chạy \SoKiem
   \item Sổ cái ghi đúng theo POS và đơn online, kể cả các đơn đặt tháng 12 giao tháng 1.
   \item Bốn file đổi tên nhưng giữ phần đầu tên; bảng tổng kiểm soát QC\_Summary cập nhật theo dữ liệu mới.
 \end{itemize}
-Sau đó chỉ sửa ô \texttt{FolderPath} rồi làm mới. \textbf{Không truy vấn nào phải sửa.} Kết quả (\texttt{checks/refresh\_test/ket\_qua\_2026\_01.txt}):
+Sau đó chỉ sửa ô \texttt{FolderPath} rồi làm mới. \textbf{Không truy vấn nào phải sửa.} Kết quả (file \texttt{ket\_qua\_2026\_01.txt} trong thư mục \texttt{checks/refresh\_test}):
 \begin{itemize}
   \item 13/13 chỉ tiêu kiểm tra tổng đạt; sheet chất lượng dữ liệu bắt được đúng hóa đơn trùng mới (12 lên 13 dòng).
   \item Kỳ đối soát tự dài ra 13 tháng vì tháng 01/2026 có trong Flash. Dòng kiểm tra của mọi bảng $\times$ tháng bằng 0. 12 tháng năm 2025 giữ nguyên từng số.

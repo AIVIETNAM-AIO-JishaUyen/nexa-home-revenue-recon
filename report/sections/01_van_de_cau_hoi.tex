@@ -21,9 +21,11 @@ Chênh lệch là \SoChenhLechNam{} USD (đô la Mỹ), tức \SoPctNam{} so v�
 
 \subsection{Ba câu hỏi riêng của nhóm}
 
-Ba câu hỏi của Giám đốc Tài chính trả lời ``lệch bao nhiêu, gồm gì''. Nhóm đặt thêm ba câu hỏi để biết \textbf{phần nào cần hành động}, mỗi câu đo được bằng một con số trong bảng của nhóm.
+Ba câu hỏi của Giám đốc Tài chính trả lời ``lệch bao nhiêu, gồm gì''. Nhóm đặt thêm ba câu hỏi để biết \textbf{phần nào cần hành động}, mỗi câu đo được bằng một con số trong bảng của nhóm (Bảng~\ref{tab:cauhoi}).
 
-\captab{Câu hỏi riêng của nhóm, thước đo và nơi lấy số}\nopagebreak[4]
+% Dòng đầu của bảng cao khoảng 8 dòng chữ: giữ chú thích, tiêu đề và dòng đầu cùng một trang
+\Needspace{14\baselineskip}
+\captab{Câu hỏi riêng của nhóm, thước đo và nơi lấy số}\label{tab:cauhoi}\nopagebreak[4]
 \begin{longtable}{@{}L{0.8cm} L{6.0cm} L{4.6cm} L{3.5cm}@{}}
 \toprule
 Câu & Câu hỏi & Đo bằng & Lấy số ở \\
@@ -39,9 +41,9 @@ Câu & Câu hỏi & Đo bằng & Lấy số ở \\
 
 \subsection{Quy ước chốt trước khi tính}
 
-Các quy ước dưới đây được chốt và lưu lên GitHub ngày 15/10/2026, \textbf{trước khi nhóm dựng file Power Query và tính số của mình}, theo nguyên tắc ``chọn ngưỡng trước khi nhìn số'' của đề \cite{slide_project1}.
+Các quy ước ở Bảng~\ref{tab:quyuoc} được chốt và lưu lên GitHub ngày 15/10/2026, \textbf{trước khi nhóm dựng file Power Query và tính số của mình}, theo nguyên tắc ``chọn ngưỡng trước khi nhìn số'' của đề \cite{slide_project1}.
 
-\captab{Quy ước tính}\nopagebreak[4]
+\captab{Quy ước tính}\label{tab:quyuoc}\nopagebreak[4]
 \begin{longtable}{@{}L{4.2cm} L{10.8cm}@{}}
 \toprule
 Nội dung & Thống nhất \\
@@ -53,7 +55,7 @@ Chênh lệch & Chênh lệch = Sổ cái $-$ Flash. Trong bảng cầu nối, k
 Ngưỡng phải giải thích & |Chênh lệch| $> 200$ USD \textbf{và} |\% chênh lệch| $> 1\%$, tính cho một cửa hàng trong một tháng, sau khi đã đưa hai bên về cùng cách tính. \\
 Sai số chấp nhận & Làm tròn $\le 5$ USD mỗi tháng; dòng kiểm tra của bảng cầu nối $\le 1$ USD. \\
 Thứ tự các bước cầu nối & Flash $\rightarrow$ chiết khấu $\rightarrow$ dòng POS (Point of Sale, máy bán hàng tại cửa hàng) trùng $\rightarrow$ đơn hủy $\rightarrow$ lệch thời điểm online $\rightarrow$ lệch ngày ghi sổ cửa hàng $\rightarrow$ lỗi chuyển dữ liệu $\rightarrow$ hàng trả $\rightarrow$ phí vận chuyển $\rightarrow$ (chuyển kênh, chỉ ở bảng theo kênh) $\rightarrow$ tỷ giá $\rightarrow$ làm tròn $\rightarrow$ chưa giải thích $\rightarrow$ sổ cái. Trừ chiết khấu trước để dòng trùng và đơn hủy được tính theo giá sau giảm giá, giống cách sổ cái ghi. \\
-Bút toán ADJ-0925 & Bút toán điều chỉnh 1.250 USD không có giấy tờ: luôn để ở dòng ``Chưa giải thích được'', không gộp vào khoản khác. \\
+Bút toán ADJ-0925 & Bút toán điều chỉnh (ADJ -- Adjustment) 1.250 USD tháng 9, không có giấy tờ. Trong sổ cái, bút toán này có mã tham chiếu MJ-ADJ-2509 (MJ -- Manual Journal, bút toán tay) và diễn giải ghi ADJ-0925. Luôn để ở dòng ``Chưa giải thích được'', không gộp vào khoản khác. \\
 \bottomrule
 \end{longtable}
 
