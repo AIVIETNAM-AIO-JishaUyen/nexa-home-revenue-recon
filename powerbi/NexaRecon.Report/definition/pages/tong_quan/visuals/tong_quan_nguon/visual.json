@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "tong_quan_nguon",
+  "position": {
+    "x": 20,
+    "y": 694,
+    "z": 1000,
+    "height": 24,
+    "width": 1240,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Nguồn: Nexa_Home_Recon_Dataset.xlsx (dữ liệu mentor chuẩn bị cho Power BI) và Nexa_Home_Recon_PQ.xlsx (bảng cầu nối, kiểm tra chất lượng của Power Query). Dữ liệu lấy đến ngày 15/01/2026. Chênh lệch = Sổ cái − Flash; số âm: sổ cái thấp hơn Flash. Đơn vị USD.",
+                    "textStyle": {
+                      "fontSize": "8pt",
+                      "color": "#9E9E9E"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

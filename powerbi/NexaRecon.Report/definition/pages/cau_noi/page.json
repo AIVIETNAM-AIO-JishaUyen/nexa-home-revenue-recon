@@ -1,0 +1,20 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.4.0/schema.json",
+  "name": "cau_noi",
+  "displayName": "2 · Cầu nối",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "visualInteractions": [
+    {
+      "source": "cau_noi_loc_thang",
+      "target": "p2_bang_thang",
+      "type": "NoFilter"
+    },
+    {
+      "source": "cau_noi_loc_thang",
+      "target": "p2_doi_chieu",
+      "type": "NoFilter"
+    }
+  ]
+}

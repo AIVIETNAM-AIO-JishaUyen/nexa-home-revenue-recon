@@ -1,0 +1,178 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+  "name": "p4_chat_luong",
+  "position": {
+    "x": 650,
+    "y": 410,
+    "z": 1000,
+    "height": 280,
+    "width": 610,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "drillFilterOtherVisuals": true,
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pq_data_quality"
+                    }
+                  },
+                  "Property": "kiem_tra"
+                }
+              },
+              "queryRef": "pq_data_quality.kiem_tra",
+              "nativeQueryRef": "kiem_tra",
+              "displayName": "Phép kiểm tra"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pq_data_quality"
+                    }
+                  },
+                  "Property": "so_luong"
+                }
+              },
+              "queryRef": "pq_data_quality.so_luong",
+              "nativeQueryRef": "so_luong",
+              "displayName": "Số lượng"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pq_data_quality"
+                    }
+                  },
+                  "Property": "trang_thai"
+                }
+              },
+              "queryRef": "pq_data_quality.trang_thai",
+              "nativeQueryRef": "trang_thai",
+              "displayName": "Trạng thái"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pq_data_quality"
+                    }
+                  },
+                  "Property": "chi_tiet"
+                }
+              },
+              "queryRef": "pq_data_quality.chi_tiet",
+              "nativeQueryRef": "chi_tiet",
+              "displayName": "Chi tiết"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "pq_data_quality"
+                  }
+                },
+                "Property": "kiem_tra"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_Measures"
+                        }
+                      },
+                      "Property": "Màu phép kiểm tra"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "pq_data_quality.trang_thai"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'13 phép kiểm tra dữ liệu (cả năm, từ Power Query); đỏ: cần xem'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
