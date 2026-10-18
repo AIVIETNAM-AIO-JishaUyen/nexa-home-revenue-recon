@@ -105,7 +105,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 11 | `dax-bridge` | Xong 18/10 | [thanhlnp-18-10-2026-dax-bridge.md](../completed/thanhlnp-18-10-2026-dax-bridge.md) |
 | 12 | `refresh-test` | Xong 18/10 | [thanhlnp-18-10-2026-refresh-test.md](../completed/thanhlnp-18-10-2026-refresh-test.md) |
 | 13 | `dashboard` | Xong 18/10 | [thanhlnp-18-10-2026-dashboard.md](../completed/thanhlnp-18-10-2026-dashboard.md) |
-| 14 | `conclusions` | Chưa làm | |
+| 14 | `conclusions` | Xong 18/10 | [thanhlnp-18-10-2026-conclusions.md](../completed/thanhlnp-18-10-2026-conclusions.md) |
 | 15 | `report-draft` | Chưa làm | |
 | 16 | `review-submit` | Chưa làm | |
 
@@ -148,6 +148,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 18/10 | Plan 11 `dax-bridge`: cột tính, bảng `dim_bridge_item` và `pq_br_long` (tham số `PQFile`), 32 công thức DAX (từng khoản cầu nối, so với Power Query, mẫu slide 30 cửa hàng × tháng), `dax_measures.dax`; phần IV.5 | <ul><li>709 ô cầu nối, lệch DAX − Power Query lớn nhất 0,000000007 USD</li><li>Cửa hàng × tháng: 679/679 ô khớp; 137 → 2 ô vượt ngưỡng, tháng 11: 21 → 1</li></ul> | Khớp ngay lần đầu; rà soát đổi cách đếm ô vượt ngưỡng theo mã sổ cái cho giống Power Query |
 | 18/10 | Plan 12 `refresh-test`: dữ liệu giả tháng 01/2026 + cửa hàng NX068 ở thư mục khác, `refresh_workbook.ps1`, `check_refresh.py`; dựng file nhanh hơn (bỏ qua mức riêng tư); mục II.8 | <ul><li>11/11 phép so đạt, không sửa truy vấn nào</li><li>Kỳ đối soát tự thành 13 tháng; 12 tháng 2025 giữ nguyên</li><li>Làm mới khoảng 3 phút; dựng từ đầu từ 55 phút còn khoảng 5 phút</li></ul> | Chưa thử trên máy thật thứ hai (backlog mục 2); Power BI không có dữ liệu tháng mới để thử |
 | 18/10 | Plan 13 `dashboard`: 75 công thức thư mục "5. Dashboard", bảng `pq_data_quality`, `build_report.py` sinh 4 trang (80 hình), ảnh chụp 4 trang; mục IV.6, phụ lục F | <ul><li>Số trên dashboard khớp số chuẩn và Power Query (tháng 12, 4 nhóm cả năm, 5.120 ô, 2.929 ô lệch theo ngày bán, 12 / 124 / 15)</li><li>Câu "Điểm chính" và tiêu đề có số tự đổi theo bộ lọc; đúng ở 9 trường hợp biên</li></ul> | Chưa làm nút Đặt lại và tô tháng đang chọn (backlog mục 10); cột cuối thác nước ghi "Total" (backlog mục 11) |
+| 18/10 | Plan 14 `conclusions`: phần V (trả lời 3 + 3 câu hỏi, 4 giả thuyết bị bác bỏ), VI (6 đề xuất xếp ưu tiên, danh sách việc theo tuần chốt sổ, 2 cách xử lý tỷ giá), VII (giới hạn, rủi ro, bước tiếp theo), hộp tóm tắt | <ul><li>99,5% chênh lệch là quy tắc ghi nhận; lỗi thật: 12 dòng POS trùng, NX057; ADJ-0925 chưa giải thích</li><li>Flash báo thêm doanh số thuần thì chênh lệch cả năm chỉ còn −0,09%</li></ul> | Rà soát sửa nhiều câu nói quá (ví dụ "21 cửa hàng chỉ vì so sai ngày" có cả NX057) |
 
 ---
 

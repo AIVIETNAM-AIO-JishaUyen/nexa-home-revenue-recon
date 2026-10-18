@@ -8,12 +8,12 @@
 |---|---|
 | Người làm | Lê Nguyễn Phước Thành (thanhlnp), làm cùng AI (trí tuệ nhân tạo) Claude |
 | Ngày bắt đầu | 18/10/2026 |
-| Ngày xong | |
+| Ngày xong | 18/10/2026 |
 | Nhánh (branch) | `baseline` |
 | Thuộc việc nào trong roadmap | Việc 7 – Kết luận và đề xuất |
 | Mốc phải đạt | Mốc 5 (29/10) |
 | Phần báo cáo liên quan | <ul><li>Phần V (phát hiện chính), VI (đề xuất), VII (giới hạn và bước tiếp theo)</li><li>Hộp tóm tắt đầu báo cáo</li></ul> |
-| Trạng thái | Đang làm |
+| Trạng thái | Xong |
 | Plan liên quan | <ul><li>Làm sau plan: [dashboard](../completed/thanhlnp-18-10-2026-dashboard.md) và các plan đối soát, cầu nối</li><li>Plan tiếp theo dùng kết quả này: `report-draft`, `review-submit` (tập vấn đáp)</li></ul> |
 
 ---
@@ -150,8 +150,8 @@ Trả lời 3 câu hỏi của Giám đốc Tài chính và 3 câu hỏi riêng 
 - **Các lần lưu vào Git (commit):** `77eca5a` (tạo plan), `435895b` (phần V–VII, tóm tắt, macro), `98e05bd` (sửa nhãn nguồn ở tóm tắt), và các lần lưu ghi kết quả, rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
-- [ ] Không còn chỗ `< >` chưa điền.
-- [ ] Mọi con số trong plan đều ghi rõ lấy từ đâu.
-- [ ] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
-- [ ] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
-- [ ] Đã chuyển file sang `plans/completed/` bằng `git mv`.
+- [x] Không còn chỗ `< >` chưa điền.
+- [x] Mọi con số trong plan đều ghi rõ lấy từ đâu.
+- [x] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
+- [x] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
+- [x] Đã chuyển file sang `plans/completed/` bằng `git mv`.

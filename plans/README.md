@@ -102,3 +102,4 @@ Cập nhật bảng này mỗi khi tạo, xong hoặc hủy một plan.
 | [dax-bridge](completed/thanhlnp-18-10-2026-dax-bridge.md) | Việc 5 – Kiểm tra lại bằng cách tính thứ hai | thanhlnp | Xong | 18/10/2026 |
 | [refresh-test](completed/thanhlnp-18-10-2026-refresh-test.md) | Việc 2 – Nạp và làm sạch dữ liệu (chạy thử làm mới) | thanhlnp | Xong | 18/10/2026 |
 | [dashboard](completed/thanhlnp-18-10-2026-dashboard.md) | Việc 6 – Dashboard 4 trang | thanhlnp | Xong | 18/10/2026 |
+| [conclusions](completed/thanhlnp-18-10-2026-conclusions.md) | Việc 7 – Kết luận và đề xuất | thanhlnp | Xong | 18/10/2026 |
