@@ -6,10 +6,10 @@
 |---|---|
 | Người làm | Lê Nguyễn Phước Thành (thanhlnp), làm cùng AI (trí tuệ nhân tạo) Claude |
 | Ngày bắt đầu | 18/10/2026 |
-| Ngày xong | |
+| Ngày xong | 19/10/2026 |
 | Nhánh (branch) | `baseline` |
 | Thuộc việc nào trong roadmap | Cả 8 việc của [roadmap](../../roadmap.md) |
-| Trạng thái | Đang làm |
+| Trạng thái | Xong |
 
 ---
 
@@ -159,11 +159,21 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
 | 18/10 | Đọc tài liệu, kiểm tra dữ liệu, lập plan | Toàn bộ file plan này | Đối chiếu các con số với bảng tổng kiểm soát QC_Summary và slide |
+| 18/10–19/10 | Làm 16 plan: viết code Power Query, DAX, script Python, báo cáo; mỗi plan có một lần rà soát bằng một phiên AI khác | Xem mục 10 của từng plan; bảng tổng hợp ở phụ lục khai báo AI của báo cáo | Mọi số so với bảng tổng kiểm soát, slide và ít nhất một cách tính độc lập (Python, DAX); mỗi lần rà soát đọc lại file đầu ra và tính lại số |
 
 ---
 
 ## 9. Kết quả khi đóng plan tổng
 
-- **Điều kiện xong:**
-- **Việc còn lại:**
-- **Các lần lưu vào Git (commit):**
+- **Điều kiện xong (kiểm tra cuối, chạy lại ngày 19/10):**
+  - Dựng lại file Power Query từ đầu bằng `excel/build_workbook.ps1` (khoảng 3–5 phút): sheet `Kiem_tra` 13/13 đạt; `BR_Long` 708 dòng (4 bảng × 12 tháng), dòng kiểm tra lớn nhất 0,00 USD; file mẫu nộp dòng kiểm tra bằng 0 ở 12 tháng.
+  - `checks/python_check.py` chạy lại: 102/102 phép so với `numbers_of_record.csv` đạt.
+  - Truy vấn DAX so với Power Query: 709 ô, lệch lớn nhất 0,000000007 USD; 679/679 ô cửa hàng × tháng khớp.
+  - Báo cáo chuyển ra PDF không lỗi: 45 trang, đủ 8 phần và 7 phụ lục.
+  - 16 plan ở `plans/completed/`; plan tổng chuyển sang `completed/` cùng lần lưu này; bảng trong `plans/README.md` đủ.
+  - Khoảng 140 lần lưu vào Git nhỏ trên nhánh `baseline`, `git status` sạch, chưa push.
+  - `plans/backlog.md` liệt kê đủ việc cần người dùng quyết, có phần tóm tắt "Việc cần làm trước khi nộp" ở đầu.
+- **Bộ file nộp:** `submission/` (báo cáo PDF, file Power Query, file mẫu nộp đã điền, dự án Power BI zip, code Power Query zip, README); gom lại bằng `tools/make_submission.py`.
+- **Việc còn lại (của người dùng):** hỏi mentor 8 câu, điền tên thành viên và mentor, chạy trên máy thứ hai, chốt vài điểm trình bày dashboard (xem đầu `plans/backlog.md`).
+- **Tài liệu cho nhóm:** `docs/tu_cham_rubric.md` (tự chấm: 4,5 / 5 / 5 / 4), `docs/chuan_bi_van_dap.md` (6 câu vấn đáp).
+- **Các lần lưu vào Git (commit):** từ `166fdef` (plan 1) đến lần lưu đóng plan tổng; mỗi plan ghi các lần lưu của mình ở mục 12.
