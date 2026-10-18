@@ -96,7 +96,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 2 | `load-clean-data` | Xong 18/10 | [thanhlnp-18-10-2026-load-clean-data.md](../completed/thanhlnp-18-10-2026-load-clean-data.md) |
 | 3 | `python-check` | Xong 18/10 | [thanhlnp-18-10-2026-python-check.md](../completed/thanhlnp-18-10-2026-python-check.md) |
 | 4 | `powerbi-totals` | Xong 18/10 | [thanhlnp-18-10-2026-powerbi-totals.md](../completed/thanhlnp-18-10-2026-powerbi-totals.md) |
-| 5 | `report-skeleton` | Chưa làm | |
+| 5 | `report-skeleton` | Xong 18/10 | [thanhlnp-18-10-2026-report-skeleton.md](../completed/thanhlnp-18-10-2026-report-skeleton.md) |
 | 6 | `transactions-quality` | Chưa làm | |
 | 7 | `store-recon` | Chưa làm | |
 | 8 | `web-return-recon` | Chưa làm | |
@@ -139,6 +139,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 18/10 | Xong plan 2 `load-clean-data` | <ul><li>File Excel Power Query dựng từ 14 file .m bằng script, mọi bước có ghi chú</li><li>13/13 chỉ tiêu QC_Summary khớp; chênh lệch 12 tháng, cả năm, 3 kênh khớp slide</li><li>Bảng 5 bẫy có số trước và sau khi xử lý</li></ul> | Lần dựng đầu bị quá giờ do bước tìm dòng trùng chậm; đã sửa, dựng mất khoảng 2 phút |
 | 18/10 | Xong plan 3 `python-check` | <ul><li>Bảng cầu nối 4 bảng × 12 tháng × 15 khoản tính bằng Python, dùng làm đáp án nội bộ</li><li>Khớp số chuẩn cả năm, tháng 12 (slide 36), các cặp tháng; dòng kiểm tra 0; 0 dòng sai</li><li>Thêm cách tính tỷ giá thứ hai và kiểm tra từng ô online, vì dòng kiểm tra một mình không bắt được lỗi xếp nhầm tháng</li></ul> | Rà soát chỉ ra dòng kiểm tra luôn bằng 0 theo cách định nghĩa; đã thêm các phép kiểm tra độc lập |
 | 18/10 | Xong plan 4 `powerbi-totals` | <ul><li>Dự án Power BI viết bằng file chữ: 12 bảng, 18 quan hệ theo slide 19, bảng ngày, 5 công thức</li><li>Hỏi số bằng DAX: cả năm, 12 tháng, 3 kênh khớp số chuẩn; trang "Số tổng" hiện đúng</li></ul> | Lần mở đầu Power BI báo lỗi "description" ở quan hệ; đã bỏ mô tả khỏi quan hệ |
+| 18/10 | Xong plan 5 `report-skeleton` – **đủ các việc của Mốc 2** | <ul><li>Báo cáo LaTeX đủ khung 8 phần + phụ lục, ra PDF 14 trang</li><li>Phần I–III viết thật; bảng, hình, số trong lời văn sinh tự động từ file Excel Power Query</li><li>3 câu hỏi riêng của nhóm, đo được bằng số</li></ul> | Câu hỏi riêng số 1 đã thay sau rà soát (backlog mục 6) |
 
 ---
 
