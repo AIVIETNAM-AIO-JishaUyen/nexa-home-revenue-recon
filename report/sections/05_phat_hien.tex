@@ -41,23 +41,26 @@ Ngoài ra còn một khoản chưa biết nguồn gốc: ADJ-0925 (EX-18, ``Ch�
 
 \subsection{Trả lời ba câu hỏi riêng của nhóm}
 
-\textbf{Câu 1: Bước so ô cửa hàng $\times$ ngày trước khi khóa sổ bắt được gì?} Năm 2025 bước này bắt được đúng 2 ô lệch trong \SoOCuaHang{} ô: NX057 ngày 21/11 (POS có, sổ cái không có) và ngày 02/12 (sổ cái ghi bù) \nguon{RC-CH}. Nếu bước này chạy trước khi khóa sổ tháng 11, kế toán đã kịp ghi bù và sổ cái tháng 11 không thiếu 7.227,56 USD.
+Bằng chứng chi tiết của câu 1 và câu 2 ở mục IV.1 và IV.4; Bảng~\ref{tab:cauhoirieng-v} chỉ ghi câu trả lời.
 
-\textbf{Câu 2: Tháng nào thật sự cần điều tra?} Sau khi trừ các khoản do quy tắc ghi nhận, chỉ \SoThangConLai{} tháng còn lệch quá 200 USD: \SoThangConLaiDS{} \nguon{BR-Tổng}. Mỗi tháng ứng với một lỗi đã tìm ra:
-\begin{itemize}
-  \item Tháng 3: dòng POS trùng.
-  \item Tháng 9: ADJ-0925.
-  \item Tháng 11 và 12: NX057.
-\end{itemize}
-Tám tháng còn lại chỉ lệch vài USD do làm tròn.
+\begin{table}[H]
+\captab{Câu trả lời cho ba câu hỏi riêng của nhóm}\label{tab:cauhoirieng-v}
+\centering
+{\small
+\begin{tabular}{@{}L{4.0cm} L{8.6cm} L{2.0cm}@{}}
+\toprule
+Câu hỏi & Trả lời & Bằng chứng \\
+\midrule
+1. Bước so ô cửa hàng $\times$ ngày trước khi khóa sổ bắt được gì? & Đúng \SoOCuaHangLech{} ô lệch trong \SoOCuaHang{} ô, đều của NX057 (21/11 thiếu, 02/12 ghi bù). Chạy trước khi khóa sổ tháng 11 thì sổ cái tháng 11 đã không thiếu 7.227,56 USD. & Mục IV.1 \nguon{RC-CH} \\
+\midrule
+2. Tháng nào thật sự cần điều tra? & Sau khi trừ quy tắc ghi nhận, chỉ \SoThangConLai{} tháng còn lệch quá 200 USD (\SoThangConLaiDS{}); mỗi tháng ứng với một lỗi đã tìm ra: dòng POS trùng (tháng 3), ADJ-0925 (tháng 9), NX057 (tháng 11, 12). & Mục IV.4, Bảng~\ref{tab:conlai} \nguon{BR-Tổng} \\
+\midrule
+3. Lệch do thời điểm có tự bù trừ không? & Có. Lệch ngày ghi sổ của cửa hàng bù trừ theo \SoSoCapThang{} cặp tháng, cả năm bằng 0. Lệch thời điểm online bù trừ giữa các tháng; chỉ còn \SoLechOnlineNam{} USD vắt qua năm: +\SoVatDauKy{} (\SoDonVatDauKy{} đơn đặt tháng 12/2024) và \SoVatCuoiKy{} (\SoDonVatCuoiKy{} đơn giao tháng 01/2026). & Mục IV.1, IV.2 \nguon{RC-CH}, \nguon{RC-WEB} \\
+\bottomrule
+\end{tabular}}
+\end{table}
 
-\textbf{Câu 3: Lệch do thời điểm có tự bù trừ không?} Lệch ngày ghi sổ của cửa hàng tự bù trừ trong năm, theo \SoSoCapThang{} cặp tháng (\SoCapThang{}); cộng cả năm bằng 0 \nguon{RC-CH}. Lệch thời điểm online cũng tự bù trừ giữa các tháng trong năm. Phần còn lại cả năm, \SoLechOnlineNam{} USD, là hai phần vắt qua năm \nguon{RC-WEB}:
-\begin{itemize}
-  \item +\SoVatDauKy{} USD: \SoDonVatDauKy{} đơn đặt tháng 12/2024, giao năm 2025.
-  \item \SoVatCuoiKy{} USD: \SoDonVatCuoiKy{} đơn đặt năm 2025, giao tháng 01/2026.
-\end{itemize}
-
-\subsection{Giả thuyết đã kiểm tra}
+\subsection{Bốn giả thuyết ban đầu đều bị dữ liệu bác bỏ}
 
 Nhìn các con số tổng, người đọc dễ nghĩ tới bốn cách giải thích dưới đây. Nhóm kiểm từng cách trên dữ liệu; dữ liệu bác bỏ cả bốn (Bảng~\ref{tab:giathuyet}). Còn giả thuyết của nhóm ở mục~III (tháng 3 cao vì lệch thời điểm online) thì được dữ liệu xác nhận.
 
@@ -77,7 +80,7 @@ Tỷ giá gây phần lớn chênh lệch (8 nước, 5 loại tiền) & Dòng t
 \end{tabular}}
 \end{table}
 
-\subsection{Điều bất ngờ}
+\subsection{Điều bất ngờ: so sai ngày thì 2.929 ô ``lệch'', thật ra chỉ có 2}
 
 \begin{itemize}
   \item \textbf{So sai ngày thì thấy lỗi ở khắp nơi.} So POS theo ngày bán với sổ cái theo ngày ghi sổ thì \SoOLechNgayBanNam{}/\SoOCuaHang{} ô lệch. Đưa về cùng ngày ghi sổ và bỏ dòng trùng thì chỉ còn \SoOCuaHangLech{} ô \nguon{RC-CH}. Nếu bỏ qua bước đưa về cùng cách tính, kế toán sẽ mất công điều tra hàng nghìn ô không có lỗi.
