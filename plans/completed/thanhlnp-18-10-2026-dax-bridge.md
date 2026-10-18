@@ -8,12 +8,12 @@
 |---|---|
 | Người làm | Lê Nguyễn Phước Thành (thanhlnp), làm cùng AI (trí tuệ nhân tạo) Claude |
 | Ngày bắt đầu | 18/10/2026 |
-| Ngày xong | |
+| Ngày xong | 18/10/2026 |
 | Nhánh (branch) | `baseline` |
 | Thuộc việc nào trong roadmap | Việc 5 – Kiểm tra lại bằng cách tính thứ hai |
 | Mốc phải đạt | Mốc 4 (25/10): Power Query và Power BI ra cùng một số |
 | Phần báo cáo liên quan | Phần IV.5 (kiểm chứng bằng cách tính thứ hai) |
-| Trạng thái | Đang làm |
+| Trạng thái | Xong |
 | Plan liên quan | <ul><li>Làm sau plan: [bridge-template-log](../completed/thanhlnp-18-10-2026-bridge-template-log.md), [powerbi-totals](../completed/thanhlnp-18-10-2026-powerbi-totals.md)</li><li>Plan tiếp theo dùng kết quả này: `refresh-test`, `dashboard` (trang 2 có ô đối chiếu DAX – Power Query)</li></ul> |
 
 ---
@@ -175,8 +175,8 @@ Tính lại **từng khoản** của bảng cầu nối bằng công thức DAX 
 - **Các lần lưu vào Git (commit):** `d0b648f` (tạo plan), `b72ce46` (mô hình, công thức, truy vấn so, `dax_measures.dax`), `41f0f6b` (`powerbi/README.md`), `f80733a` (báo cáo IV.5), và các lần lưu ghi kết quả, rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
-- [ ] Không còn chỗ `< >` chưa điền.
-- [ ] Mọi con số trong plan đều ghi rõ lấy từ đâu.
-- [ ] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
-- [ ] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
-- [ ] Đã chuyển file sang `plans/completed/` bằng `git mv`.
+- [x] Không còn chỗ `< >` chưa điền.
+- [x] Mọi con số trong plan đều ghi rõ lấy từ đâu.
+- [x] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
+- [x] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
+- [x] Đã chuyển file sang `plans/completed/` bằng `git mv`.
