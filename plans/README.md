@@ -92,3 +92,4 @@ Cập nhật bảng này mỗi khi tạo, xong hoặc hủy một plan.
 | [setup-baseline](completed/thanhlnp-18-10-2026-setup-baseline.md) | Việc 1 – Hiểu đề và chốt quy ước tính | thanhlnp | Xong | 18/10/2026 |
 | [load-clean-data](completed/thanhlnp-18-10-2026-load-clean-data.md) | Việc 2 – Nạp và làm sạch dữ liệu (phần nạp, kiểm tra tổng) | thanhlnp | Xong | 18/10/2026 |
 | [python-check](completed/thanhlnp-18-10-2026-python-check.md) | Việc 4 – Bảng cầu nối (bảng kiểm tra nội bộ bằng Python) | thanhlnp | Xong | 18/10/2026 |
+| [powerbi-totals](completed/thanhlnp-18-10-2026-powerbi-totals.md) | Việc 5 – Cách tính thứ hai (mô hình Power BI, số tổng) | thanhlnp | Xong | 18/10/2026 |
