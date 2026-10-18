@@ -121,11 +121,12 @@ Sau đó chỉ sửa ô \texttt{FolderPath} rồi làm mới. \textbf{Không tru
   \item 11 khoản của tháng 01/2026 khớp số mong đợi do script sinh dữ liệu tính thẳng từ dữ liệu giả.
   \item Cửa hàng mới tự vào bảng đối soát (19 ô cửa hàng $\times$ ngày, đều khớp).
 \end{itemize}
-Làm mới toàn bộ mất khoảng 3 phút.
+Làm mới toàn bộ mất khoảng 3 đến 5 phút.
 
-Lần chạy thử cũng cho thấy ba giới hạn cần biết khi dùng cho kỳ sau:
+Lần chạy thử cũng cho thấy bốn giới hạn cần biết khi dùng cho kỳ sau:
 \begin{itemize}
   \item Sheet \texttt{Cau\_noi} của file mẫu chỉ có 12 cột tháng của năm 2025, nên số tháng mới chỉ có ở bảng cầu nối dạng dài.
   \item Lịch hiện chỉ đến 31/01/2026. Bán vào thứ Bảy 31/01 thì ngày ghi sổ rơi sang tháng 2, ngoài lịch; trường hợp này phép kiểm tra số 12 sẽ báo ``Cần xem''. Vì vậy mỗi kỳ phải nhận lịch đủ đến ngày làm việc đầu tiên của tháng sau.
   \item Chưa chạy thử trên một máy thật thứ hai, chỉ giả lập bằng đường dẫn khác.
+  \item Chưa làm mới mô hình Power BI với tháng mới: mô hình đọc file dữ liệu mentor đã nối sẵn, chỉ có năm 2025, nên không có file tháng mới để thay.
 \end{itemize}
