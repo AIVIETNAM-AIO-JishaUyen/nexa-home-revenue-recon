@@ -13,8 +13,8 @@ let
     #"Sổ cái" = Table.Buffer(q_GL),
     // Giữ sẵn bảng POS
     #"Bảng POS" = Table.Buffer(q_POS),
-    // Tỷ giá ngày; đổi tên cột currency để ghép với POS không bị trùng tên cột
-    #"Tỷ giá ngày" = Table.Buffer(Table.RenameColumns(q_FX_Daily, {{"currency", "fx_currency"}})),
+    // Phần POS của bảng giao dịch chung (đã đổi ra USD theo tỷ giá ngày bán)
+    #"POS trong bảng giao dịch chung" = Table.Buffer(Table.SelectRows(q_Transactions, each [channel] = "STORE")),
     // Hàm phụ viết số theo kiểu Việt Nam (dấu chấm ngăn nghìn, dấu phẩy thập phân); số trống coi như 0
     #"Số nguyên" = (x as nullable number) as text => Number.ToText(if x = null then 0 else x, "#,##0", "vi-VN"),
     // Hàm phụ viết số tiền có 2 chữ số thập phân
@@ -46,14 +46,10 @@ let
     // Tổng sổ cái sau khi đổi dấu
     #"Tổng sổ cái sau đổi dấu" = List.Sum(#"Sổ cái"[revenue_usd]),
 
-    // Bẫy 4 và 5 – ghép tỷ giá ngày bán vào từng dòng POS (cùng ngày, cùng loại tiền)
-    #"POS ghép tỷ giá ngày bán" = Table.Join(#"Bảng POS", {"business_date", "currency"}, #"Tỷ giá ngày", {"rate_date", "fx_currency"}, JoinKind.LeftOuter),
-    // Đổi ra USD bằng cách CHIA cho tỷ giá: tiền trước giảm giá và sau giảm giá
-    #"POS đổi ra USD" = Table.AddColumn(
-        Table.AddColumn(#"POS ghép tỷ giá ngày bán", "gross_usd", each [line_amount] / [usd_to_ccy], type number),
-        "net_usd", each [net_amount] / [usd_to_ccy], type number),
-    // Các dòng trùng và mô tả chúng: cửa hàng, ngày bán, giờ xuất lại
-    #"Dòng trùng" = Table.SelectRows(#"POS đổi ra USD", each [is_duplicate]),
+    // Bẫy 4 – các dòng trùng trong q_POS (để mô tả: cửa hàng, ngày bán, giờ xuất lại)
+    #"Dòng trùng" = Table.SelectRows(#"Bảng POS", each [is_duplicate]),
+    // Số USD của các dòng trùng (sau giảm giá, tỷ giá ngày bán), lấy từ bảng giao dịch chung
+    #"USD của dòng trùng" = List.Sum(Table.SelectRows(#"POS trong bảng giao dịch chung", each [is_duplicate])[net_usd_daily]),
     // Mô tả các dòng trùng: cửa hàng, ngày bán, giờ xuất lại
     #"Mô tả dòng trùng" = if Table.RowCount(#"Dòng trùng") = 0 then "không có" else
         "cửa hàng POS " & Text.Combine(List.Transform(List.Distinct(#"Dòng trùng"[store_id]), Text.From), ", ")
@@ -64,7 +60,7 @@ let
     // Đếm số loại tiền trong file POS
     #"Số loại tiền" = List.Count(List.Distinct(#"Bảng POS"[currency])),
     // Tổng tiền trước giảm giá sau khi đổi từng dòng ra USD
-    #"Tổng trước giảm giá theo USD" = List.Sum(#"POS đổi ra USD"[gross_usd]),
+    #"Tổng trước giảm giá theo USD" = List.Sum(#"POS trong bảng giao dịch chung"[gross_usd_daily]),
     // Flash của kênh cửa hàng, để so
     #"Flash kênh cửa hàng" = List.Sum(Table.SelectRows(#"Flash đã xử lý", each [channel_code] = "STORE")[revenue_usd]),
 
@@ -90,9 +86,9 @@ let
             {4, "Dòng POS bị xuất trùng (trùng khóa receipt_no + line_no)", "q_POS", "Sắp theo giờ xuất; Lần xuất đầu tiên của mỗi khóa; Cờ dòng trùng; Lý do trùng",
                 #"Số nguyên"(Table.RowCount(#"Bảng POS")) & " dòng, trong đó " & #"Số nguyên"(Table.RowCount(#"Dòng trùng")) & " dòng lặp khóa: " & #"Mô tả dòng trùng",
                 #"Số nguyên"(Table.RowCount(#"Bảng POS") - Table.RowCount(#"Dòng trùng")) & " dòng không trùng; dòng trùng có cờ is_duplicate kèm lý do, không bị xóa",
-                "Doanh số POS cao hơn sổ cái " & #"Số tiền"(List.Sum(#"Dòng trùng"[net_usd])) & " USD (tiền sau giảm giá, tỷ giá ngày bán)"},
-            {5, "Dữ liệu có nhiều loại tiền", "q_Traps (ví dụ ở đây); bảng giao dịch chung q_Transactions đổi tiền cho mọi dòng",
-                "POS ghép tỷ giá ngày bán; POS đổi ra USD (chia cho tỷ giá rồi mới cộng)",
+                "Doanh số POS cao hơn sổ cái " & #"Số tiền"(#"USD của dòng trùng") & " USD (tiền sau giảm giá, tỷ giá ngày bán)"},
+            {5, "Dữ liệu có nhiều loại tiền", "q_Transactions",
+                "POS: ghép tỷ giá ngày bán; Đổi ra USD theo tỷ giá ngày (chia cho tỷ giá rồi mới cộng)",
                 "Cộng thẳng line_amount của " & #"Số nguyên"(#"Số loại tiền") & " loại tiền ra " & #"Số tiền"(#"Tổng line_amount cộng thẳng") & " (con số không có nghĩa)",
                 "Đổi từng dòng ra USD theo tỷ giá ngày bán rồi cộng: " & #"Số tiền"(#"Tổng trước giảm giá theo USD") & " USD (kể cả 12 dòng trùng, giống Flash); Flash kênh cửa hàng: "
                     & #"Số nguyên"(#"Flash kênh cửa hàng") & " USD",
