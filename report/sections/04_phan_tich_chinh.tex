@@ -136,7 +136,24 @@ Ba điều rút ra từ bảng:
 Nhật ký có \SoNhatKyDong{} dòng, mỗi khoản lệch một dòng, đủ 10 cột của file mẫu (Phụ lục~B). Nhóm thiết kế để cột ``Ảnh hưởng (USD)'' cộng lại đúng bằng chênh lệch cả năm (\SoNhatKyTong{} USD): khoản lệch thời điểm online được tách thành phần tự bù trừ trong năm và hai phần vắt qua năm, chứ không ghi cả tổng lẫn chi tiết; lệch ngày ghi sổ ghi theo cặp tháng (mỗi cặp cộng lại bằng 0); lỗi chuyển dữ liệu của NX057 ghi hai dòng (tháng 11 thiếu, tháng 12 ghi bù). Thêm một dòng 0 USD nhắc rủi ro mà đề không nêu: 7 đơn giao năm 2025 bị trả trong tháng 01/2026, sẽ ghi giảm doanh thu kỳ sau. Trạng thái theo slide 40 \cite{slide_project1}: \SoNhatKyTrangThai{}. Kỳ sau, nhật ký cho biết ngay việc nào còn treo: dòng ``Chờ phản hồi'' (bút toán ADJ-0925) phải theo tiếp, dòng ``Cần sửa nguồn'' (dòng POS trùng) phải kiểm tra bộ phận IT (công nghệ thông tin) đã chặn xuất lặp chưa.
 
 \subsection{Kiểm chứng bằng cách tính thứ hai}
-\choviet{dax-bridge}
+
+Mỗi khoản của bảng cầu nối được tính lại lần thứ hai bằng công thức DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI). Cách tính này độc lập với Power Query ở hai điểm: dữ liệu đầu vào là file mentor chuẩn bị cho Power BI (mô hình sao theo slide 19), không phải 4 file nguồn; và mỗi khoản viết lại từ đầu bằng một ngôn ngữ khác. Định nghĩa từng khoản giữ nguyên như mục IV.4. Ngày tính của mỗi khoản chọn bằng quan hệ với bảng ngày: ngày bán, ngày đặt, ngày trả bật bằng hàm \texttt{USERELATIONSHIP}. Kỳ đối soát là các tháng có trong Flash, nên công thức không ghi cứng năm.
+
+Kết quả: \SoDaxO{} ô (toàn công ty và 3 kênh $\times$ 12 tháng $\times$ khoản) có \SoDaxOLech{} ô lệch quá 0,01 USD; lệch lớn nhất \SoDaxLechMax{} USD, chỉ là sai số tính toán của máy (Bảng~\ref{tab:dax}). Mẫu DAX của slide 30 cho đối soát cửa hàng $\times$ tháng cũng được viết lại. Kết quả khớp \SoDaxCHKhop{}/\SoDaxCHO{} ô của Power Query, gồm chênh lệch trước và sau khi đưa về cùng cách tính và cả hai cờ vượt ngưỡng. Số ô vượt ngưỡng giảm từ \SoDaxCoTruoc{} xuống \SoDaxCoSau{}; riêng tháng 11 giảm từ \SoDaxCoTruocThangMuoiMot{} xuống \SoDaxCoSauThangMuoiMot{} (NX057).
+
+\begin{table}[H]
+\captab{Cả năm theo hai cách tính, toàn công ty, USD \nguon{BR-Tổng}}\label{tab:dax}
+\centering
+{\small\input{generated/bang_dax.tex}}
+\end{table}
+
+Có hai điểm nhóm phải cân nhắc khi viết lại:
+\begin{itemize}
+  \item \textbf{Không dùng các cột USD có sẵn trong file của mentor.} Các cột này đã làm tròn 2 chữ số ở từng dòng; cộng chúng lại thì chiết khấu ra $-$1.834.298,38 USD, lệch 0,91 USD so với số chuẩn. Vì vậy mọi khoản đều tính lại từng dòng bằng nội tệ $\div$ tỷ giá.
+  \item \textbf{Lỗi chuyển dữ liệu không cần duyệt từng ô.} Bút toán sổ cái của một cửa hàng một ngày ghi đúng tổng các dòng POS của ngày đó. Vì vậy ở mọi ô khớp, sổ cái trừ POS bằng đúng 0. Lấy tổng bút toán POS trên sổ cái trừ tổng dòng POS đã bỏ trùng, cả hai cùng đổi theo tỷ giá ngày của ngày ghi sổ, là còn lại đúng phần của các ô lệch.
+\end{itemize}
+
+Toàn bộ công thức nằm trong \texttt{powerbi/dax\_measures.dax}; truy vấn so và kết quả nằm trong \texttt{powerbi/checks/}.
 
 \subsection{Dashboard}
 \choviet{dashboard}

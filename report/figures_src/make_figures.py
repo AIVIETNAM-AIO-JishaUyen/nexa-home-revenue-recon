@@ -418,4 +418,32 @@ macros.update({
     "SoDoiTrungMoi": vn(O.loc[1, "moi_1"], 2), "SoDoiHuyMoi": vn(O.loc[2, "moi_1"], 2), "SoDoiTraMoi": vn(O.loc[3, "moi_1"], 2),
     "SoDoiTyGiaMoi": vn(O.loc[3, "moi_2"], 2),
 })
+# ---------------------------------------------------------------- Kiểm chứng bằng DAX (kết quả truy vấn Power BI trong powerbi/checks)
+CHK = ROOT / "powerbi" / "checks"
+bc = pd.read_csv(CHK / "bridge_compare.csv")
+bc[["dax", "pq"]] = bc[["dax", "pq"]].fillna(0)
+bc["lech"] = bc.dax - bc.pq
+sm = pd.read_csv(CHK / "store_month_compare.csv").rename(columns={"finance_store_code": "store_code"})
+smq = sheet("Doi_soat_CH_thang").merge(sm, on=["store_code", "period"], how="left", suffixes=("_pq", "_dax"))
+sm_khop = int(((smq.diff_raw_usd_pq - smq.diff_raw_usd_dax).abs().le(0.005) & (smq.diff_norm_usd_pq - smq.diff_norm_usd_dax).abs().le(0.005)
+               & (smq.flag_raw_pq.astype(int) == smq.flag_raw_dax) & (smq.flag_norm_pq.astype(int) == smq.flag_norm_dax)).sum())
+fl = pd.read_csv(CHK / "store_month_flags.csv").iloc[0]
+yc = bc[bc.bridge == "COMPANY"].groupby("item_code")[["dax", "pq", "lech"]].sum()
+rows = []
+for r in dmk.itertuples():
+    if r.item_code in yc.index and r.item_code != "channel_reclass":
+        v = yc.loc[r.item_code]
+        rows.append(f"{esc(r.item_name)} & {vn(v.dax, 2)} & {vn(v.pq, 2)} & {vn(v.lech, 2)} \\\\")
+write("bang_dax.tex", "\n".join([
+    r"\begin{tabular}{@{}l r r r@{}}", r"\toprule",
+    r"Khoản & DAX (Power BI) & Power Query & DAX $-$ Power Query \\", r"\midrule",
+    *rows, r"\bottomrule", r"\end{tabular}", ""]))
+lech_max = bc.lech.abs().max()
+macros.update({
+    "SoDaxO": vn(len(bc)), "SoDaxOLech": str(int((bc.lech.abs() > 0.01).sum())),
+    "SoDaxLechMax": "dưới 0,000001" if lech_max < 1e-6 else vn(lech_max, 6),
+    "SoDaxCHO": vn(len(smq)), "SoDaxCHKhop": vn(sm_khop),
+    "SoDaxCoTruoc": str(int(fl.ca_ky_truoc)), "SoDaxCoSau": str(int(fl.ca_ky_sau)),
+    "SoDaxCoTruocThangMuoiMot": str(int(fl.thang_11_truoc)), "SoDaxCoSauThangMuoiMot": str(int(fl.thang_11_sau)),
+})
 write("so_lieu.tex", "\n".join(f"\\newcommand{{\\{n}}}{{{v}}}" for n, v in macros.items()) + "\n")
