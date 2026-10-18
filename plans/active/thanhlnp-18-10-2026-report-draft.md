@@ -63,13 +63,13 @@ Báo cáo PDF (Portable Document Format) đủ 8 phần và phụ lục, không 
 
 | Kiểm tra | Số đúng | Lấy số đúng ở đâu | Số nhóm ra | Nhóm ra số ở đâu | Đạt? |
 |---|---:|---|---:|---|---|
-| Số truy vấn trong bảng phụ lục A | 31 | `excel/queries/*.m` | | `bang_truy_van.tex` | |
-| Số plan có dòng khai báo AI | Mọi plan đã đóng | `plans/completed/` | | `bang_ai.tex` | |
+| Số truy vấn trong bảng phụ lục A | 31 | `excel/queries/*.m` | 31 (1.696 dòng code) | `bang_truy_van.tex`, macro `SoTruyVan`, `SoDongMa` | Đạt |
+| Số plan có dòng khai báo AI | 14 plan đã đóng | `plans/completed/` | 14 plan, 19 dòng | `bang_ai.tex`, macro `SoPlanAI`, `SoDongAI` | Đạt |
 
 **Việc phải có (không phải con số):**
-- [ ] Không còn `\choviet` trong báo cáo.
-- [ ] PDF chuyển được, không có lỗi; không có tham chiếu bảng / hình bị trống ("??").
-- [ ] Code trong phụ lục đọc được (không tràn lề, chữ tiếng Việt hiện đúng).
+- [x] Không còn `\choviet` trong báo cáo.
+- [x] PDF chuyển được, không có lỗi; không có tham chiếu bảng / hình bị trống ("??").
+- [x] Code trong phụ lục đọc được (không tràn lề, chữ tiếng Việt hiện đúng).
 
 ---
 
@@ -85,9 +85,9 @@ Báo cáo PDF (Portable Document Format) đủ 8 phần và phụ lục, không 
 
 ## 7. Các bước
 
-- [ ] **Bước 1: Sinh bảng truy vấn và code truy vấn chính; viết phụ lục A**
-- [ ] **Bước 2: Sinh bảng khai báo AI; viết phụ lục khai báo AI**
-- [ ] **Bước 3: Rà toàn bộ báo cáo, chuyển ra PDF, lưu vào Git (commit)**
+- [x] **Bước 1: Sinh bảng truy vấn và code truy vấn chính; viết phụ lục A**
+- [x] **Bước 2: Sinh bảng khai báo AI; viết phụ lục khai báo AI**
+- [x] **Bước 3: Rà toàn bộ báo cáo, chuyển ra PDF, lưu vào Git (commit)**
 
 ---
 
@@ -95,6 +95,8 @@ Báo cáo PDF (Portable Document Format) đủ 8 phần và phụ lục, không 
 
 | Ngày | Đã làm | Kết quả / số ra được | Vướng mắc, cách xử lý |
 |---|---|---|---|
+| 18/10 | Thêm vào `make_figures.py` phần sinh bảng truy vấn (từ dòng ghi chú đầu mỗi file `.m`), code của `q_Transactions`, `q_BR_Long` (ngắt dòng dài quá 104 ký tự), bảng khai báo AI (gom mục 10 của 14 plan đã đóng) | 31 truy vấn; 19 dòng khai báo AI | Hàm ngắt dòng lặp vô hạn: nó ngắt ngay tại dấu cách sau ký hiệu ".." của dòng nối tiếp; sửa bằng cách chỉ tìm chỗ ngắt sau phần ký hiệu |
+| 19/10 | Viết phụ lục A và phụ lục khai báo AI, chuyển ra PDF | Báo cáo 45 trang, không còn chỗ giữ chỗ, không có tham chiếu trống | <ul><li>Bản dịch đầu lỗi vì ký tự ⚠ (và ×, ÷, ≈, ≤, …) không có trong phông chữ; thêm bảng đổi ký tự: trong bảng dùng ký hiệu toán, trong khối code dùng chữ ASCII</li><li>Bảng khai báo AI: hiện "&amp;", đường dẫn dài tràn cột, dòng tiêu đề lọt lên trước tên bảng; sửa bằng cách giải mã ký tự HTML, cho phép xuống dòng sau "/", "_", ".", và sang trang mới trước bảng</li></ul> |
 
 ---
 
@@ -102,6 +104,8 @@ Báo cáo PDF (Portable Document Format) đủ 8 phần và phụ lục, không 
 
 | Ngày | Quyết định | Lý do | Có phải sửa file quy ước không |
 |---|---|---|---|
+| 18/10 | Phụ lục A in đầy đủ 2 truy vấn chính, còn lại chỉ liệt kê trong bảng (tên, việc làm, sheet) | In cả 31 truy vấn (1.696 dòng) thêm khoảng 30 trang; rubric chấm "ngắn gọn". Code đầy đủ nằm trong `excel/queries` và trong file Excel | Không |
+| 18/10 | Bảng khai báo AI sinh tự động từ mục 10 của các file plan | Không chép tay hai lần; plan sửa thì bảng tự đổi | Không |
 
 ---
 
@@ -109,14 +113,27 @@ Báo cáo PDF (Portable Document Format) đủ 8 phần và phụ lục, không 
 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
+| 18/10 | Viết phần sinh phụ lục trong `make_figures.py` và lời văn phụ lục A, khai báo AI | Phần "Phụ lục A" và "Phụ lục khai báo AI" trong `make_figures.py`; `09_phu_luc.tex` | <ul><li>Đếm số truy vấn, số dòng code, số plan so với thư mục</li><li>Xem từng trang PDF của phụ lục</li></ul> |
 
 ---
 
 ## 11. Chuẩn bị vấn đáp
 
+1. **Hỏi:** Code Power Query ở đâu, đọc thế nào?
+   **Trả lời:** Mỗi truy vấn một file `.m` trong `excel/queries`, bước nào cũng có tên tiếng Việt và ghi chú. Phụ lục A có bảng 31 truy vấn và code đầy đủ của 2 truy vấn chính: `q_Transactions` (bảng giao dịch chung) và `q_BR_Long` (bảng cầu nối).
+2. **Hỏi:** Nhóm dùng AI thế nào?
+   **Trả lời:** AI viết nháp code và lời văn; mọi số trong báo cáo ra từ file Power Query hoặc truy vấn Power BI, không lấy từ câu trả lời của AI. Mỗi plan ghi AI làm gì và nhóm kiểm lại bằng cách nào (bảng khai báo AI ở phụ lục); mỗi plan có một lần rà soát độc lập.
+
 ---
 
 ## 12. Kết quả khi đóng plan
+
+- **Điều kiện xong:** đạt hết 2 dòng số và 3 việc phải có (mục 5).
+- **Đã đưa vào báo cáo:** phụ lục A (bảng truy vấn, code 2 truy vấn chính), phụ lục khai báo AI.
+- **Việc còn lại:**
+  - Tên thành viên 2, 3 và tên mentor trên trang bìa → backlog mục 5 (người dùng).
+  - Tự chấm theo rubric, gom file nộp → `review-submit`.
+- **Các lần lưu vào Git (commit):** `5c0b2cc` (tạo plan), `c838e4f` (sinh bảng, code, khai báo AI), `a86ac63` (phụ lục A, khai báo AI), và các lần lưu ghi kết quả, rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
 - [ ] Không còn chỗ `< >` chưa điền.
