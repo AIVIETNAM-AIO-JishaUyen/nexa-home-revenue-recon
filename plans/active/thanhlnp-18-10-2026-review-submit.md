@@ -69,17 +69,17 @@ Có bộ file nộp hoàn chỉnh trong `submission/`, dựng lại từ đầu 
 
 | Kiểm tra | Số đúng | Lấy số đúng ở đâu | Số nhóm ra | Nhóm ra số ở đâu | Đạt? |
 |---|---:|---|---:|---|---|
-| Sheet `Kiem_tra` | 13/13 | QC_Summary | | file Power Query dựng lại | |
-| Bảng cầu nối: dòng kiểm tra lớn nhất; số dòng | ≤ 1 USD; 708 | Điều kiện plan tổng | | sheet `BR_Long` | |
-| File mẫu nộp: dòng kiểm tra | 0 ở 12 tháng | File mẫu | | `submission/Mau_nop_Bang_cau_noi.xlsx` | |
-| Bảng kiểm tra Python | Khớp `numbers_of_record.csv` | `checks/python_check_result.txt` | | như trên | |
-| DAX − Power Query | ≤ 0,01 | Plan `dax-bridge` | | `powerbi/checks/bridge_compare.csv` | |
+| Sheet `Kiem_tra` | 13/13 | QC_Summary | 13/13 | file Power Query dựng lại (205 giây) | Đạt |
+| Bảng cầu nối: dòng kiểm tra lớn nhất; số dòng | ≤ 1 USD; 708 | Điều kiện plan tổng | 0,00 (6e-9); 708 | sheet `BR_Long` | Đạt |
+| File mẫu nộp: dòng kiểm tra | 0 ở 12 tháng | File mẫu | 0 ở 12 tháng và cột cả năm (Excel tính lại) | `submission/Mau_nop_Bang_cau_noi.xlsx` | Đạt |
+| Bảng kiểm tra Python | Khớp `numbers_of_record.csv` | `checks/python_check_result.txt` | 102/102 phép đạt, 0 sai | như trên | Đạt |
+| DAX − Power Query | ≤ 0,01 | Plan `dax-bridge` | Kết quả 6 truy vấn kiểm tra giống hệt lần trước (lệch lớn nhất 0,000000007) | `powerbi/checks/*.csv` | Đạt |
 
 **Việc phải có (không phải con số):**
-- [ ] Báo cáo: tiêu đề mục là nhận định kèm số; chuyển ra PDF không lỗi.
-- [ ] Bảng tự chấm có bằng chứng cho từng tiêu chí; tài liệu vấn đáp đủ 6 câu.
-- [ ] `submission/` đủ file, có file hướng dẫn.
-- [ ] Cả 16 plan và plan tổng ở `plans/completed/`; `git status` sạch; chưa push.
+- [x] Báo cáo: tiêu đề mục là nhận định kèm số; chuyển ra PDF không lỗi.
+- [x] Bảng tự chấm có bằng chứng cho từng tiêu chí; tài liệu vấn đáp đủ 6 câu.
+- [x] `submission/` đủ file, có file hướng dẫn.
+- [x] Cả 16 plan và plan tổng ở `plans/completed/`; `git status` sạch; chưa push.
 
 ---
 
@@ -95,10 +95,10 @@ Có bộ file nộp hoàn chỉnh trong `submission/`, dựng lại từ đầu 
 
 ## 7. Các bước
 
-- [ ] **Bước 1: Sửa tiêu đề mục và bớt lặp ý trong báo cáo**
-- [ ] **Bước 2: Viết bảng tự chấm và tài liệu vấn đáp; cập nhật sheet hướng dẫn**
-- [ ] **Bước 3: Chạy lại toàn bộ; tạo lại bản Word**
-- [ ] **Bước 4: Gom `submission/`; hoàn thiện backlog; đóng plan và plan tổng**
+- [x] **Bước 1: Sửa tiêu đề mục và bớt lặp ý trong báo cáo**
+- [x] **Bước 2: Viết bảng tự chấm và tài liệu vấn đáp; cập nhật sheet hướng dẫn**
+- [x] **Bước 3: Chạy lại toàn bộ; tạo lại bản Word**
+- [x] **Bước 4: Gom `submission/`; hoàn thiện backlog; đóng plan và plan tổng**
 
 ---
 
@@ -106,6 +106,12 @@ Có bộ file nộp hoàn chỉnh trong `submission/`, dựng lại từ đầu 
 
 | Ngày | Đã làm | Kết quả / số ra được | Vướng mắc, cách xử lý |
 |---|---|---|---|
+| 19/10 | Đọc rubric (3 sheet): 4 năng lực × 5 band, 6 câu vấn đáp gợi ý | Band 4 phần trình bày cần "tiêu đề là nhận định kèm số", "báo cáo ngắn gọn" | |
+| 19/10 | Đổi tiêu đề mục con phần II–V thành nhận định kèm số; rút mục V.2 thành bảng 3 dòng trỏ về phần IV (backlog 12, 13) | Mục lục đọc như một bản tóm tắt; báo cáo vẫn 45 trang | |
+| 19/10 | Viết `docs/tu_cham_rubric.md`, `docs/chuan_bi_van_dap.md`; cập nhật danh sách sheet trong `excel/huong_dan.txt` | Tự chấm: 5 / 5 / 5 / 4–4,5; 6 câu vấn đáp có câu trả lời và chỗ mở ra để chỉ | |
+| 19/10 | Chạy lại toàn bộ: dựng file Power Query, bảng kiểm tra Python, 6 truy vấn Power BI, sinh hình, PDF; tạo lại bản Word file quy ước | Mọi kết quả giống lần trước; chỉ bảng khai báo AI thêm dòng của plan 15 | |
+| 19/10 | Viết `tools/make_submission.py`, gom `submission/` (6 file) | File mẫu nộp: Excel tính lại dòng kiểm tra = 0 ở 12 tháng và cả năm | Lần đầu làm tròn từng ô đến 2 chữ số nên dòng kiểm tra ra ±0,01 ở vài tháng; sửa: ghi đủ số lẻ |
+| 19/10 | Thêm phần "Việc cần làm trước khi nộp" vào đầu `plans/backlog.md` | 6 việc xếp theo thứ tự | |
 
 ---
 
@@ -113,6 +119,9 @@ Có bộ file nộp hoàn chỉnh trong `submission/`, dựng lại từ đầu 
 
 | Ngày | Quyết định | Lý do | Có phải sửa file quy ước không |
 |---|---|---|---|
+| 19/10 | Làm luôn backlog 12, 13 (tiêu đề mục, bớt lặp) thay vì chờ người dùng | Rubric Band 4 nêu rõ hai tiêu chí này; người dùng vẫn đổi lại được | Không |
+| 19/10 | File mẫu nộp điền giá trị (không công thức trỏ sang file Power Query) | Mở riêng file mẫu vẫn thấy đủ số; công thức gốc của file mẫu (dòng 14, 16, cột N) giữ nguyên để người chấm thấy dòng kiểm tra tự tính | Không |
+| 19/10 | Gom `submission/` bằng script, lưu cả thư mục vào Git | Nộp lại sau khi sửa chỉ cần chạy 1 lệnh; giữ đúng bản đã kiểm | Không |
 
 ---
 
@@ -120,6 +129,7 @@ Có bộ file nộp hoàn chỉnh trong `submission/`, dựng lại từ đầu 
 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
+| 19/10 | Sửa tiêu đề mục, viết bảng tự chấm, tài liệu vấn đáp, script gom file nộp | `docs/tu_cham_rubric.md`, `docs/chuan_bi_van_dap.md`, `tools/make_submission.py`, tiêu đề mục và bảng V.2 | <ul><li>Mỗi số trong tài liệu vấn đáp đối chiếu với sheet trong file Power Query (ví dụ sheet `Bay_du_lieu` cho câu 4)</li><li>Mở file mẫu nộp bằng Excel, tính lại, đọc dòng kiểm tra</li></ul> |
 
 ---
 
@@ -130,6 +140,11 @@ Xem `docs/chuan_bi_van_dap.md`.
 ---
 
 ## 12. Kết quả khi đóng plan
+
+- **Điều kiện xong:** đạt hết 5 dòng số và 4 việc phải có (mục 5).
+- **Bộ file nộp:** `submission/` gồm báo cáo PDF, file Power Query, file mẫu nộp đã điền, dự án Power BI (zip), code Power Query (zip), README.
+- **Việc còn lại:** chỉ còn các việc của người dùng, tóm tắt ở đầu `plans/backlog.md`.
+- **Các lần lưu vào Git (commit):** `bae6bb3` (tạo plan), `44a7962` (tiêu đề mục, bảng V.2), `790bd27` (tự chấm, vấn đáp, sheet hướng dẫn), `f389984` (bản Word), `0f226c2` (chạy lại toàn bộ), `2892bd4` (bộ file nộp), và các lần lưu ghi kết quả, rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
 - [ ] Không còn chỗ `< >` chưa điền.

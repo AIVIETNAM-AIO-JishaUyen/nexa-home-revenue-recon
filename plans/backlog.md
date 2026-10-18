@@ -3,6 +3,17 @@
 > Những việc trong lúc làm các plan mà AI (trí tuệ nhân tạo) không tự quyết được, hoặc cần người thật làm (ví dụ bấm trên giao diện, hỏi mentor).
 > Mỗi việc ghi: plan phát hiện, vấn đề, các lựa chọn, phương án đang tạm dùng, và việc gì đang chờ quyết định này.
 
+## Việc cần làm trước khi nộp (tóm tắt ngày 19/10, xếp theo thứ tự nên làm)
+
+1. **Hỏi mentor 8 câu** ở cuối file này (mục 1). Câu nào mentor trả lời khác quy ước: sửa `docs/quy_uoc_va_so_chuan.md`, sửa truy vấn liên quan, chạy lại (dựng file khoảng 5 phút).
+2. **Điền tên 2 thành viên và tên mentor** trên trang bìa (`report/main.tex`, mục 5).
+3. **Chạy lại trên máy thật thứ hai** (mục 2): sửa ô `Cai_dat!B2`, Refresh All, xem sheet `Kiem_tra`; mở dự án Power BI, sửa 2 tham số, Refresh.
+4. **Quyết vài điểm trình bày** (mục 4, 9, 10, 11, 14): cách làm dashboard (script hay giao diện), nút "Đặt lại", cột "Total" của thác nước, cỡ chữ ảnh dashboard và code. Tạm thời đang giữ như hiện tại.
+5. **Lưu thêm bản `.pbix`** nếu mentor yêu cầu (mở `powerbi/NexaRecon.pbip`, File > Save as).
+6. Sau mọi thay đổi: chạy lại `D:/Anaconda/python.exe -I tools/make_submission.py` để gom lại `submission/`.
+
+Các mục 7, 8, 12, 13 đã xử lý (ghi rõ trong từng dòng). Mục 3 (cách đưa file tháng mới) đã chạy thử đạt với cách "thay file", nhưng vẫn chờ nhóm chốt. Các mục còn lại đang dùng phương án tạm ghi ở cột "Đang tạm dùng".
+
 | # | Ngày | Plan phát hiện | Vấn đề | Các lựa chọn | Đang tạm dùng | Chờ quyết định này |
 |---|---|---|---|---|---|---|
 | 1 | 18/10 | `setup-baseline` | Cần mentor (người hướng dẫn) xác nhận một số quy ước trước khi chốt số nộp | Hỏi 8 câu ở mục "Câu hỏi xin mentor" bên dưới, ở buổi kiểm tra tiến độ 19/10 | Làm theo quy ước đã chốt trong `docs/quy_uoc_va_so_chuan.md` | Nếu mentor trả lời khác: sửa file quy ước (ghi lý do, ngày) rồi chạy lại các bảng |
