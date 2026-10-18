@@ -165,3 +165,10 @@
   - Khoản lệch ngày ghi sổ và lỗi chuyển dữ liệu trong bảng cầu nối Power Query → `bridge-monthly` (so với sheet `Lech_ngay_ghi_so` và `Doi_soat_CH_ngay`).
   - Trang 3 của dashboard (cửa hàng × tháng, bấm xem từng ô) → `dashboard`.
 - **Các lần lưu vào Git (commit):** `d57ce19` (tạo plan), `3afa6d0` (đối soát theo ngày), `9d35dfb` (theo tháng, lệch ngày ghi sổ), `c2d1beb` (nạp sheet, file Excel, số chuẩn), `9faf0de` (báo cáo IV.1), và các lần lưu ghi kết quả, rà soát, đóng plan.
+
+**Tự soát trước khi đóng plan:**
+- [x] Không còn chỗ `< >` chưa điền.
+- [x] Mọi con số trong plan đều ghi rõ lấy từ đâu.
+- [x] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
+- [x] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
+- [x] Đã chuyển file sang `plans/completed/` bằng `git mv`.

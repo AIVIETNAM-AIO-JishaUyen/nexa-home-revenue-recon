@@ -166,3 +166,10 @@ Có **một bảng giao dịch chung** `q_Transactions` gộp mọi dòng POS (P
   - Cảnh báo khi phần chưa giải thích vượt ngưỡng → `bridge-monthly`.
   - Thêm phép kiểm tra cho lúc nạp tháng mới (thiếu tỷ giá cuối tháng, thiếu ngày trong lịch, số dòng bảng giao dịch chung khác tổng POS + online) → chờ quyết định ở [backlog](../backlog.md) dòng 7, chạy thử ở `refresh-test`.
 - **Các lần lưu vào Git (commit):** `0820f3f` (tạo plan), `f0ec89f` (bảng giao dịch chung), `2607e54` (kiểm tra chất lượng, sửa bẫy 5), `c177e26` (nạp sheet, tô chữ đỏ), `859deb3` (file Excel), `7d6316f` (báo cáo, tài liệu), `171504b` (ghi kết quả, quyết định, chuẩn bị vấn đáp), và các lần lưu đóng plan.
+
+**Tự soát trước khi đóng plan:**
+- [x] Không còn chỗ `< >` chưa điền.
+- [x] Mọi con số trong plan đều ghi rõ lấy từ đâu.
+- [x] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
+- [x] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
+- [x] Đã chuyển file sang `plans/completed/` bằng `git mv`.
