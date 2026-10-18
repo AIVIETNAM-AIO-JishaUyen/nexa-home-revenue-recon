@@ -14,7 +14,7 @@
 | Mốc phải đạt | Mốc 2 (19/10) |
 | Phần báo cáo liên quan | Phần II (Dữ liệu và chuẩn bị): bảng mô tả nguồn dữ liệu, quy tắc ghi nhận |
 | Trạng thái | Xong |
-| Plan liên quan | <ul><li>Làm sau plan: [plan tổng](../active/thanhlnp-18-10-2026-master-plan.md)</li><li>Plan tiếp theo dùng kết quả này: `load-clean-data`, `python-check`, `powerbi-totals`</li></ul> |
+| Plan liên quan | <ul><li>Làm sau plan: [plan tổng](thanhlnp-18-10-2026-master-plan.md)</li><li>Plan tiếp theo dùng kết quả này: `load-clean-data`, `python-check`, `powerbi-totals`</li></ul> |
 
 ---
 
