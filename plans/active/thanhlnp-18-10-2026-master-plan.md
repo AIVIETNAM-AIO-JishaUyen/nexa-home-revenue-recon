@@ -107,7 +107,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 13 | `dashboard` | Xong 18/10 | [thanhlnp-18-10-2026-dashboard.md](../completed/thanhlnp-18-10-2026-dashboard.md) |
 | 14 | `conclusions` | Xong 18/10 | [thanhlnp-18-10-2026-conclusions.md](../completed/thanhlnp-18-10-2026-conclusions.md) |
 | 15 | `report-draft` | Xong 19/10 | [thanhlnp-18-10-2026-report-draft.md](../completed/thanhlnp-18-10-2026-report-draft.md) |
-| 16 | `review-submit` | Chưa làm | |
+| 16 | `review-submit` | Xong 19/10 | [thanhlnp-18-10-2026-review-submit.md](../completed/thanhlnp-18-10-2026-review-submit.md) |
 
 ---
 
@@ -150,6 +150,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 18/10 | Plan 13 `dashboard`: 75 công thức thư mục "5. Dashboard", bảng `pq_data_quality`, `build_report.py` sinh 4 trang (80 hình), ảnh chụp 4 trang; mục IV.6, phụ lục F | <ul><li>Số trên dashboard khớp số chuẩn và Power Query (tháng 12, 4 nhóm cả năm, 5.120 ô, 2.929 ô lệch theo ngày bán, 12 / 124 / 15)</li><li>Câu "Điểm chính" và tiêu đề có số tự đổi theo bộ lọc; đúng ở 9 trường hợp biên</li></ul> | Chưa làm nút Đặt lại và tô tháng đang chọn (backlog mục 10); cột cuối thác nước ghi "Total" (backlog mục 11) |
 | 18/10 | Plan 14 `conclusions`: phần V (trả lời 3 + 3 câu hỏi, 4 giả thuyết bị bác bỏ), VI (6 đề xuất xếp ưu tiên, danh sách việc theo tuần chốt sổ, 2 cách xử lý tỷ giá), VII (giới hạn, rủi ro, bước tiếp theo), hộp tóm tắt | <ul><li>99,5% chênh lệch là quy tắc ghi nhận; lỗi thật: 12 dòng POS trùng, NX057; ADJ-0925 chưa giải thích</li><li>Flash báo thêm doanh số thuần thì chênh lệch cả năm chỉ còn −0,09%</li></ul> | Rà soát sửa nhiều câu nói quá (ví dụ "21 cửa hàng chỉ vì so sai ngày" có cả NX057) |
 | 19/10 | Plan 15 `report-draft`: phụ lục A (bảng 31 truy vấn, code 2 truy vấn chính), phụ lục khai báo AI (sinh tự động từ các plan); rà toàn bộ báo cáo | <ul><li>Báo cáo 45 trang, đủ 8 phần và 7 phụ lục (A–G)</li><li>Không còn chỗ giữ chỗ, không có tham chiếu trống; mọi bảng, hình được nhắc trong lời văn</li></ul> | Còn lặp ý giữa phần IV và V, tiêu đề mục chưa nói kết luận (backlog mục 12, 13) |
+| 19/10 | Plan 16 `review-submit`: tiêu đề mục là nhận định kèm số; tự chấm theo rubric; tài liệu 6 câu vấn đáp; chạy lại toàn bộ; bộ file nộp `submission/` | <ul><li>Chạy lại từ đầu: 13/13 chỉ tiêu, Python 102/102, DAX − Power Query không đổi, PDF 45 trang</li><li>`submission/`: 6 file; file mẫu nộp dòng kiểm tra = 0</li><li>Tự chấm: 4,5 / 5 / 5 / 4</li></ul> | Việc còn lại là của người dùng (đầu `plans/backlog.md`) |
 
 ---
 
