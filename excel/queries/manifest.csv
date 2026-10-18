@@ -19,3 +19,9 @@ q_RC_Store,Doi_soat_CH_ngay,Đối soát cửa hàng × ngày ghi sổ × loại
 q_RC_Store_DayCompare,So_ngay_ban_ngay_ghi_so,Số ô cửa hàng × ngày lệch theo tháng: so theo ngày ghi sổ (đúng) và theo ngày bán chưa bỏ dòng trùng (chưa xử lý) - truy vấn q_RC_Store_DayCompare
 q_RC_Store_Month,Doi_soat_CH_thang,Cửa hàng × tháng: Sổ cái − POS trước và sau khi đưa về cùng cách tính (USD theo tỷ giá cuối tháng); ⚠ khi > 200 USD và > 1% |sổ cái| - truy vấn q_RC_Store_Month
 q_RC_Store_Timing,Lech_ngay_ghi_so,Lệch ngày ghi sổ của cửa hàng theo tháng (USD theo tỷ giá ngày bán): tháng trước âm bao nhiêu thì tháng sau dương bấy nhiêu - truy vấn q_RC_Store_Timing
+q_RC_Web,Doi_soat_online,Đối soát online × ngày giao × loại tiền (so bằng nội tệ) với bút toán WEB_DELIVERY: 4 trường hợp; ô ngoài kỳ đối soát để riêng - truy vấn q_RC_Web
+q_RC_Return,Doi_soat_hang_tra,Đối soát hàng trả × ngày trả × loại tiền (so bằng nội tệ) với bút toán WEB_RETURN: 4 trường hợp; ô ngoài kỳ đối soát để riêng - truy vấn q_RC_Return
+q_RC_Web_Month,Doi_soat_online_thang,Kênh online theo tháng: Sổ cái − WEB trước (theo tháng đặt) và sau (theo tháng giao trừ hàng trả theo tháng trả); USD theo tỷ giá cuối tháng; ⚠ khi > 200 USD và > 1% |sổ cái| - truy vấn q_RC_Web_Month
+q_Web_Timing,Lech_thoi_diem_online,Lệch thời điểm online theo tháng (theo tháng giao − theo tháng đặt; USD theo tỷ giá ngày đặt) và phần đơn vắt qua năm - truy vấn q_Web_Timing
+q_FiveReasons,Nam_ly_do,5 lý do khiến Flash và sổ cái lệch nhau: mỗi lý do có số đếm và số tiền tính từ dữ liệu - truy vấn q_FiveReasons
+q_BridgeItems,Danh_muc_khoan,Danh mục khoản cầu nối: thứ tự; nhóm (1 trong 4 nhóm); thuộc lý do nào; vì sao xếp vào nhóm đó - truy vấn q_BridgeItems

@@ -95,14 +95,14 @@ try {
             if ($c.Name -match 'pct') { $c.DataBodyRange.NumberFormat = '0.00%' }
             elseif ($c.Name -match 'usd') { $c.DataBodyRange.NumberFormat = '#,##0.00' }
         }
-        # Tô chữ đỏ, đậm cho dòng chưa đạt: trang_thai khác "Đạt", dat = FALSE, match_status khác "Khớp", flag_norm = TRUE (vượt ngưỡng)
+        # Tô chữ đỏ, đậm cho dòng chưa đạt: trang_thai khác "Đạt", dat = FALSE, match_status khác "Khớp" và "Ngoài kỳ đối soát", flag_norm = TRUE (vượt ngưỡng)
         foreach ($c in $lo.ListColumns) {
             if ($null -eq $c.DataBodyRange) { continue }
             $first = $c.DataBodyRange.Cells.Item(1).Address(0, 0)
             $fc = $null
             if ($c.Name -eq 'trang_thai') { $fc = $c.DataBodyRange.FormatConditions.Add(2, [Type]::Missing, ('=' + $first + '<>"Đạt"')) }
             elseif ($c.Name -eq 'dat') { $fc = $c.DataBodyRange.FormatConditions.Add(2, [Type]::Missing, ('=' + $first + '=FALSE')) }
-            elseif ($c.Name -eq 'match_status') { $fc = $c.DataBodyRange.FormatConditions.Add(2, [Type]::Missing, ('=' + $first + '<>"Khớp"')) }
+            elseif ($c.Name -eq 'match_status') { $fc = $c.DataBodyRange.FormatConditions.Add(2, [Type]::Missing, ('=AND(' + $first + '<>"Khớp",' + $first + '<>"Ngoài kỳ đối soát")')) }
             elseif ($c.Name -eq 'flag_norm') { $fc = $c.DataBodyRange.FormatConditions.Add(2, [Type]::Missing, ('=' + $first + '=TRUE')) }
             if ($fc) { $fc.Font.Color = 255; $fc.Font.Bold = $true }
         }
