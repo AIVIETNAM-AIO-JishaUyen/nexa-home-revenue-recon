@@ -40,14 +40,14 @@ Nhãn & Bảng & Nơi xem trong file Excel Power Query \\
 \toprule
 Nguồn & Chiết khấu & Tỷ giá & Làm tròn \\
 \midrule
-Nhóm: đổi tiền từ nội tệ $\div$ tỷ giá, không làm tròn từng dòng (định nghĩa slide 34) & $-$1.834.297,47 & $-$57.598,01 & +1,01 \\
+Nhóm: đổi tiền từ nội tệ $\div$ tỷ giá, không làm tròn từng dòng (định nghĩa slide 34) & \SoBRChietKhau{} & \SoBRTyGia{} & +\SoBRLamTron{} \\
 Slide 32 & $-$1.834.297 & $-$57.598 & +1,01 \\
 Dashboard mẫu của mentor: cộng các cột USD đã làm tròn sẵn từng dòng & $-$1.834.298,38 & $-$57.598,50 & +2,33 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Lý do nhóm chọn cách đầu: dòng làm tròn khi đó chỉ gồm phần Flash làm tròn từng dòng đến USD (khoảng +0,95) và phần sổ cái làm tròn từng bút toán đến 2 chữ số (khoảng +0,05), đúng nghĩa ``làm tròn'', và mỗi tháng không quá 1,83 USD (ngưỡng 5 USD). Số của nhóm ở bảng này hiện lấy từ bảng kiểm tra nội bộ viết bằng Python; sẽ thay bằng số của bảng cầu nối Power Query ở plan \texttt{bridge-monthly}.
+Lý do nhóm chọn cách đầu: dòng làm tròn khi đó chỉ gồm phần Flash làm tròn từng dòng đến USD (khoảng +0,95) và phần sổ cái làm tròn từng bút toán đến 2 chữ số (khoảng +0,05), đúng nghĩa ``làm tròn'', và mỗi tháng không quá \SoBRLamTronMax{} USD (ngưỡng 5 USD). Số của nhóm ở bảng này lấy từ bảng cầu nối Power Query \nguon{BR-Tổng}; bảng tính kiểm tra viết bằng Python ra cùng số.
 
 \subsection{So sánh khi đổi thứ tự các bước cầu nối}
 \choviet{bridge-template-log}

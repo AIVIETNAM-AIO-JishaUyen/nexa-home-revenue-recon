@@ -35,6 +35,7 @@ def sheet(name):
 
 def vn(x, d=0):
     """Số kiểu Việt Nam: dấu chấm ngăn nghìn, dấu phẩy thập phân; dấu trừ thật (−)."""
+    x = round(float(x), d) + 0.0                                       # tránh in "−0,00"
     s = f"{x:,.{d}f}".replace(",", "X").replace(".", ",").replace("X", ".")
     return s.replace("-", "−")
 
@@ -235,6 +236,81 @@ write("bang_bon_nhom.tex", "\n".join([
     r"Thứ tự & Khoản & Nhóm & Vì sao xếp vào nhóm này \\", r"\midrule", r"\endhead",
     *rows, r"\bottomrule", r"\end{longtable}}", ""]))
 
+# ---------------------------------------------------------------- Bảng cầu nối (sheet BR_Long, Canh_bao_cau_noi)
+br = sheet("BR_Long")
+brc = sheet("Canh_bao_cau_noi")
+co_br = br[br.bridge == "COMPANY"]
+piv = co_br.pivot_table(index=["item_order", "item_code", "item_name"], columns="period", values="usd", aggfunc="sum").reset_index()
+mcols = [c for c in piv.columns if isinstance(c, str) and re.match(r"^\d{4}-\d{2}$", c)]
+piv["year"] = piv[mcols].sum(axis=1)
+piv = piv.sort_values("item_order")
+grp = dmk.set_index("item_code").item_group
+show = [c for c in mcols if c[-2:] in ("03", "11", "12")]           # 3 tháng mốc của đề: tháng 3, 11, 12
+
+
+def dong(r, bold=False):
+    cells = [esc(r.item_name)] + [vn(r[c], 2) for c in ["year"] + show]
+    if bold:
+        cells = [f"\\textbf{{{x}}}" if x else x for x in cells]
+    return " & ".join(cells) + r" \\"
+
+
+rows = []
+for _, r in piv.iterrows():
+    if r.item_code in ("gl", "check"):
+        continue
+    rows.append(dong(r, bold=r.item_code == "flash"))
+rows += [r"\midrule", dong(piv[piv.item_code == "gl"].iloc[0], bold=True), dong(piv[piv.item_code == "check"].iloc[0])]
+write("bang_cau_noi.tex", "\n".join([
+    r"\begin{tabular}{@{}L{6.0cm} r r r r@{}}", r"\toprule",
+    "Khoản & Cả năm & " + " & ".join(f"Tháng {int(c[-2:])}" for c in show) + r" \\", r"\midrule",
+    *rows, r"\bottomrule", r"\end{tabular}", ""]))
+
+# Hình thác nước cả năm: Flash → từng khoản → sổ cái; khoản giảm màu xám, khoản tăng màu nhấn
+steps = piv[~piv.item_code.isin(["flash", "gl", "check", "channel_reclass"])]
+steps = steps[steps.year.abs() >= 0.005]
+fl, gl_y = piv.loc[piv.item_code == "flash", "year"].iloc[0], piv.loc[piv.item_code == "gl", "year"].iloc[0]
+SHORT = {"discount": "Chiết khấu", "pos_duplicate": "Dòng trùng", "cancelled": "Đơn hủy", "online_timing": "Thời điểm\nonline",
+         "store_posting": "Ngày ghi sổ\ncửa hàng", "transfer_error": "Lỗi chuyển\ndữ liệu", "returns": "Hàng trả", "shipping": "Phí vận\nchuyển",
+         "fx": "Tỷ giá", "rounding": "Làm tròn", "unexplained": "Chưa giải\nthích (ADJ)"}
+fig, ax = plt.subplots(figsize=(8.6, 4.0), dpi=200)
+labels, run = ["Flash"], fl
+ax.bar(0, fl / 1e6, color=INK2, width=0.62)
+for i, (_, r) in enumerate(steps.iterrows(), start=1):
+    v = r.year
+    ax.bar(i, v / 1e6, bottom=run / 1e6, color=ACCENT if v > 0 else GREY, width=0.62)
+    ax.annotate(vn(v / 1000) + "k" if abs(v) >= 1000 else vn(v, 2), (i, (run + max(v, 0)) / 1e6), xytext=(0, 3), textcoords="offset points",
+                ha="center", fontsize=7.5, color=INK)
+    run += v
+    labels.append(SHORT.get(r.item_code, r.item_code))
+ax.bar(len(labels), gl_y / 1e6, color=INK2, width=0.62)
+labels.append("Sổ cái")
+ax.set_xticks(range(len(labels)), labels, fontsize=7.5)
+ax.set_ylim(28.0, 31.4)
+ax.set_ylabel("Triệu USD")
+ax.grid(axis="y", color="#e6e5e0", linewidth=0.6, zorder=0)
+for side in ["top", "right"]:
+    ax.spines[side].set_visible(False)
+ax.set_title(f"Chiết khấu, hàng trả, đơn hủy giải thích phần lớn mức chênh {vn((gl_y - fl) / 1e6, 2)} triệu USD",
+             loc="left", fontsize=11, color=INK, fontweight="bold")
+fig.tight_layout()
+fig.savefig(OUT / "hinh_cau_noi_nam.png")
+plt.close(fig)
+print("ghi hinh_cau_noi_nam.png")
+
+# Câu hỏi riêng 2: chênh lệch còn lại sau khi trừ các khoản quy tắc ghi nhận, theo tháng
+rule = [c for c in dmk.item_code if grp.get(c) == "Quy tắc ghi nhận" and c != "channel_reclass"]
+other = [c for c in dmk.item_code if grp.get(c) in ("Lỗi dữ liệu", "Chưa giải thích được", "Sai số chấp nhận")]
+rem = co_br[co_br.item_code.isin(other)].pivot_table(index="period", columns="item_code", values="usd", aggfunc="sum").reindex(columns=other).fillna(0)
+rem["con_lai"] = rem.sum(axis=1)
+rem["vuot"] = rem.con_lai.abs() > 200
+rows = [f"Tháng {int(p[-2:])} & {vn(r.pos_duplicate + r.transfer_error, 2)} & {vn(r.unexplained, 2)} & {vn(r.rounding, 2)} & "
+        f"{vn(r.con_lai, 2)} & {'Có' if r.vuot else ''} \\\\" for p, r in rem.iterrows()]
+write("bang_con_lai.tex", "\n".join([
+    r"\begin{tabular}{@{}l r r r r c@{}}", r"\toprule",
+    r"Tháng & Lỗi dữ liệu & \makecell[r]{Chưa giải\\thích được} & \makecell[r]{Sai số\\chấp nhận} & \makecell[r]{Còn lại sau khi trừ\\quy tắc ghi nhận} & \makecell[c]{Vượt\\200 USD} \\",
+    r"\midrule", *rows, r"\bottomrule", r"\end{tabular}", ""]))
+
 # ---------------------------------------------------------------- Vài con số dùng trong lời văn (macro LaTeX), để không gõ tay
 web = body[body.channel_code == "WEB"].iloc[0]
 macros = {
@@ -294,5 +370,19 @@ macros.update({
     "SoTienTraNgayTra": vn(L.loc["4b", "usd"], 2), "SoTienTraSoCai": vn(L.loc["4c", "usd"], 2),
     "SoChietKhau": vn(L.loc["2", "usd"], 2), "SoTyGia": vn(L.loc["4a", "usd"], 2), "SoPhiVanChuyen": vn(L.loc["3c", "usd"], 2),
     "SoLamTron": vn(L.loc["5d", "usd"], 2),
+})
+# Số của bảng cầu nối
+Y = piv.set_index("item_code").year
+canh = brc[brc.trang_thai != "Đạt"]
+macros.update({
+    "SoBRChietKhau": vn(Y["discount"], 2), "SoBRTyGia": vn(Y["fx"], 2), "SoBRLamTron": vn(Y["rounding"], 2),
+    "SoBRKiemTraMax": vn(brc.check_usd.abs().max(), 2), "SoBRLamTronMax": vn(brc.rounding_usd.abs().max(), 2),
+    "SoBRCanhBao": str(len(canh)),
+    "SoBRCanhBaoChiTiet": "; ".join(f"bảng {dict(COMPANY='toàn công ty', STORE='cửa hàng', WEB='online', UNALLOCATED='chưa gắn kênh')[r.bridge]} tháng {int(r.period[-2:])}"
+                                    for r in canh.itertuples()),
+    "SoBRDongDai": vn(len(br)),
+    "SoThangConLai": str(int(rem.vuot.sum())),
+    "SoThangConLaiDS": ", ".join(f"tháng {int(p[-2:])}" for p in rem.index[rem.vuot]),
+    "SoQuyTacNam": vn(Y[rule].sum(), 2), "SoConLaiNam": vn(rem.con_lai.sum(), 2),
 })
 write("so_lieu.tex", "\n".join(f"\\newcommand{{\\{n}}}{{{v}}}" for n, v in macros.items()) + "\n")

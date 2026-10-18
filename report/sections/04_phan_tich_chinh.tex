@@ -101,7 +101,37 @@ Ba điều rút ra từ bảng:
 \input{generated/bang_bon_nhom.tex}
 
 \subsection{Bảng cầu nối 12 tháng}
-\choviet{bridge-monthly, bridge-template-log}
+
+\textbf{Cách dựng.} Bảng cầu nối đi từ doanh số Flash, qua từng khoản theo đúng thứ tự đã chốt, đến doanh thu sổ cái. Nhóm dựng 4 bảng cho mỗi tháng: cửa hàng, online, chưa gắn kênh (chỉ có bút toán ADJ-0925), và toàn công ty bằng tổng ba bảng kia. Cả 4 bảng nằm chung một bảng dạng dài \texttt{BR\_Long} (\SoBRDongDai{} dòng: bảng $\times$ tháng $\times$ khoản), là nguồn duy nhất cho file mẫu nộp, dashboard và các bảng, hình trong báo cáo này. Hai điểm quan trọng:
+\begin{itemize}
+  \item \textbf{Mỗi khoản tính trực tiếp từ dữ liệu}, kể cả dòng tỷ giá (theo định nghĩa slide 34) và dòng làm tròn. Không khoản nào là ``phần còn lại'', nên dòng kiểm tra (Flash + các khoản $-$ sổ cái) là một phép thử thật: nếu một khoản tính sai hoặc xếp nhầm tháng, dòng kiểm tra sẽ khác 0.
+  \item \textbf{Tự cảnh báo.} Sheet \texttt{Canh\_bao\_cau\_noi} soát từng bảng $\times$ tháng: phần chưa giải thích quá 200 USD, làm tròn quá 5 USD, hoặc dòng kiểm tra quá 1 USD thì hiện ``Cần xem'' kèm lời nhắc việc cần làm.
+\end{itemize}
+
+\textbf{Kết quả.} Dòng kiểm tra lớn nhất ở mọi bảng $\times$ tháng là \SoBRKiemTraMax{} USD; làm tròn lớn nhất một tháng là \SoBRLamTronMax{} USD. Có \SoBRCanhBao{} cảnh báo: \SoBRCanhBaoChiTiet{}, đều do bút toán ADJ-0925 (1.250 USD) nằm ở dòng chưa giải thích được. Nhóm cũng so bảng này với một bảng tính độc lập viết bằng Python: mọi dòng lệch không quá 0,01 USD.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{generated/hinh_cau_noi_nam.png}
+
+\capfig{Bảng cầu nối toàn công ty cả năm 2025, từ Flash đến sổ cái \nguon{BR-Tổng}. Cột xám: khoản làm giảm doanh thu; cột xanh: khoản làm tăng. Trục dọc bắt đầu từ 28 triệu USD để thấy rõ các khoản nhỏ.}\label{fig:caunoi}
+\end{figure}
+
+\begin{table}[H]
+\captab{Bảng cầu nối toàn công ty: cả năm và ba tháng mốc của đề, USD \nguon{BR-Tổng}. Nhóm của từng khoản xem Bảng~\ref{tab:4nhom}; đủ 12 tháng xem sheet \texttt{Cau\_noi\_toan\_cong\_ty}.}\label{tab:caunoi}
+\centering
+{\small\input{generated/bang_cau_noi.tex}}
+\end{table}
+
+\textbf{Trả lời câu hỏi riêng 2: tháng nào thật sự cần điều tra?} Cả năm, các khoản do quy tắc ghi nhận giải thích \SoQuyTacNam{} USD trên tổng chênh lệch \SoChenhLechNam{} USD. Phần còn lại (lỗi dữ liệu, chưa giải thích được, sai số chấp nhận) chỉ \SoConLaiNam{} USD cả năm, nhưng từng tháng thì khác (Bảng~\ref{tab:conlai}). Có \SoThangConLai{} tháng còn lệch quá 200 USD: \SoThangConLaiDS{}. Đó chính là ba sự việc đã tìm ra ở các mục trên: 12 dòng POS trùng (tháng 3), bút toán ADJ-0925 (tháng 9) và lỗi chuyển dữ liệu của NX057 (tháng 11 thiếu, tháng 12 thừa). Tám tháng còn lại chỉ lệch vài USD do làm tròn.
+
+\begin{table}[H]
+\captab{Chênh lệch còn lại sau khi trừ các khoản quy tắc ghi nhận, toàn công ty theo tháng, USD \nguon{BR-Tổng}}\label{tab:conlai}
+\centering
+{\small\input{generated/bang_con_lai.tex}}
+\end{table}
+
+\choviet{bridge-template-log: file mẫu nộp và nhật ký ngoại lệ đọc thẳng từ BR\_Long}
 
 \subsection{Kiểm chứng bằng cách tính thứ hai}
 \choviet{dax-bridge}
