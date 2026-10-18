@@ -100,3 +100,4 @@ Cập nhật bảng này mỗi khi tạo, xong hoặc hủy một plan.
 | [bridge-monthly](completed/thanhlnp-18-10-2026-bridge-monthly.md) | Việc 4 – Bảng cầu nối và nhật ký ngoại lệ (bảng cầu nối 12 tháng) | thanhlnp | Xong | 18/10/2026 |
 | [bridge-template-log](completed/thanhlnp-18-10-2026-bridge-template-log.md) | Việc 4 – Bảng cầu nối và nhật ký ngoại lệ (file mẫu nộp, nhật ký) | thanhlnp | Xong | 18/10/2026 |
 | [dax-bridge](completed/thanhlnp-18-10-2026-dax-bridge.md) | Việc 5 – Kiểm tra lại bằng cách tính thứ hai | thanhlnp | Xong | 18/10/2026 |
+| [refresh-test](completed/thanhlnp-18-10-2026-refresh-test.md) | Việc 2 – Nạp và làm sạch dữ liệu (chạy thử làm mới) | thanhlnp | Xong | 18/10/2026 |

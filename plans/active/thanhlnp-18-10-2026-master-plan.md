@@ -103,7 +103,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 9 | `bridge-monthly` | Xong 18/10 | [thanhlnp-18-10-2026-bridge-monthly.md](../completed/thanhlnp-18-10-2026-bridge-monthly.md) |
 | 10 | `bridge-template-log` | Xong 18/10 | [thanhlnp-18-10-2026-bridge-template-log.md](../completed/thanhlnp-18-10-2026-bridge-template-log.md) |
 | 11 | `dax-bridge` | Xong 18/10 | [thanhlnp-18-10-2026-dax-bridge.md](../completed/thanhlnp-18-10-2026-dax-bridge.md) |
-| 12 | `refresh-test` | Chưa làm | |
+| 12 | `refresh-test` | Xong 18/10 | [thanhlnp-18-10-2026-refresh-test.md](../completed/thanhlnp-18-10-2026-refresh-test.md) |
 | 13 | `dashboard` | Chưa làm | |
 | 14 | `conclusions` | Chưa làm | |
 | 15 | `report-draft` | Chưa làm | |
@@ -146,6 +146,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 18/10 | Plan 9 `bridge-monthly`: `q_BR_Long` 4 bảng × 12 tháng, cảnh báo tự động, bảng toàn công ty dạng ngang; phần IV.4, phụ lục D | <ul><li>708 dòng, khớp bảng kiểm tra Python (lệch ≤ 0,00005)</li><li>Cả năm và tháng 12 khớp 13/13 khoản số chuẩn</li><li>Dòng kiểm tra 0,00 ở 48/48 bảng × tháng; 2 cảnh báo tháng 9 (ADJ-0925)</li><li>Câu hỏi riêng 2: 4 tháng còn lệch quá 200 USD (tháng 3, 9, 11, 12)</li></ul> | Dòng kiểm tra không bắt được lỗi ở số gốc dùng chung (ví dụ tỷ giá ngày); bù bằng so với Python và DAX |
 | 18/10 | Plan 10 `bridge-template-log`: sheet `Cau_noi` (và bản cửa hàng, online) điền bằng SUMIFS đọc `q_BR_Long`; `q_ExceptionLog` nạp vào `Nhat_ky_ngoai_le` bằng INDEX; `q_OrderSwap`; đoạn cuối IV.4, phụ lục B, E | <ul><li>Dòng kiểm tra 3 sheet cầu nối = 0 ở 12 tháng và cả năm; không ô số nào gõ tay</li><li>Nhật ký 18 dòng, tổng −2.425.904,77; trạng thái 14 / 2 / 1 / 1</li><li>Đổi thứ tự: dòng trùng −13.695,13; hàng trả tính sau tỷ giá −349.066,20</li></ul> | Dựng file từ đầu mất khoảng 55 phút (backlog mục 8); rà soát phát hiện cách đổi thứ 3 sai nghĩa và thiếu dòng rủi ro hàng trả sau kỳ, đã sửa |
 | 18/10 | Plan 11 `dax-bridge`: cột tính, bảng `dim_bridge_item` và `pq_br_long` (tham số `PQFile`), 32 công thức DAX (từng khoản cầu nối, so với Power Query, mẫu slide 30 cửa hàng × tháng), `dax_measures.dax`; phần IV.5 | <ul><li>709 ô cầu nối, lệch DAX − Power Query lớn nhất 0,000000007 USD</li><li>Cửa hàng × tháng: 679/679 ô khớp; 137 → 2 ô vượt ngưỡng, tháng 11: 21 → 1</li></ul> | Khớp ngay lần đầu; rà soát đổi cách đếm ô vượt ngưỡng theo mã sổ cái cho giống Power Query |
+| 18/10 | Plan 12 `refresh-test`: dữ liệu giả tháng 01/2026 + cửa hàng NX068 ở thư mục khác, `refresh_workbook.ps1`, `check_refresh.py`; dựng file nhanh hơn (bỏ qua mức riêng tư); mục II.8 | <ul><li>11/11 phép so đạt, không sửa truy vấn nào</li><li>Kỳ đối soát tự thành 13 tháng; 12 tháng 2025 giữ nguyên</li><li>Làm mới khoảng 3 phút; dựng từ đầu từ 55 phút còn khoảng 5 phút</li></ul> | Chưa thử trên máy thật thứ hai (backlog mục 2); Power BI không có dữ liệu tháng mới để thử |
 
 ---
 

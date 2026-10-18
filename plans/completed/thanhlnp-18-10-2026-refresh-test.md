@@ -8,12 +8,12 @@
 |---|---|
 | Người làm | Lê Nguyễn Phước Thành (thanhlnp), làm cùng AI (trí tuệ nhân tạo) Claude |
 | Ngày bắt đầu | 18/10/2026 |
-| Ngày xong | |
+| Ngày xong | 18/10/2026 |
 | Nhánh (branch) | `baseline` |
 | Thuộc việc nào trong roadmap | Việc 2 – Nạp và làm sạch dữ liệu (chạy thử làm mới) |
 | Mốc phải đạt | Mốc 4 (25/10): chạy thử làm mới đạt, trên máy khác và với dữ liệu giả của một tháng mới |
 | Phần báo cáo liên quan | <ul><li>Phần II (dữ liệu và chuẩn bị: chạy lại cho tháng mới)</li><li>Phần VII (giới hạn: chưa thử trên máy thật thứ hai)</li></ul> |
-| Trạng thái | Đang làm |
+| Trạng thái | Xong |
 | Plan liên quan | <ul><li>Làm sau plan: [dax-bridge](../completed/thanhlnp-18-10-2026-dax-bridge.md)</li><li>Plan tiếp theo dùng kết quả này: `review-submit` (hướng dẫn chạy lại trong bộ file nộp)</li></ul> |
 
 ---
@@ -163,8 +163,8 @@ Chứng minh file Power Query **chạy lại được cho tháng mới chỉ b�
 - **Các lần lưu vào Git (commit):** `3751a3f` (tạo plan), `3ffcf1c` (sinh dữ liệu giả, số mong đợi), `f393615` (dựng nhanh, sheet hướng dẫn, file Excel), `653b74f` (script làm mới, script so, kết quả), `18e2471` (báo cáo II.8), và các lần lưu ghi kết quả, rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
-- [ ] Không còn chỗ `< >` chưa điền.
-- [ ] Mọi con số trong plan đều ghi rõ lấy từ đâu.
-- [ ] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
-- [ ] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
-- [ ] Đã chuyển file sang `plans/completed/` bằng `git mv`.
+- [x] Không còn chỗ `< >` chưa điền.
+- [x] Mọi con số trong plan đều ghi rõ lấy từ đâu.
+- [x] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
+- [x] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
+- [x] Đã chuyển file sang `plans/completed/` bằng `git mv`.
