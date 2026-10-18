@@ -89,6 +89,15 @@ Sau khi nạp, sheet \texttt{Kiem\_tra} tự so 13 chỉ tiêu với bảng tổ
 \captab{Kiểm tra tổng so với QC\_Summary}\nopagebreak[4]
 {\small\input{generated/bang_kiem_tra.tex}}
 
+\subsection{Bảng giao dịch chung và kiểm tra chất lượng dữ liệu}
+
+Truy vấn \texttt{q\_Transactions} gộp \SoDongPOS{} dòng POS và \SoDongWEB{} đơn online thành một bảng \SoDongGiaoDich{} dòng cùng một dạng: mã cửa hàng bên kế toán (nối qua \texttt{store\_master}), ngày bán hoặc ngày đặt, ngày sổ cái ghi nhận (ngày ghi sổ hoặc ngày giao), ngày nhận hàng trả, tiền trước giảm giá, chiết khấu, sau giảm giá, và số USD theo cả hai tỷ giá: tỷ giá ngày (cách của Flash) và tỷ giá cuối tháng (cách của sổ cái). Mọi bảng đối soát và bảng cầu nối ở mục~IV chỉ đọc từ bảng này.
+
+Mỗi lần làm mới, sheet \texttt{Chat\_luong\_du\_lieu} tự chạy \SoKiemTraChatLuong{} phép kiểm tra (Bảng~\ref{tab:chatluong}). \SoKiemTraCanXem{} phép ra kết quả ``Cần xem'', ứng với 3 lỗi đã biết và được ghi vào nhật ký ngoại lệ: dòng POS bị xuất trùng, một ngày bán của cửa hàng NX057 chưa có bút toán, và bút toán ADJ-0925 (vừa không gắn cửa hàng, vừa không có giấy tờ, nên vi phạm 2 phép) \nguon{QC}. Các phép còn lại bằng 0.
+
+\captab{Kiểm tra chất lượng dữ liệu}\label{tab:chatluong}\nopagebreak[4]
+\input{generated/bang_chat_luong.tex}
+
 \subsection{Cách tính thứ hai: mô hình Power BI}
 
 Để kiểm tra lại số của Power Query, nhóm dựng mô hình Power BI trên file dữ liệu mentor đã nối sẵn (\texttt{Nexa\_Home\_Recon\_Dataset.xlsx}): 12 bảng, gồm 6 bảng danh mục (có bảng ngày), 4 bảng giao dịch và 2 bảng tỷ giá. Ngày ghi nhận của sổ cái (ngày ghi sổ, ngày giao) là quan hệ chủ động; ngày bán, ngày đặt, ngày trả là quan hệ bị động, chỉ bật bằng hàm \texttt{USERELATIONSHIP} khi cần. Số tổng tính bằng DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI) khớp với Power Query ở cả năm, 12 tháng và 3 kênh. Phần so từng khoản cầu nối ở mục~IV.5.

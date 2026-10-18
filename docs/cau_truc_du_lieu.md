@@ -93,6 +93,8 @@ Mỗi dòng giữ đúng mức chi tiết của nguồn: 1 dòng POS hoặc 1 đ
 | `fx_month_end_return` | số | Tỷ giá cuối tháng của `return_date` |
 | `gross_usd_daily`, `discount_usd_daily`, `net_usd_daily` | số | Nội tệ ÷ `fx_daily`, **không làm tròn** |
 | `net_usd_month_end` | số | `net_local` ÷ `fx_month_end`, không làm tròn |
+| `net_usd_month_end_return` | số | `net_local` ÷ `fx_month_end_return`, không làm tròn (chỉ đơn bị trả) |
+| `sale_period`, `recognition_period`, `return_period` | chữ | Tháng dạng YYYY-MM của ngày bán / đặt, ngày ghi nhận, ngày nhận hàng trả, để cộng theo tháng |
 | `is_duplicate` | đúng/sai | Dòng POS bị xuất trùng (lần xuất thứ hai trở đi) |
 | `duplicate_reason` | chữ | Lý do, ví dụ "trùng receipt_no + line_no, xuất lại lúc 2025-03-30 08:42" |
 

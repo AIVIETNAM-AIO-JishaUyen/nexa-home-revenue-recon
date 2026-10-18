@@ -133,6 +133,17 @@ write("bang_kenh.tex", "\n".join([
     f"\\multicolumn{{3}}{{@{{}}l}}{{\\textit{{Kiểm tra: sổ cái cửa hàng + online − tổng sổ cái}}}} & \\textit{{{vn(chk2.gl_usd, 2)}}} & \\\\",
     r"\bottomrule", r"\end{tabular}", ""]))
 
+# ---------------------------------------------------------------- Bảng chất lượng dữ liệu (sheet Chat_luong_du_lieu)
+q = sheet("Chat_luong_du_lieu")
+CAN_XEM = r"\textbf{Cần xem}"
+rows = [f"{r.stt} & {esc(r.kiem_tra)} & {int(r.so_luong)} & {'Đạt' if r.trang_thai == 'Đạt' else CAN_XEM} & {esc(r.chi_tiet) if pd.notna(r.chi_tiet) else ''} \\\\"
+        for r in q.itertuples()]
+write("bang_chat_luong.tex", "\n".join([
+    r"{\small", r"\begin{longtable}{@{}r L{6.4cm} r c L{4.6cm}@{}}", r"\toprule",
+    r"STT & Phép kiểm tra & Số lượng & Trạng thái & Chi tiết \\", r"\midrule", r"\endhead",
+    *rows, r"\bottomrule", r"\end{longtable}}", ""]))
+gd = sheet("Giao_dich_chung")
+
 # ---------------------------------------------------------------- Vài con số dùng trong lời văn (macro LaTeX), để không gõ tay
 web = body[body.channel_code == "WEB"].iloc[0]
 macros = {
@@ -145,5 +156,7 @@ macros = {
     "SoOnlineChenhLech": vn(web.delta_usd, 2), "SoOnlineTyTrong": pct(web.delta_usd / tot.delta_usd, 0),
     "SoChuaGanKenh": vn(-chk2.gl_usd, 2),
     "SoQCDat": str(int(k.dat.sum())), "SoQCTong": str(len(k)),
+    "SoDongGiaoDich": vn(len(gd)), "SoDongPOS": vn((gd.channel == "STORE").sum()), "SoDongWEB": vn((gd.channel == "WEB").sum()),
+    "SoKiemTraChatLuong": str(len(q)), "SoKiemTraCanXem": str(int((q.trang_thai != "Đạt").sum())),
 }
 write("so_lieu.tex", "\n".join(f"\\newcommand{{\\{n}}}{{{v}}}" for n, v in macros.items()) + "\n")
