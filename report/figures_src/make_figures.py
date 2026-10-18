@@ -4,6 +4,7 @@ Số trong báo cáo lấy từ đây, không gõ tay. Chạy lại mỗi khi l�
 Chạy:  D:/Anaconda/python.exe -I report/figures_src/make_figures.py
 Ra:    report/generated/*.png, report/generated/*.tex
 """
+import re
 import sys
 from pathlib import Path
 
@@ -43,7 +44,7 @@ def pct(x, d=2):
 
 
 def esc(s):
-    s = str(s)
+    s = re.sub(r"(^|[\s(=])-(?=\d)", lambda m: m.group(1) + "−", str(s))
     for a, b in [("\\", r"\textbackslash{}"), ("&", r"\&"), ("%", r"\%"), ("_", r"\_"), ("#", r"\#"), ("→", r"$\rightarrow$")]:
         s = s.replace(a, b)
     return s
@@ -70,7 +71,12 @@ write("bang_kiem_tra.tex", "\n".join([
 
 # ---------------------------------------------------------------- Bảng 5 bẫy (sheet Bay_du_lieu)
 t = sheet("Bay_du_lieu")
-rows = [f"{r.stt} & {esc(r.bay)} & \\texttt{{{esc(r.truy_van)}}}: {esc(r.buoc_xu_ly)} & {esc(r.truoc_khi_xu_ly)} & {esc(r.sau_khi_xu_ly)} \\\\ \\midrule"
+def ten_truy_van(text):
+    """In tên truy vấn (q_...) bằng phông máy chữ, phần còn lại giữ chữ thường."""
+    return re.sub(r"(q\\_[A-Za-z]+(?:\\_[A-Za-z]+)*)", r"\\texttt{\1}", esc(text))
+
+
+rows = [f"{r.stt} & {esc(r.bay)} & {ten_truy_van(r.truy_van)}: {esc(r.buoc_xu_ly)} & {esc(r.truoc_khi_xu_ly)} & {esc(r.sau_khi_xu_ly)} \\\\ \\midrule"
         for r in t.itertuples()]
 write("bang_bay.tex", "\n".join([
     r"{\small", r"\begin{longtable}{@{}p{0.4cm} p{2.6cm} p{3.4cm} p{4.2cm} p{4.2cm}@{}}",
@@ -132,7 +138,8 @@ web = body[body.channel_code == "WEB"].iloc[0]
 macros = {
     "SoFlashNam": vn(year.flash_usd), "SoSoCaiNam": vn(year.gl_usd, 2), "SoChenhLechNam": vn(year.delta_usd, 2),
     "SoPctNam": pct(year.delta_pct_flash), "SoThangThap": str(len(months) - len(pos)),
-    "SoThangBaChenhLech": vn(pos.delta_usd.sum(), 2), "SoThangBaPct": pct(pos.delta_pct_flash.sum()),
+    "SoThangBaChenhLech": vn(months.loc[months.period.str.endswith("-03"), "delta_usd"].sum(), 2),
+    "SoThangBaPct": pct(months.loc[months.period.str.endswith("-03"), "delta_pct_flash"].sum()),
     "SoThangLechNhatPct": f"tháng {int(months.loc[months.delta_pct_flash.idxmin(), 'period'][-2:])} ({pct(months.delta_pct_flash.min())})",
     "SoThangLechNhatTien": f"tháng {int(months.loc[months.delta_usd.idxmin(), 'period'][-2:])} ({vn(months.delta_usd.min(), 2)})",
     "SoOnlineChenhLech": vn(web.delta_usd, 2), "SoOnlineTyTrong": pct(web.delta_usd / tot.delta_usd, 0),

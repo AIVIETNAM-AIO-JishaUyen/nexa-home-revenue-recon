@@ -355,7 +355,7 @@
     },
     title={\faLightbulb\quad #1} 
 }
-% Misconception / warning box (dùng trong mục Hiểu về bối cảnh sản xuất thép) --
+% Misconception / warning box (hộp cảnh báo của file mẫu) ----------------------
 \newtcolorbox{misconceptionbox}[1]{%
     enhanced,
     breakable,
@@ -682,10 +682,15 @@
 % Cho phép gõ dấu trừ Unicode (U+2212) trong lời văn ----------------------------
 \DeclareUnicodeCharacter{2212}{\ensuremath{-}}
 % Bảng: chú thích "Bảng N:" giống \capfig của hình ------------------------------
+% \needspace: nếu cuối trang không đủ chỗ cho chú thích và vài dòng đầu của bảng thì sang trang mới,
+% để chú thích không nằm một mình ở cuối trang
+\usepackage{needspace}
 \newcounter{bang}
-\newcommand{\captab}[1]{\refstepcounter{bang}\par\noindent\textbf{Bảng~\thebang:}~#1\par\smallskip}
+\newcommand{\captab}[1]{\needspace{6\baselineskip}\refstepcounter{bang}\par\noindent\textbf{Bảng~\thebang:}~#1\par\smallskip}
+% Cột chữ canh trái (không giãn chữ cho đều hai bên) dùng cho bảng có cột hẹp
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
 % Nhãn nguồn số liệu (xem docs/quy_uoc_va_so_chuan.md) -------------------------
-\newcommand{\nguon}[1]{\textsf{\small[#1]}}
+\newcommand{\nguon}[1]{\mbox{\textsf{\small[#1]}}}% \mbox: không ngắt dòng giữa nhãn
 % Ghi chú phần chưa viết (phải hết ở bản nộp) -------------------------------------
 \newcommand{\choviet}[1]{\begin{notebox}Phần này viết ở plan \texttt{#1}.\end{notebox}}
 % Số liệu sinh tự động từ file Excel Power Query ---------------------------------

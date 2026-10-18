@@ -6,7 +6,7 @@ Bốn nguồn ghi doanh thu ở bốn mức chi tiết khác nhau, nên không t
 
 \captab{Bốn nguồn dữ liệu: một dòng là gì, khóa, ngày, tiền, dấu}\label{tab:nguon}\nopagebreak[4]
 {\small
-\begin{longtable}{@{}p{2.6cm} p{3.4cm} p{2.4cm} p{3.0cm} p{3.4cm}@{}}
+\begin{longtable}{@{}L{2.6cm} L{3.4cm} L{2.4cm} L{3.0cm} L{3.4cm}@{}}
 \toprule
 Nguồn & Một dòng là & Khóa & Ngày & Tiền, dấu \\
 \midrule
@@ -21,20 +21,22 @@ Flash & 1 tháng $\times$ 1 kênh $\times$ 1 thị trường & Không có & Thá
 \bottomrule
 \end{longtable}}
 
+\textbf{Ai giữ nguồn nào.} File POS và file đơn online được xuất từ hệ thống bán hàng tại cửa hàng và hệ thống quản lý đơn online (OMS -- Order Management System); bộ phận vận hành bán hàng chịu trách nhiệm trạng thái đơn, ngày giao, hàng trả và việc xuất file. Sổ cái do phòng Tài chính giữ, gồm cả bút toán tay, bút toán bổ sung và quy đổi tỷ giá. Flash do phòng Kinh doanh lập ngày 05/01/2026; file đơn online được trích xuất ngày 15/01/2026. Khi một con số lệch, bảng này cho biết cần hỏi bộ phận nào.
+
 \subsection{Mỗi bên ghi doanh thu thế nào: năm lý do lệch}
 
-Hai bên đều đúng theo cách của mình nhưng khác nhau ở năm điểm (đề gọi là "năm trục khác biệt"). Mục~IV chứng minh từng lý do bằng số trên dữ liệu.
+Hai bên đều đúng theo cách của mình nhưng khác nhau ở năm điểm (đề gọi là ``năm trục khác biệt''). Mục~IV chứng minh từng lý do bằng số trên dữ liệu.
 
 \captab{Quy tắc ghi nhận của từng bên}\nopagebreak[4]
 {\small
-\begin{longtable}{@{}p{2.6cm} p{4.0cm} p{4.2cm} p{4.0cm}@{}}
+\begin{longtable}{@{}L{2.6cm} L{4.0cm} L{4.2cm} L{4.0cm}@{}}
 \toprule
 Lý do lệch & Flash & Sổ cái -- cửa hàng & Sổ cái -- online \\
 \midrule
 \endhead
 Thời điểm & Ngày khách đặt hàng & Ngày ghi sổ; bán ngày nghỉ thì ghi ngày làm việc kế tiếp & Ngày giao thành công; hàng trả ghi giảm vào ngày nhận hàng trả \\
 Giá trị & Giá niêm yết, trước giảm giá & Sau giảm giá & Sau giảm giá \\
-Phạm vi & Gồm cả đơn sau đó bị hủy, không trừ hàng trả & Mọi hóa đơn POS & Không ghi đơn hủy, trừ hàng trả, có thêm bút toán tay phí vận chuyển \\
+Phạm vi & Gồm cả đơn sau đó bị hủy, không trừ hàng trả & Mọi hóa đơn POS; có thêm bút toán tay chuyển 3.480 USD của một cửa hàng sang online (tháng 6) & Không ghi đơn hủy, trừ hàng trả, có thêm bút toán tay phí vận chuyển \\
 Tiền tệ & Tỷ giá ngày đặt & Tỷ giá cuối tháng ghi sổ & Tỷ giá cuối tháng ghi sổ \\
 Mức chi tiết & Tháng $\times$ kênh $\times$ thị trường & Cửa hàng $\times$ ngày ghi sổ & Ngày giao $\times$ loại tiền \\
 \bottomrule
@@ -74,10 +76,11 @@ Bốn quyết định khi nạp:
 
 Bảng~\ref{tab:bay} lấy thẳng từ sheet \texttt{Bay\_du\_lieu}: mọi số được tính lại mỗi lần làm mới dữ liệu.
 
+\needspace{14\baselineskip}% dòng đầu của bảng cao khoảng 9 dòng chữ: giữ chú thích đi cùng
 \captab{Năm bẫy: số trước và sau khi xử lý}\label{tab:bay}\nopagebreak[4]
 \input{generated/bang_bay.tex}
 
-Bẫy nguy hiểm nhất là ngày kiểu Mỹ: nếu đọc theo kiểu ngày/tháng của Việt Nam, phần lớn đơn báo lỗi, nhưng hơn ba nghìn đơn còn lại \textbf{đọc được mà sai tháng}, không có cảnh báo nào.
+Bẫy nguy hiểm nhất là ngày kiểu Mỹ: nếu đọc theo kiểu ngày/tháng của Việt Nam, phần lớn đơn báo lỗi, nhưng trong số còn lại có hơn ba nghìn đơn \textbf{đọc được mà sai tháng}, không có cảnh báo nào \nguon{QC}.
 
 \subsection{Kiểm tra tổng}
 
@@ -88,4 +91,4 @@ Sau khi nạp, sheet \texttt{Kiem\_tra} tự so 13 chỉ tiêu với bảng tổ
 
 \subsection{Cách tính thứ hai: mô hình Power BI}
 
-Để kiểm tra lại số của Power Query, nhóm dựng mô hình Power BI trên file dữ liệu mentor đã nối sẵn (\texttt{Nexa\_Home\_Recon\_Dataset.xlsx}): 6 bảng danh mục, 4 bảng giao dịch, nối với một bảng ngày. Ngày ghi nhận của sổ cái (ngày ghi sổ, ngày giao) là quan hệ chủ động; ngày bán, ngày đặt, ngày trả là quan hệ bị động, chỉ bật bằng hàm \texttt{USERELATIONSHIP} khi cần. Số tổng tính bằng DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI) khớp với Power Query ở cả năm, 12 tháng và 3 kênh. Phần so từng khoản cầu nối ở mục~IV.5.
+Để kiểm tra lại số của Power Query, nhóm dựng mô hình Power BI trên file dữ liệu mentor đã nối sẵn (\texttt{Nexa\_Home\_Recon\_Dataset.xlsx}): 12 bảng, gồm 6 bảng danh mục (có bảng ngày), 4 bảng giao dịch và 2 bảng tỷ giá. Ngày ghi nhận của sổ cái (ngày ghi sổ, ngày giao) là quan hệ chủ động; ngày bán, ngày đặt, ngày trả là quan hệ bị động, chỉ bật bằng hàm \texttt{USERELATIONSHIP} khi cần. Số tổng tính bằng DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI) khớp với Power Query ở cả năm, 12 tháng và 3 kênh. Phần so từng khoản cầu nối ở mục~IV.5.
