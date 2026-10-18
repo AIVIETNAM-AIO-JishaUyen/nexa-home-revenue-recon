@@ -25,3 +25,6 @@ q_RC_Web_Month,Doi_soat_online_thang,Kênh online theo tháng: Sổ cái − WEB
 q_Web_Timing,Lech_thoi_diem_online,Lệch thời điểm online theo tháng (theo tháng giao − theo tháng đặt; USD theo tỷ giá ngày đặt) và phần đơn vắt qua năm - truy vấn q_Web_Timing
 q_FiveReasons,Nam_ly_do,5 lý do khiến Flash và sổ cái lệch nhau: mỗi lý do có số đếm và số tiền tính từ dữ liệu - truy vấn q_FiveReasons
 q_BridgeItems,Danh_muc_khoan,Danh mục khoản cầu nối: thứ tự; nhóm (1 trong 4 nhóm); thuộc lý do nào; vì sao xếp vào nhóm đó - truy vấn q_BridgeItems
+q_BR_Long,BR_Long,Bảng cầu nối 12 tháng dạng dài: bảng (COMPANY = STORE + WEB + UNALLOCATED) × tháng × khoản; dòng check = Flash + các khoản − sổ cái - truy vấn q_BR_Long
+q_BR_Check,Canh_bao_cau_noi,[Cảnh báo] Bảng cầu nối: phần chưa giải thích ≤ 200 USD; làm tròn ≤ 5 USD; dòng kiểm tra ≤ 1 USD (Cần xem = vượt ngưỡng) - truy vấn q_BR_Check
+q_BR_Company,Cau_noi_toan_cong_ty,Bảng cầu nối toàn công ty dạng ngang: khoản × tháng và cả năm (USD) - truy vấn q_BR_Company
