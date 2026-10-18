@@ -25,13 +25,11 @@ let
     // Chiết khấu của các đơn hủy
     #"Chiết khấu của đơn hủy" = List.Sum(#"Đơn hủy"[discount_usd_daily]),
 
-    // ---- Cách 3: tính tỷ giá TRƯỚC hàng trả, tức hàng trả đổi theo tỷ giá ngày trả thay vì ngày đặt
+    // ---- Cách 3: tính tỷ giá TRƯỚC hàng trả. Khi đó dòng tỷ giá đã đưa mọi giao dịch về tỷ giá cuối tháng của sổ cái,
+    // nên hàng trả đứng sau phải đo theo tỷ giá cuối tháng nhận hàng trả (đúng số sổ cái ghi), thay vì tỷ giá ngày đặt
     #"Hàng trả" = Table.SelectRows(#"Giao dịch", each [channel] = "WEB" and [status] = "Returned" and #"Trong kỳ?"([return_period])),
-    // Tỷ giá ngày, đổi tên để ghép theo ngày trả
-    #"Tỷ giá ngày" = Table.RenameColumns(q_FX_Daily, {{"rate_date", "k_date"}, {"currency", "k_currency"}, {"usd_to_ccy", "fx_return"}}),
-    // Hàng trả theo tỷ giá ngày trả
-    #"Trả theo tỷ giá ngày trả" = - List.Sum(Table.AddColumn(Table.Join(#"Hàng trả", {"return_date", "currency"}, #"Tỷ giá ngày", {"k_date", "k_currency"}, JoinKind.LeftOuter),
-        "usd", each [net_local] / [fx_return])[usd]),
+    // Hàng trả theo tỷ giá cuối tháng nhận hàng trả (chưa làm tròn)
+    #"Trả theo tỷ giá cuối tháng" = - List.Sum(#"Hàng trả"[net_usd_month_end_return]),
 
     // ---- Bảng kết quả
     #"Bảng" = #table(
@@ -41,8 +39,8 @@ let
                 "Chiết khấu", #"Khoản"("discount"), #"Khoản"("discount") + #"Chiết khấu của dòng trùng"},
             {2, "Tính đơn hủy trước chiết khấu (theo giá trước giảm giá)", "Đơn online bị hủy", #"Khoản"("cancelled"), #"Hủy theo giá gốc",
                 "Chiết khấu", #"Khoản"("discount"), #"Khoản"("discount") + #"Chiết khấu của đơn hủy"},
-            {3, "Tính tỷ giá trước hàng trả (hàng trả theo tỷ giá ngày trả)", "Hàng trả lại", #"Khoản"("returns"), #"Trả theo tỷ giá ngày trả",
-                "Tỷ giá", #"Khoản"("fx"), #"Khoản"("fx") + #"Khoản"("returns") - #"Trả theo tỷ giá ngày trả"}
+            {3, "Tính tỷ giá trước hàng trả (hàng trả theo tỷ giá cuối tháng của sổ cái)", "Hàng trả lại", #"Khoản"("returns"), #"Trả theo tỷ giá cuối tháng",
+                "Tỷ giá", #"Khoản"("fx"), #"Khoản"("fx") + #"Khoản"("returns") - #"Trả theo tỷ giá cuối tháng"}
         }),
     // Kiểm tra: tổng thay đổi của hai khoản, tính từ số chưa làm tròn (phải bằng 0: đổi thứ tự chỉ chuyển tiền giữa hai dòng)
     #"Tổng thay đổi" = Table.AddColumn(#"Bảng", "tong_thay_doi_usd", each Number.Round(([moi_1] - [cu_1]) + ([moi_2] - [cu_2]), 2), type number),
@@ -50,6 +48,7 @@ let
     #"Làm tròn" = Table.TransformColumns(#"Tổng thay đổi", List.Transform({"cu_1", "moi_1", "cu_2"}, (c) => {c, each Number.Round(_, 2), type number})),
     // Số mới của khoản thứ hai = số cũ trừ đúng phần đã chuyển sang khoản thứ nhất, để hai cột thay đổi trên bảng cộng lại đúng 0
     #"Khoản thứ hai" = Table.ReplaceValue(#"Làm tròn", each [moi_2], each [cu_2] - ([moi_1] - [cu_1]), Replacer.ReplaceValue, {"moi_2"}),
+    // Làm tròn số mới của khoản thứ hai
     #"Kết quả" = Table.TransformColumns(#"Khoản thứ hai", {{"moi_2", each Number.Round(_, 2), type number}})
 in
     #"Kết quả"

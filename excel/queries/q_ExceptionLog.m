@@ -13,6 +13,8 @@ let
     #"Số" = (x as number, optional d as nullable number) as text => Number.ToText(x, "N" & Text.From(if d = null then 2 else d), "vi-VN"),
     // Hàm viết ngày dd/mm/yyyy
     #"Ngày" = (d as date) as text => Date.ToText(d, "dd/MM/yyyy", "vi-VN"),
+    // Hàm viết tháng dạng mm/yyyy từ kỳ "yyyy-mm", để chèn vào mô tả
+    #"Tháng" = (p as text) as text => Text.End(p, 2) & "/" & Text.Start(p, 4),
     // Bảng cầu nối toàn công ty
     #"Cầu nối" = Table.Buffer(Table.SelectRows(q_BR_Long, each [bridge] = "COMPANY")),
     // Hàm: tổng một khoản cả năm, hoặc của một tháng
@@ -40,10 +42,18 @@ let
     #"Tiền cuối kỳ" = - List.Sum(#"Vắt qua cuối kỳ"[net_usd_daily]),
     // Tháng có khoản lệch thời điểm online lớn nhất
     #"Tháng lệch online lớn nhất" = Table.Max(Table.SelectRows(#"Cầu nối", each [item_code] = "online_timing"), each Number.Abs([usd])),
+    // Tháng có khoản làm tròn lớn nhất (bỏ dấu âm)
+    #"Tháng làm tròn lớn nhất" = Table.Max(Table.SelectRows(#"Cầu nối", each [item_code] = "rounding"), each Number.Abs([usd])),
     // Đơn hủy và đơn bị trả trong kỳ (để đếm số đơn)
     #"Số đơn hủy" = Table.RowCount(Table.SelectRows(q_Transactions, each [channel] = "WEB" and [status] = "Cancelled" and #"Trong kỳ?"([sale_period]))),
     // Số đơn bị trả, nhận hàng trả trong kỳ
     #"Số đơn trả" = Table.RowCount(Table.SelectRows(q_Transactions, each [channel] = "WEB" and [status] = "Returned" and #"Trong kỳ?"([return_period]))),
+    // Đơn giao trong kỳ nhưng nhận hàng trả sau tháng cuối của kỳ
+    #"Trả sau kỳ" = Table.SelectRows(q_Transactions, each [channel] = "WEB" and [status] = "Returned" and #"Trong kỳ?"([recognition_period])
+        and [return_period] <> null and [return_period] > List.Last(#"Tháng đối soát")),
+    // Ngày cuối cùng có trong dữ liệu online (ngày giao hoặc ngày trả muộn nhất)
+    #"Ngày lấy dữ liệu" = List.Max(List.RemoveNulls(Table.SelectRows(q_Transactions, each [channel] = "WEB")[return_date]
+        & Table.SelectRows(q_Transactions, each [channel] = "WEB")[recognition_date])),
     // Các cặp tháng lệch ngày ghi sổ của cửa hàng (tháng có tiền chuyển đi)
     #"Cặp tháng cửa hàng" = Table.SelectRows(q_RC_Store_Timing, each #"Trong kỳ?"([period]) and [moved_out_usd] < 0),
     // Các ô cửa hàng × ngày không khớp (lỗi chuyển dữ liệu)
@@ -58,6 +68,7 @@ let
     #"Bút toán ADJ" = Table.SelectRows(#"Bút toán tay", each Text.StartsWith([source_ref], "MJ-ADJ")),
 
     // ---- Các dòng nhật ký, theo thứ tự các bước cầu nối
+    // Chiết khấu: một dòng cho cả kỳ
     #"Dòng chiết khấu" = {#"Dòng"("Bảng cầu nối: Flash ghi giá trước giảm giá", "Flash, POS, WEB",
         "Flash ghi giá niêm yết, sổ cái ghi giá sau giảm giá: tổng chiết khấu của mọi dòng POS và đơn online",
         #"Khoản"("discount"), #"Cả kỳ", #"Nhóm"("discount"), "Trình bày trong cầu nối; đề nghị Flash báo thêm doanh số sau giảm giá", "Kinh doanh", "Đã giải thích")},
@@ -67,7 +78,7 @@ let
          {"ma_pos", each Text.Combine(List.Transform(List.Distinct([pos_store_id]), Text.From), ", "), type text},
          {"ngay", each Text.Combine(List.Transform(List.Distinct([sale_date]), #"Ngày"), ", "), type text}}),
         (r) => #"Dòng"("Kiểm tra khóa receipt_no + line_no sau khi nạp", "POS",
-            Text.From(r[n]) & " dòng POS trùng khóa ở cửa hàng " & r[cua_hang] & " (mã POS " & r[ma_pos] & ") ngày " & r[ngay] & ": file POS xuất 2 lần, Flash đếm cả bản trùng",
+            Text.From(r[n]) & " dòng POS trùng khóa (số hóa đơn receipt_no + số dòng line_no) ở cửa hàng " & r[cua_hang] & " (mã POS " & r[ma_pos] & ") ngày " & r[ngay] & ": file POS xuất 2 lần, Flash đếm cả bản trùng",
             #"Khoản"("pos_duplicate", r[sale_period]), r[sale_period], #"Nhóm"("pos_duplicate"), "Bỏ bản xuất sau; chặn xuất lặp ở hệ thống POS", "IT", "Cần sửa nguồn")),
     // Đơn hủy
     #"Dòng đơn hủy" = {#"Dòng"("Bảng cầu nối: đối soát online", "WEB",
@@ -76,7 +87,7 @@ let
     // Lệch thời điểm online: phần trong năm (tự bù trừ) và hai phần vắt qua năm – ba dòng cộng lại đúng bằng khoản cả năm
     #"Dòng lệch thời điểm online" = {
         #"Dòng"("Đối soát online × ngày giao", "WEB, Flash",
-            "Đơn đặt và giao khác tháng trong năm: tháng này chuyển đi, tháng sau nhận lại; lớn nhất " & #"Tháng lệch online lớn nhất"[period] & " (" & #"Số"(#"Tháng lệch online lớn nhất"[usd]) & ")",
+            "Đơn đặt và giao khác tháng trong năm: tháng này chuyển đi, tháng sau nhận lại; tháng lệch nhiều nhất là " & #"Tháng"(#"Tháng lệch online lớn nhất"[period]) & " (" & #"Số"(#"Tháng lệch online lớn nhất"[usd]) & " USD)",
             #"Khoản"("online_timing") - #"Tiền đầu kỳ" - #"Tiền cuối kỳ", #"Cả kỳ", #"Nhóm"("online_timing"), "Không sửa; ghi chú trên Flash rằng doanh thu tính theo ngày đặt", "Kinh doanh", "Đã giải thích"),
         #"Dòng"("Đối soát online × ngày giao", "WEB, Flash",
             Text.From(Table.RowCount(#"Vắt qua đầu kỳ")) & " đơn đặt trước kỳ, giao trong kỳ: sổ cái có, Flash của kỳ không có",
@@ -86,21 +97,31 @@ let
             #"Tiền cuối kỳ", Text.Combine(List.Sort(List.Distinct(#"Vắt qua cuối kỳ"[sale_period])), ", "), #"Nhóm"("online_timing"), "Theo dõi: sổ cái kỳ sau phải ghi nhận đủ số này", "Tài chính", "Đã giải thích")},
     // Lệch ngày ghi sổ của cửa hàng: một dòng cho mỗi cặp tháng (cặp tháng cộng lại bằng 0)
     #"Dòng lệch ngày ghi sổ" = Table.TransformRows(#"Cặp tháng cửa hàng", (r) => #"Dòng"("Đối soát cửa hàng × ngày ghi sổ", "POS, sổ cái",
-        Text.From(r[lines_out]) & " dòng POS bán cuối tháng " & r[period] & " vào ngày nghỉ, ghi sổ tháng " & r[to_period] & ": " & #"Số"(- r[moved_out_usd]) & " USD chuyển tháng, tự bù trừ",
+        Text.From(r[lines_out]) & " dòng POS bán vào ngày nghỉ cuối tháng " & #"Tháng"(r[period]) & ", sổ cái ghi vào ngày làm việc kế tiếp, thuộc tháng " & #"Tháng"(r[to_period]) & ": " & #"Số"(- r[moved_out_usd]) & " USD chuyển tháng, tự bù trừ",
         #"Khoản"("store_posting", r[period]) + #"Khoản"("store_posting", r[to_period]), r[period] & ", " & r[to_period], #"Nhóm"("store_posting"),
         "Không sửa; tự bù trừ ở tháng sau", "Tài chính", "Đã giải thích")),
     // Lỗi chuyển dữ liệu: một dòng cho mỗi ô cửa hàng × ngày không khớp
     #"Dòng lỗi chuyển dữ liệu" = Table.TransformRows(#"Ô lỗi chuyển dữ liệu", (r) => #"Dòng"("Đối soát cửa hàng × ngày ghi sổ", "POS, sổ cái",
         r[store_code] & " ngày " & #"Ngày"(r[posting_date]) & ": " &
-            (if r[match_status] = "Chỉ có ở POS" then "POS có " & #"Số"(r[pos_local]) & " " & r[currency] & " nhưng sổ cái không có bút toán"
-             else if r[match_status] = "Chỉ có ở sổ cái" then "sổ cái có bút toán " & r[journal_ids] & " (" & r[journal_types] & ") nhưng POS không có dòng nào"
+            (if r[match_status] = "Chỉ có ở POS" then "POS có " & #"Số"(r[pos_local]) & " " & r[currency] & " nhưng sổ cái không có bút toán; sổ cái tháng " & #"Tháng"(r[period]) & " đã khóa mà vẫn thiếu khoản này"
+             else if r[match_status] = "Chỉ có ở sổ cái" then "sổ cái có bút toán " & r[journal_ids] & " (" & r[journal_types] &
+                 // Diễn giải của bút toán trên sổ cái (ví dụ bút toán ghi bù cho ngày bị thiếu)
+                 (let dg = Text.Combine(Table.SelectRows(q_GL, each List.Contains(Text.Split(r[journal_ids], ", "), [journal_id]))[description], "; ")
+                  in if dg = "" then "" else ", diễn giải: " & dg) & ") nhưng POS không có dòng nào"
              else "POS và sổ cái lệch " & #"Số"(r[diff_local]) & " " & r[currency]),
         r[diff_usd], r[period], #"Nhóm"("transfer_error"),
         "So ô cửa hàng × ngày trước khi khóa sổ; IT kiểm tra giao diện chuyển dữ liệu POS sang sổ cái", "Tài chính, IT", "Đã sửa kỳ sau")),
     // Hàng trả
     #"Dòng hàng trả" = {#"Dòng"("Đối soát hàng trả × ngày trả", "WEB, sổ cái",
-        Text.From(#"Số đơn trả") & " đơn bị trả, sổ cái ghi giảm vào ngày nhận hàng trả; Flash không trừ (tỷ giá ngày đặt)",
+        Text.From(#"Số đơn trả") & " đơn bị trả: sổ cái ghi giảm doanh thu vào ngày nhận hàng trả, Flash không trừ; số tiền đổi theo tỷ giá ngày đặt",
         #"Khoản"("returns"), #"Cả kỳ", #"Nhóm"("returns"), "Đề nghị tách báo cáo hàng trả bên cạnh Flash", "Kinh doanh", "Đã giải thích")},
+    // Rủi ro cần theo dõi: đơn giao trong kỳ nhưng bị trả sau kỳ. Không làm đổi số kỳ này (ghi 0), sổ cái sẽ ghi giảm vào kỳ sau
+    #"Dòng trả sau kỳ" = if Table.RowCount(#"Trả sau kỳ") = 0 then {} else {#"Dòng"("Đối soát hàng trả × ngày trả", "WEB",
+        Text.From(Table.RowCount(#"Trả sau kỳ")) & " đơn giao trong kỳ bị trả sau kỳ (tháng " & Text.Combine(List.Transform(List.Sort(List.Distinct(#"Trả sau kỳ"[return_period])), #"Tháng"), ", ")
+            & "): " & #"Số"(List.Sum(#"Trả sau kỳ"[net_usd_daily])) & " USD theo tỷ giá ngày đặt sẽ ghi giảm doanh thu kỳ sau. Dữ liệu chỉ lấy đến ngày " & #"Ngày"(#"Ngày lấy dữ liệu")
+            & ", nên đơn giao những ngày cuối kỳ vẫn có thể bị trả thêm. Không làm đổi số kỳ này",
+        0, Text.Combine(List.Sort(List.Distinct(#"Trả sau kỳ"[return_period])), ", "), #"Nhóm"("returns"),
+        "Theo dõi: kỳ sau đối chiếu hàng trả của các đơn giao kỳ này", "Tài chính", "Đã giải thích")},
     // Phí vận chuyển
     #"Dòng phí vận chuyển" = {#"Dòng"("Rà bút toán tay của sổ cái", "Sổ cái",
         Text.From(Table.RowCount(#"Phí vận chuyển")) & " bút toán tay MJ-SHIP ghi phí vận chuyển vào doanh thu online; Flash không có khoản này",
@@ -115,15 +136,16 @@ let
         #"Khoản"("fx"), #"Cả kỳ", #"Nhóm"("fx"), "Trình bày riêng một dòng; không sửa", "Tài chính", "Đã giải thích")},
     // Làm tròn
     #"Dòng làm tròn" = {#"Dòng"("Bảng cầu nối: dòng làm tròn", "Flash, sổ cái",
-        "Flash làm tròn từng dòng đến USD, sổ cái làm tròn từng bút toán đến 2 chữ số",
+        "Flash làm tròn từng dòng đến USD, sổ cái làm tròn từng bút toán đến 2 chữ số; tháng lớn nhất " & #"Tháng"(#"Tháng làm tròn lớn nhất"[period])
+            & ": " & #"Số"(#"Tháng làm tròn lớn nhất"[usd]) & " USD (ngưỡng chấp nhận 5 USD/tháng)",
         #"Khoản"("rounding"), #"Cả kỳ", #"Nhóm"("rounding"), "Ghi một dòng, không đào thêm", "Tài chính", "Đã giải thích")},
     // Bút toán chưa giải thích được
     #"Dòng chưa giải thích" = Table.TransformRows(#"Bút toán ADJ", (r) => #"Dòng"("So tổng theo kênh: tổng các kênh thiếu so với tổng sổ cái", "Sổ cái",
-        "Bút toán " & r[journal_id] & " (" & r[source_ref] & ") ghi " & #"Số"(r[revenue_usd]) & " USD doanh thu, không gắn kênh, không có giấy tờ làm căn cứ",
+        "Bút toán " & r[journal_id] & " (" & r[source_ref] & (if r[description] = null then "" else ", diễn giải: " & r[description]) & ") ghi " & #"Số"(r[revenue_usd]) & " USD doanh thu, không gắn kênh, không có giấy tờ làm căn cứ",
         r[revenue_usd], r[period], #"Nhóm"("unexplained"), "Yêu cầu phòng Tài chính gửi chứng từ; không gán vào khoản khác", "Tài chính", "Chờ phản hồi")),
     // Nối mọi dòng theo thứ tự
     #"Mọi dòng" = Table.FromRecords(#"Dòng chiết khấu" & #"Dòng POS trùng" & #"Dòng đơn hủy" & #"Dòng lệch thời điểm online" & #"Dòng lệch ngày ghi sổ"
-        & #"Dòng lỗi chuyển dữ liệu" & #"Dòng hàng trả" & #"Dòng phí vận chuyển" & #"Dòng chuyển kênh" & #"Dòng tỷ giá" & #"Dòng làm tròn" & #"Dòng chưa giải thích"),
+        & #"Dòng lỗi chuyển dữ liệu" & #"Dòng hàng trả" & #"Dòng trả sau kỳ" & #"Dòng phí vận chuyển" & #"Dòng chuyển kênh" & #"Dòng tỷ giá" & #"Dòng làm tròn" & #"Dòng chưa giải thích"),
     // Đánh mã EX-01, EX-02, …
     #"Đánh số" = Table.AddIndexColumn(#"Mọi dòng", "stt", 1, 1, Int64.Type),
     // Cột mã
