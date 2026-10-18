@@ -95,6 +95,15 @@ try {
             if ($c.Name -match 'pct') { $c.DataBodyRange.NumberFormat = '0.00%' }
             elseif ($c.Name -match 'usd') { $c.DataBodyRange.NumberFormat = '#,##0.00' }
         }
+        # Tô chữ đỏ, đậm cho dòng chưa đạt: cột trang_thai khác "Đạt", cột dat bằng FALSE
+        foreach ($c in $lo.ListColumns) {
+            if ($null -eq $c.DataBodyRange) { continue }
+            $first = $c.DataBodyRange.Cells.Item(1).Address(0, 0)
+            $fc = $null
+            if ($c.Name -eq 'trang_thai') { $fc = $c.DataBodyRange.FormatConditions.Add(2, [Type]::Missing, ('=' + $first + '<>"Đạt"')) }
+            elseif ($c.Name -eq 'dat') { $fc = $c.DataBodyRange.FormatConditions.Add(2, [Type]::Missing, ('=' + $first + '=FALSE')) }
+            if ($fc) { $fc.Font.Color = 255; $fc.Font.Bold = $true }
+        }
         # Giãn cột theo bảng (không theo dòng tiêu đề dài ở ô A1)
         [void]$lo.Range.Columns.AutoFit()
     }
