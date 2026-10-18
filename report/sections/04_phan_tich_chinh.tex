@@ -156,4 +156,40 @@ Có hai điểm nhóm phải cân nhắc khi viết lại:
 Toàn bộ công thức nằm trong \texttt{powerbi/dax\_measures.dax}; truy vấn so và kết quả nằm trong \texttt{powerbi/checks/}.
 
 \subsection{Dashboard}
-\choviet{dashboard}
+
+Dashboard Power BI có 4 trang, làm theo yêu cầu ở slide 11--14. Mỗi trang dành cho một người đọc:
+\begin{itemize}
+  \item \textbf{Trang 1 (Tổng quan), cho Giám đốc Tài chính:} chênh lệch bao nhiêu, bao nhiêu do quy tắc ghi nhận, bao nhiêu là lỗi (Hình~\ref{fig:dash1}).
+  \item \textbf{Trang 2 (Cầu nối):} từng khoản đi từ Flash đến sổ cái, kèm bảng đối chiếu DAX -- Power Query theo tháng (Hình~\ref{fig:dash2}).
+  \item \textbf{Trang 3 (Đối soát chi tiết), cho kế toán:} bảng các ô cửa hàng $\times$ ngày còn lệch; bấm một dòng thì các hình khác lọc theo ô đó.
+  \item \textbf{Trang 4 (Hoàn trả, hủy và chất lượng dữ liệu):} hàng trả, đơn hủy, bút toán tay và 13 phép kiểm tra dữ liệu.
+\end{itemize}
+Ảnh trang 3 và 4 ở Phụ lục~F.
+
+Ba điểm thiết kế:
+\begin{itemize}
+  \item \textbf{Số và lời đi cùng nhau.} Mỗi trang mở đầu bằng câu ``Điểm chính''. Câu này và tiêu đề các biểu đồ đều là công thức DAX, nên đổi tháng thì lời đổi theo; ví dụ ``Sổ cái thấp hơn Flash ở 11/12 tháng'', ``4 tháng còn lệch quá 200 USD sau khi trừ quy tắc ghi nhận''.
+  \item \textbf{Bộ lọc dùng chung.} Ba bộ lọc tháng (mặc định 12/2025), kênh và quốc gia nằm ở đầu mỗi trang và đồng bộ giữa 4 trang. Biểu đồ 12 tháng không bị bộ lọc tháng tác động, để luôn thấy xu hướng. Chọn một nước thì kênh online tự bị bỏ, vì Flash chia online theo 5 thị trường, không khớp 8 nước của cửa hàng.
+  \item \textbf{Chỉ một màu nhấn.} Flash màu xám, sổ cái màu xanh. Màu đỏ chỉ dùng cho chỗ vượt ngưỡng: tháng còn lệch quá 200 USD, ô cửa hàng $\times$ tháng có cờ, bút toán không có giấy tờ, phép kiểm tra dữ liệu ``Cần xem''.
+\end{itemize}
+
+Số trên dashboard khớp Power Query. Truy vấn DAX \texttt{powerbi/checks/dashboard\_numbers.dax} cho ra:
+\begin{itemize}
+  \item 4 nhóm cả năm đúng bằng bảng cầu nối.
+  \item \SoOCuaHang{} ô cửa hàng $\times$ ngày; \SoDashOLechGhiSo{} ô lệch khi so theo ngày ghi sổ, so với \SoDashOLechNgayBan{} ô nếu so theo ngày bán.
+  \item \SoDashDongTrung{} dòng POS trùng, \SoDashDonHuy{} đơn hủy, \SoDashButToanTay{} bút toán tay.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../powerbi/checks/dashboard_trang_1.png}
+
+\capfig{Dashboard trang 1 (Tổng quan), tháng 12/2025. Thác nước đi từ Flash qua 4 nhóm đến sổ cái; cột đỏ ở góc dưới phải là các tháng còn lệch quá 200 USD sau khi trừ quy tắc ghi nhận. Số hiển thị theo kiểu Anh -- Mỹ (dấu phẩy ngăn hàng nghìn) vì mô hình Power BI đặt vùng en-US.}\label{fig:dash1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../powerbi/checks/dashboard_trang_2.png}
+
+\capfig{Dashboard trang 2 (Cầu nối), tháng 12/2025. Thác nước từng khoản đi từ 0 đến tổng chênh lệch (cột cuối); bảng góc dưới phải đối chiếu tổng các khoản tính bằng DAX với Power Query từng tháng.}\label{fig:dash2}
+\end{figure}

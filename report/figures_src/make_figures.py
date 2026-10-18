@@ -446,4 +446,10 @@ macros.update({
     "SoDaxCoTruoc": str(int(fl.ca_ky_truoc)), "SoDaxCoSau": str(int(fl.ca_ky_sau)),
     "SoDaxCoTruocThangMuoiMot": str(int(fl.thang_11_truoc)), "SoDaxCoSauThangMuoiMot": str(int(fl.thang_11_sau)),
 })
+# Số của dashboard (truy vấn powerbi/checks/dashboard_numbers.dax)
+dn = pd.read_csv(CHK / "dashboard_numbers.csv", encoding="utf-8-sig").iloc[0]
+macros.update({
+    "SoDashOLechGhiSo": vn(dn.ky_o_lech_ngay_ghi_so), "SoDashOLechNgayBan": vn(dn.ky_o_lech_ngay_ban),
+    "SoDashDongTrung": vn(dn.ky_dong_trung), "SoDashDonHuy": vn(dn.ky_don_huy), "SoDashButToanTay": vn(dn.ky_but_toan_tay),
+})
 write("so_lieu.tex", "\n".join(f"\\newcommand{{\\{n}}}{{{v}}}" for n, v in macros.items()) + "\n")
