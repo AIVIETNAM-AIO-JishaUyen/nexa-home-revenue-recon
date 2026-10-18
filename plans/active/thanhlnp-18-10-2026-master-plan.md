@@ -99,7 +99,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 5 | `report-skeleton` | Xong 18/10 | [thanhlnp-18-10-2026-report-skeleton.md](../completed/thanhlnp-18-10-2026-report-skeleton.md) |
 | 6 | `transactions-quality` | Xong 18/10 | [thanhlnp-18-10-2026-transactions-quality.md](../completed/thanhlnp-18-10-2026-transactions-quality.md) |
 | 7 | `store-recon` | Xong 18/10 | [thanhlnp-18-10-2026-store-recon.md](../completed/thanhlnp-18-10-2026-store-recon.md) |
-| 8 | `web-return-recon` | Chưa làm | |
+| 8 | `web-return-recon` | Xong 18/10 | [thanhlnp-18-10-2026-web-return-recon.md](../completed/thanhlnp-18-10-2026-web-return-recon.md) |
 | 9 | `bridge-monthly` | Chưa làm | |
 | 10 | `bridge-template-log` | Chưa làm | |
 | 11 | `dax-bridge` | Chưa làm | |
@@ -142,6 +142,7 @@ Mỗi plan từ số 2 trở đi có bước cuối là viết phần báo cáo 
 | 18/10 | Xong plan 5 `report-skeleton` – **đủ các việc của Mốc 2** | <ul><li>Báo cáo LaTeX đủ khung 8 phần + phụ lục, ra PDF 14 trang</li><li>Phần I–III viết thật; bảng, hình, số trong lời văn sinh tự động từ file Excel Power Query</li><li>3 câu hỏi riêng của nhóm, đo được bằng số</li></ul> | Câu hỏi riêng số 1 đã thay sau rà soát (backlog mục 6) |
 | 18/10 | Xong plan 6 `transactions-quality` | <ul><li>Bảng giao dịch chung 26.565 dòng, USD theo 2 tỷ giá, khớp bảng kiểm tra Python mọi tháng</li><li>Sheet chất lượng dữ liệu 13 phép; 4 "Cần xem" ứng với 3 lỗi đã biết</li></ul> | Thêm phép kiểm tra cho dữ liệu tháng mới sau rà soát |
 | 18/10 | Plan 7 `store-recon`: đối soát cửa hàng × ngày ghi sổ, cờ vượt ngưỡng trước/sau, lệch ngày ghi sổ; phần IV.1 | <ul><li>5.120 ô: 5.118 khớp, 2 lệch (NX057 21/11 và 02/12, lỗi chuyển dữ liệu 7.227,56)</li><li>So theo ngày bán: 2.929 ô lệch (tháng 11: 347/453)</li><li>Cờ vượt ngưỡng: 137 lượt cửa hàng × tháng trước xử lý → 2 sau xử lý; tháng 11: 21 → 1</li><li>3 cặp tháng lệch ngày ghi sổ, cả năm 0</li><li>Tái lập được 22 cửa hàng (21 + online) và NX008 −716,19 của slide</li></ul> | Số −716,19 cần tỷ giá cuối tháng bán (không phải do làm tròn như ghi trước đó) |
+| 18/10 | Plan 8 `web-return-recon`: đối soát online × ngày giao và hàng trả × ngày trả, online theo tháng, lệch thời điểm online, bảng 5 lý do, danh mục khoản 4 nhóm; phần IV.2–IV.3 | <ul><li>Online 1.647/1.647 ô khớp, hàng trả 159/159</li><li>Online tháng 11: −12.064,26 → −0,01; 12/12 tháng vượt ngưỡng trước xử lý → 0 sau</li><li>Lệch thời điểm online −52.597,90 = +122.107,89 − 174.705,79; tháng 3 +281.787,98</li><li>5 lý do có số; danh mục khoản `q_BridgeItems` cho các plan sau</li></ul> | Mỗi lần dựng file Excel mất khoảng 15 phút; sửa 2 dòng ghi chú CSV bị dấu phẩy làm lệch cột |
 
 ---
 

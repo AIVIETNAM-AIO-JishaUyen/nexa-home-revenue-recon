@@ -96,3 +96,4 @@ Cập nhật bảng này mỗi khi tạo, xong hoặc hủy một plan.
 | [report-skeleton](completed/thanhlnp-18-10-2026-report-skeleton.md) | Việc 8 – Báo cáo (khung 8 phần, phần I–III); Việc 1 – câu hỏi riêng | thanhlnp | Xong | 18/10/2026 |
 | [transactions-quality](completed/thanhlnp-18-10-2026-transactions-quality.md) | Việc 2 – Nạp và làm sạch dữ liệu (bảng giao dịch chung, chất lượng dữ liệu) | thanhlnp | Xong | 18/10/2026 |
 | [store-recon](completed/thanhlnp-18-10-2026-store-recon.md) | Việc 3 – Đối soát chi tiết (phần cửa hàng) | thanhlnp | Xong | 18/10/2026 |
+| [web-return-recon](completed/thanhlnp-18-10-2026-web-return-recon.md) | Việc 3 – Đối soát chi tiết (online, hàng trả, 5 lý do, 4 nhóm) | thanhlnp | Xong | 18/10/2026 |

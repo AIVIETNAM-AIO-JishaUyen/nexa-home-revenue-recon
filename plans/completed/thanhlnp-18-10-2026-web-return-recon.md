@@ -8,12 +8,12 @@
 |---|---|
 | Người làm | Lê Nguyễn Phước Thành (thanhlnp), làm cùng AI (trí tuệ nhân tạo) Claude |
 | Ngày bắt đầu | 18/10/2026 |
-| Ngày xong | |
+| Ngày xong | 18/10/2026 |
 | Nhánh (branch) | `baseline` |
 | Thuộc việc nào trong roadmap | Việc 3 – Đối soát chi tiết (phần online, hàng trả, 5 lý do, 4 nhóm) |
 | Mốc phải đạt | Mốc 3 (23/10) |
 | Phần báo cáo liên quan | <ul><li>Phần IV.2 (đối soát online và hàng trả)</li><li>Phần IV.3 (5 lý do lệch, chứng minh bằng số; xếp 4 nhóm)</li><li>Câu hỏi riêng 3 (phần online)</li></ul> |
-| Trạng thái | Đang làm |
+| Trạng thái | Xong |
 | Plan liên quan | <ul><li>Làm sau plan: [store-recon](../completed/thanhlnp-18-10-2026-store-recon.md)</li><li>Plan tiếp theo dùng kết quả này: `bridge-monthly` (danh mục khoản, lệch thời điểm online), `bridge-template-log` (nhóm của từng khoản), `dashboard`</li></ul> |
 
 ---
@@ -176,8 +176,8 @@
 - **Các lần lưu vào Git (commit):** `3661ba0` (tạo plan), `d60e1c8` (đối soát online, hàng trả), `2233fa3` (online theo tháng, lệch thời điểm), `f3bbad9` (5 lý do, danh mục khoản), `0fb71e0` (số chuẩn), `f0abcb8` (nạp sheet, file Excel), `7f335ca` (báo cáo IV.2–IV.3), và các lần lưu ghi kết quả, rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
-- [ ] Không còn chỗ `< >` chưa điền.
-- [ ] Mọi con số trong plan đều ghi rõ lấy từ đâu.
-- [ ] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
-- [ ] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
-- [ ] Đã chuyển file sang `plans/completed/` bằng `git mv`.
+- [x] Không còn chỗ `< >` chưa điền.
+- [x] Mọi con số trong plan đều ghi rõ lấy từ đâu.
+- [x] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
+- [x] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
+- [x] Đã chuyển file sang `plans/completed/` bằng `git mv`.
