@@ -15,3 +15,7 @@ q_Transactions,Giao_dich_chung,Bảng giao dịch chung: mỗi dòng là 1 dòng
 q_FLASH,Flash,Flash sau khi xử lý (bỏ dòng tiêu đề và dòng TỔNG CỘNG) - truy vấn q_FLASH
 q_Store,Cua_hang,Danh mục cửa hàng: mã POS và mã NX bên kế toán - truy vấn q_Store
 q_Calendar,Lich,Lịch và ngày ghi sổ (bán ngày nghỉ thì ghi sổ ngày làm việc kế tiếp) - truy vấn q_Calendar
+q_RC_Store,Doi_soat_CH_ngay,Đối soát cửa hàng × ngày ghi sổ × loại tiền (so bằng nội tệ): 4 trường hợp; ô lệch xếp trên cùng - truy vấn q_RC_Store
+q_RC_Store_DayCompare,So_ngay_ban_ngay_ghi_so,Số ô cửa hàng × ngày lệch theo tháng: so theo ngày ghi sổ (đúng) và theo ngày bán chưa bỏ dòng trùng (chưa xử lý) - truy vấn q_RC_Store_DayCompare
+q_RC_Store_Month,Doi_soat_CH_thang,Cửa hàng × tháng: Sổ cái − POS trước và sau khi đưa về cùng cách tính (USD theo tỷ giá cuối tháng); ⚠ khi > 200 USD và > 1% |sổ cái| - truy vấn q_RC_Store_Month
+q_RC_Store_Timing,Lech_ngay_ghi_so,Lệch ngày ghi sổ của cửa hàng theo tháng (USD theo tỷ giá ngày bán): tháng trước âm bao nhiêu thì tháng sau dương bấy nhiêu - truy vấn q_RC_Store_Timing
