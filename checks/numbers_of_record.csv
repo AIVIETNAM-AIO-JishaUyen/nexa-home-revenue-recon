@@ -121,15 +121,15 @@ det_reclass_amount,detail,But toan MJ-RCL-2506 chuyen tu NX019 sang online,2025-
 nov_store_day_cells,nov,Thang 11 - so o cua hang x ngay,2025-11,STORE,453,count,slide 44
 nov_cells_mismatch_business_date,nov,Thang 11 - o lech neu so theo ngay ban,2025-11,STORE,347,count,slide 44
 nov_cells_mismatch_posting_date,nov,Thang 11 - o lech neu so theo ngay ghi so,2025-11,STORE,1,count,slide 44
-nov_stores_over_threshold_raw,nov,Thang 11 - cua hang vuot nguong khi chua xu ly,2025-11,STORE,22,count,slide 44 - gom 21 cua hang + 1 dong online (ma 999999 trong dashboard mau); tai lap o sheet Doi_soat_CH_thang (21) va plan web-return-recon (online)
+nov_stores_over_threshold_raw,nov,Thang 11 - cua hang vuot nguong khi chua xu ly,2025-11,STORE,22,count,slide 44 - gom 21 cua hang + 1 dong online (ma 999999 trong dashboard mau); tai lap o sheet Doi_soat_CH_thang (21) va Doi_soat_online_thang (online thang 11 cung vuot nguong)
 nov_stores_over_threshold_norm,nov,Thang 11 - cua hang vuot nguong sau khi dua ve cung cach tinh,2025-11,STORE,1,count,slide 44
 nov_nx057_delta,nov,Thang 11 - chenh lech NX057 sau khi dua ve cung cach tinh,2025-11,STORE,-7227.56,USD,slide 28 va 30 (slide 44 ghi -7.228)
 nov_nx057_delta_pct_gl,nov,Thang 11 - chenh lech NX057 chia |so cai|,2025-11,STORE,-0.746,ratio,slide 28 va 44
 nov_nx057_gl,nov,Thang 11 - so cai NX057,2025-11,STORE,9695,USD,slide 28 (lam tron)
 nov_nx057_pos_norm,nov,Thang 11 - POS NX057 sau khi dua ve cung cach tinh,2025-11,STORE,16923,USD,slide 28 (lam tron)
-nov_nx008_delta_raw,nov,Thang 11 - chenh lech NX008 khi chua xu ly (ve 0 sau khi xu ly),2025-11,STORE,-716,USD,slide 28 (lam tron); tai lap dung -716,19 o sheet Doi_soat_CH_thang: POS theo thang ban, ca dong trung, ty gia cuoi thang ban
+nov_nx008_delta_raw,nov,Thang 11 - chenh lech NX008 khi chua xu ly (ve 0 sau khi xu ly),2025-11,STORE,-716,USD,slide 28 (lam tron); tai lap dung -716.19 o sheet Doi_soat_CH_thang: POS theo thang ban + ca dong trung + ty gia cuoi thang ban
 nov_nx033_delta,nov,Thang 11 - chenh lech NX033 (trong nguong),2025-11,STORE,-14,USD,slide 28 (lam tron)
-nov_web_delta_order_date,nov,Thang 11 - chenh lech online neu so theo ngay dat,2025-11,WEB,-12064,USD,slide 28 va 44 (lam tron) - CHI THAM KHAO: tai lap o plan web-return-recon
+nov_web_delta_order_date,nov,Thang 11 - chenh lech online neu so theo ngay dat,2025-11,WEB,-12064,USD,slide 28 va 44 (lam tron) - tai lap dung -12064.26 o sheet Doi_soat_online_thang: don chua huy theo thang dat + ty gia cuoi thang dat; so cai = WEB_DELIVERY + WEB_RETURN
 nov_web_delta_delivery_date,nov,Thang 11 - chenh lech online neu so theo ngay giao,2025-11,WEB,0,USD,slide 44
 dec_rules_total,dec,Thang 12 - tong cac khoan quy tac ghi nhan,2025-12,COMPANY,-265721,USD,slide 43 (lam tron)
 dec_data_errors_total,dec,Thang 12 - tong cac khoan loi du lieu,2025-12,COMPANY,7228,USD,slide 43 (lam tron)
