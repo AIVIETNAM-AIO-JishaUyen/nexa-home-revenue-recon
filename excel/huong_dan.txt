@@ -10,14 +10,33 @@ File đã đặt sẵn bỏ qua mức riêng tư (privacy level) vì mọi ngu�
 CÁC SHEET
 Huong_dan: trang này.
 Cai_dat: ô đường dẫn thư mục dữ liệu (tên FolderPath).
-Kiem_tra: so 13 chỉ tiêu với bảng tổng kiểm soát QC_Summary của đề (QC = Quality Control, kiểm soát chất lượng). Khi trích số từ sheet này vào báo cáo thì ghi nhãn nguồn [QC].
-Bay_du_lieu: 5 bẫy khi nạp dữ liệu, mỗi bẫy có số trước và sau khi xử lý, chỉ rõ truy vấn và bước xử lý.
-Chenh_lech_thang: Flash, sổ cái, chênh lệch theo từng tháng và cả năm.
-Chenh_lech_kenh: Flash, sổ cái, chênh lệch theo kênh bán (cửa hàng, online, chưa gắn kênh).
-Flash: bảng Flash sau khi xử lý.
-Cua_hang: danh mục cửa hàng.
-Lich: lịch từng ngày; cột posting_date là ngày ghi sổ (bán vào ngày nghỉ thì ghi sổ vào ngày làm việc kế tiếp).
-Các bảng lớn và bảng phụ chỉ tạo kết nối, không nạp ra sheet: q_POS, q_WEB, q_GL, q_WEB_Raw, q_FLASH_Raw, q_FX_Daily, q_FX_MonthEnd. Xem từng bước của mọi truy vấn ở Data > Queries & Connections.
+Kiem_tra: [QC] So 13 chỉ tiêu với bảng tổng kiểm soát QC_Summary của đề (cột dat phải TRUE ở mọi dòng).
+Chat_luong_du_lieu: [QC] Kiểm tra chất lượng dữ liệu: cột trang_thai phải là Đạt ở mọi dòng (Cần xem = có lỗi cần giải thích).
+Bay_du_lieu: 5 bẫy khi nạp dữ liệu: số trước và sau khi xử lý.
+Chenh_lech_thang: Chênh lệch theo tháng: Sổ cái − Flash (USD); % chia cho Flash.
+Chenh_lech_kenh: Chênh lệch theo kênh bán cả năm: Sổ cái − Flash (USD).
+Giao_dich_chung: Bảng giao dịch chung: mỗi dòng là 1 dòng POS hoặc 1 đơn online; USD theo tỷ giá ngày và tỷ giá cuối tháng.
+Flash: Flash sau khi xử lý (bỏ dòng tiêu đề và dòng TỔNG CỘNG).
+Cua_hang: Danh mục cửa hàng: mã POS và mã NX bên kế toán.
+Lich: Lịch và ngày ghi sổ (bán ngày nghỉ thì ghi sổ ngày làm việc kế tiếp).
+Doi_soat_CH_ngay: Đối soát cửa hàng × ngày ghi sổ × loại tiền (so bằng nội tệ): 4 trường hợp; ô lệch xếp trên cùng.
+So_ngay_ban_ngay_ghi_so: Số ô cửa hàng × ngày lệch theo tháng: so theo ngày ghi sổ (đúng) và theo ngày bán chưa bỏ dòng trùng (chưa xử lý).
+Doi_soat_CH_thang: Cửa hàng × tháng: Sổ cái − POS trước và sau khi đưa về cùng cách tính (USD theo tỷ giá cuối tháng); ⚠ khi > 200 USD và > 1% |sổ cái|.
+Lech_ngay_ghi_so: Lệch ngày ghi sổ của cửa hàng theo tháng (USD theo tỷ giá ngày bán): tháng trước âm bao nhiêu thì tháng sau dương bấy nhiêu.
+Doi_soat_online: Đối soát online × ngày giao × loại tiền (so bằng nội tệ) với bút toán WEB_DELIVERY: 4 trường hợp; ô ngoài kỳ đối soát để riêng.
+Doi_soat_hang_tra: Đối soát hàng trả × ngày trả × loại tiền (so bằng nội tệ) với bút toán WEB_RETURN: 4 trường hợp; ô ngoài kỳ đối soát để riêng.
+Doi_soat_online_thang: Kênh online theo tháng: Sổ cái − WEB trước (theo tháng đặt) và sau (theo tháng giao trừ hàng trả theo tháng trả); USD theo tỷ giá cuối tháng; ⚠ khi > 200 USD và > 1% |sổ cái|.
+Lech_thoi_diem_online: Lệch thời điểm online theo tháng (theo tháng giao − theo tháng đặt; USD theo tỷ giá ngày đặt) và phần đơn vắt qua năm.
+Nam_ly_do: 5 lý do khiến Flash và sổ cái lệch nhau: mỗi lý do có số đếm và số tiền tính từ dữ liệu.
+Danh_muc_khoan: Danh mục khoản cầu nối: thứ tự; nhóm (1 trong 4 nhóm); thuộc lý do nào; vì sao xếp vào nhóm đó.
+BR_Long: Bảng cầu nối 12 tháng dạng dài: bảng (COMPANY = STORE + WEB + UNALLOCATED) × tháng × khoản; dòng check = Flash + các khoản − sổ cái.
+Canh_bao_cau_noi: [Cảnh báo] Bảng cầu nối: phần chưa giải thích ≤ 200 USD; làm tròn ≤ 5 USD; dòng kiểm tra ≤ 1 USD (Cần xem = vượt ngưỡng).
+Cau_noi_toan_cong_ty: Bảng cầu nối toàn công ty dạng ngang: khoản × tháng và cả năm (USD).
+Nhat_ky_du_lieu: Nhật ký ngoại lệ (dữ liệu cho sheet Nhat_ky_ngoai_le): mỗi khoản lệch một dòng; tổng cột Ảnh hưởng = tổng chênh lệch cả năm.
+Doi_thu_tu: Nếu đổi thứ tự các bước cầu nối thì hai khoản đổi số ngược chiều; tổng không đổi (USD cả năm toàn công ty).
+Cau_noi, Cau_noi_cua_hang, Cau_noi_online: bảng cầu nối theo file mẫu nộp của đề (toàn công ty, cửa hàng, online); ô vàng là công thức SUMIFS đọc bảng q_BR_Long, không ô số nào gõ tay; dòng Kiểm tra phải bằng 0.
+Nhat_ky_ngoai_le: nhật ký ngoại lệ theo file mẫu nộp; mỗi ô đọc bảng q_ExceptionLog (sheet Nhat_ky_du_lieu).
+Các bảng lớn và bảng phụ chỉ tạo kết nối, không nạp ra sheet: q_FX_Daily, q_FX_MonthEnd, q_WEB_Raw, q_FLASH_Raw, q_POS, q_WEB, q_GL. Xem từng bước của mọi truy vấn ở Data > Queries & Connections.
 
 QUY ƯỚC
 Chênh lệch = Sổ cái - Flash. Số âm nghĩa là sổ cái thấp hơn Flash.
