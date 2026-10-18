@@ -9,7 +9,9 @@ let
     // Hàm cộng một cột theo tháng, gắn tên bảng và mã khoản; dau = +1 hoặc −1
     #"Cộng theo tháng" = (t as table, cot_thang as text, cot_tien as text, bang as text, khoan as text, dau as number) as table =>
         let
+            // Cộng cột tiền theo cột tháng, nhân dấu
             nhom = Table.Group(t, {cot_thang}, {{"usd", each dau * List.Sum(Table.Column(_, cot_tien)), type number}}),
+            // Đổi tên cột tháng thành period (nếu chưa phải)
             doi_ten = if cot_thang = "period" then nhom else Table.RenameColumns(nhom, {{cot_thang, "period"}})
         in
             Table.AddColumn(Table.AddColumn(doi_ten, "bridge", each bang, type text), "item_code", each khoan, type text),
@@ -36,17 +38,17 @@ let
     // Hàm lọc bút toán tay theo phần đầu mã tham chiếu (MJ-SHIP, MJ-RCL, MJ-ADJ)
     #"Bút toán tay" = (kenh as text, ma as text) as table =>
         Table.SelectRows(#"Sổ cái", each [channel] = kenh and [source_ref] <> null and Text.StartsWith([source_ref], ma)),
-    // Sổ cái theo kênh
+    // Sổ cái của kênh cửa hàng
     #"Sổ cái cửa hàng" = Table.SelectRows(#"Sổ cái", each [channel] = "STORE"),
     // Sổ cái online
     #"Sổ cái online" = Table.SelectRows(#"Sổ cái", each [channel] = "WEB"),
     // Sổ cái chưa gắn kênh
     #"Sổ cái chưa gắn kênh" = Table.SelectRows(#"Sổ cái", each [channel] = "UNALLOCATED"),
-    // Bút toán POS ghi tự động
-    #"Bút toán POS" = Table.SelectRows(#"Sổ cái", each Text.StartsWith([journal_type], "POS_")),
+    // Bút toán POS ghi tự động (POS_DAILY và bút toán ghi bù POS_CATCHUP)
+    #"Bút toán POS" = Table.SelectRows(#"Sổ cái", each [journal_type] = "POS_DAILY" or [journal_type] = "POS_CATCHUP"),
     // Bút toán online ghi tự động (giao hàng và hàng trả)
     #"Bút toán online" = Table.SelectRows(#"Sổ cái", each [journal_type] = "WEB_DELIVERY" or [journal_type] = "WEB_RETURN"),
-    // Flash theo kênh
+    // Flash của kênh cửa hàng
     #"Flash cửa hàng" = Table.SelectRows(q_FLASH, each [channel_code] = "STORE"),
     // Flash online
     #"Flash online" = Table.SelectRows(q_FLASH, each [channel_code] = "WEB"),

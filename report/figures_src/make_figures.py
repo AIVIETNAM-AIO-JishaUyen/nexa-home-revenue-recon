@@ -275,23 +275,25 @@ SHORT = {"discount": "Chiết khấu", "pos_duplicate": "Dòng trùng", "cancell
          "fx": "Tỷ giá", "rounding": "Làm tròn", "unexplained": "Chưa giải\nthích (ADJ)"}
 fig, ax = plt.subplots(figsize=(8.6, 4.0), dpi=200)
 labels, run = ["Flash"], fl
-ax.bar(0, fl / 1e6, color=INK2, width=0.62)
+ax.bar(0, fl / 1e6, color=INK2, width=0.62, zorder=2)
 for i, (_, r) in enumerate(steps.iterrows(), start=1):
     v = r.year
-    ax.bar(i, v / 1e6, bottom=run / 1e6, color=ACCENT if v > 0 else GREY, width=0.62)
-    ax.annotate(vn(v / 1000) + "k" if abs(v) >= 1000 else vn(v, 2), (i, (run + max(v, 0)) / 1e6), xytext=(0, 3), textcoords="offset points",
+    ax.bar(i, v / 1e6, bottom=run / 1e6, color=ACCENT if v > 0 else GREY, width=0.62, zorder=2)
+    # Nhãn: số USD đầy đủ (làm tròn đến USD), khoản dưới 1.000 USD giữ 2 chữ số thập phân; không dùng ký hiệu "k"
+    ax.annotate(vn(v) if abs(v) >= 1000 else vn(v, 2), (i, (run + max(v, 0)) / 1e6), xytext=(0, 3), textcoords="offset points",
                 ha="center", fontsize=7.5, color=INK)
     run += v
     labels.append(SHORT.get(r.item_code, r.item_code))
-ax.bar(len(labels), gl_y / 1e6, color=INK2, width=0.62)
+ax.bar(len(labels), gl_y / 1e6, color=INK2, width=0.62, zorder=2)
 labels.append("Sổ cái")
 ax.set_xticks(range(len(labels)), labels, fontsize=7.5)
 ax.set_ylim(28.0, 31.4)
+ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda y, _: vn(y, 1)))   # dấu phẩy thập phân kiểu Việt Nam
 ax.set_ylabel("Triệu USD")
 ax.grid(axis="y", color="#e6e5e0", linewidth=0.6, zorder=0)
 for side in ["top", "right"]:
     ax.spines[side].set_visible(False)
-ax.set_title(f"Chiết khấu, hàng trả, đơn hủy giải thích phần lớn mức chênh {vn((gl_y - fl) / 1e6, 2)} triệu USD",
+ax.set_title(f"Chiết khấu, hàng trả, đơn hủy giải thích phần lớn chênh lệch {vn((gl_y - fl) / 1e6, 2)} triệu USD",
              loc="left", fontsize=11, color=INK, fontweight="bold")
 fig.tight_layout()
 fig.savefig(OUT / "hinh_cau_noi_nam.png")

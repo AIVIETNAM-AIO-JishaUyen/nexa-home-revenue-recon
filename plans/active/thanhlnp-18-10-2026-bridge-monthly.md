@@ -144,7 +144,7 @@ Dựng **bảng cầu nối 12 tháng bằng Power Query** cho 4 bảng: cửa h
 ## 11. Chuẩn bị vấn đáp
 
 1. **Hỏi:** Dòng kiểm tra luôn bằng 0 có phải vì khoản tỷ giá được lấy làm phần dư không?
-   **Trả lời:** Không. Mọi khoản đều tính trực tiếp. Tỷ giá = bút toán sổ cái ghi tự động đổi theo tỷ giá cuối tháng chưa làm tròn trừ đi cũng các giao dịch đó theo tỷ giá ngày (slide 34); làm tròn = phần Flash làm tròn đến USD + phần sổ cái làm tròn từng bút toán. Nếu một khoản xếp nhầm tháng, dòng kiểm tra của tháng đó sẽ khác 0. Bảng tính Python viết độc lập cũng ra cùng số, lệch ≤ 0,00005.
+   **Trả lời:** Không. Mọi khoản đều tính trực tiếp. Tỷ giá = bút toán sổ cái ghi tự động đổi theo tỷ giá cuối tháng chưa làm tròn trừ đi cùng các giao dịch đó theo tỷ giá ngày (slide 34); làm tròn = phần Flash làm tròn đến USD + phần sổ cái làm tròn từng bút toán. Nếu một khoản xếp nhầm tháng, dòng kiểm tra của tháng đó sẽ khác 0. Bảng tính Python viết độc lập cũng ra cùng số, lệch ≤ 0,00005. Riêng dòng tỷ giá còn được kiểm bằng cách tính thứ hai trong bảng Python, đi từ từng giao dịch: nội tệ × (1 ÷ tỷ giá cuối tháng − 1 ÷ tỷ giá ngày); hai cách lệch 0,00 mỗi tháng (`checks/python_check_result.txt`).
 2. **Hỏi:** Toàn công ty có phải tính riêng không?
    **Trả lời:** Không, toàn công ty = cửa hàng + online + chưa gắn kênh, cộng từng khoản. Dòng chuyển kênh MJ-RCL (cửa hàng −3.480, online +3.480, tháng 6) cộng lại bằng 0 nên không có ở bảng toàn công ty; bút toán ADJ-0925 không thuộc kênh nào nên có bảng "chưa gắn kênh" riêng để tổng các kênh vẫn bằng tổng sổ cái.
 3. **Hỏi:** Tháng nào thật sự cần điều tra? (câu hỏi riêng 2)
@@ -161,7 +161,7 @@ Dựng **bảng cầu nối 12 tháng bằng Power Query** cho 4 bảng: cửa h
 - **Việc còn lại:**
   - File mẫu nộp đọc `BR_Long` bằng SUMIFS, nhật ký ngoại lệ, bảng so khi đổi thứ tự các bước → `bridge-template-log`.
   - Công thức DAX từng khoản, so với `BR_Long` → `dax-bridge`.
-- **Các lần lưu vào Git (commit):** `b88f3e4` (tạo plan), `7944a6c` (bảng cầu nối dạng dài), `bd7b051` (cảnh báo, bảng ngang), `954df2c` (nạp sheet, file Excel), `0a5ec63` (báo cáo IV.4, phụ lục D), và các lần lưu ghi kết quả, rà soát, đóng plan.
+- **Các lần lưu vào Git (commit):** `b88f3e4` (tạo plan), `7944a6c` (bảng cầu nối dạng dài), `bd7b051` (cảnh báo, bảng ngang), `954df2c` (nạp sheet, file Excel), `0a5ec63` (báo cáo IV.4, phụ lục D), `19478bd` (ghi kết quả, quyết định, chuẩn bị vấn đáp), và các lần lưu rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
 - [ ] Không còn chỗ `< >` chưa điền.
