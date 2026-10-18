@@ -48,6 +48,9 @@ Set-Content -Path $PidFile -Value $xlPid
 try {
     $xl.Visible = $false; $xl.DisplayAlerts = $false; $xl.AskToUpdateLinks = $false; $xl.EnableEvents = $false; $xl.ScreenUpdating = $false
     $wb = $xl.Workbooks.Add()
+    # Bỏ qua mức riêng tư khi ghép nguồn (Data > Get Data > Query Options > Privacy, mục của file này). Mọi nguồn là file trên máy,
+    # nên bỏ qua là an toàn; nếu không, Power Query tách nhỏ từng bước để kiểm tra mức riêng tư và làm mới chậm hơn rất nhiều
+    $wb.Queries.FastCombine = $true
     while ($wb.Worksheets.Count -gt 1) { $wb.Worksheets.Item($wb.Worksheets.Count).Delete() }
 
     # Sheet hướng dẫn
@@ -74,7 +77,8 @@ try {
         [void]$wb.Queries.Add($m.query, $code)
     }
 
-    # Nạp các truy vấn có tên sheet ra sheet, theo thứ tự trong manifest
+    # Bước 1: tạo bảng nạp (chưa làm mới) cho các truy vấn có tên sheet, theo thứ tự trong manifest
+    $tables = @()
     foreach ($m in ($manifest | Where-Object { $_.sheet -ne '' })) {
         $ws = $wb.Worksheets.Add([Type]::Missing, $wb.Worksheets.Item($wb.Worksheets.Count)); $ws.Name = $m.sheet
         $ws.Range('A1').Value2 = $m.title; $ws.Range('A1').Font.Bold = $true; $ws.Range('A1').Font.Size = 13
@@ -82,14 +86,24 @@ try {
         $lo = $ws.ListObjects.Add(0, $cs, [Type]::Missing, 1, $ws.Range('A3'))
         $lo.DisplayName = $m.query
         $qt = $lo.QueryTable; $qt.CommandType = 2; $qt.CommandText = 'SELECT * FROM [' + $m.query + ']'; $qt.BackgroundQuery = $false
-        try {
-            $t0 = Get-Date; [void]$qt.Refresh($false)
-            'OK   ' + $m.query + ' -> sheet ' + $m.sheet + ': ' + $lo.ListRows.Count + ' dòng, ' + [int]((Get-Date) - $t0).TotalSeconds + ' giây'
-        } catch {
-            'LỖI  ' + $m.query + ': ' + $_.Exception.Message
-            $errors++
-            continue
+        $tables += , @($m, $lo)
+    }
+    # Bước 2: làm mới tất cả một lần (giống Data > Refresh All). Làm mới chung thì các truy vấn dùng lại kết quả của nhau:
+    # khoảng 3 phút, thay vì gần 1 giờ nếu làm mới từng bảng (mỗi bảng tự tính lại từ đầu các truy vấn nó dùng)
+    $t0 = Get-Date
+    try { $wb.RefreshAll(); $xl.CalculateUntilAsyncQueriesDone() } catch { 'LỖI  Refresh All: ' + $_.Exception.Message }
+    'Làm mới toàn bộ: ' + [int]((Get-Date) - $t0).TotalSeconds + ' giây'
+    # Bước 3: soát từng bảng (bảng trống thì làm mới riêng để lấy thông báo lỗi), rồi định dạng
+    foreach ($t in $tables) {
+        $m = $t[0]; $lo = $t[1]
+        if ($lo.ListRows.Count -eq 0) {
+            try { [void]$lo.QueryTable.Refresh($false) } catch {
+                'LỖI  ' + $m.query + ': ' + $_.Exception.Message
+                $errors++
+                continue
+            }
         }
+        'OK   ' + $m.query + ' -> sheet ' + $m.sheet + ': ' + $lo.ListRows.Count + ' dòng'
         foreach ($c in $lo.ListColumns) {
             if ($null -eq $c.DataBodyRange) { continue }
             if ($c.Name -match 'pct') { $c.DataBodyRange.NumberFormat = '0.00%' }
