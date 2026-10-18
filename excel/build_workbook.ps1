@@ -88,8 +88,9 @@ try {
         $qt = $lo.QueryTable; $qt.CommandType = 2; $qt.CommandText = 'SELECT * FROM [' + $m.query + ']'; $qt.BackgroundQuery = $false
         $tables += , @($m, $lo)
     }
-    # Bước 2: làm mới tất cả một lần (giống Data > Refresh All). Làm mới chung thì các truy vấn dùng lại kết quả của nhau:
-    # khoảng 3 phút, thay vì gần 1 giờ nếu làm mới từng bảng (mỗi bảng tự tính lại từ đầu các truy vấn nó dùng)
+    # Bước 2: làm mới tất cả một lần (giống Data > Refresh All). Cùng với bỏ qua mức riêng tư ở trên: khoảng 3–5 phút.
+    # Trước đây (làm mới từng bảng, chưa bỏ qua mức riêng tư) mất khoảng 55 phút; chỉ đổi sang làm mới một lần mà chưa bỏ qua
+    # mức riêng tư thì vẫn quá 30 phút. Chưa đo riêng làm mới từng bảng khi đã bỏ qua mức riêng tư
     $t0 = Get-Date
     try { $wb.RefreshAll(); $xl.CalculateUntilAsyncQueriesDone() } catch { 'LỖI  Refresh All: ' + $_.Exception.Message }
     'Làm mới toàn bộ: ' + [int]((Get-Date) - $t0).TotalSeconds + ' giây'

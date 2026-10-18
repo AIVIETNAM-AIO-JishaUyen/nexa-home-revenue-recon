@@ -1,7 +1,7 @@
 ﻿# refresh_workbook.ps1 – Làm mới file Power Query đã dựng (giống bấm Data > Refresh All), không dựng lại từ đầu.
 # Cách chạy (PowerShell):  powershell -ExecutionPolicy Bypass -File excel\refresh_workbook.ps1 [-File <file Excel>] [-DataFolder <thư mục dữ liệu>] [-TimeoutSec 5400]
 # - Có -DataFolder thì ghi đường dẫn đó vào ô Cai_dat!B2 (tên FolderPath) trước khi làm mới; đây là ô duy nhất người dùng phải sửa khi đổi máy hoặc đổi thư mục.
-# - Làm mới toàn bộ mất khoảng 1 giờ (mỗi bảng tự tính lại các truy vấn nó dùng). Script tự giới hạn thời gian và chỉ tắt đúng tiến trình Excel do nó mở.
+# - Script bật bỏ qua mức riêng tư (FastCombine) rồi làm mới toàn bộ: khoảng 3–5 phút (chưa bật thì có thể mất cả giờ). Script tự giới hạn thời gian và chỉ tắt đúng tiến trình Excel do nó mở.
 param(
     [string]$File = '',
     [string]$DataFolder = '',

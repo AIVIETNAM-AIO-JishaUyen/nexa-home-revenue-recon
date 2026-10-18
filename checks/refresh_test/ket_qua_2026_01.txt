@@ -2,7 +2,7 @@
 [ĐẠT] Chat_luong_du_lieu: phép 1 (Dòng POS trùng khóa receipt_no + line_no): 12 → 13
 [ĐẠT] Số tháng của bảng cầu nối: 13 tháng, 2025-01 → 2026-01; 767 dòng
 [ĐẠT] Dòng kiểm tra (Flash + các khoản − sổ cái): 52 bảng × tháng, lớn nhất 0.000000 USD
-[ĐẠT] 12 tháng năm 2025 giữ nguyên: 708 dòng, lệch lớn nhất 0.000000 USD
+[ĐẠT] 12 tháng năm 2025 giữ nguyên: file gốc 708 dòng, file mới 708 dòng của các tháng này, khớp 708; lệch lớn nhất 0.000000 USD
 [ĐẠT] Tháng 01/2026 so với số mong đợi: 11 khoản, lệch lớn nhất 0.00 USD
  period      item_code  mong_doi  power_query  lech
 2026-01          flash 468890.00    468890.00   0.0
@@ -22,6 +22,6 @@ Cảnh báo cầu nối: 52 bảng × tháng, 2 cần xem: COMPANY 2025-09 (Ph�
 [ĐẠT] Online × ngày giao × loại tiền, tháng 01/2026: 88 ô, 88 khớp
 [ĐẠT] Hàng trả × ngày trả × loại tiền, tháng 01/2026: 9 ô, 9 khớp
 [ĐẠT] Nhật ký: tổng = chênh lệch cả kỳ: 18 dòng, tổng -2,327,076.88; sổ cái − Flash 13 tháng -2,327,076.88
-[ĐẠT] File mẫu Cau_noi: dòng kiểm tra: cột tháng: ['2025-01', '2025-02'] … (12 cột)
+[ĐẠT] File mẫu Cau_noi: dòng kiểm tra: 12 cột tháng (2025-01 → 2025-12), không có cột 2026-01; dòng kiểm tra ở 13 ô (các tháng và cả năm) đều bằng 0
 
 KẾT LUẬN: mọi phép so đạt

@@ -51,9 +51,13 @@ per = sorted(b1.period.unique())
 chk("Số tháng của bảng cầu nối", len(per) == 13 and per[-1] == "2026-01", f"{len(per)} tháng, {per[0]} → {per[-1]}; {len(b1)} dòng")
 ck = b1[b1.item_code == "check"]
 chk("Dòng kiểm tra (Flash + các khoản − sổ cái)", bool((ck.usd.abs() <= 1).all()), f"{len(ck)} bảng × tháng, lớn nhất {ck.usd.abs().max():.6f} USD")
+# So hai chiều: mọi dòng của file gốc có trong file mới, và file mới không có thêm dòng nào của các tháng cũ
 mm = b0.merge(b1, on=["bridge", "period", "item_code"], how="left", suffixes=("_goc", "_moi"))
-chk("12 tháng năm 2025 giữ nguyên", bool(mm.usd_moi.notna().all() and (mm.usd_goc - mm.usd_moi).abs().max() < 0.005),
-    f"{len(mm)} dòng, lệch lớn nhất {(mm.usd_goc - mm.usd_moi).abs().max():.6f} USD")
+n_cu_moi = int(b1.period.isin(b0.period.unique()).sum())
+chk("12 tháng năm 2025 giữ nguyên",
+    bool(mm.usd_moi.notna().all() and n_cu_moi == len(b0) and (mm.usd_goc - mm.usd_moi).abs().max() < 0.005),
+    f"file gốc {len(b0)} dòng, file mới {n_cu_moi} dòng của các tháng này, khớp {int(mm.usd_moi.notna().sum())}; "
+    f"lệch lớn nhất {(mm.usd_goc - mm.usd_moi).abs().max():.6f} USD")
 e = pd.read_csv(HERE / "expected_2026_01.csv")
 j = b1[(b1.bridge == "COMPANY") & (b1.period == "2026-01")].set_index("item_code").usd
 e["power_query"] = e.item_code.map(j).fillna(0).round(2)
@@ -84,12 +88,15 @@ delta = co[co.item_code == "gl"].usd.sum() - co[co.item_code == "flash"].usd.sum
 chk("Nhật ký: tổng = chênh lệch cả kỳ", abs(nk["Ảnh hưởng (USD)"].sum() - delta) < 0.01,
     f"{len(nk)} dòng, tổng {nk['Ảnh hưởng (USD)'].sum():,.2f}; sổ cái − Flash 13 tháng {delta:,.2f}")
 
-# 6. Sheet file mẫu: chỉ có 12 cột tháng của năm 2025, dòng kiểm tra vẫn bằng 0
+# 6. Sheet file mẫu: vẫn chỉ có các cột tháng của năm 2025 (giới hạn của file mẫu), dòng kiểm tra vẫn bằng 0
 wb = openpyxl.load_workbook(NEW, data_only=True)
 ws = wb["Cau_noi"]
+thang = [c.value for c in ws[1] if str(c.value or "")[:2] == "20" and len(str(c.value)) == 7]
 row = next(r for r in ws.iter_rows() if str(r[0].value or "").startswith("Kiểm tra"))
-vals = [c.value for c in row[1:14]]
-chk("File mẫu Cau_noi: dòng kiểm tra", all(abs(v or 0) <= 0.005 for v in vals), f"cột tháng: {[c.value for c in ws[1][1:13]][:2]} … (12 cột)")
+vals = [c.value for c in row[1:len(thang) + 2]]  # các cột tháng và cột cả năm
+chk("File mẫu Cau_noi: dòng kiểm tra", all(v is not None and abs(v) <= 0.005 for v in vals),
+    f"{len(thang)} cột tháng ({thang[0]} → {thang[-1]}){'' if '2026-01' in thang else ', không có cột 2026-01'}; "
+    f"dòng kiểm tra ở {len(vals)} ô (các tháng và cả năm) đều bằng 0")
 
 say()
 say("KẾT LUẬN: " + ("mọi phép so đạt" if not fails else "không đạt: " + ", ".join(fails)))

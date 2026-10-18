@@ -3,7 +3,7 @@ File này nạp 4 file dữ liệu và 4 bảng danh mục bằng Power Query (c
 
 CÁCH DÙNG
 1. Mở sheet Cai_dat, sửa ô B2 thành đường dẫn thư mục chứa dữ liệu (thư mục data của dự án), ví dụ D:\Nexa\data
-2. Chọn Data > Refresh All (Dữ liệu > Làm mới tất cả), chờ khoảng 3–5 phút. Không cần sửa truy vấn nào. Tháng mới: thay file dữ liệu trong thư mục (giữ phần đầu tên file, mỗi loại đúng 1 file) rồi làm mới.
+2. Chọn Data > Refresh All (Dữ liệu > Làm mới tất cả), chờ khoảng 3–5 phút. Không cần sửa truy vấn nào. Tháng mới: thay 4 file dữ liệu trong thư mục (giữ phần đầu tên file, mỗi loại đúng 1 file) và thay cả file danh mục Nexa_Home_Master_Data bằng bản mới (lịch đến ngày làm việc đầu tiên của tháng sau, tỷ giá của tháng mới, cửa hàng mới nếu có, bảng tổng kiểm soát QC_Summary của dữ liệu mới), rồi làm mới.
 3. Xem sheet Kiem_tra: cột dat (đạt) phải là TRUE ở mọi dòng.
 File đã đặt sẵn bỏ qua mức riêng tư (privacy level) vì mọi nguồn là file trên máy. Nếu Excel vẫn hỏi, hoặc làm mới chậm bất thường (hàng chục phút): vào Data > Get Data > Query Options > Current Workbook > Privacy và chọn Ignore the Privacy Levels.
 
