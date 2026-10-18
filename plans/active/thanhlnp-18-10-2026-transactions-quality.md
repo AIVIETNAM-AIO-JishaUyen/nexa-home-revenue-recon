@@ -69,18 +69,18 @@ Có **một bảng giao dịch chung** `q_Transactions` gộp mọi dòng POS (P
 
 | Kiểm tra | Số đúng | Lấy số đúng ở đâu | Số nhóm ra | Nhóm ra số ở đâu | Đạt? |
 |---|---:|---|---:|---|---|
-| Số dòng bảng giao dịch chung | 17.124 POS + 9.441 online = 26.565 | QC_Summary | | sheet `Giao_dich_chung` | |
-| Tiền trước giảm giá theo tỷ giá ngày, theo tháng bán/đặt, từng kênh (cơ sở của Flash chưa làm tròn) | Flash + phần Flash làm tròn, từng tháng | `checks/python_bridge.csv` | | sheet `Giao_dich_chung` (cộng bằng Python) | |
-| Chiết khấu, dòng trùng, đơn hủy theo tháng | khoản `discount`, `pos_duplicate`, `cancelled` | `checks/python_bridge.csv` | | như trên | |
-| Dòng thiếu tỷ giá, mã cửa hàng không ghép được | 0 / 0 | dữ liệu | | sheet `Chat_luong_du_lieu` | |
-| Dòng POS trùng / ô ngày có bán mà thiếu bút toán / bút toán không gắn cửa hàng | 12 / 1 / 1 | dashboard mẫu, slide 26, 35 | | sheet `Chat_luong_du_lieu` | |
-| Đơn hủy có ngày giao / giao trước ngày đặt / trả trước ngày giao / bán ở cửa hàng đã đóng | 0 / 0 / 0 / 0 | dashboard mẫu | | sheet `Chat_luong_du_lieu` | |
+| Số dòng bảng giao dịch chung | 17.124 POS + 9.441 online = 26.565 | QC_Summary | 26.565 (17.124 + 9.441) | sheet `Giao_dich_chung` | Đạt |
+| Tiền trước giảm giá theo tỷ giá ngày, theo tháng bán/đặt, từng kênh (cơ sở của Flash chưa làm tròn) | Flash + phần Flash làm tròn, từng tháng | `checks/python_bridge.csv` | Cả năm: cửa hàng 14.060.501,00; online (đơn đặt năm 2025) 17.063.900,96 | sheet `Giao_dich_chung` (cộng bằng Python) | Đạt |
+| Chiết khấu, dòng trùng, đơn hủy theo tháng | khoản `discount`, `pos_duplicate`, `cancelled` | `checks/python_bridge.csv` | <ul><li>Khớp cả 12 tháng, lệch lớn nhất 0,00005 USD (do file CSV chỉ ghi 4 chữ số lẻ)</li><li>So thêm lệch thời điểm online, lệch ngày ghi sổ, hàng trả: cũng khớp</li></ul> | như trên | Đạt |
+| Dòng thiếu tỷ giá, mã cửa hàng không ghép được | 0 / 0 | dữ liệu | 0 / 0 | sheet `Chat_luong_du_lieu`, dòng 8, 9 | Đạt |
+| Dòng POS trùng / ô ngày có bán mà thiếu bút toán / bút toán không gắn cửa hàng | 12 / 1 / 1 | dashboard mẫu, slide 26, 35 | 12 (NX007 ngày 29/03/2025) / 1 (NX057 ngày 21/11/2025) / 1 (JE20250904892, MJ-ADJ-2509) | sheet `Chat_luong_du_lieu`, dòng 1–3 | Đạt |
+| Đơn hủy có ngày giao / giao trước ngày đặt / trả trước ngày giao / bán ở cửa hàng đã đóng | 0 / 0 / 0 / 0 | dashboard mẫu | 0 / 0 / 0 / 0 | sheet `Chat_luong_du_lieu`, dòng 4–7 | Đạt |
 
 **Việc phải có (không phải con số):**
-- [ ] Bảng giao dịch chung có đủ cột ở `docs/cau_truc_du_lieu.md` mục 5.
-- [ ] Nối mã cửa hàng POS → mã NX qua `store_master` (không ghi cứng mã nào).
-- [ ] Sheet chất lượng dữ liệu có cột trạng thái tự đổi màu chữ "Đạt" / "Cần xem".
-- [ ] Mọi bước có tên tiếng Việt và ghi chú `//` ngay phía trên.
+- [x] Bảng giao dịch chung có đủ cột ở `docs/cau_truc_du_lieu.md` mục 5.
+- [x] Nối mã cửa hàng POS → mã NX qua `store_master` (không ghi cứng mã nào).
+- [x] Sheet chất lượng dữ liệu có cột trạng thái tự đổi màu chữ "Đạt" / "Cần xem".
+- [x] Mọi bước có tên tiếng Việt và ghi chú `//` ngay phía trên.
 
 ---
 
@@ -97,14 +97,14 @@ Có **một bảng giao dịch chung** `q_Transactions` gộp mọi dòng POS (P
 
 ## 7. Các bước
 
-- [ ] **Bước 1: Viết `q_Transactions`**
+- [x] **Bước 1: Viết `q_Transactions`**
   - Làm: phần POS (ghép mã NX, ngày ghi sổ, tỷ giá ngày, tỷ giá cuối tháng), phần online (ghép tỷ giá ngày đặt, tỷ giá cuối tháng của tháng giao và tháng trả), gộp 2 phần.
   - Kiểm tra: 26.565 dòng; không dòng nào thiếu tỷ giá ngày.
-- [ ] **Bước 2: Viết `q_DataQuality`, sửa dòng bẫy 5 của `q_Traps`**
+- [x] **Bước 2: Viết `q_DataQuality`, sửa dòng bẫy 5 của `q_Traps`**
   - Kiểm tra: 12 / 1 / 1 và các phép còn lại bằng 0.
-- [ ] **Bước 3: Dựng lại file, so với `python_bridge.csv`**
+- [x] **Bước 3: Dựng lại file, so với `python_bridge.csv`**
   - Kiểm tra: mọi dòng ở mục 5 đạt.
-- [ ] **Bước 4: Viết phần báo cáo, lưu vào Git (commit)**
+- [x] **Bước 4: Viết phần báo cáo, lưu vào Git (commit)**
 
 ---
 
@@ -112,6 +112,11 @@ Có **một bảng giao dịch chung** `q_Transactions` gộp mọi dòng POS (P
 
 | Ngày | Đã làm | Kết quả / số ra được | Vướng mắc, cách xử lý |
 |---|---|---|---|
+| 18/10 | Viết `q_Transactions` (phần POS, phần online, gộp, đổi USD theo 2 tỷ giá) và `q_DataQuality` (10 phép kiểm tra) | | <ul><li>Trước khi chạy đã thấy 2 lỗi: ghép bảng cửa hàng làm trùng tên cột mã POS (Power Query báo lỗi khi 2 bảng ghép có cột cùng tên) → đổi tên cột khóa bên bảng danh mục; toán tử `??` có thể chưa có trong Power Query của Excel 2021 → viết lại bằng `if … then … else`</li></ul> |
+| 18/10 | Sửa dòng bẫy 5 của `q_Traps`: lấy số USD từ bảng giao dịch chung | Dòng bẫy 5 trỏ đúng bước `Đổi ra USD theo tỷ giá ngày` | |
+| 18/10 | Dựng lại file Excel | <ul><li>9 sheet nạp, 26.565 dòng giao dịch</li><li>Khoảng 4 phút (trước là 2 phút), file khoảng 4 MB (megabyte)</li></ul> | |
+| 18/10 | So với `python_bridge.csv` bằng Python | Chiết khấu, dòng trùng, đơn hủy, lệch thời điểm online, lệch ngày ghi sổ, hàng trả: khớp mọi tháng; tỷ giá cửa hàng tính từ bảng giao dịch chung cũng khớp | |
+| 18/10 | Viết phần II.6 của báo cáo, sinh bảng chất lượng dữ liệu | PDF dựng lại được | |
 
 ---
 
@@ -119,6 +124,10 @@ Có **một bảng giao dịch chung** `q_Transactions` gộp mọi dòng POS (P
 
 | Ngày | Quyết định | Lý do | Có phải sửa file quy ước không |
 |---|---|---|---|
+| 18/10 | Bảng giao dịch chung giữ cả 12 dòng trùng (có cờ), không lọc | Bảng cầu nối cần chiết khấu của mọi dòng (kể cả dòng trùng, vì Flash có tính) và số tiền của dòng trùng | Không |
+| 18/10 | Thêm 3 cột tháng (`sale_period`, `recognition_period`, `return_period`) và cột `net_usd_month_end_return` | Mọi khoản cầu nối đều cộng theo một trong ba tháng này; tính sẵn một lần thì các truy vấn sau gọn hơn | Không (bổ sung vào `docs/cau_truc_du_lieu.md` mục 5) |
+| 18/10 | Sheet chất lượng dữ liệu có thêm 3 phép so với dashboard mẫu (thiếu tỷ giá, mã cửa hàng không ghép được, bút toán tay không có giấy tờ) | Rubric Band 5: "tự kiểm tra: đếm dòng trùng, ngày thiếu…"; phép số 10 lộ ra ADJ-0925 ngay ở bước nạp | Không |
+| 18/10 | Ô "ngày có bán mà thiếu bút toán" so theo **mã NX + ngày ghi sổ** | Bút toán sổ cái ghi theo ngày ghi sổ; so theo ngày bán sẽ ra hàng trăm ô lệch giả | Không |
 
 ---
 
@@ -126,11 +135,25 @@ Có **một bảng giao dịch chung** `q_Transactions` gộp mọi dòng POS (P
 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
+| 18/10 | Viết 2 truy vấn mới, sửa `q_Traps`, viết phần báo cáo | `excel/queries/q_Transactions.m`, `q_DataQuality.m`, phần sửa của `q_Traps.m`, `report/sections/02_du_lieu_chuan_bi.tex` (mục II.6) | <ul><li>So bảng giao dịch chung với bảng kiểm tra Python từng tháng, từng khoản</li><li>So kết quả kiểm tra chất lượng với dashboard mẫu của mentor (12 / 1 / 1 / 0 …)</li></ul> |
 
 ---
 
 ## 11. Chuẩn bị vấn đáp
 
+1. **Hỏi:** Bảng giao dịch chung khác bảng POS và bảng đơn online ở chỗ nào?
+   **Trả lời:** Cùng một dạng cho cả hai kênh: có mã cửa hàng bên kế toán (nối qua `store_master`), ngày bán / ngày đặt và ngày sổ cái ghi nhận, tiền trước giảm giá, chiết khấu, sau giảm giá, và USD theo cả tỷ giá ngày lẫn tỷ giá cuối tháng. Nhờ vậy mọi khoản cầu nối chỉ là cộng một cột theo một loại tháng.
+2. **Hỏi:** Sheet chất lượng dữ liệu bắt được những lỗi nào?
+   **Trả lời:** 4 phép "Cần xem", ứng với 3 lỗi: 12 dòng POS xuất trùng ở NX007 ngày 29/03/2025; ô NX057 ngày 21/11/2025 có bán mà sổ cái không có bút toán; bút toán ADJ-0925 vừa không gắn cửa hàng vừa không có giấy tờ. 6 phép còn lại bằng 0, ví dụ không có đơn hủy nào có ngày giao, không có dòng nào thiếu tỷ giá.
+
 ---
 
 ## 12. Kết quả khi đóng plan
+
+- **Điều kiện xong:** đạt hết 6 dòng số và 4 việc phải có (mục 5).
+- **Đã đưa vào báo cáo:** mục II.6 "Bảng giao dịch chung và kiểm tra chất lượng dữ liệu" (Bảng 7, sinh từ sheet `Chat_luong_du_lieu`).
+- **Việc còn lại:**
+  - Đối soát cửa hàng × ngày theo 4 trường hợp → `store-recon`.
+  - Đối soát online, hàng trả → `web-return-recon`.
+  - Dashboard trang 4 dùng sheet chất lượng dữ liệu → `dashboard`.
+- **Các lần lưu vào Git (commit):** `0820f3f` (tạo plan), `f0ec89f` (bảng giao dịch chung), `2607e54` (kiểm tra chất lượng, sửa bẫy 5), `c177e26` (nạp sheet, tô chữ đỏ), `859deb3` (file Excel), `7d6316f` (báo cáo, tài liệu), và các lần lưu đóng plan.
