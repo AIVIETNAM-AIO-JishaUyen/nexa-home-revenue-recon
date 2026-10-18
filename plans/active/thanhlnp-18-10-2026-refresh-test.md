@@ -69,17 +69,17 @@ Chứng minh file Power Query **chạy lại được cho tháng mới chỉ b�
 
 | Kiểm tra | Số đúng | Lấy số đúng ở đâu | Số nhóm ra | Nhóm ra số ở đâu | Đạt? |
 |---|---:|---|---:|---|---|
-| Sheet `Kiem_tra` (13 chỉ tiêu, so với QC_Summary mới) | 13/13 đạt | QC_Summary do script sinh dữ liệu ghi | | file đã làm mới | |
-| Sheet `Chat_luong_du_lieu` | Mọi phép kiểm tra đạt (số dòng trùng thêm 1 dòng giả) | Script sinh dữ liệu | | như trên | |
-| Bảng cầu nối: số tháng, dòng kiểm tra | 13 tháng; mọi bảng × tháng ≤ 1 USD | Điều kiện của plan tổng | | sheet `BR_Long`, `Canh_bao_cau_noi` | |
-| 12 tháng năm 2025 của `BR_Long` | Giống hệt file gốc | `excel/Nexa_Home_Recon_PQ.xlsx` | | như trên | |
-| Tháng 01/2026: Flash, sổ cái, chiết khấu, dòng trùng, đơn hủy, lệch thời điểm online, hàng trả, phí vận chuyển | Số mong đợi | `checks/refresh_test/expected_2026_01.csv` | | như trên | |
-| Đối soát cửa hàng × ngày, online × ngày × loại tiền của tháng 01/2026 (kể cả NX068) | Mọi ô khớp | Dữ liệu giả sinh sổ cái đúng bằng POS và đơn online | | sheet `Doi_soat_CH_ngay`, `Doi_soat_online` | |
+| Sheet `Kiem_tra` (13 chỉ tiêu, so với QC_Summary mới) | 13/13 đạt | QC_Summary do script sinh dữ liệu ghi | 13/13 đạt | file đã làm mới | Đạt |
+| Sheet `Chat_luong_du_lieu` | Chỉ phép 1 (dòng trùng) đổi, thêm đúng 1 dòng giả | Script sinh dữ liệu | Phép 1: 12 → 13; 12 phép còn lại giữ nguyên | như trên | Đạt |
+| Bảng cầu nối: số tháng, dòng kiểm tra | 13 tháng; mọi bảng × tháng ≤ 1 USD | Điều kiện của plan tổng | 13 tháng (767 dòng); 52 bảng × tháng, lớn nhất 0,000000 | sheet `BR_Long`, `Canh_bao_cau_noi` | Đạt |
+| 12 tháng năm 2025 của `BR_Long` | Giống hệt file gốc | `excel/Nexa_Home_Recon_PQ.xlsx` | 708/708 dòng, lệch 0 | như trên | Đạt |
+| Tháng 01/2026: Flash, sổ cái, chiết khấu, dòng trùng, đơn hủy, lệch thời điểm online, hàng trả, phí vận chuyển | Số mong đợi | `checks/refresh_test/expected_2026_01.csv` | 11/11 khoản, lệch 0,00 | như trên | Đạt |
+| Đối soát cửa hàng × ngày, online × ngày × loại tiền của tháng 01/2026 (kể cả NX068) | Mọi ô khớp | Dữ liệu giả sinh sổ cái đúng bằng POS và đơn online | <ul><li>Cửa hàng: 59/59 ô (NX068: 19 ô)</li><li>Online: 88/88 ô</li><li>Hàng trả: 9/9 ô</li></ul> | sheet `Doi_soat_CH_ngay`, `Doi_soat_online`, `Doi_soat_hang_tra` | Đạt |
 
 **Việc phải có (không phải con số):**
-- [ ] Không sửa file truy vấn nào; chỉ thay file dữ liệu và sửa ô `FolderPath`.
-- [ ] Bản sao nằm ở đường dẫn khác hẳn thư mục dự án.
-- [ ] Ghi lại thời gian làm mới.
+- [x] Không sửa file truy vấn nào; chỉ thay file dữ liệu và sửa ô `FolderPath`.
+- [x] Bản sao nằm ở đường dẫn khác hẳn thư mục dự án.
+- [x] Ghi lại thời gian làm mới.
 
 ---
 
@@ -96,12 +96,12 @@ Chứng minh file Power Query **chạy lại được cho tháng mới chỉ b�
 
 ## 7. Các bước
 
-- [ ] **Bước 1: Viết `make_fake_month.py`, sinh bản sao dữ liệu và số mong đợi**
+- [x] **Bước 1: Viết `make_fake_month.py`, sinh bản sao dữ liệu và số mong đợi**
   - Kiểm tra: đọc lại các file giả bằng pandas, đúng số dòng thêm vào.
-- [ ] **Bước 2: Viết `refresh_workbook.ps1`, chép file Excel sang bản sao, làm mới**
+- [x] **Bước 2: Viết `refresh_workbook.ps1`, chép file Excel sang bản sao, làm mới**
   - Kiểm tra: làm mới xong không lỗi, ghi thời gian.
-- [ ] **Bước 3: Viết `check_refresh.py`, so kết quả**
-- [ ] **Bước 4: Viết kết quả vào báo cáo phần II, lưu vào Git (commit)**
+- [x] **Bước 3: Viết `check_refresh.py`, so kết quả**
+- [x] **Bước 4: Viết kết quả vào báo cáo phần II, lưu vào Git (commit)**
 
 ---
 
@@ -110,6 +110,11 @@ Chứng minh file Power Query **chạy lại được cho tháng mới chỉ b�
 | Ngày | Đã làm | Kết quả / số ra được | Vướng mắc, cách xử lý |
 |---|---|---|---|
 | 18/10 | Đọc file danh mục, 4 file dữ liệu | <ul><li>Lịch, tỷ giá ngày, tỷ giá cuối tháng có đến 31/01/2026</li><li>File online đã có 105 đơn giao và 7 đơn trả trong tháng 01/2026; sổ cái năm 2025 chưa có bút toán nào của tháng này</li><li>Mã cửa hàng lớn nhất NX067 (mã POS 670); NX068 còn trống</li></ul> | |
+| 18/10 | Viết `make_fake_month.py`, sinh bản sao dữ liệu ở thư mục tạm của phiên làm việc | <ul><li>POS thêm 259 dòng (1 hóa đơn trùng), online thêm 96 đơn (3 hủy, 2 trả), sổ cái thêm 157 bút toán, Flash thêm 8 dòng</li><li>Số mong đợi tháng 01/2026: Flash 468.890, sổ cái 567.717,89, lệch thời điểm online +174.705,79 (đúng bằng 105 đơn đặt 12/2025 giao 01/2026)</li></ul> | Dòng trùng của file thật là cả hóa đơn xuất lại sáng hôm sau; dữ liệu giả làm giống vậy |
+| 18/10 | Viết `refresh_workbook.ps1`, làm mới bản sao (sửa ô `FolderPath`, Refresh All) | Làm mới toàn bộ chỉ mất 174 giây | Bất ngờ: dựng file từ đầu mất khoảng 55 phút |
+| 18/10 | Viết `check_refresh.py`, so kết quả | 11/11 phép so đạt, ghi ở `checks/refresh_test/ket_qua_2026_01.txt` | |
+| 18/10 | Tìm vì sao dựng chậm mà làm mới nhanh; sửa `build_workbook.ps1` | <ul><li>Lần dựng đầu sau khi đổi sang một lần Refresh All vẫn quá giờ 30 phút</li><li>Thêm bật bỏ qua mức riêng tư (FastCombine): dựng từ đầu còn 325 giây, làm mới 172–270 giây</li><li>24 sheet bảng giống hệt file cũ; sheet nhật ký chỉ dịch 2 dòng ghi chú xuống 1 dòng (nhật ký nay 18 dòng)</li></ul> | Plan tổng có ghi bật FastCombine nhưng script dựng chưa bao giờ bật; `refresh_workbook.ps1` có bật nên làm mới nhanh. Backlog mục 8 đã xử lý |
+| 18/10 | Viết mục II.8, sửa sheet hướng dẫn (thời gian làm mới, cách thay file tháng mới) | | |
 
 ---
 
@@ -117,6 +122,10 @@ Chứng minh file Power Query **chạy lại được cho tháng mới chỉ b�
 
 | Ngày | Quyết định | Lý do | Có phải sửa file quy ước không |
 |---|---|---|---|
+| 18/10 | Dữ liệu tháng mới đưa vào bằng cách **thay file** (file mới chứa cả dữ liệu cũ, giữ phần đầu tên), không đặt thêm file thứ hai cạnh file cũ | Đúng cách rubric mô tả ("thay file rồi refresh"); truy vấn hiện đọc đúng 1 file mỗi loại. Chạy thử với 4 tên file mới đều đọc đúng | Không (backlog mục 3 vẫn để người dùng chốt) |
+| 18/10 | Sổ cái giả được sinh để khớp đúng POS và đơn online | Mục đích là thử cách nạp và các phép tính chạy đúng cho tháng mới; lỗi dữ liệu cố ý chỉ có 1 hóa đơn trùng để xem phép kiểm tra có bắt được không | Không |
+| 18/10 | Bật bỏ qua mức riêng tư (FastCombine) trong file Power Query; làm mới một lần cho mọi bảng khi dựng | Mọi nguồn là file trên máy nên bỏ qua an toàn; thời gian dựng giảm từ khoảng 55 phút xuống khoảng 5 phút | Không |
+| 18/10 | Không thử làm mới Power BI với tháng mới | Power BI đọc file dữ liệu mentor chuẩn bị (chỉ năm 2025), không có bản tháng mới để thay; ghi ở giới hạn | Không |
 
 ---
 
@@ -124,14 +133,31 @@ Chứng minh file Power Query **chạy lại được cho tháng mới chỉ b�
 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
+| 18/10 | Sinh dữ liệu giả, viết script làm mới và script so, tìm nguyên nhân dựng chậm, viết mục II.8 | `checks/refresh_test/*.py`, `excel/refresh_workbook.ps1`, phần sửa trong `build_workbook.ps1`, mục II.8 | <ul><li>Số mong đợi tính thẳng từ dữ liệu giả bằng pandas, không qua Power Query</li><li>So 24 sheet bảng của file dựng lại với file cũ: giống hệt</li></ul> |
 
 ---
 
 ## 11. Chuẩn bị vấn đáp
 
+1. **Hỏi:** Tháng sau chạy lại thế nào?
+   **Trả lời:** Thay 4 file trong thư mục dữ liệu bằng bản mới (giữ phần đầu tên, mỗi loại 1 file), mở file Excel, chọn Data > Refresh All, chờ khoảng 3 phút, xem sheet `Kiem_tra` và `Canh_bao_cau_noi`. Kỳ đối soát lấy theo các tháng có trong Flash nên tự dài ra. Nhóm đã chạy thử với tháng 01/2026 giả và một cửa hàng mới: không sửa truy vấn nào, mọi phép kiểm tra đạt.
+2. **Hỏi:** Đổi máy thì sao?
+   **Trả lời:** Chỉ sửa ô `Cai_dat!B2` (đường dẫn thư mục dữ liệu). Đã thử với một thư mục khác hẳn; chưa thử trên một máy thật thứ hai.
+3. **Hỏi:** Có điều gì bất ngờ?
+   **Trả lời:** Làm mới chỉ mất 3 phút, trong khi script dựng file từ đầu mất 55 phút. Nguyên nhân là script dựng chưa bật bỏ qua mức riêng tư và làm mới từng bảng riêng. Sửa xong, dựng từ đầu còn khoảng 5 phút.
+4. **Hỏi:** Dữ liệu tháng mới có thể làm hỏng file ở đâu?
+   **Trả lời:** Ba chỗ: lịch phải có đến ngày làm việc đầu tiên của tháng sau (phép kiểm tra 12 sẽ báo nếu thiếu); bảng tỷ giá phải có tỷ giá cuối tháng mới (phép 11); sheet `Cau_noi` của file mẫu chỉ có 12 cột tháng 2025.
+
 ---
 
 ## 12. Kết quả khi đóng plan
+
+- **Điều kiện xong:** đạt hết 6 dòng số và 3 việc phải có (mục 5).
+- **Đã đưa vào báo cáo:** mục II.8 (chạy thử với một tháng mới, ba giới hạn).
+- **Việc còn lại:**
+  - Chạy trên máy thật thứ hai → backlog mục 2 (cần người dùng).
+  - Danh sách sheet trong sheet hướng dẫn (`excel/huong_dan.txt`) chưa có các sheet thêm từ plan 7 trở đi → `report-draft` hoặc `review-submit`.
+- **Các lần lưu vào Git (commit):** `3751a3f` (tạo plan), `3ffcf1c` (sinh dữ liệu giả, số mong đợi), `f393615` (dựng nhanh, sheet hướng dẫn, file Excel), `653b74f` (script làm mới, script so, kết quả), `18e2471` (báo cáo II.8), và các lần lưu ghi kết quả, rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
 - [ ] Không còn chỗ `< >` chưa điền.
