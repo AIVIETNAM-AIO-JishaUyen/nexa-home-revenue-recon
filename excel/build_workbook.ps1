@@ -83,8 +83,8 @@ try {
         $lo.DisplayName = $m.query
         $qt = $lo.QueryTable; $qt.CommandType = 2; $qt.CommandText = 'SELECT * FROM [' + $m.query + ']'; $qt.BackgroundQuery = $false
         try {
-            [void]$qt.Refresh($false)
-            'OK   ' + $m.query + ' -> sheet ' + $m.sheet + ': ' + $lo.ListRows.Count + ' dòng'
+            $t0 = Get-Date; [void]$qt.Refresh($false)
+            'OK   ' + $m.query + ' -> sheet ' + $m.sheet + ': ' + $lo.ListRows.Count + ' dòng, ' + [int]((Get-Date) - $t0).TotalSeconds + ' giây'
         } catch {
             'LỖI  ' + $m.query + ': ' + $_.Exception.Message
             $errors++
@@ -108,6 +108,75 @@ try {
         }
         # Giãn cột theo bảng (không theo dòng tiêu đề dài ở ô A1)
         [void]$lo.Range.Columns.AutoFit()
+    }
+
+    # File mẫu nộp của đề: chép sheet Cau_noi và Nhat_ky_ngoai_le, điền bằng công thức (SUMIFS, INDEX), không gõ tay số nào
+    $tplPath = Join-Path $DataFolder 'Mau_nop_Bang_cau_noi.xlsx'
+    if (-not (Test-Path $tplPath)) {
+        'LỖI  không thấy file mẫu nộp ' + $tplPath
+        $errors++
+    } else {
+        try {
+            # Tên khoản lấy từ bảng danh mục khoản đã nạp (sheet Danh_muc_khoan)
+            $names = @{}
+            $loI = $wb.Worksheets.Item('Danh_muc_khoan').ListObjects.Item(1)
+            $cCode = $loI.ListColumns.Item('item_code').Index; $cName = $loI.ListColumns.Item('item_name').Index
+            foreach ($r in $loI.ListRows) { $names[[string]$r.Range.Cells.Item(1, $cCode).Value2] = [string]$r.Range.Cells.Item(1, $cName).Value2 }
+            $tpl = $xl.Workbooks.Open($tplPath, 0, $true)
+            # Bảng toàn công ty: đúng 10 dòng khoản của file mẫu; bảng theo kênh thêm 1 dòng chuyển kênh (MJ-RCL)
+            $base = @('discount', 'pos_duplicate', 'cancelled', 'online_timing', 'store_posting', 'transfer_error', 'returns', 'shipping')
+            $specs = @(
+                @{ sheet = 'Cau_noi'; bridge = 'COMPANY'; label = 'toàn công ty'; items = $base + @('fx', 'rounding') },
+                @{ sheet = 'Cau_noi_cua_hang'; bridge = 'STORE'; label = 'cửa hàng'; items = $base + @('channel_reclass', 'fx', 'rounding') },
+                @{ sheet = 'Cau_noi_online'; bridge = 'WEB'; label = 'online'; items = $base + @('channel_reclass', 'fx', 'rounding') }
+            )
+            foreach ($s in $specs) {
+                $tpl.Worksheets.Item('Cau_noi').Copy([Type]::Missing, $wb.Worksheets.Item($wb.Worksheets.Count))
+                $ws = $wb.Worksheets.Item($wb.Worksheets.Count); $ws.Name = $s.sheet
+                $n = $s.items.Count
+                # Thêm dòng khoản nếu bảng có hơn 10 khoản (chèn trong vùng cộng nên công thức tổng tự giãn)
+                for ($k = 10; $k -lt $n; $k++) { [void]$ws.Rows.Item(12).Insert() }
+                $codes = @('flash') + $s.items + @('unexplained')
+                $glRow = 5 + $n
+                $ws.Cells.Item(1, 16).Value2 = 'Mã khoản (cột phụ cho công thức)'
+                for ($i = 0; $i -lt $codes.Count; $i++) {
+                    $row = 2 + $i
+                    if ($i -ge 1 -and $i -le $n) { $ws.Cells.Item($row, 1).Value2 = 'Khoản giải thích ' + $i + ': ' + $names[$s.items[$i - 1]] }
+                    $ws.Cells.Item($row, 16).Value2 = $codes[$i]
+                    $ws.Cells.Item($row, 14).Formula = '=SUM(B' + $row + ':M' + $row + ')'
+                }
+                $ws.Cells.Item($glRow, 16).Value2 = 'gl'
+                # Ô vàng: SUMIFS trên bảng cầu nối dạng dài, theo bảng (bridge), tháng (dòng 1) và mã khoản (cột P)
+                foreach ($row in @(2..(3 + $n)) + @($glRow)) {
+                    $ws.Range('B' + $row + ':M' + $row).Formula = '=SUMIFS(q_BR_Long[usd],q_BR_Long[bridge],"' + $s.bridge + '",q_BR_Long[period],B$1,q_BR_Long[item_code],$P' + $row + ')'
+                }
+                $ws.Range('B2:N' + ($glRow + 1)).NumberFormat = '#,##0.00'
+                $ws.Columns.Item(16).Font.Color = 8421504
+                $ws.Cells.Item($glRow + 3, 1).Value2 = 'Bảng ' + $s.label + '. Ô vàng lấy số bằng SUMIFS từ bảng q_BR_Long (sheet BR_Long), không ô nào gõ tay; làm mới dữ liệu là số tự cập nhật.'
+                if ($s.bridge -ne 'COMPANY') { $ws.Cells.Item($glRow + 4, 1).Value2 = 'Cửa hàng + online + chưa gắn kênh (bút toán ADJ-0925, xem BR_Long với bridge = UNALLOCATED) = toàn công ty.' }
+                [void]$ws.Columns.Item(1).AutoFit()
+                'OK   file mẫu -> sheet ' + $s.sheet + ' (' + $n + ' khoản)'
+            }
+            # Nhật ký ngoại lệ: giữ đúng tiêu đề của file mẫu, bỏ dòng ví dụ EX-00, mỗi ô đọc bảng q_ExceptionLog bằng INDEX
+            $tpl.Worksheets.Item('Nhat_ky_ngoai_le').Copy([Type]::Missing, $wb.Worksheets.Item($wb.Worksheets.Count))
+            $wsL = $wb.Worksheets.Item($wb.Worksheets.Count)
+            $note = [string]$wsL.Range('A4').Value2
+            [void]$wsL.Range('A2:J4').ClearContents()
+            $nLog = $wb.Worksheets.Item('Nhat_ky_du_lieu').ListObjects.Item(1).ListRows.Count
+            $last = $nLog + 11   # chừa 10 dòng trống cho khoản mới khi nạp tháng mới
+            $wsL.Range('A2:J' + $last).Formula = '=IFERROR(INDEX(q_ExceptionLog,ROW()-1,COLUMN())&"","")'
+            $wsL.Range('E2:E' + $last).Formula = '=IFERROR(INDEX(q_ExceptionLog,ROW()-1,5),"")'
+            $wsL.Range('E2:E' + $last).NumberFormat = '#,##0.00'
+            $wsL.Cells.Item($last + 2, 1).Value2 = $note
+            $wsL.Cells.Item($last + 3, 1).Value2 = 'Mỗi ô đọc bảng q_ExceptionLog (sheet Nhat_ky_du_lieu) bằng INDEX; không ô nào gõ tay.'
+            $wsL.Columns.Item(4).ColumnWidth = 80; $wsL.Columns.Item(8).ColumnWidth = 45
+            'OK   file mẫu -> sheet Nhat_ky_ngoai_le (' + $nLog + ' dòng)'
+            $tpl.Close($false)
+            $xl.CalculateFull()
+        } catch {
+            'LỖI  file mẫu nộp: ' + $_.Exception.Message
+            $errors++
+        }
     }
 
     $wsH.Activate()

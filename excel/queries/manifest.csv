@@ -28,3 +28,5 @@ q_BridgeItems,Danh_muc_khoan,Danh mục khoản cầu nối: thứ tự; nhóm (
 q_BR_Long,BR_Long,Bảng cầu nối 12 tháng dạng dài: bảng (COMPANY = STORE + WEB + UNALLOCATED) × tháng × khoản; dòng check = Flash + các khoản − sổ cái - truy vấn q_BR_Long
 q_BR_Check,Canh_bao_cau_noi,[Cảnh báo] Bảng cầu nối: phần chưa giải thích ≤ 200 USD; làm tròn ≤ 5 USD; dòng kiểm tra ≤ 1 USD (Cần xem = vượt ngưỡng) - truy vấn q_BR_Check
 q_BR_Company,Cau_noi_toan_cong_ty,Bảng cầu nối toàn công ty dạng ngang: khoản × tháng và cả năm (USD) - truy vấn q_BR_Company
+q_ExceptionLog,Nhat_ky_du_lieu,Nhật ký ngoại lệ (dữ liệu cho sheet Nhat_ky_ngoai_le): mỗi khoản lệch một dòng; tổng cột Ảnh hưởng = tổng chênh lệch cả năm - truy vấn q_ExceptionLog
+q_OrderSwap,Doi_thu_tu,Nếu đổi thứ tự các bước cầu nối thì hai khoản đổi số ngược chiều; tổng không đổi (USD cả năm toàn công ty) - truy vấn q_OrderSwap
