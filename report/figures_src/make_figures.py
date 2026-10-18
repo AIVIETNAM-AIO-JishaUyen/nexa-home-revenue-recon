@@ -144,6 +144,32 @@ write("bang_chat_luong.tex", "\n".join([
     *rows, r"\bottomrule", r"\end{longtable}}", ""]))
 gd = sheet("Giao_dich_chung")
 
+# ---------------------------------------------------------------- Đối soát cửa hàng (sheet Doi_soat_CH_ngay, So_ngay_ban_ngay_ghi_so, Doi_soat_CH_thang, Lech_ngay_ghi_so)
+rcd = sheet("Doi_soat_CH_ngay")
+rcc = sheet("So_ngay_ban_ngay_ghi_so")
+rcm = sheet("Doi_soat_CH_thang")
+rct = sheet("Lech_ngay_ghi_so")
+rcm25 = rcm[rcm.period.isin(months.period)]
+co = rcm25.groupby("period")[["flag_raw", "flag_norm"]].sum()
+tim = rct.set_index("period")
+rows = []
+for r in rcc[rcc.period.isin(months.period)].itertuples():
+    rows.append(f"Tháng {int(r.period[-2:])} & {vn(r.cells_posting)} & {int(r.mismatch_posting)} & {vn(r.mismatch_sale_date)} & "
+                f"{int(co.flag_raw.get(r.period, 0))} & {int(co.flag_norm.get(r.period, 0))} & {vn(tim.store_posting_usd.get(r.period, 0), 2)} \\\\")
+cy = rcc[rcc.period == "Cả năm"].iloc[0]
+write("bang_cua_hang.tex", "\n".join([
+    r"\begin{tabular}{@{}l r r r r r r@{}}", r"\toprule",
+    r" & \multicolumn{3}{c}{Ô cửa hàng $\times$ ngày} & \multicolumn{2}{c}{Cửa hàng vượt ngưỡng} & \\",
+    r"\cmidrule(lr){2-4}\cmidrule(lr){5-6}",
+    r"Tháng & Số ô & \makecell[r]{Lệch theo\\ngày ghi sổ} & \makecell[r]{Lệch theo\\ngày bán} & \makecell[r]{Chưa\\xử lý} & \makecell[r]{Sau\\xử lý} & \makecell[r]{Lệch ngày\\ghi sổ (USD)} \\",
+    r"\midrule", *rows, r"\midrule",
+    f"\\textbf{{Cả năm}} & \\textbf{{{vn(cy.cells_posting)}}} & \\textbf{{{int(cy.mismatch_posting)}}} & \\textbf{{{vn(cy.mismatch_sale_date)}}} & "
+    f"\\textbf{{{int(co.flag_raw.sum())}}} & \\textbf{{{int(co.flag_norm.sum())}}} & \\textbf{{{vn(tim.store_posting_usd['Cả năm'], 2)}}} \\\\",
+    r"\bottomrule", r"\end{tabular}", ""]))
+lech = rcd[rcd.match_status != "Khớp"]
+nov = rcm25[rcm25.period.str.endswith("-11")].set_index("store_code")
+pairs = tim[(tim.moved_out_usd < 0) & tim.index.isin(months.period)]
+
 # ---------------------------------------------------------------- Vài con số dùng trong lời văn (macro LaTeX), để không gõ tay
 web = body[body.channel_code == "WEB"].iloc[0]
 macros = {
@@ -159,4 +185,19 @@ macros = {
     "SoDongGiaoDich": vn(len(gd)), "SoDongPOS": vn((gd.channel == "STORE").sum()), "SoDongWEB": vn((gd.channel == "WEB").sum()),
     "SoKiemTraChatLuong": str(len(q)), "SoKiemTraCanXem": str(int((q.trang_thai != "Đạt").sum())),
 }
+# Số của phần đối soát cửa hàng
+n11 = rcc[rcc.period.str.endswith("-11") & rcc.period.isin(months.period)].iloc[0]
+x57 = nov.loc["NX057"]
+macros.update({
+    "SoOCuaHang": vn(len(rcd)), "SoOCuaHangKhop": vn((rcd.match_status == "Khớp").sum()), "SoOCuaHangLech": str(len(lech)),
+    "SoOLechNgayBanNam": vn(cy.mismatch_sale_date), "SoOThangMuoiMot": vn(n11.cells_posting), "SoOLechNgayBanTMM": vn(n11.mismatch_sale_date),
+    "SoCHVuotTruocTMM": str(int(nov.flag_raw.sum())), "SoCHVuotSauTMM": str(int(nov.flag_norm.sum())),
+    "SoNXNamBayLech": vn(x57.diff_norm_usd, 2), "SoNXNamBayPct": pct(x57.pct_norm, 1),
+    "SoNXNamBaySoCai": vn(x57.gl_usd, 2), "SoNXNamBayPOS": vn(x57.pos_norm_usd, 2), "SoNXNamBayTruoc": vn(x57.diff_raw_usd, 2),
+    "SoNXKhongTamTruoc": vn(nov.loc["NX008"].diff_raw_usd, 2), "SoNXKhongTamSau": vn(nov.loc["NX008"].diff_norm_usd, 2),
+    "SoCHVuotTruocNam": str(int(co.flag_raw.sum())), "SoCHVuotSauNam": str(int(co.flag_norm.sum())),
+    "SoCapThang": "; ".join(f"tháng {int(p[-2:])} sang tháng {int(r["to_period"][-2:])}: {vn(-r.moved_out_usd, 2)} USD ({int(r.lines_out)} dòng)"
+                            for p, r in pairs.iterrows()),
+    "SoSoCapThang": str(len(pairs)), "SoDongSangThang": vn(tim.lines_out["Cả năm"]),
+})
 write("so_lieu.tex", "\n".join(f"\\newcommand{{\\{n}}}{{{v}}}" for n, v in macros.items()) + "\n")

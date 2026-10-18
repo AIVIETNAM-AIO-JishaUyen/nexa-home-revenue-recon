@@ -20,7 +20,7 @@ Nhãn & Bảng & Nơi xem trong file Excel Power Query \\
 \midrule
 \endhead
 \nguon{QC} & Kiểm tra tổng, 5 bẫy, chất lượng dữ liệu & Sheet \texttt{Kiem\_tra}, \texttt{Bay\_du\_lieu}, \texttt{Chat\_luong\_du\_lieu}; truy vấn \texttt{q\_Check}, \texttt{q\_Traps}, \texttt{q\_DataQuality} \\
-\nguon{RC-CH} & Đối soát cửa hàng $\times$ ngày ghi sổ & Truy vấn \texttt{q\_RC\_Store} \\
+\nguon{RC-CH} & Đối soát cửa hàng: theo ngày ghi sổ (sheet \texttt{Doi\_soat\_CH\_ngay}), so với ngày bán (\texttt{So\_ngay\_ban\_ngay\_ghi\_so}), theo tháng có cờ vượt ngưỡng (\texttt{Doi\_soat\_CH\_thang}), lệch ngày ghi sổ (\texttt{Lech\_ngay\_ghi\_so}) & Truy vấn \texttt{q\_RC\_Store}, \texttt{q\_RC\_Store\_DayCompare}, \texttt{q\_RC\_Store\_Month}, \texttt{q\_RC\_Store\_Timing} \\
 \nguon{RC-WEB} & Đối soát online $\times$ ngày giao $\times$ loại tiền & Truy vấn \texttt{q\_RC\_Web} \\
 \nguon{RC-RET} & Đối soát hàng trả $\times$ ngày trả $\times$ loại tiền & Truy vấn \texttt{q\_RC\_Return} \\
 \nguon{BR-Tổng} & Bảng cầu nối toàn công ty (dòng Flash, sổ cái: sheet \texttt{Chenh\_lech\_thang}) & Truy vấn \texttt{q\_BR\_Long}, cột \texttt{bridge} = COMPANY \\

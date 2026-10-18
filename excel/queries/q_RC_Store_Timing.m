@@ -1,4 +1,4 @@
-// q_RC_Store_Timing – Lệch ngày ghi sổ của cửa hàng theo tháng. Nhãn nguồn: [RC-CH-NGAYGS].
+// q_RC_Store_Timing – Lệch ngày ghi sổ của cửa hàng theo tháng. Nhãn nguồn: [RC-CH].
 // Bán ngày nghỉ (thứ Bảy, Chủ nhật, ngày lễ) thì sổ cái ghi vào ngày làm việc kế tiếp; nếu ngày đó sang tháng sau
 // thì doanh thu "chuyển" sang tháng sau. Khoản này = POS theo tháng ghi sổ − POS theo tháng bán (đã bỏ dòng trùng,
 // USD theo tỷ giá ngày bán – cùng cách tính với bảng cầu nối). Tháng trước âm bao nhiêu thì tháng sau dương bấy nhiêu.

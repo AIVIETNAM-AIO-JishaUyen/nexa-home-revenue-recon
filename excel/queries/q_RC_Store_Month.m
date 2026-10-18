@@ -1,5 +1,5 @@
 // q_RC_Store_Month – Cửa hàng × tháng: chênh lệch Sổ cái − POS TRƯỚC và SAU khi đưa hai bên về cùng cách tính, cờ ⚠ vượt ngưỡng.
-// Nhãn nguồn: [RC-CH-THANG]. So bằng USD theo tỷ giá cuối tháng (cách sổ cái quy đổi) để chênh lệch không lẫn phần tỷ giá.
+// Nhãn nguồn: [RC-CH]. So bằng USD theo tỷ giá cuối tháng (cách sổ cái quy đổi) để chênh lệch không lẫn phần tỷ giá.
 //   Trước (chưa xử lý): POS lấy mọi dòng (kể cả dòng trùng), cộng theo THÁNG BÁN, đổi theo tỷ giá cuối tháng bán – cách dashboard mẫu tính.
 //   Sau (cùng cách tính): POS bỏ dòng trùng, cộng theo THÁNG GHI SỔ, đổi theo tỷ giá cuối tháng ghi sổ – giống sổ cái.
 //   Sổ cái: bút toán doanh thu POS (POS_DAILY, POS_CATCHUP) theo tháng ghi sổ.

@@ -1,7 +1,46 @@
 \section{Phân tích chính: chênh lệch gồm những khoản nào}
 
 \subsection{Đối soát cửa hàng theo ngày ghi sổ}
-\choviet{store-recon}
+
+\textbf{Cách so.} Mỗi ô là một cửa hàng $\times$ một ngày ghi sổ $\times$ một loại tiền, so bằng \textbf{nội tệ} để chênh lệch không lẫn phần tỷ giá. Bên POS (Point of Sale, máy bán hàng tại cửa hàng) đã bỏ 12 dòng trùng và dời ngày bán sang ngày ghi sổ theo lịch làm việc (bán ngày nghỉ thì ghi ngày làm việc kế tiếp). Bên sổ cái lấy các bút toán doanh thu POS ghi tự động (\texttt{POS\_DAILY}, \texttt{POS\_CATCHUP}). Hai bên được ghép theo kiểu giữ mọi ô của cả hai bảng, rồi mỗi ô được xếp vào 1 trong 4 trường hợp: khớp, chỉ có ở POS, chỉ có ở sổ cái, có cả hai nhưng lệch tiền.
+
+\textbf{Kết quả: \SoOCuaHang{} ô, \SoOCuaHangKhop{} ô khớp đến từng xu, \SoOCuaHangLech{} ô lệch} \nguon{RC-CH}. Hai ô lệch là một cặp của cửa hàng NX057:
+\begin{itemize}
+  \item Ngày 21/11: POS có 7.227,56 USD, sổ cái không có bút toán nào (\emph{chỉ có ở POS}).
+  \item Ngày 02/12: sổ cái có bút toán \texttt{JE20251206231} loại \texttt{POS\_CATCHUP}, đúng 7.227,56 USD, ghi chú ``Bổ sung doanh thu POS ngày 21/11/2025 (lỗi interface)'', còn POS ngày đó không có gì (\emph{chỉ có ở sổ cái}).
+\end{itemize}
+Vậy đây là \textbf{lỗi chuyển dữ liệu} từ POS sang sổ cái: doanh thu của một ngày không sang được sổ cái, 11 ngày sau mới được ghi bù. Hậu quả là sổ cái tháng 11 thiếu và tháng 12 thừa đúng số tiền này. Cả năm thì không lệch, nhưng số tháng 11 đã báo cáo là sai.
+
+\textbf{Vì sao phải đưa hai bên về cùng cách tính trước khi so.} Bảng~\ref{tab:cuahang} so cùng dữ liệu theo hai cách:
+\begin{itemize}
+  \item \textbf{So theo ngày bán, chưa bỏ dòng trùng} (cách ``chưa xử lý''): \SoOLechNgayBanNam{} ô lệch cả năm, riêng tháng 11 là \SoOLechNgayBanTMM{}/\SoOThangMuoiMot{} ô. Gần như toàn bộ là lệch giả: doanh thu bán thứ Bảy, Chủ nhật nằm ở ô ngày thứ Hai bên sổ cái.
+  \item \textbf{Cộng lên cửa hàng $\times$ tháng} và đặt cờ khi lệch quá 200 USD \emph{và} quá 1\% so với |sổ cái|: trước khi xử lý có \SoCHVuotTruocNam{} lượt cửa hàng $\times$ tháng bị cờ, sau khi xử lý chỉ còn \SoCHVuotSauNam{} (NX057 tháng 11 và tháng 12).
+\end{itemize}
+
+\begin{table}[H]
+\captab{Đối soát cửa hàng theo tháng: số ô lệch theo hai cách so, số cửa hàng vượt ngưỡng trước và sau khi xử lý, khoản lệch ngày ghi sổ \nguon{RC-CH}. Dòng cả năm của hai cột cửa hàng là tổng số lượt cửa hàng $\times$ tháng.}\label{tab:cuahang}
+\centering
+{\small\input{generated/bang_cua_hang.tex}}
+\end{table}
+
+Điều nhóm thấy bất ngờ là cờ trước khi xử lý \textbf{chỉ rơi vào tháng 3, 5, 6, 8, 9, 11, 12}. Tra lịch thì thấy lý do:
+\begin{itemize}
+  \item Ngày cuối của tháng 5 (31/05) và tháng 8 (31/08) là cuối tuần, tháng 11 có hai ngày cuối (29 và 30/11) là thứ Bảy, Chủ nhật. Doanh thu những ngày đó được ghi sổ ở tháng sau, nên tháng đó thiếu và tháng sau thừa ở hầu hết cửa hàng.
+  \item Các tháng còn lại kết thúc vào ngày làm việc. Doanh thu cuối tuần chỉ dời vài ngày \emph{trong cùng tháng} nên cộng theo tháng thì tự triệt tiêu, dù theo ngày vẫn lệch hàng trăm ô.
+  \item Tháng 3 có 1 cờ là cửa hàng NX007, do 12 dòng POS bị xuất trùng ngày 29/03.
+\end{itemize}
+
+Ví dụ tháng 11, khớp với slide 28 và 44 \cite{slide_project1}:
+\begin{itemize}
+  \item \textbf{NX008}: chưa xử lý lệch \SoNXKhongTamTruoc{} USD, sau xử lý còn \SoNXKhongTamSau{} USD. Toàn bộ là doanh thu bán ngày 29--30/11 được ghi sổ sang tháng 12.
+  \item \textbf{NX057}: chưa xử lý lệch \SoNXNamBayTruoc{} USD; sau xử lý vẫn còn \SoNXNamBayLech{} USD (sổ cái \SoNXNamBaySoCai{}, POS \SoNXNamBayPOS{}, tức \SoNXNamBayPct{} so với |sổ cái|). Phần còn lại này chính là ô lỗi chuyển dữ liệu ở trên. Slide ghi $-$74,6\% vì tính từ số đã làm tròn (7.228 / 9.695); tính từ số đủ là $-$74,55\%.
+\end{itemize}
+
+Nhóm tái lập được đúng các con số ``chưa xử lý'' của slide với cách tính: POS lấy mọi dòng kể cả dòng trùng, cộng theo \emph{tháng bán}, đổi ra USD theo tỷ giá cuối \emph{tháng bán}; sổ cái theo tháng ghi sổ. Slide ghi ``22 cửa hàng vượt ngưỡng'' ở tháng 11: con số đó gồm \SoCHVuotTruocTMM{} cửa hàng và 1 dòng của kênh online, phần online được xét ở mục sau.
+
+\textbf{Lệch ngày ghi sổ tự bù trừ theo cặp tháng} (câu hỏi riêng 3, phần cửa hàng). Khoản này bằng POS cộng theo tháng ghi sổ trừ POS cộng theo tháng bán, đổi theo tỷ giá ngày bán như mọi khoản khác của bảng cầu nối. Có đúng \SoSoCapThang{} cặp tháng: \SoCapThang{}. Tháng trước âm bao nhiêu thì tháng sau dương bấy nhiêu, cả năm bằng 0. Ngày 31/12/2025 là thứ Tư, nên không có doanh thu cửa hàng nào vắt sang năm 2026.
+
+\textbf{Trả lời câu hỏi riêng 1.} Nếu mỗi tháng có bước so ô cửa hàng $\times$ ngày ghi sổ \emph{trước} khi khóa sổ, bước đó bắt được \SoOCuaHangLech{} ô (1 lỗi), 7.227,56 USD, ngay trong tháng 11. Khi đó kế toán có thể ghi bù trước khi chốt số tháng 11, thay vì để sổ cái tháng 11 thiếu và tháng 12 thừa. Bước so này không tốn công: \SoOCuaHangKhop{}/\SoOCuaHang{} ô khớp tuyệt đối, nên chỉ cần đọc vài ô còn lại.
 
 \subsection{Đối soát online và hàng trả}
 \choviet{web-return-recon}
