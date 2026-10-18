@@ -68,17 +68,17 @@
 
 | Kiểm tra | Số đúng | Lấy số đúng ở đâu | Số nhóm ra | Nhóm ra số ở đâu | Đạt? |
 |---|---:|---|---:|---|---|
-| `Cau_noi` dòng 16 (kiểm tra) 12 tháng và cả năm | 0 | file mẫu | | sheet `Cau_noi` (đọc lại bằng Excel sau khi tính) | |
-| `Cau_noi` cột cả năm: Flash / sổ cái / chưa giải thích | 31.124.401 / 28.698.496,23 / 1.250 | `br_y_*` | | như trên | |
-| `Cau_noi_cua_hang`, `Cau_noi_online` dòng kiểm tra | 0 | | | 2 sheet đó | |
-| Tổng cột tiền của nhật ký | −2.425.904,77 | `tot_delta` | | sheet `Nhat_ky_du_lieu` | |
-| Đổi thứ tự: dòng trùng theo giá trước giảm giá | −13.695,13 | file quy ước | | sheet `Doi_thu_tu` | |
-| Đổi thứ tự: hàng trả theo tỷ giá ngày trả | −349.652,76 | `det_returns_return_date_rate` | | như trên | |
+| `Cau_noi` dòng 16 (kiểm tra) 12 tháng và cả năm | 0 | file mẫu | 0 (13/13 ô) | sheet `Cau_noi` (đọc lại bằng Excel sau khi tính) | Đạt |
+| `Cau_noi` cột cả năm: Flash / sổ cái / chưa giải thích | 31.124.401 / 28.698.496,23 / 1.250 | `br_y_*` | 31.124.401 / 28.698.496,23 / 1.250 | như trên | Đạt |
+| `Cau_noi_cua_hang`, `Cau_noi_online` dòng kiểm tra | 0 | file mẫu | 0 (13/13 ô mỗi sheet) | 2 sheet đó | Đạt |
+| Tổng cột tiền của nhật ký | −2.425.904,77 | `tot_delta` | −2.425.904,77 (17 dòng) | sheet `Nhat_ky_du_lieu` | Đạt |
+| Đổi thứ tự: dòng trùng theo giá trước giảm giá | −13.695,13 | file quy ước | −13.695,13 | sheet `Doi_thu_tu` | Đạt |
+| Đổi thứ tự: hàng trả theo tỷ giá ngày trả | −349.652,76 | `det_returns_return_date_rate` | −349.652,76 | như trên | Đạt |
 
 **Việc phải có (không phải con số):**
-- [ ] Không ô số nào trong `Cau_noi*` và `Nhat_ky_ngoai_le` gõ tay; dòng EX-00 đã xóa.
-- [ ] Nhật ký có đủ các dòng ở mục 3 file quy ước; mỗi dòng có người phụ trách và trạng thái theo slide 40.
-- [ ] Mọi bước có tên tiếng Việt và ghi chú `//`; không ghi cứng năm trong truy vấn.
+- [x] Không ô số nào trong `Cau_noi*` và `Nhat_ky_ngoai_le` gõ tay; dòng EX-00 đã xóa.
+- [x] Nhật ký có đủ các dòng ở mục 3 file quy ước; mỗi dòng có người phụ trách và trạng thái theo slide 40.
+- [x] Mọi bước có tên tiếng Việt và ghi chú `//`; không ghi cứng năm trong truy vấn.
 
 ---
 
@@ -94,11 +94,11 @@
 
 ## 7. Các bước
 
-- [ ] **Bước 1: Viết `q_ExceptionLog`, `q_OrderSwap`**
+- [x] **Bước 1: Viết `q_ExceptionLog`, `q_OrderSwap`**
   - Kiểm tra: tổng nhật ký = −2.425.904,77; 3 dòng đổi thứ tự có tổng thay đổi = 0.
-- [ ] **Bước 2: Sửa `build_workbook.ps1` để chép và điền file mẫu**
+- [x] **Bước 2: Sửa `build_workbook.ps1` để chép và điền file mẫu**
   - Kiểm tra: dòng kiểm tra của 3 sheet cầu nối bằng 0; nhật ký hiện đủ dòng.
-- [ ] **Bước 3: Viết báo cáo (IV.4 đoạn cuối, phụ lục B, E), lưu vào Git (commit)**
+- [x] **Bước 3: Viết báo cáo (IV.4 đoạn cuối, phụ lục B, E), lưu vào Git (commit)**
   - Kiểm tra: báo cáo vẫn chuyển ra PDF (Portable Document Format) được.
 
 ---
@@ -108,6 +108,9 @@
 | Ngày | Đã làm | Kết quả / số ra được | Vướng mắc, cách xử lý |
 |---|---|---|---|
 | 18/10 | Đọc file mẫu nộp bằng openpyxl, đọc slide 10, 31, 40 | <ul><li>`Cau_noi`: 10 dòng khoản + "Chưa giải thích được"; dòng 14 cộng, dòng 16 = ROUND(dòng 14 − dòng 15, 2)</li><li>Nhật ký 10 cột; slide 40 có 4 trạng thái và ví dụ EX-02, EX-06, EX-07, EX-10</li></ul> | |
+| 18/10 | Viết `q_ExceptionLog`, `q_OrderSwap`; sửa `build_workbook.ps1` để chép 2 sheet của file mẫu và điền công thức | <ul><li>Nhật ký 17 dòng, tổng −2.425.904,77</li><li>Đổi thứ tự: dòng trùng −13.695,13; đơn hủy −230.286,39; hàng trả −349.652,76, tỷ giá thành −57.093,48</li></ul> | Lần dựng đầu quá giờ 40 phút. Thêm in số giây mỗi truy vấn rồi dựng lại với giới hạn 90 phút: xong sau khoảng 55 phút, chậm nhất là `q_RC_Store_DayCompare` (446 giây), `q_DataQuality` (394 giây), `q_BR_Long` (335 giây). Mỗi bảng nạp tự tính lại các truy vấn nó dùng từ đầu, nên thêm bảng là thêm thời gian. Ghi vào backlog, xem lại ở plan `refresh-test` |
+| 18/10 | Đọc lại file đã dựng bằng openpyxl (giá trị đã tính) | <ul><li>Dòng kiểm tra của `Cau_noi`, `Cau_noi_cua_hang`, `Cau_noi_online` bằng 0 ở 12 tháng và cả năm</li><li>Cột cả năm `Cau_noi` khớp số chuẩn từng khoản</li><li>`Nhat_ky_ngoai_le` hiện đủ 17 dòng, không còn EX-00</li></ul> | Bảng đổi thứ tự làm tròn riêng hai số "khi đổi" nên dòng 1 hiện −1.072,93 và +1.072,92. Sửa: số mới của khoản thứ hai = số cũ − phần đã chuyển sang khoản thứ nhất, tính sau khi làm tròn; cột tổng thay đổi vẫn tính từ số chưa làm tròn để kiểm tra |
+| 18/10 | Viết đoạn cuối IV.4, phụ lục B, E; chuyển ra PDF | Bảng nhật ký dài nhiều trang (bảng longtable), bảng đổi thứ tự 6 dòng | |
 
 ---
 
@@ -115,6 +118,12 @@
 
 | Ngày | Quyết định | Lý do | Có phải sửa file quy ước không |
 |---|---|---|---|
+| 18/10 | Sheet `Cau_noi` giữ đúng 10 dòng khoản của file mẫu; hai sheet theo kênh chèn thêm dòng "Chuyển kênh (MJ-RCL)" | Toàn công ty không có khoản chuyển kênh (cửa hàng −3.480, online +3.480 cộng lại bằng 0); theo kênh thì thiếu dòng này dòng kiểm tra tháng 6 sẽ khác 0 | Không |
+| 18/10 | Cột P của sheet cầu nối ghi mã khoản, công thức SUMIFS đọc mã ở cột này | Tên khoản là chữ tiếng Việt dễ đổi; mã khoản cố định. Người đọc thấy ngay ô nào lấy khoản nào | Không |
+| 18/10 | Nhật ký: lệch thời điểm online tách 3 dòng (tự bù trừ trong năm = 0, đầu kỳ +122.107,89, cuối kỳ −174.705,79); 3 cặp lệch ngày ghi sổ ghi 0 | Để cột "Ảnh hưởng (USD)" cộng lại đúng chênh lệch cả năm; nếu ghi cả tổng lẫn chi tiết thì bị đếm hai lần | Không |
+| 18/10 | Lỗi chuyển dữ liệu NX057 ghi 2 dòng (tháng 11 −7.227,56, tháng 12 +7.227,56), trạng thái "Đã sửa kỳ sau" | Mỗi tháng thấy được một dòng; hai dòng cộng lại bằng 0 đúng như số cả năm | Không |
+| 18/10 | Dòng POS trùng: "Cần sửa nguồn"; ADJ-0925: "Chờ phản hồi"; các khoản do quy tắc ghi nhận: "Đã giải thích" | Theo 4 trạng thái của slide 40. Dòng trùng là lỗi xuất dữ liệu của POS, phải chặn ở nguồn; ADJ-0925 chưa có chứng từ | Không |
+| 18/10 | Khoản cả năm ghi kỳ "2025-01 đến 2025-12" (lấy tháng đầu, tháng cuối của Flash), không ghi một tháng | File mẫu chỉ có ví dụ một tháng; khoản cả năm không thuộc riêng tháng nào. Ghi vào backlog để người dùng quyết | Không |
 
 ---
 
@@ -122,10 +131,20 @@
 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
+| 18/10 | Viết 2 truy vấn, phần điền file mẫu trong script dựng, bảng và đoạn báo cáo | `q_ExceptionLog.m`, `q_OrderSwap.m`; khối "File mẫu nộp" trong `build_workbook.ps1`; `bang_nhat_ky.tex`, `bang_doi_thu_tu.tex` trong `make_figures.py`; đoạn cuối IV.4, phụ lục B, E | <ul><li>Đọc lại giá trị đã tính của file Excel bằng openpyxl: dòng kiểm tra bằng 0, cột cả năm khớp số chuẩn</li><li>Tổng nhật ký = tổng chênh lệch cả năm</li><li>Số đổi thứ tự khớp số chuẩn trong file quy ước</li></ul> |
 
 ---
 
 ## 11. Chuẩn bị vấn đáp
+
+1. **Hỏi:** Ô nào trong file mẫu do nhóm gõ tay?
+   **Trả lời:** Không ô số nào. Ô vàng là công thức SUMIFS đọc bảng `q_BR_Long` theo bảng (toàn công ty, cửa hàng, online), tháng (dòng 1) và mã khoản (cột P). Nhật ký là công thức INDEX đọc bảng `q_ExceptionLog`. Nạp tháng mới rồi chọn Data > Refresh All là cả hai tự cập nhật.
+2. **Hỏi:** Cộng cột "Ảnh hưởng (USD)" của nhật ký ra bao nhiêu?
+   **Trả lời:** −2.425.904,77, đúng chênh lệch cả năm. Khoản nào có phần tự bù trừ (lệch thời điểm online, lệch ngày ghi sổ, lỗi chuyển dữ liệu NX057) được tách để không đếm hai lần.
+3. **Hỏi:** Vì sao chốt thứ tự: chiết khấu trước, rồi mới đến dòng trùng, đơn hủy, hàng trả?
+   **Trả lời:** Đổi thứ tự thì tổng không đổi nhưng số từng khoản đổi (phụ lục E): dòng trùng tính trước chiết khấu thành −13.695,13 thay vì −12.622,20; hàng trả theo tỷ giá ngày trả thành −349.652,76 thay vì −349.148,23. Nhóm tính chiết khấu trước để mọi khoản sau đều đo theo giá thực bán, khớp với số sổ cái ghi; đổi mọi khoản theo tỷ giá ngày đặt để toàn bộ phần do tỷ giá nằm ở một dòng.
+4. **Hỏi:** Nhật ký giúp gì cho kỳ sau?
+   **Trả lời:** Hai dòng còn treo: EX-17 (ADJ-0925, "Chờ phản hồi", Tài chính gửi chứng từ) và EX-02 (dòng POS trùng, "Cần sửa nguồn", IT chặn xuất lặp). Các dòng "Đã giải thích" là quy tắc ghi nhận, kỳ nào cũng có, chỉ cần xem số có bất thường không.
 
 ---
 
