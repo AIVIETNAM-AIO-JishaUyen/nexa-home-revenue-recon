@@ -91,10 +91,12 @@ Sau khi nạp, sheet \texttt{Kiem\_tra} tự so 13 chỉ tiêu với bảng tổ
 
 \subsection{Bảng giao dịch chung và kiểm tra chất lượng dữ liệu}
 
-Truy vấn \texttt{q\_Transactions} gộp \SoDongPOS{} dòng POS và \SoDongWEB{} đơn online thành một bảng \SoDongGiaoDich{} dòng cùng một dạng: mã cửa hàng bên kế toán (nối qua \texttt{store\_master}), ngày bán hoặc ngày đặt, ngày sổ cái ghi nhận (ngày ghi sổ hoặc ngày giao), ngày nhận hàng trả, tiền trước giảm giá, chiết khấu, sau giảm giá, và số USD theo cả hai tỷ giá: tỷ giá ngày (cách của Flash) và tỷ giá cuối tháng (cách của sổ cái). Mọi bảng đối soát và bảng cầu nối ở mục~IV chỉ đọc từ bảng này.
+Truy vấn \texttt{q\_Transactions} gộp \SoDongPOS{} dòng POS và \SoDongWEB{} đơn online thành một bảng \SoDongGiaoDich{} dòng cùng một dạng: mã cửa hàng bên kế toán (nối qua \texttt{store\_master}), ngày bán hoặc ngày đặt, ngày sổ cái ghi nhận (ngày ghi sổ hoặc ngày giao), ngày nhận hàng trả, tiền trước giảm giá, chiết khấu, sau giảm giá, và số USD theo cả hai tỷ giá: tỷ giá ngày (cách của Flash) và tỷ giá cuối tháng (cách của sổ cái). Các bảng đối soát và bảng cầu nối ở mục~IV lấy số POS và online từ bảng này.
 
-Mỗi lần làm mới, sheet \texttt{Chat\_luong\_du\_lieu} tự chạy \SoKiemTraChatLuong{} phép kiểm tra (Bảng~\ref{tab:chatluong}). \SoKiemTraCanXem{} phép ra kết quả ``Cần xem'', ứng với 3 lỗi đã biết và được ghi vào nhật ký ngoại lệ: dòng POS bị xuất trùng, một ngày bán của cửa hàng NX057 chưa có bút toán, và bút toán ADJ-0925 (vừa không gắn cửa hàng, vừa không có giấy tờ, nên vi phạm 2 phép) \nguon{QC}. Các phép còn lại bằng 0.
+Mỗi lần làm mới, sheet \texttt{Chat\_luong\_du\_lieu} tự chạy \SoKiemTraChatLuong{} phép kiểm tra (Bảng~\ref{tab:chatluong}). \SoKiemTraCanXem{} phép ra kết quả ``Cần xem'', ứng với 3 lỗi dữ liệu: dòng POS bị xuất trùng; ngày 21/11 cửa hàng NX057 có bán mà sổ cái không có bút toán (sổ cái ghi bù ngày 02/12); bút toán ADJ-0925 vừa không gắn cửa hàng, vừa không có giấy tờ, nên vi phạm 2 phép \nguon{QC}. Các phép còn lại bằng 0. Ô thiếu bút toán được so theo ngày ghi sổ, vì nếu so theo ngày bán thì mọi ngày nghỉ có bán đều thành ô thiếu giả.
 
+% Bảng ngắn (10 dòng): giữ cả bảng trên một trang, không để chú thích và 1–2 dòng đầu nằm một mình ở cuối trang
+\needspace{20\baselineskip}
 \captab{Kiểm tra chất lượng dữ liệu}\label{tab:chatluong}\nopagebreak[4]
 \input{generated/bang_chat_luong.tex}
 
