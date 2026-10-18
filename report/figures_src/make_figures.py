@@ -170,6 +170,69 @@ lech = rcd[rcd.match_status != "Khớp"]
 nov = rcm25[rcm25.period.str.endswith("-11")].set_index("store_code")
 pairs = tim[(tim.moved_out_usd < 0) & tim.index.isin(months.period)]
 
+# ---------------------------------------------------------------- Đối soát online, hàng trả, 5 lý do, 4 nhóm
+rwd = sheet("Doi_soat_online")
+rrt = sheet("Doi_soat_hang_tra")
+rwm = sheet("Doi_soat_online_thang").set_index("period")
+wt = sheet("Lech_thoi_diem_online").set_index("period")
+nld = sheet("Nam_ly_do")
+dmk = sheet("Danh_muc_khoan")
+wtm = wt.loc[wt.index.isin(months.period)]
+rows = [f"Tháng {int(p[-2:])} & {vn(r.online_timing_usd, 2)} & {vn(rwm.loc[p, 'diff_raw_usd'], 2)} & {'Có' if rwm.loc[p, 'flag_raw'] else ''} & "
+        f"{vn(rwm.loc[p, 'diff_norm_usd'], 2)} \\\\" for p, r in wtm.iterrows()]
+write("bang_online_thang.tex", "\n".join([
+    r"\begin{tabular}{@{}l r r c r@{}}", r"\toprule",
+    r" & & \multicolumn{3}{c}{Sổ cái $-$ WEB, USD theo tỷ giá cuối tháng} \\", r"\cmidrule(lr){3-5}",
+    r"Tháng & \makecell[r]{Lệch thời điểm\\online (USD)} & \makecell[r]{Theo tháng đặt\\(chưa xử lý)} & \makecell[c]{Vượt\\ngưỡng} & \makecell[r]{Theo tháng giao,\\trừ hàng trả} \\",
+    r"\midrule", *rows, r"\midrule",
+    f"\\textbf{{Cả năm}} & \\textbf{{{vn(wt.loc['Cả năm', 'online_timing_usd'], 2)}}} & \\textbf{{{vn(rwm.diff_raw_usd.sum(), 2)}}} & \\textbf{{{int(rwm.flag_raw.sum())}}} & \\textbf{{{vn(rwm.diff_norm_usd.sum(), 2)}}} \\\\",
+    r"\bottomrule", r"\end{tabular}", "",
+]))
+
+# Hình: lệch thời điểm online theo tháng; tháng 3 (dương lớn nhất) tô màu nhấn
+fig, ax = plt.subplots(figsize=(8.6, 3.4), dpi=200)
+vals = wtm.online_timing_usd / 1000
+x = list(range(len(vals)))
+ax.bar(x, vals, color=[ACCENT if v == vals.max() else GREY for v in vals], width=0.62, zorder=2)
+ax.axhline(0, color=INK2, linewidth=0.8, zorder=3)
+ax.set_xticks(x, [str(int(p[-2:])) for p in wtm.index])
+ax.set_xlabel("Tháng (năm 2025)")
+ax.set_ylabel("Nghìn USD")
+ax.grid(axis="y", color="#e6e5e0", linewidth=0.6, zorder=0)
+for side in ["top", "right"]:
+    ax.spines[side].set_visible(False)
+imax = int(vals.values.argmax())
+ax.annotate(vn(vals.iloc[imax]), (imax, vals.iloc[imax]), xytext=(0, 4), textcoords="offset points", ha="center", color=INK, fontsize=9)
+ax.set_ylim(vals.min() * 1.2, vals.max() * 1.2)
+ax.set_title(f"Tháng {int(wtm.index[imax][-2:])} nhận {vn(vals.iloc[imax])} nghìn USD từ đơn đặt tháng trước, mức lệch lớn nhất trong năm",
+             loc="left", fontsize=11, color=INK, fontweight="bold")
+fig.tight_layout()
+fig.savefig(OUT / "hinh_lech_thoi_diem_online.png")
+plt.close(fig)
+print("ghi hinh_lech_thoi_diem_online.png")
+
+# Bảng 5 lý do
+def so(v, d=0):
+    return "" if pd.isna(v) else vn(v, d)
+
+
+rows = []
+for r in nld.itertuples():
+    sl = "" if pd.isna(r.so_luong) else (vn(r.so_luong, 1 if r.so_luong != int(r.so_luong) else 0) + " " + esc(r.don_vi))
+    rows.append(f"{esc(r.ly_do) if r.stt.endswith(('a', '2')) or r.stt == '2' else ''} & {r.stt} & {esc(r.bang_chung)} & {sl} & {so(r.usd, 2)} \\\\")
+write("bang_nam_ly_do.tex", "\n".join([
+    r"{\small", r"\begin{longtable}{@{}L{2.2cm} l L{6.9cm} r r@{}}", r"\toprule",
+    r"Lý do & Dòng & Bằng chứng trên dữ liệu & Số lượng & USD \\", r"\midrule", r"\endhead",
+    *rows, r"\bottomrule", r"\end{longtable}}", ""]))
+
+# Bảng 4 nhóm: mỗi khoản cầu nối thuộc nhóm nào, vì sao
+mid = dmk[dmk.item_group.notna() & (dmk.item_group != "")]
+rows = [f"{int(r.item_order)} & {esc(r.item_name)} & {esc(r.item_group)} & {esc(r.vi_sao_nhom)} \\\\" for r in mid.itertuples()]
+write("bang_bon_nhom.tex", "\n".join([
+    r"{\small", r"\begin{longtable}{@{}r L{3.6cm} L{2.6cm} L{8.0cm}@{}}", r"\toprule",
+    r"Thứ tự & Khoản & Nhóm & Vì sao xếp vào nhóm này \\", r"\midrule", r"\endhead",
+    *rows, r"\bottomrule", r"\end{longtable}}", ""]))
+
 # ---------------------------------------------------------------- Vài con số dùng trong lời văn (macro LaTeX), để không gõ tay
 web = body[body.channel_code == "WEB"].iloc[0]
 macros = {
@@ -199,5 +262,30 @@ macros.update({
     "SoCapThang": "; ".join(f"tháng {int(p[-2:])} sang tháng {int(r["to_period"][-2:])}: {vn(-r.moved_out_usd, 2)} USD ({int(r.lines_out)} dòng)"
                             for p, r in pairs.iterrows()),
     "SoSoCapThang": str(len(pairs)), "SoDongSangThang": vn(tim.lines_out["Cả năm"]),
+})
+# Số của phần đối soát online, hàng trả
+inw, inr = rwd[rwd.match_status != "Ngoài kỳ đối soát"], rrt[rrt.match_status != "Ngoài kỳ đối soát"]
+w11 = rwm.loc[[p for p in rwm.index if p.endswith("-11")][0]]
+r3 = wtm.online_timing_usd.idxmax()
+L = nld.set_index("stt")
+macros.update({
+    "SoOOnline": vn(len(inw)), "SoOOnlineKhop": vn((inw.match_status == "Khớp").sum()), "SoDonGiao": vn(inw.orders.sum()),
+    "SoOOnlineNgoaiKy": vn(len(rwd) - len(inw)),
+    "SoOHangTra": vn(len(inr)), "SoOHangTraKhop": vn((inr.match_status == "Khớp").sum()), "SoDonTra": vn(inr.orders.sum()),
+    "SoOHangTraNgoaiKy": vn(len(rrt) - len(inr)),
+    "SoOnlineTMMTruoc": vn(w11.diff_raw_usd, 2), "SoOnlineTMMSau": vn(w11.diff_norm_usd, 2), "SoOnlineTMMPct": pct(w11.pct_raw),
+    "SoOnlineSauMax": vn(rwm.diff_norm_usd.abs().max(), 2),
+    "SoOnlineVuotTruoc": str(int(rwm.flag_raw.sum())), "SoOnlineVuotSau": str(int(rwm.flag_norm.sum())),
+    "SoLechOnlineNam": vn(wt.loc["Cả năm", "online_timing_usd"], 2), "SoLechOnlineThangMax": f"tháng {int(r3[-2:])}",
+    "SoLechOnlineMax": vn(wtm.online_timing_usd.max(), 2),
+    "SoVatDauKy": vn(wt.loc["Trong đó: đặt trước kỳ, giao trong kỳ", "online_timing_usd"], 2),
+    "SoDonVatDauKy": vn(wt.loc["Trong đó: đặt trước kỳ, giao trong kỳ", "orders_in"]),
+    "SoVatCuoiKy": vn(wt.loc["Trong đó: đặt trong kỳ, giao sau kỳ", "online_timing_usd"], 2),
+    "SoDonVatCuoiKy": vn(wt.loc["Trong đó: đặt trong kỳ, giao sau kỳ", "orders_out"]),
+    "SoDonHuy": vn(L.loc["3a", "so_luong"]), "SoTienHuy": vn(L.loc["3a", "usd"], 2),
+    "SoDonTraTrongKy": vn(L.loc["3b", "so_luong"]), "SoTienTra": vn(L.loc["3b", "usd"], 2),
+    "SoTienTraNgayTra": vn(L.loc["4b", "usd"], 2), "SoTienTraSoCai": vn(L.loc["4c", "usd"], 2),
+    "SoChietKhau": vn(L.loc["2", "usd"], 2), "SoTyGia": vn(L.loc["4a", "usd"], 2), "SoPhiVanChuyen": vn(L.loc["3c", "usd"], 2),
+    "SoLamTron": vn(L.loc["5d", "usd"], 2),
 })
 write("so_lieu.tex", "\n".join(f"\\newcommand{{\\{n}}}{{{v}}}" for n, v in macros.items()) + "\n")

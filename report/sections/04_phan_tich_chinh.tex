@@ -43,10 +43,62 @@ Nhóm tái lập được đúng các con số ``chưa xử lý'' của slide v�
 \textbf{Trả lời câu hỏi riêng 1.} Nếu mỗi tháng có bước so ô cửa hàng $\times$ ngày ghi sổ \emph{trước} khi khóa sổ, bước đó bắt được \SoOCuaHangLech{} ô (1 lỗi), 7.227,56 USD, ngay trong tháng 11. Khi đó kế toán có thể ghi bù trước khi chốt số tháng 11, thay vì để sổ cái tháng 11 thiếu và tháng 12 thừa. Bước so này không tốn công: \SoOCuaHangKhop{}/\SoOCuaHang{} ô khớp tuyệt đối, nên chỉ cần đọc vài ô còn lại.
 
 \subsection{Đối soát online và hàng trả}
-\choviet{web-return-recon}
+
+\textbf{Cách so.} Sổ cái ghi doanh thu online bằng một bút toán \texttt{WEB\_DELIVERY} cho mỗi ngày giao $\times$ loại tiền, và ghi giảm hàng trả bằng một bút toán \texttt{WEB\_RETURN} cho mỗi ngày nhận hàng trả $\times$ loại tiền. Nhóm cộng đơn online theo đúng hai mức đó rồi so bằng nội tệ, cũng ghép giữ mọi ô của hai bên và chia 4 trường hợp như phần cửa hàng. Bên online chỉ lấy đơn đã giao (trạng thái Delivered và Returned, vì đơn bị trả cũng đã được giao). Ô có tháng không thuộc năm đối soát, ví dụ đơn giao tháng 12/2024 hay tháng 1/2026, được ghi riêng là ``ngoài kỳ đối soát'' chứ không tính là lệch.
+
+\textbf{Kết quả: khớp 100\%} \nguon{RC-WEB}, \nguon{RC-RET}.
+\begin{itemize}
+  \item Doanh thu online: \SoOOnlineKhop{}/\SoOOnline{} ô khớp đến từng xu, gồm \SoDonGiao{} đơn; ngoài kỳ có \SoOOnlineNgoaiKy{} ô.
+  \item Hàng trả: \SoOHangTraKhop{}/\SoOHangTra{} ô khớp, gồm \SoDonTra{} đơn; ngoài kỳ có \SoOHangTraNgoaiKy{} ô.
+\end{itemize}
+Vậy hệ thống chuyển đơn online sang sổ cái \textbf{không có lỗi nào}. Mọi chênh lệch của kênh online đến từ việc hai bên tính doanh thu theo cách khác nhau, không phải do ghi sai.
+
+\textbf{Đưa về cùng cách tính.} Bảng~\ref{tab:online} so kênh online theo tháng bằng USD theo tỷ giá cuối tháng, giống bảng cửa hàng:
+\begin{itemize}
+  \item \textbf{Chưa xử lý}: đơn chưa hủy cộng theo \emph{tháng đặt}, như Flash. Có \SoOnlineVuotTruoc{}/12 tháng vượt ngưỡng 200 USD và 1\%. Tháng 11 lệch \SoOnlineTMMTruoc{} USD (\SoOnlineTMMPct{} so với |sổ cái|), đúng dòng online mà slide 44 tính vào ``22 cửa hàng vượt ngưỡng''.
+  \item \textbf{Sau khi xử lý}: đơn cộng theo \emph{tháng giao}, trừ hàng trả theo \emph{tháng nhận hàng trả}. Không tháng nào vượt ngưỡng; mỗi tháng chỉ còn lệch không quá \SoOnlineSauMax{} USD (tháng 11: \SoOnlineTMMSau{}), là phần sổ cái làm tròn từng bút toán đến 2 chữ số.
+\end{itemize}
+
+\begin{table}[H]
+\captab{Kênh online theo tháng: khoản lệch thời điểm và chênh lệch sổ cái $-$ WEB trước, sau khi đưa về cùng cách tính \nguon{RC-WEB}. Cột ``Vượt ngưỡng'' là cờ của cột chưa xử lý; dòng cả năm của cột này là số tháng bị cờ.}\label{tab:online}
+\centering
+{\small\input{generated/bang_online_thang.tex}}
+\end{table}
+
+\textbf{Lệch thời điểm online, và vì sao tháng 3 đi ngược chiều.} Flash ghi đơn theo ngày đặt, sổ cái theo ngày giao. Khoản lệch thời điểm của mỗi tháng là đơn chưa hủy cộng theo tháng giao trừ cộng theo tháng đặt, đổi theo tỷ giá ngày đặt như mọi khoản khác của bảng cầu nối (Hình~\ref{fig:thoidiem}; trục dọc là tiền theo tháng giao trừ tiền theo tháng đặt). Tháng nhận về nhiều hơn hẳn số chuyển đi là \SoLechOnlineThangMax{}: \SoLechOnlineMax{} USD, từ các đơn đặt cuối tháng 2 nhưng giao trong tháng 3. Khoản này đủ lớn để đẩy sổ cái tháng 3 lên cao hơn Flash, nên giả thuyết ở mục~III được dữ liệu xác nhận.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{generated/hinh_lech_thoi_diem_online.png}
+
+\capfig{Lệch thời điểm online theo tháng, nghìn USD \nguon{RC-WEB}.}\label{fig:thoidiem}
+\end{figure}
+
+\textbf{Có tự bù trừ không} (câu hỏi riêng 3, phần online). Trong năm thì có: tiền một tháng chuyển đi được tháng sau nhận lại. Cả năm khoản này còn \SoLechOnlineNam{} USD, và con số đó tách đúng thành hai phần vắt qua năm:
+\begin{itemize}
+  \item \SoDonVatDauKy{} đơn đặt tháng 12/2024, giao năm 2025: +\SoVatDauKy{} USD (sổ cái 2025 có, Flash 2025 không có).
+  \item \SoDonVatCuoiKy{} đơn đặt năm 2025, giao năm 2026: \SoVatCuoiKy{} USD (Flash 2025 có, sổ cái 2025 chưa có).
+\end{itemize}
+Dòng kiểm tra ``cả năm $-$ hai phần'' của sheet \texttt{Lech\_thoi\_diem\_online} bằng 0. Phần \SoVatCuoiKy{} USD sẽ chỉ được bù khi sổ cái năm 2026 ghi nhận các đơn đó.
 
 \subsection{Năm lý do lệch, chứng minh bằng số}
-\choviet{web-return-recon}
+
+Đề nêu 5 lý do khiến Flash và sổ cái khác nhau. Bảng~\ref{tab:5lydo} đo từng lý do trên dữ liệu: đếm được bao nhiêu dòng, bao nhiêu đơn, bao nhiêu USD. Các số tiền là khoản tương ứng của bảng cầu nối cả năm.
+
+\captab{Năm lý do lệch, mỗi lý do đo bằng số trên dữ liệu năm 2025 \nguon{RC-CH}, \nguon{RC-WEB}}\label{tab:5lydo}\nopagebreak[4]
+\input{generated/bang_nam_ly_do.tex}
+
+Ba điều rút ra từ bảng:
+\begin{itemize}
+  \item \textbf{Giá trị và phạm vi chiếm phần lớn chênh lệch}: chiết khấu \SoChietKhau{} USD, hàng trả \SoTienTra{}, đơn hủy \SoTienHuy{}. Ba khoản này đều làm sổ cái thấp hơn Flash và không tự bù trừ.
+  \item \textbf{Cùng một khoản hàng trả cho ba con số} tùy cách đổi tiền: \SoTienTra{} (tỷ giá ngày đặt), \SoTienTraNgayTra{} (tỷ giá ngày trả), \SoTienTraSoCai{} (sổ cái, tỷ giá cuối tháng). Vì vậy thứ tự các bước cầu nối và tỷ giá dùng cho từng khoản phải chốt trước; nhóm dùng tỷ giá ngày đặt cho mọi khoản, phần còn lại dồn vào một dòng tỷ giá (\SoTyGia{} USD).
+  \item \textbf{Mức chi tiết quyết định cách so}: một bút toán POS gộp cả ngày của một cửa hàng, một bút toán online gộp mọi đơn giao trong ngày cùng loại tiền. Không thể so từng dòng hóa đơn với sổ cái; mức chi tiết nhỏ nhất so được là ô cửa hàng $\times$ ngày ghi sổ và ô ngày giao $\times$ loại tiền như hai mục trên.
+\end{itemize}
+
+\textbf{Xếp mỗi khoản vào 1 trong 4 nhóm.} Bảng~\ref{tab:4nhom} là danh mục khoản mà bảng cầu nối, nhật ký ngoại lệ và dashboard cùng đọc (sheet \texttt{Danh\_muc\_khoan}). Nguyên tắc xếp: khoản nào cả hai bên đều đúng theo cách của mình thì là \emph{quy tắc ghi nhận}; một bên ghi sai hoặc thiếu là \emph{lỗi dữ liệu}; dữ liệu không đủ để biết nguyên nhân là \emph{chưa giải thích được}; chênh lệch vài USD do làm tròn là \emph{sai số chấp nhận}.
+
+\captab{Các khoản cầu nối và nhóm của từng khoản}\label{tab:4nhom}\nopagebreak[4]
+\input{generated/bang_bon_nhom.tex}
 
 \subsection{Bảng cầu nối 12 tháng}
 \choviet{bridge-monthly, bridge-template-log}
