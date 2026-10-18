@@ -103,3 +103,29 @@ Mỗi lần làm mới, sheet \texttt{Chat\_luong\_du\_lieu} tự chạy \SoKiem
 \subsection{Cách tính thứ hai: mô hình Power BI}
 
 Để kiểm tra lại số của Power Query, nhóm dựng mô hình Power BI trên file dữ liệu mentor đã nối sẵn (\texttt{Nexa\_Home\_Recon\_Dataset.xlsx}): 12 bảng, gồm 6 bảng danh mục (có bảng ngày), 4 bảng giao dịch và 2 bảng tỷ giá. Ngày ghi nhận của sổ cái (ngày ghi sổ, ngày giao) là quan hệ chủ động; ngày bán, ngày đặt, ngày trả là quan hệ bị động, chỉ bật bằng hàm \texttt{USERELATIONSHIP} khi cần. Số tổng tính bằng DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI) khớp với Power Query ở cả năm, 12 tháng và 3 kênh. Phần so từng khoản cầu nối ở mục~IV.5.
+
+\subsection{Chạy thử với một tháng mới}
+
+Để chắc file chạy lại được cho kỳ sau chỉ bằng thay file dữ liệu, nhóm làm một lần chạy thử ở thư mục khác hẳn thư mục dự án. Một script sinh dữ liệu \emph{giả} của tháng 01/2026, gồm:
+\begin{itemize}
+  \item Một cửa hàng mới NX068 thêm vào danh mục.
+  \item Một hóa đơn POS bị xuất lặp, giống lỗi của tháng 3.
+  \item Đơn online mới, có đơn hủy và đơn bị trả.
+  \item Sổ cái ghi đúng theo POS và đơn online, kể cả các đơn đặt tháng 12 giao tháng 1.
+  \item Bốn file đổi tên nhưng giữ phần đầu tên; bảng tổng kiểm soát QC\_Summary cập nhật theo dữ liệu mới.
+\end{itemize}
+Sau đó chỉ sửa ô \texttt{FolderPath} rồi làm mới. \textbf{Không truy vấn nào phải sửa.} Kết quả (\texttt{checks/refresh\_test/ket\_qua\_2026\_01.txt}):
+\begin{itemize}
+  \item 13/13 chỉ tiêu kiểm tra tổng đạt; sheet chất lượng dữ liệu bắt được đúng hóa đơn trùng mới (12 lên 13 dòng).
+  \item Kỳ đối soát tự dài ra 13 tháng vì tháng 01/2026 có trong Flash. Dòng kiểm tra của mọi bảng $\times$ tháng bằng 0. 12 tháng năm 2025 giữ nguyên từng số.
+  \item 11 khoản của tháng 01/2026 khớp số mong đợi do script sinh dữ liệu tính thẳng từ dữ liệu giả.
+  \item Cửa hàng mới tự vào bảng đối soát (19 ô cửa hàng $\times$ ngày, đều khớp).
+\end{itemize}
+Làm mới toàn bộ mất khoảng 3 phút.
+
+Lần chạy thử cũng cho thấy ba giới hạn cần biết khi dùng cho kỳ sau:
+\begin{itemize}
+  \item Sheet \texttt{Cau\_noi} của file mẫu chỉ có 12 cột tháng của năm 2025, nên số tháng mới chỉ có ở bảng cầu nối dạng dài.
+  \item Lịch hiện chỉ đến 31/01/2026. Bán vào thứ Bảy 31/01 thì ngày ghi sổ rơi sang tháng 2, ngoài lịch; trường hợp này phép kiểm tra số 12 sẽ báo ``Cần xem''. Vì vậy mỗi kỳ phải nhận lịch đủ đến ngày làm việc đầu tiên của tháng sau.
+  \item Chưa chạy thử trên một máy thật thứ hai, chỉ giả lập bằng đường dẫn khác.
+\end{itemize}
