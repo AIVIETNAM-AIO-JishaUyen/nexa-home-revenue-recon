@@ -10,7 +10,11 @@
 3. **Chạy lại trên máy thật thứ hai** (mục 2): sửa ô `Cai_dat!B2`, Refresh All, xem sheet `Kiem_tra`; mở dự án Power BI, sửa 2 tham số, Refresh.
 4. **Quyết vài điểm trình bày** (mục 4, 9, 10, 11, 14): cách làm dashboard (script hay giao diện), nút "Đặt lại", cột "Total" của thác nước, cỡ chữ ảnh dashboard và code. Tạm thời đang giữ như hiện tại.
 5. **Lưu thêm bản `.pbix`** nếu mentor yêu cầu (mở `powerbi/NexaRecon.pbip`, File > Save as).
-6. Sau mọi thay đổi: chạy lại `D:/Anaconda/python.exe -I tools/make_submission.py` để gom lại `submission/`.
+6. Sau mọi thay đổi: chạy lại phần bị ảnh hưởng rồi mới gom file nộp:
+   - Sửa báo cáo (kể cả điền tên ở việc 2): chuyển lại PDF bằng `report/build_pdf.ps1`.
+   - Sửa truy vấn hoặc `excel/huong_dan.txt`: dựng lại file Power Query bằng `excel/build_workbook.ps1` (khoảng 5 phút).
+   - Cuối cùng chạy `D:/Anaconda/python.exe -I tools/make_submission.py` để gom lại `submission/`.
+   - Các thay đổi của lần rà soát cuối (19/10) đã được chuyển lại PDF, dựng lại file Power Query và gom lại `submission/`.
 
 Các mục 7, 8, 12, 13 đã xử lý (ghi rõ trong từng dòng). Mục 3 (cách đưa file tháng mới) đã chạy thử đạt với cách "thay file", nhưng vẫn chờ nhóm chốt. Các mục còn lại đang dùng phương án tạm ghi ở cột "Đang tạm dùng".
 

@@ -1,5 +1,6 @@
 NEXA HOME - ĐỐI SOÁT DOANH THU 2025: FILE POWER QUERY
 File này nạp 4 file dữ liệu và 4 bảng danh mục bằng Power Query (công cụ nạp và xử lý dữ liệu có sẵn trong Excel), rồi so Flash (báo cáo nhanh doanh số của phòng Kinh doanh) với sổ cái (sổ kế toán của phòng Tài chính).
+Viết tắt: POS (Point of Sale, máy bán hàng tại cửa hàng); USD (đô la Mỹ); [QC] (quality check) đánh dấu sheet kiểm tra số liệu; mã NX là mã cửa hàng bên kế toán; SUMIFS là hàm Excel cộng các dòng thỏa nhiều điều kiện.
 
 CÁCH DÙNG
 1. Mở sheet Cai_dat, sửa ô B2 thành đường dẫn thư mục chứa dữ liệu (thư mục data của dự án), ví dụ D:\Nexa\data

@@ -82,14 +82,14 @@ Bảng~\ref{tab:bay} lấy thẳng từ sheet \texttt{Bay\_du\_lieu}: mọi số
 
 Bẫy nguy hiểm nhất là ngày kiểu Mỹ: nếu đọc theo kiểu ngày/tháng của Việt Nam, phần lớn đơn báo lỗi, nhưng trong số còn lại có hơn ba nghìn đơn \textbf{đọc được mà sai tháng}, không có cảnh báo nào \nguon{QC}.
 
-\subsection{Kiểm tra tổng: 13/13 chỉ tiêu khớp bảng tổng kiểm soát của đề}
+\subsection{Kiểm tra tổng: \SoQCDat/\SoQCTong{} chỉ tiêu khớp bảng tổng kiểm soát của đề}
 
 Sau khi nạp, sheet \texttt{Kiem\_tra} tự so 13 chỉ tiêu với bảng tổng kiểm soát QC\_Summary của đề: \SoQCDat/\SoQCTong{} chỉ tiêu khớp, chênh lệch bằng 0 (Bảng~\ref{tab:kiemtra}) \nguon{QC}.
 
 \captab{Kiểm tra tổng so với QC\_Summary}\label{tab:kiemtra}\nopagebreak[4]
 {\small\input{generated/bang_kiem_tra.tex}}
 
-\subsection{Bảng giao dịch chung; 13 phép kiểm tra dữ liệu bắt được 3 sự việc}
+\subsection{Bảng giao dịch chung; \SoKiemTraChatLuong{} phép kiểm tra dữ liệu bắt được 3 sự việc}
 
 Truy vấn \texttt{q\_Transactions} gộp \SoDongPOS{} dòng POS và \SoDongWEB{} đơn online thành một bảng \SoDongGiaoDich{} dòng cùng một dạng: mã cửa hàng bên kế toán (nối qua \texttt{store\_master}), ngày bán hoặc ngày đặt, ngày sổ cái ghi nhận (ngày ghi sổ hoặc ngày giao), ngày nhận hàng trả, tiền trước giảm giá, chiết khấu, sau giảm giá, và số USD theo cả hai tỷ giá: tỷ giá ngày (cách của Flash) và tỷ giá cuối tháng (cách của sổ cái). Các bảng đối soát và bảng cầu nối ở mục~IV lấy số POS và online từ bảng này.
 
