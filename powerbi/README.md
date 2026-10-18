@@ -24,7 +24,7 @@
 - 2 bảng đọc từ file Power Query (tham số `PQFile`), để hai cách tính dùng chung danh mục khoản và so số với nhau:
   - `dim_bridge_item`: danh mục khoản cầu nối (mã, thứ tự, tên, nhóm), từ bảng `q_BridgeItems`.
   - `pq_br_long`: bảng cầu nối dạng dài Power Query tính, từ bảng `q_BR_Long` (708 dòng); nối `item_code` → `dim_bridge_item`.
-- Cột tính thêm (công thức DAX tính một lần khi làm mới):
+- Cột tính thêm (công thức DAX – Data Analysis Expressions, ngôn ngữ công thức của Power BI – tính một lần khi làm mới):
   - `fact_pos_line[is_duplicate]`: dòng xuất lặp (cùng số hóa đơn + số dòng, lần xuất sau).
   - `fact_pos_line[fx_rate_daily_posting]`, `fact_gl_entry[fx_rate_daily_posting]`: tỷ giá ngày của ngày ghi sổ (cho khoản lỗi chuyển dữ liệu).
   - `fact_pos_line[fx_rate_month_end_sale]`: tỷ giá cuối tháng bán (cho chênh lệch cửa hàng × tháng "trước xử lý").
@@ -51,7 +51,7 @@
 | `web_order_status` | `fact_web_order.order_status` → `dim_order_status.order_status` | Có | |
 
 **Lưu ý khi viết công thức và làm dashboard:**
-- Bảng ngày có cả tháng 12/2024 và tháng 1/2026 (đơn online đặt tháng 12/2024, giao hoặc trả hàng đầu năm 2026). Đơn hủy không có ngày giao nên bộ lọc theo tháng có thể hiện mục "(Blank)". Lọc `dim_date[is_fiscal_2025] = TRUE` (gợi ý ở sheet README của file mentor) bỏ được cả 3 thứ này. Sổ cái và Flash không có dòng ngoài năm 2025, nên trang "Số tổng" chưa cần lọc.
+- Bảng ngày có cả tháng 12/2024 và tháng 1/2026 (đơn online đặt tháng 12/2024, giao hoặc trả hàng đầu năm 2026). Đơn hủy không có ngày giao nên bộ lọc theo tháng có thể hiện mục "(Blank)". Lọc `dim_date[is_fiscal_2025] = TRUE` (gợi ý ở sheet README của file mentor) bỏ được cả 3 thứ này. Sổ cái và Flash không có dòng ngoài năm 2025, nên trang "Số tổng" chưa cần lọc. Các công thức cầu nối lọc bằng cột `dim_date[trong_ky_doi_soat]` (tháng có trong Flash) thay cho `is_fiscal_2025`, để không ghi cứng năm.
 - Flash chỉ nối với bảng ngày (ngày cuối tháng) và bảng kênh. Lọc theo cửa hàng, loại tiền hay loại bút toán thì Flash không đổi, nên `Chênh lệch` ở mức đó không có nghĩa. Flash ghi vào ngày cuối tháng, nên lọc một khoảng ngày không chứa ngày cuối tháng thì Flash ra trống; hãy lọc theo tháng.
 - Các cột `*_usd_*` trong file mentor đã làm tròn 2 chữ số ở từng dòng. Muốn ra đúng số của Power Query thì tính nội tệ ÷ tỷ giá từng dòng bằng hàm `SUMX`, ví dụ chiết khấu: cộng cột làm tròn ra −1.834.298,38, tính từ nội tệ ra −1.834.297,47 (số chuẩn).
 
@@ -65,7 +65,7 @@
 | `Sổ cái` | Tổng `fact_gl_entry[revenue_usd]` (đã đổi dấu) |
 | `Chênh lệch` | `[Sổ cái] − [Flash]` |
 | `% chênh lệch so với Flash` | Chênh lệch ÷ Flash (thẻ KPI – Key Performance Indicator, slide 12) |
-| `% chênh lệch so với sổ cái` | <ul><li>Chênh lệch ÷ \|Sổ cái\| (\|x\| là giá trị tuyệt đối, tức bỏ dấu âm), mẫu "Δ %" của slide 29</li><li>Dùng được ở mức tháng hoặc kênh</li><li>Cờ vượt ngưỡng cửa hàng × tháng (slide 28, 30) không dùng công thức này, vì Flash không có số theo cửa hàng: cờ dùng chênh lệch sổ cái − POS sau khi đưa về cùng cách tính, làm ở plan `dax-bridge`</li></ul> |
+| `% chênh lệch so với sổ cái` | <ul><li>Chênh lệch ÷ \|Sổ cái\| (\|x\| là giá trị tuyệt đối, tức bỏ dấu âm), mẫu "Δ %" của slide 29</li><li>Dùng được ở mức tháng hoặc kênh</li><li>Cờ vượt ngưỡng cửa hàng × tháng (slide 28, 30) không dùng công thức này, vì Flash không có số theo cửa hàng: cờ dùng chênh lệch sổ cái − POS sau khi đưa về cùng cách tính (thư mục "4. Đối soát cửa hàng × tháng" bên dưới)</li></ul> |
 
 **Thư mục "2. Cầu nối (DAX)":** mỗi khoản một công thức, cùng định nghĩa với truy vấn `q_BR_Long` của Power Query, tính lại từ nội tệ ÷ tỷ giá từng dòng (không cộng cột USD đã làm tròn).
 
@@ -89,7 +89,7 @@
 **Thư mục "4. Đối soát cửa hàng × tháng (slide 30)":** chênh lệch Sổ cái − POS trước xử lý (mọi dòng, theo tháng bán, tỷ giá cuối tháng bán) và sau xử lý (bỏ dòng trùng, theo tháng ghi sổ, tỷ giá cuối tháng ghi sổ); cờ vượt ngưỡng 200 USD và 1% của |sổ cái|; số ô vượt ngưỡng.
 
 **Kết quả so (18/10/2026):**
-- `checks/bridge_compare.csv`: 709 ô (toàn công ty và 3 kênh × 12 tháng × khoản), lệch DAX − Power Query lớn nhất 0,000000007 USD.
+- `checks/bridge_compare.csv`: 709 ô (toàn công ty và 3 bảng kênh – cửa hàng, online, chưa gắn kênh – × 12 tháng × khoản), lệch DAX − Power Query lớn nhất 0,000000007 USD. 709 ô = 708 dòng của `q_BR_Long` + 1 ô chuyển kênh toàn công ty tháng 6 (DAX ra 0; bảng toàn công ty của Power Query không có dòng chuyển kênh).
 - `checks/store_month_compare.csv`: 679/679 ô cửa hàng × tháng của Power Query (sheet `Doi_soat_CH_thang`) khớp tuyệt đối, cả 2 cờ.
 - `checks/store_month_flags.csv`: 137 → 2 ô vượt ngưỡng cả kỳ; tháng 11: 21 → 1.
 
@@ -103,7 +103,7 @@ Toàn bộ công thức (đọc, không cần mở Power BI): `dax_measures.dax`
 |---|---|
 | `NexaRecon.pbip`, `NexaRecon.SemanticModel/`, `NexaRecon.Report/` | Dự án Power BI |
 | `build_report.py` | <ul><li>Sinh các trang báo cáo (`NexaRecon.Report/definition`)</li><li>Sửa trang thì sửa file này rồi chạy `D:/Anaconda/python.exe -I powerbi/build_report.py`, không sửa tay file JSON</li><li>Mỗi lần chạy, script xóa cả thư mục `NexaRecon.Report/definition` rồi tạo lại: phần nào sửa bằng giao diện Power BI Desktop rồi lưu sẽ mất (cách làm dashboard đang chờ nhóm chốt, xem `plans/backlog.md` mục 4)</li></ul> |
-| `dax_query.ps1` | <ul><li>Mở dự án, làm mới, chạy truy vấn DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI) ra file CSV (Comma-Separated Values, file bảng dạng chữ) để so với Power Query</li><li>Cách gọi: xem các dòng ví dụ ở đầu file</li><li>Lệnh `-Close` tắt hẳn Power BI, không lưu</li></ul> |
+| `dax_query.ps1` | <ul><li>Mở dự án, làm mới, chạy truy vấn DAX ra file CSV (Comma-Separated Values, file bảng dạng chữ) để so với Power Query</li><li>Cách gọi: xem các dòng ví dụ ở đầu file</li><li>Lệnh `-Close` tắt hẳn Power BI, không lưu</li></ul> |
 | `checks/*.dax`, `checks/*.csv` | <ul><li>Các truy vấn kiểm tra và kết quả</li><li>So cầu nối: `-QueryFile powerbi\checks\bridge_compare.dax -OutCsv powerbi\checks\bridge_compare.csv` (tương tự cho `store_month_compare`, `store_month_flags`)</li></ul> |
 | `dax_measures.dax` | Toàn bộ công thức DAX của mô hình, xuất ra để đọc và nộp. Bản gốc là các file `.tmdl`; sửa công thức thì sửa `.tmdl` rồi xuất lại |
 | `checks/screenshot_*.png` | Ảnh chụp trang báo cáo làm bằng chứng |

@@ -1,4 +1,4 @@
-/// Mỗi dòng là 1 món hàng trên 1 hóa đơn POS; export_seq = 2 là dòng xuất trùng
+/// Mỗi dòng là 1 món hàng trên 1 hóa đơn POS (Point of Sale, bán tại cửa hàng); export_seq = 2 là dòng xuất trùng
 table fact_pos_line
 
 	column receipt_no

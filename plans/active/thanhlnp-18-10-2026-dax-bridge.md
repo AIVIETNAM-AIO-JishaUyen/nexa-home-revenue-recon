@@ -30,9 +30,11 @@ Tính lại **từng khoản** của bảng cầu nối bằng công thức DAX 
   - Thêm vào mô hình Power BI:
     - Cột tính `fact_pos_line[is_duplicate]` (dòng xuất lặp: cùng số hóa đơn + số dòng, lần xuất sau).
     - Cột tính tỷ giá ngày của **ngày ghi sổ** cho dòng POS (Point of Sale, bán tại cửa hàng) và bút toán sổ cái (dùng cho khoản lỗi chuyển dữ liệu).
+    - Cột tính tỷ giá cuối **tháng bán** cho dòng POS (dùng cho chênh lệch cửa hàng × tháng "trước xử lý", bước thêm).
     - Cột tính `dim_date[trong_ky_doi_soat]`: tháng có trong Flash (không ghi cứng năm).
     - Bảng danh mục khoản `dim_bridge_item` và bảng `pq_br_long` đọc từ file Power Query (`excel/Nexa_Home_Recon_PQ.xlsx`, bảng `q_BridgeItems`, `q_BR_Long`), qua tham số đường dẫn mới `PQFile`.
-  - Công thức DAX từng khoản (thư mục "2. Cầu nối (DAX)"), công thức gom `Cầu nối (DAX)`, `Cầu nối (Power Query)`, `Lệch DAX − Power Query`.
+  - Công thức DAX từng khoản (thư mục "2. Cầu nối (DAX)"), công thức gom `Cầu nối (DAX)`, `Cầu nối (Power Query)`, `Lệch DAX − Power Query` (thư mục "3. So với Power Query").
+  - Mẫu DAX của slide 30: chênh lệch cửa hàng × tháng trước / sau xử lý và cờ vượt ngưỡng (thư mục "4. Đối soát cửa hàng × tháng (slide 30)").
   - Truy vấn DAX so 2 cách tính, lưu CSV (Comma-Separated Values, file bảng dạng chữ) vào `powerbi/checks/`; xuất toàn bộ công thức ra `powerbi/dax_measures.dax` bằng `INFO.VIEW.MEASURES()`.
   - Viết phần IV.5 của báo cáo.
 - **Không làm (để cho plan khác):**
@@ -64,7 +66,7 @@ Tính lại **từng khoản** của bảng cầu nối bằng công thức DAX 
 | Tạo ra gì | Đường dẫn | Plan / phần nào dùng tiếp |
 |---|---|---|
 | Mô hình có thêm cột tính, 2 bảng, công thức cầu nối | `powerbi/NexaRecon.SemanticModel/definition/` | `dashboard` |
-| Truy vấn so và kết quả | `powerbi/checks/bridge_compare.dax`, `bridge_compare.csv` | Báo cáo IV.5, `review-submit` |
+| Truy vấn so và kết quả | <ul><li>`powerbi/checks/bridge_compare.dax`, `bridge_compare.csv`</li><li>`powerbi/checks/store_month_compare.dax`, `store_month_compare.csv`</li><li>`powerbi/checks/store_month_flags.dax`, `store_month_flags.csv`</li></ul> | Báo cáo IV.5, `review-submit` |
 | Toàn bộ công thức DAX | `powerbi/dax_measures.dax` | Bộ file nộp |
 | Phần IV.5 | `report/sections/04_phan_tich_chinh.tex` | |
 
@@ -76,7 +78,7 @@ Tính lại **từng khoản** của bảng cầu nối bằng công thức DAX 
 
 | Kiểm tra | Số đúng | Lấy số đúng ở đâu | Số nhóm ra | Nhóm ra số ở đâu | Đạt? |
 |---|---:|---|---:|---|---|
-| Lệch lớn nhất DAX − Power Query, mọi kênh (toàn công ty, cửa hàng, online, chưa gắn kênh) × 12 tháng × khoản | ≤ 0,01 | Điều kiện của plan tổng | 0,000000007 (709 ô, 0 ô quá 0,01) | `powerbi/checks/bridge_compare.csv` | Đạt |
+| Lệch lớn nhất DAX − Power Query, mọi kênh (toàn công ty, cửa hàng, online, chưa gắn kênh) × 12 tháng × khoản | ≤ 0,01 | Điều kiện của plan tổng | <ul><li>0,000000007 (709 ô, 0 ô quá 0,01)</li><li>709 ô = 708 dòng của `q_BR_Long` + 1 ô chuyển kênh toàn công ty tháng 6 (DAX ra 0; Power Query không có dòng chuyển kênh ở bảng toàn công ty)</li></ul> | `powerbi/checks/bridge_compare.csv` | Đạt |
 | Chiết khấu cả năm bằng DAX | −1.834.297,47 | `checks/numbers_of_record.csv` (`br_y_discount`) | −1.834.297,47 | như trên | Đạt |
 | Tỷ giá / làm tròn cả năm bằng DAX | −57.598,01 / +1,01 | `checks/numbers_of_record.csv` (`br_y_fx`, `br_y_rounding`) | −57.598,01 / +1,01 | như trên | Đạt |
 | Dòng kiểm tra bằng DAX, mọi kênh × tháng | 0 (≤ 0,01) | Điều kiện của plan tổng | 0 (48/48 ô) | như trên | Đạt |
@@ -125,6 +127,8 @@ Tính lại **từng khoản** của bảng cầu nối bằng công thức DAX 
 | 18/10 | Thêm vào mô hình: tham số `PQFile`, bảng `dim_bridge_item`, `pq_br_long`, 5 cột tính, 23 công thức cầu nối; mở Power BI, làm mới, chạy `bridge_compare.dax` | 709 ô, lệch lớn nhất 0,000000007 USD; `pq_br_long` khớp 708 dòng của `q_BR_Long` | Khớp ngay lần chạy đầu |
 | 18/10 | Viết lại mẫu DAX slide 30: 9 công thức cửa hàng × tháng | 679/679 ô khớp; 137 → 2 ô vượt ngưỡng; tháng 11: 21 → 1 | Truy vấn `ROW` truyền qua tham số `-Query` bị mất dấu nháy; chuyển sang file `store_month_flags.dax` |
 | 18/10 | Xuất 37 công thức ra `dax_measures.dax`, cập nhật `powerbi/README.md`, viết IV.5 | Bảng 16 (cả năm theo hai cách tính) | Tên lệnh LaTeX không được có chữ số (`\SoDaxCoSauT11` làm hỏng bản dịch); đổi thành `ThangMuoiMot` |
+| 18/10 | Rà soát: đọc lại 3 file CSV bằng Python, so với sheet `BR_Long`, `Doi_soat_CH_thang` và `checks/numbers_of_record.csv`; đối chiếu từng công thức với `q_BR_Long.m`, `q_RC_Store_Month.m`; kiểm từng ô cửa hàng × ngày ghi sổ trên dữ liệu mentor | <ul><li>Đạt cả 6 dòng số ở mục 5</li><li>5.120 ô cửa hàng × ngày ghi sổ: 5.118 ô khớp có hiệu bằng 0, 2 ô lệch (NX057, 21/11 và 02/12)</li><li>Không công thức nào dùng cột `*_usd_*` của POS / online, không ghi cứng năm</li></ul> | Sửa chữ: lý do của quyết định về lỗi chuyển dữ liệu (mục 9), giải thích 709 ô, thêm thư mục 4 và các file kết quả vào mục 2, 4 |
+| 18/10 | Sửa theo rà soát: 2 công thức đếm ô vượt ngưỡng đếm theo mã cửa hàng của sổ cái (`finance_store_code`) thay vì mã POS, giống Power Query; mở lại Power BI, chạy lại 3 truy vấn so | Kết quả không đổi: 709 ô khớp; 679/679 ô; 137 → 2, tháng 11: 21 → 1 | Năm 2025 mỗi mã sổ cái chỉ có 1 mã POS còn bán nên hai cách đếm ra như nhau; sửa để tháng mới có cửa hàng 2 mã POS cùng lúc không bị đếm dư |
 
 ---
 
@@ -134,7 +138,7 @@ Tính lại **từng khoản** của bảng cầu nối bằng công thức DAX 
 |---|---|---|---|
 | 18/10 | Danh mục khoản và bảng cầu nối Power Query đọc thẳng từ file Power Query vào mô hình (tham số `PQFile`) | <ul><li>Hai cách tính dùng chung một danh mục khoản, không gõ lại</li><li>So được ngay trong Power BI, dashboard trang 2 hiện được ô đối chiếu</li><li>Đổi lại: mô hình phụ thuộc file Power Query; phải làm mới file Excel trước rồi mới làm mới Power BI</li></ul> | Không |
 | 18/10 | Dòng trùng xác định bằng khóa (số hóa đơn + số dòng, lần xuất sau), không chỉ dựa vào `export_seq` = 2 | Cùng cách Power Query làm; nếu sau này một dòng chỉ xuất ở lần 2 thì không bị đếm nhầm là trùng | Không |
-| 18/10 | Khoản lỗi chuyển dữ liệu tính bằng hiệu tổng (bút toán POS trên sổ cái − dòng POS bỏ trùng, cùng tỷ giá ngày ghi sổ) thay vì duyệt từng ô | Ô khớp có hiệu bằng đúng 0 (sổ cái ghi đúng tổng POS của ô), nên kết quả như duyệt từng ô mà công thức đơn giản, chạy nhanh. Kết quả khớp Power Query đến 0,000000007 USD | Không |
+| 18/10 | Khoản lỗi chuyển dữ liệu tính bằng hiệu tổng (bút toán POS trên sổ cái − dòng POS bỏ trùng, cùng tỷ giá ngày ghi sổ) thay vì duyệt từng ô | <ul><li>Hai bên của cùng một ô (cửa hàng × ngày ghi sổ × loại tiền) đổi theo cùng một tỷ giá, nên cộng hiệu từng ô bằng đúng hiệu hai tổng; công thức đơn giản, chạy nhanh</li><li>Khác duy nhất: Power Query làm tròn hiệu nội tệ của từng ô đến 2 chữ số trước khi đổi. Với dữ liệu mentor, 5.118 ô khớp có hiệu bằng 0 (chỉ còn sai số máy, dưới 0,000000000004 nội tệ), nên việc làm tròn này không đổi kết quả</li><li>Kết quả khớp Power Query đến 0,000000007 USD</li><li>Giới hạn: 2 ô lệch (NX057) đều bằng USD, nên phép so này không phân biệt được tỷ giá ngày ghi sổ với tỷ giá ngày bán</li></ul> | Không |
 | 18/10 | Mọi công thức cầu nối lọc `dim_date[trong_ky_doi_soat]` (tháng có trong Flash) | Bảng ngày có tháng 12 năm trước và tháng 1 năm sau; không lọc thì lệch thời điểm online cả năm sai | Không |
 | 18/10 | Thêm mẫu DAX slide 30 (cửa hàng × tháng, cờ vượt ngưỡng) vào plan này | Ghi chú của công thức `% chênh lệch so với sổ cái` (plan `powerbi-totals`) đã hẹn làm ở đây; dashboard trang 3 cần | Không |
 

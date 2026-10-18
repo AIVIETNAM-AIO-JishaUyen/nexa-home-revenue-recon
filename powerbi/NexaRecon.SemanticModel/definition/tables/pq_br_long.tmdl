@@ -1,4 +1,4 @@
-/// Bảng cầu nối dạng dài do Power Query tính (bảng q_BR_Long, 708 dòng): bảng (COMPANY, STORE, WEB, UNALLOCATED) × tháng × khoản. Chỉ dùng để so với công thức DAX
+/// Bảng cầu nối dạng dài do Power Query tính (bảng q_BR_Long, 708 dòng): bảng (COMPANY, STORE, WEB, UNALLOCATED) × tháng × khoản. Chỉ dùng để so với công thức DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI)
 table pq_br_long
 
 	column bridge

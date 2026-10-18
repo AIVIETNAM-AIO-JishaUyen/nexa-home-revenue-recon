@@ -1,4 +1,4 @@
-/// Bảng chỉ để chứa các công thức DAX (measure) của dự án; cột GhiChu bị ẩn
+/// Bảng chỉ để chứa các công thức DAX (Data Analysis Expressions, ngôn ngữ công thức của Power BI; mỗi công thức là một measure) của dự án; cột GhiChu bị ẩn
 table _Measures
 
 	/// Doanh số Flash (báo cáo nhanh của phòng Kinh doanh): theo tháng đặt hàng, giá trước giảm giá, làm tròn đến USD
@@ -16,12 +16,12 @@ table _Measures
 		formatString: #,0.00
 		displayFolder: 1. Số tổng
 
-	/// % chênh lệch hiện trên thẻ KPI: chia cho Flash (slide 12)
+	/// % chênh lệch hiện trên thẻ KPI (Key Performance Indicator, ô số liệu chính): chia cho Flash (slide 12)
 	measure '% chênh lệch so với Flash' = DIVIDE ( [Chênh lệch], [Flash] )
 		formatString: 0.00%
 		displayFolder: 1. Số tổng
 
-	/// Mẫu Δ % của slide 29: chia cho |sổ cái|. Dùng ở mức tháng, kênh. Cờ vượt ngưỡng cửa hàng × tháng không dùng công thức này mà dùng chênh lệch Sổ cái − POS sau khi đưa về cùng cách tính (thư mục 4, slide 30), vì Flash không có số theo cửa hàng
+	/// Mẫu Δ % của slide 29: chia cho |sổ cái|. Dùng ở mức tháng, kênh. Cờ vượt ngưỡng cửa hàng × tháng không dùng công thức này mà dùng chênh lệch Sổ cái − POS (Point of Sale, bán tại cửa hàng) sau khi đưa về cùng cách tính (thư mục 4, slide 30), vì Flash không có số theo cửa hàng
 	measure '% chênh lệch so với sổ cái' = DIVIDE ( [Chênh lệch], ABS ( [Sổ cái] ) )
 		formatString: 0.00%
 		displayFolder: 1. Số tổng
@@ -286,10 +286,10 @@ table _Measures
 		formatString: 0
 		displayFolder: 4. Đối soát cửa hàng × tháng (slide 30)
 
-	/// Đếm ô cửa hàng × tháng vượt ngưỡng (chỉ cửa hàng kênh STORE, tháng đối soát); SUMX tính lại cờ cho từng ô
+	/// Đếm ô cửa hàng × tháng vượt ngưỡng (chỉ cửa hàng kênh STORE, tháng đối soát). Cửa hàng đếm theo mã của sổ cái (finance_store_code) như Power Query, vì một mã sổ cái có thể có nhiều mã POS; SUMX tính lại cờ cho từng ô
 	measure 'Số ô vượt ngưỡng trước xử lý' =
 			CALCULATE (
-			    SUMX ( CROSSJOIN ( VALUES ( dim_date[period] ), VALUES ( dim_store[store_key] ) ), [Vượt ngưỡng trước xử lý] ),
+			    SUMX ( CROSSJOIN ( VALUES ( dim_date[period] ), VALUES ( dim_store[finance_store_code] ) ), [Vượt ngưỡng trước xử lý] ),
 			    KEEPFILTERS ( dim_store[channel_code] = "STORE" ),
 			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
 			)
@@ -299,7 +299,7 @@ table _Measures
 	/// Như trên, sau xử lý
 	measure 'Số ô vượt ngưỡng sau xử lý' =
 			CALCULATE (
-			    SUMX ( CROSSJOIN ( VALUES ( dim_date[period] ), VALUES ( dim_store[store_key] ) ), [Vượt ngưỡng sau xử lý] ),
+			    SUMX ( CROSSJOIN ( VALUES ( dim_date[period] ), VALUES ( dim_store[finance_store_code] ) ), [Vượt ngưỡng sau xử lý] ),
 			    KEEPFILTERS ( dim_store[channel_code] = "STORE" ),
 			    KEEPFILTERS ( dim_date[trong_ky_doi_soat] = TRUE () )
 			)
