@@ -16,7 +16,7 @@ table fact_fx_daily
 
 	column usd_to_ccy
 		dataType: double
-		formatString: #,0.00
+		formatString: 0.00000
 		summarizeBy: none
 		sourceColumn: usd_to_ccy
 

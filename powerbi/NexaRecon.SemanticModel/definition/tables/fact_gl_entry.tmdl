@@ -57,7 +57,7 @@ table fact_gl_entry
 
 	column fx_rate_month_end
 		dataType: double
-		formatString: #,0.00
+		formatString: 0.00000
 		summarizeBy: none
 		sourceColumn: fx_rate_month_end
 

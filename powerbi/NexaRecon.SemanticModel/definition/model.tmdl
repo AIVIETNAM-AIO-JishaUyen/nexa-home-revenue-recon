@@ -7,6 +7,8 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
+annotation __PBI_TimeIntelligenceEnabled = 0
+
 annotation PBI_QueryOrder = ["DataFolder","dim_date","dim_store","dim_channel","dim_currency","dim_journal_type","dim_order_status","fact_pos_line","fact_web_order","fact_gl_entry","fact_sales_flash","fact_fx_daily","fact_fx_month_end","_Measures"]
 
 ref table _Measures

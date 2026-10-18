@@ -68,7 +68,7 @@ table fact_pos_line
 
 	column fx_rate_daily
 		dataType: double
-		formatString: #,0.00
+		formatString: 0.00000
 		summarizeBy: none
 		sourceColumn: fx_rate_daily
 
@@ -92,7 +92,7 @@ table fact_pos_line
 
 	column fx_rate_month_end
 		dataType: double
-		formatString: #,0.00
+		formatString: 0.00000
 		summarizeBy: none
 		sourceColumn: fx_rate_month_end
 

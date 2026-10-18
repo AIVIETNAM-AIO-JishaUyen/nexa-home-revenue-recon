@@ -70,7 +70,7 @@ table fact_web_order
 
 	column fx_rate_order_date
 		dataType: double
-		formatString: #,0.00
+		formatString: 0.00000
 		summarizeBy: none
 		sourceColumn: fx_rate_order_date
 
@@ -94,7 +94,7 @@ table fact_web_order
 
 	column fx_rate_month_end_delivery
 		dataType: double
-		formatString: #,0.00
+		formatString: 0.00000
 		summarizeBy: none
 		sourceColumn: fx_rate_month_end_delivery
 
@@ -106,7 +106,7 @@ table fact_web_order
 
 	column fx_rate_month_end_return
 		dataType: double
-		formatString: #,0.00
+		formatString: 0.00000
 		summarizeBy: none
 		sourceColumn: fx_rate_month_end_return
 

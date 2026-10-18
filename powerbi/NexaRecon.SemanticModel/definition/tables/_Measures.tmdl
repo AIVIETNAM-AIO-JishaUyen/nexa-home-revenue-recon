@@ -21,7 +21,7 @@ table _Measures
 		formatString: 0.00%
 		displayFolder: 1. Số tổng
 
-	/// % chênh lệch dùng cho cờ vượt ngưỡng cửa hàng × tháng: chia cho |sổ cái| (slide 28)
+	/// Mẫu Δ % của slide 29: chia cho |sổ cái|. Dùng ở mức tháng, kênh. Cờ vượt ngưỡng cửa hàng × tháng dùng chênh lệch sau khi đưa về cùng cách tính (slide 30, plan dax-bridge), vì Flash không có số theo cửa hàng
 	measure '% chênh lệch so với sổ cái' = DIVIDE ( [Chênh lệch], ABS ( [Sổ cái] ) )
 		formatString: 0.00%
 		displayFolder: 1. Số tổng
