@@ -98,3 +98,4 @@ Cập nhật bảng này mỗi khi tạo, xong hoặc hủy một plan.
 | [store-recon](completed/thanhlnp-18-10-2026-store-recon.md) | Việc 3 – Đối soát chi tiết (phần cửa hàng) | thanhlnp | Xong | 18/10/2026 |
 | [web-return-recon](completed/thanhlnp-18-10-2026-web-return-recon.md) | Việc 3 – Đối soát chi tiết (online, hàng trả, 5 lý do, 4 nhóm) | thanhlnp | Xong | 18/10/2026 |
 | [bridge-monthly](completed/thanhlnp-18-10-2026-bridge-monthly.md) | Việc 4 – Bảng cầu nối và nhật ký ngoại lệ (bảng cầu nối 12 tháng) | thanhlnp | Xong | 18/10/2026 |
+| [bridge-template-log](completed/thanhlnp-18-10-2026-bridge-template-log.md) | Việc 4 – Bảng cầu nối và nhật ký ngoại lệ (file mẫu nộp, nhật ký) | thanhlnp | Xong | 18/10/2026 |

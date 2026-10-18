@@ -8,12 +8,12 @@
 |---|---|
 | Người làm | Lê Nguyễn Phước Thành (thanhlnp), làm cùng AI (trí tuệ nhân tạo) Claude |
 | Ngày bắt đầu | 18/10/2026 |
-| Ngày xong | |
+| Ngày xong | 18/10/2026 |
 | Nhánh (branch) | `baseline` |
 | Thuộc việc nào trong roadmap | Việc 4 – Bảng cầu nối và nhật ký ngoại lệ (file mẫu nộp, nhật ký) |
 | Mốc phải đạt | Mốc 4 (25/10) |
 | Phần báo cáo liên quan | <ul><li>Phần IV.4 (đoạn cuối: file mẫu nộp, nhật ký)</li><li>Phụ lục B (nhật ký ngoại lệ đầy đủ)</li><li>Phụ lục E (so sánh khi đổi thứ tự các bước)</li></ul> |
-| Trạng thái | Đang làm |
+| Trạng thái | Xong |
 | Plan liên quan | <ul><li>Làm sau plan: [bridge-monthly](../completed/thanhlnp-18-10-2026-bridge-monthly.md)</li><li>Plan tiếp theo dùng kết quả này: `dashboard` (trang nhật ký), `conclusions` (đề xuất theo người phụ trách), `review-submit` (bộ file nộp)</li></ul> |
 
 ---
@@ -163,8 +163,8 @@
 - **Các lần lưu vào Git (commit):** `0ec7a91` (tạo plan), `6b35c60` (2 truy vấn), `276db09` (điền file mẫu, nạp sheet, file Excel), `d954238` (báo cáo IV.4, phụ lục B, E), `aae875a` (ghi kết quả, quyết định, chuẩn bị vấn đáp, backlog), và các lần lưu rà soát, đóng plan.
 
 **Tự soát trước khi đóng plan:**
-- [ ] Không còn chỗ `< >` chưa điền.
-- [ ] Mọi con số trong plan đều ghi rõ lấy từ đâu.
-- [ ] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
-- [ ] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
-- [ ] Đã chuyển file sang `plans/completed/` bằng `git mv`.
+- [x] Không còn chỗ `< >` chưa điền.
+- [x] Mọi con số trong plan đều ghi rõ lấy từ đâu.
+- [x] Đã ghi mục "Dùng AI", hoặc ghi "Không có".
+- [x] Đã cập nhật bảng danh sách plan trong [plans/README.md](../README.md).
+- [x] Đã chuyển file sang `plans/completed/` bằng `git mv`.
