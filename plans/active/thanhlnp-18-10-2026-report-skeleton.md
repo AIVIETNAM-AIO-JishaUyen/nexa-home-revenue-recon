@@ -71,14 +71,14 @@ Có báo cáo LaTeX (cách soạn tài liệu bằng file chữ rồi chuyển r
 
 | Kiểm tra | Số đúng | Lấy số đúng ở đâu | Số nhóm ra | Nhóm ra số ở đâu | Đạt? |
 |---|---:|---|---:|---|---|
-| Số trong bảng phần II, III bằng số trên sheet Excel | khớp 100% | `excel/Nexa_Home_Recon_PQ.xlsx` | | `report/generated/*.tex` (sinh tự động) | |
-| Chênh lệch cả năm nêu trong phần III | −2.425.904,77 (−7,79%) | sheet `Chenh_lech_thang` | | `report/sections/03_kham_pha.tex` | |
+| Số trong bảng phần II, III bằng số trên sheet Excel | khớp 100% | `excel/Nexa_Home_Recon_PQ.xlsx` | Bảng sinh tự động bằng script đọc thẳng sheet, không gõ tay | `report/generated/*.tex` | Đạt |
+| Chênh lệch cả năm nêu trong phần III | −2.425.904,77 (−7,79%) | sheet `Chenh_lech_thang` | −2.425.904,77 (−7,79%), lấy qua lệnh `\SoChenhLechNam`, `\SoPctNam` sinh từ sheet | `report/generated/so_lieu.tex` | Đạt |
 
 **Việc phải có (không phải con số):**
-- [ ] PDF có đủ 8 phần đánh số I–VIII + phụ lục, mục lục, trang bìa đúng đề tài.
-- [ ] Biên dịch không có lỗi LaTeX (chỉ cảnh báo nhỏ).
-- [ ] Phần I có 3 câu hỏi của Giám đốc Tài chính và 3 câu hỏi riêng, mỗi câu riêng có thước đo và bảng nguồn.
-- [ ] Không còn nội dung Steel Plates.
+- [x] PDF có đủ 8 phần đánh số I–VIII + phụ lục, mục lục, trang bìa đúng đề tài.
+- [x] Biên dịch không có lỗi LaTeX (chỉ cảnh báo nhỏ).
+- [x] Phần I có 3 câu hỏi của Giám đốc Tài chính và 3 câu hỏi riêng, mỗi câu riêng có thước đo và bảng nguồn.
+- [x] Không còn nội dung Steel Plates.
 
 ---
 
@@ -96,16 +96,16 @@ Có báo cáo LaTeX (cách soạn tài liệu bằng file chữ rồi chuyển r
 
 ## 7. Các bước
 
-- [ ] **Bước 1: Dựng khung `report/`**
+- [x] **Bước 1: Dựng khung `report/`**
   - Làm: chép khai báo từ file mẫu; đổi tên đề tài, tác giả; 10 file phần (tóm tắt, I–VIII, phụ lục); `references.bib`.
   - Kiểm tra: chuyển ra PDF được.
-- [ ] **Bước 2: Script sinh hình và bảng**
+- [x] **Bước 2: Script sinh hình và bảng**
   - Làm: đọc file Excel Power Query, sinh hình chênh lệch theo tháng, bảng tháng, bảng kênh, bảng 5 bẫy, bảng kiểm tra tổng.
   - Kiểm tra: số trong file `.tex` sinh ra bằng số trên sheet.
-- [ ] **Bước 3: Viết phần I, II, III và phụ lục D**
+- [x] **Bước 3: Viết phần I, II, III và phụ lục D**
   - Làm: theo nội dung đã ghi ở các plan trước; đặt 3 câu hỏi riêng.
   - Kiểm tra: mỗi kết luận có nhãn nguồn.
-- [ ] **Bước 4: Chuyển PDF, xem lại, lưu vào Git (commit)**
+- [x] **Bước 4: Chuyển PDF, xem lại, lưu vào Git (commit)**
   - Kiểm tra: mở PDF xem từng trang (chuyển trang ra ảnh để xem).
 
 ---
@@ -114,6 +114,10 @@ Có báo cáo LaTeX (cách soạn tài liệu bằng file chữ rồi chuyển r
 
 | Ngày | Đã làm | Kết quả / số ra được | Vướng mắc, cách xử lý |
 |---|---|---|---|
+| 18/10 | Dựng `report/main.tex` từ 681 dòng khai báo của file mẫu (đổi tên đề tài, tác giả); thêm lệnh chú thích bảng `\captab`, nhãn nguồn `\nguon`, ghi chú phần chưa viết `\choviet` | Khung 8 phần + phụ lục A–F | |
+| 18/10 | Viết `report/figures_src/make_figures.py`: đọc 4 sheet của file Excel Power Query, sinh 1 hình, 4 bảng và 14 lệnh số liệu | Hình chênh lệch theo tháng: cột xám, tháng 3 tô màu nhấn, tiêu đề nói kết luận | |
+| 18/10 | Viết phần I, II, III, tóm tắt, phụ lục C, D, F; chuyển PDF | 14 trang | <ul><li>Lỗi 1: dấu trừ Unicode "−" chưa khai báo trong LaTeX → script đổi sang `$-$`, thêm khai báo cho phép gõ dấu này</li><li>Lỗi 2: file mẫu chuyển sang tiếng Anh khi in danh mục tham khảo nên chữ Việt trong danh mục bị lỗi → bỏ lệnh chuyển ngôn ngữ</li><li>Cảnh báo "undefined references / rerun BibTeX" vẫn còn; dựng thử file mẫu gốc cũng có đúng cảnh báo này, số thứ tự tham khảo vẫn hiện đúng → chấp nhận</li></ul> |
+| 18/10 | Xem lại PDF (chuyển các trang ra ảnh) | <ul><li>Bảng kiểm tra tổng tràn lề → gộp cột tên file thành cột nguồn ngắn</li><li>Chú thích hình nằm cạnh sơ đồ → xuống dòng</li><li>Chú thích bảng tách khỏi bảng → đặt bảng nhỏ trong môi trường giữ liền khối</li></ul> | Sau khi sửa: bố cục ổn |
 
 ---
 
@@ -121,6 +125,10 @@ Có báo cáo LaTeX (cách soạn tài liệu bằng file chữ rồi chuyển r
 
 | Ngày | Quyết định | Lý do | Có phải sửa file quy ước không |
 |---|---|---|---|
+| 18/10 | Ba câu hỏi riêng của nhóm (Q1 phần hợp lệ / lỗi / chưa giải thích; Q2 tháng nào còn lệch sau khi trừ quy tắc ghi nhận; Q3 lệch thời điểm có tự bù trừ không, bao nhiêu vắt qua năm) | <ul><li>Cả 3 đều về chênh lệch và quy trình, không trôi sang phân tích kinh doanh</li><li>Mỗi câu đo được bằng một bảng cụ thể (cầu nối, đối soát)</li><li>Trả lời được câu hỏi "ai cần làm gì" chứ không chỉ "lệch bao nhiêu"</li></ul> | Không |
+| 18/10 | Số trong lời văn lấy qua lệnh LaTeX sinh từ file Excel (`report/generated/so_lieu.tex`) | Làm mới dữ liệu thì chạy lại script là lời văn đổi theo, không sót số cũ | Không |
+| 18/10 | Thêm phần "Tóm tắt" ngay dưới trang bìa | Rubric Band 5: người ngoài đọc 1 phút hiểu lệch bao nhiêu, vì sao, ai cần làm gì | Không |
+| 18/10 | Trang bìa để chỗ trống tên 2 thành viên và tên mentor | AI không biết tên; ghi `plans/backlog.md` mục 5 | Không |
 
 ---
 
@@ -128,11 +136,27 @@ Có báo cáo LaTeX (cách soạn tài liệu bằng file chữ rồi chuyển r
 
 | Ngày | Nhờ AI làm gì | Phần nào do AI viết ra | Nhóm tự kiểm tra lại bằng cách nào |
 |---|---|---|---|
+| 18/10 | Dựng khung báo cáo, viết phần I–III, script sinh hình và bảng | `report/main.tex` (phần thêm), `report/sections/*.tex`, `report/figures_src/make_figures.py` | <ul><li>Bảng và số trong lời văn sinh từ file Excel, không gõ tay</li><li>Nhóm cần đọc lại phần I–III, sửa câu chữ theo giọng của nhóm (rubric Band 5)</li></ul> |
 
 ---
 
 ## 11. Chuẩn bị vấn đáp
 
+1. **Hỏi:** Câu hỏi riêng của nhóm khác gì 3 câu hỏi của Giám đốc Tài chính?
+   **Trả lời:** 3 câu của Giám đốc Tài chính hỏi "lệch bao nhiêu, gồm gì, sửa quy trình gì". 3 câu của nhóm hỏi phần nào cần hành động: bao nhiêu là hợp lệ, bao nhiêu là lỗi (Q1); tháng nào thật sự cần điều tra sau khi trừ phần hợp lệ (Q2); phần lệch thời điểm có tự hết ở tháng sau không (Q3). Mỗi câu đo bằng một bảng cụ thể, ghi trong Bảng 1 của báo cáo.
+2. **Hỏi:** Số trong báo cáo lấy từ đâu, có gõ tay không?
+   **Trả lời:** Bảng và số trong lời văn được script `report/figures_src/make_figures.py` sinh ra từ file Excel Power Query sau khi làm mới. Mỗi kết luận có nhãn nguồn (ví dụ `[QC]`, `[BR-Tổng]`), tra ở Phụ lục C.
+
 ---
 
 ## 12. Kết quả khi đóng plan
+
+- **Điều kiện xong:** đạt hết 2 dòng số và 4 việc phải có (mục 5).
+- **Đã đưa vào báo cáo:** tóm tắt (tạm), phần I, II, III, phụ lục C, D, F (phần mở đầu).
+- **Việc còn lại:**
+  - Phần IV.1–IV.6 → `store-recon`, `web-return-recon`, `bridge-monthly`, `bridge-template-log`, `dax-bridge`, `dashboard`.
+  - Phần V–VII, viết lại tóm tắt → `conclusions`.
+  - Phụ lục A (mã M), B (nhật ký ngoại lệ), E (đổi thứ tự bước), F (bảng khai báo AI đầy đủ) → `report-draft`, `bridge-template-log`.
+  - Phụ lục D đang lấy số của nhóm từ bảng kiểm tra Python → thay bằng số Power Query ở `bridge-monthly`.
+  - Tên thành viên và mentor trên trang bìa → `plans/backlog.md` mục 5.
+- **Các lần lưu vào Git (commit):** `3d9b306` (tạo plan), `50f31b8` (khung), `abc2770` (script sinh bảng, hình), `68a705c` (phần I–III), `dc67328` (PDF đầu tiên), và các lần lưu đóng plan.
