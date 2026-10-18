@@ -460,6 +460,83 @@ macros.update({
     "SoFlashThuanConLai": vn(thuan, 2), "SoFlashThuanPct": pct(thuan / year.flash_usd, 2),
     "SoFlashThuanTraConLai": vn(thuan_tra, 2), "SoFlashThuanTraPct": pct(thuan_tra / year.flash_usd, 2),
 })
+# ---------------------------------------------------------------- Phụ lục A: bảng mọi truy vấn và code đầy đủ của truy vấn chính
+QDIR = ROOT / "excel" / "queries"
+man = pd.read_csv(QDIR / "manifest.csv").fillna("")
+rows = []
+for r in man.itertuples():
+    first = (QDIR / f"{r.query}.m").read_text(encoding="utf-8").split("\n")[0]
+    mo_ta = first.split("–", 1)[1].strip() if "–" in first else first.lstrip("/ ")
+    mo_ta = re.sub(r"\s*Nhãn nguồn:.*$", "", mo_ta)          # bỏ phần nhãn nguồn ở cuối câu
+    rows.append(f"\\texttt{{{esc(r.query)}}} & {esc(mo_ta)} & {esc(r.sheet) if r.sheet else 'Chỉ tạo kết nối'} \\\\")
+write("bang_truy_van.tex", "\n".join([
+    r"{\scriptsize", r"\begin{longtable}{@{}L{3.1cm} L{9.0cm} L{3.0cm}@{}}", r"\toprule",
+    r"Truy vấn & Làm gì & Nạp ra sheet \\", r"\midrule", r"\endhead", *rows, r"\bottomrule", r"\end{longtable}}", ""]))
+
+
+def wrap_code(text, width=104):
+    """Ngắt dòng code dài để in vừa khổ giấy; dòng nối tiếp lùi vào và bắt đầu bằng '..'."""
+    out = []
+    for line in text.replace("\t", "    ").split("\n"):
+        while len(line) > width:
+            body = len(line) - len(line.lstrip())                      # vị trí chữ đầu tiên
+            if line.lstrip().startswith(".. "):
+                body += 3                                              # bỏ qua ký hiệu dòng nối tiếp
+            cut = line.rfind(" ", body + 1, width)
+            cut = width if cut < 0 else cut
+            out.append(line[:cut])
+            line = " " * (len(line) - len(line.lstrip()) + 4) + ".. " + line[cut:].lstrip()
+        out.append(line)
+    return "\n".join(out)
+
+
+for q in ["q_Transactions", "q_BR_Long"]:
+    with open(OUT / f"ma_{q}.txt", "w", encoding="utf-8", newline="\n") as f:
+        f.write(wrap_code((QDIR / f"{q}.m").read_text(encoding="utf-8")))
+    print("ghi", f"ma_{q}.txt")
+macros.update({"SoTruyVan": str(len(man)), "SoDongMa": vn(sum(len((QDIR / f"{q}.m").read_text(encoding="utf-8").splitlines()) for q in man["query"]))})
+
+# ---------------------------------------------------------------- Phụ lục khai báo AI: gom mục 10 "Dùng AI" của các plan đã đóng
+
+
+def md_to_tex(s):
+    """Đổi chữ Markdown trong ô bảng plan sang LaTeX: `code`, **đậm**, danh sách <ul><li>."""
+    s = s.replace("**", "")
+    parts = re.split(r"(`[^`]*`)", s)
+    out = []
+    for p in parts:
+        if p.startswith("`") and p.endswith("`"):
+            out.append(r"\texttt{" + esc(p[1:-1]).replace("{", r"\{").replace("}", r"\}").replace("$", r"\$") + "}")
+        else:
+            p = esc(p).replace("{", r"\{").replace("}", r"\}").replace("$", r"\$").replace("~", r"\textasciitilde{}")
+            out.append(p)
+    s = "".join(out)
+    items = re.findall(r"<li>(.*?)</li>", s)
+    if items:
+        s = r" \newline ".join(r"\textbullet{} " + i.strip() for i in items)
+    return s.replace("<ul>", "").replace("</ul>", "")
+
+
+PLANS = ROOT / "plans"
+slugs = re.findall(r"^\| \[([a-z-]+)\]\(completed/", (PLANS / "README.md").read_text(encoding="utf-8"), re.M)
+ai_rows, n_plan = [], 0
+for slug in slugs:
+    text = (PLANS / "completed" / f"thanhlnp-18-10-2026-{slug}.md").read_text(encoding="utf-8")
+    sec = text.split("## 10.", 1)[1].split("\n## ", 1)[0]
+    lines = [l for l in sec.split("\n") if l.startswith("| ") and not l.startswith("| Ngày") and not l.startswith("|---")]
+    if lines:
+        n_plan += 1
+    for l in lines:
+        c = [x.strip() for x in l.strip().strip("|").split(" | ")]
+        if len(c) < 4:
+            continue
+        ai_rows.append(f"\\texttt{{{esc(slug)}}} & {md_to_tex(c[1])} & {md_to_tex(c[2])} & {md_to_tex(c[3])} \\\\")
+write("bang_ai.tex", "\n".join([
+    r"{\scriptsize", r"\begin{longtable}{@{}L{2.1cm} L{3.6cm} L{4.2cm} L{5.2cm}@{}}", r"\toprule",
+    r"Plan & Nhờ AI làm gì & Phần do AI viết ra & Nhóm kiểm tra lại bằng cách nào \\", r"\midrule", r"\endhead",
+    *ai_rows, r"\bottomrule", r"\end{longtable}}", ""]))
+macros.update({"SoPlanAI": str(n_plan), "SoDongAI": str(len(ai_rows))})
+
 # Số của dashboard (truy vấn powerbi/checks/dashboard_numbers.dax)
 dn = pd.read_csv(CHK / "dashboard_numbers.csv", encoding="utf-8-sig").iloc[0]
 macros.update({

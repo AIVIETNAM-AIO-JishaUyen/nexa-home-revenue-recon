@@ -1,0 +1,143 @@
+// q_Transactions – Bảng giao dịch chung: mỗi dòng là 1 dòng POS (bán tại cửa hàng) hoặc 1 đơn online,
+    .. đưa về cùng một dạng
+// để đối soát và lập bảng cầu nối. Tiền đổi ra USD bằng cách CHIA nội tệ cho tỷ giá, không làm tròn
+    .. từng dòng.
+// Tỷ giá ngày: ngày bán (POS) / ngày đặt (online). Tỷ giá cuối tháng: tháng sổ cái ghi nhận (ngày ghi
+    .. sổ, ngày giao) và tháng nhận hàng trả.
+let
+    // Danh mục cửa hàng: chỉ lấy cột cần, giữ sẵn trong bộ nhớ (Table.Buffer) để ghép nhanh
+    #"Danh mục cửa hàng" = Table.Buffer(Table.RenameColumns(Table.SelectColumns(q_Store,
+        .. {"pos_store_id", "finance_store_code", "country"}), {{"pos_store_id", "k_pos_store_id"}})),
+    // Lịch: ngày và ngày ghi sổ tương ứng
+    #"Lịch và ngày ghi sổ" = Table.Buffer(Table.SelectColumns(q_Calendar, {"date", "posting_date"})),
+    // Tỷ giá ngày, đổi tên cột để khi ghép không trùng tên với cột của bảng giao dịch
+    #"Tỷ giá ngày" = Table.Buffer(Table.RenameColumns(q_FX_Daily, {{"rate_date", "fx_date"},
+        .. {"currency", "fx_currency"}, {"usd_to_ccy", "fx_daily"}})),
+    // Tỷ giá cuối tháng dùng cho tháng ghi nhận doanh thu
+    #"Tỷ giá cuối tháng ghi nhận" = Table.Buffer(Table.RenameColumns(Table.SelectColumns(q_FX_MonthEnd,
+        .. {"period", "currency", "usd_to_ccy"}),
+        {{"period", "me_period"}, {"currency", "me_currency"}, {"usd_to_ccy", "fx_month_end"}})),
+    // Tỷ giá cuối tháng dùng cho tháng nhận hàng trả
+    #"Tỷ giá cuối tháng nhận hàng trả" =
+        .. Table.Buffer(Table.RenameColumns(Table.SelectColumns(q_FX_MonthEnd, {"period", "currency",
+            .. "usd_to_ccy"}),
+        {{"period", "mr_period"}, {"currency", "mr_currency"}, {"usd_to_ccy", "fx_month_end_return"}})),
+    // Hàm phụ: tháng dạng YYYY-MM của một ngày (trống nếu ngày trống)
+    #"Tháng của ngày" = (ngay as nullable date) as nullable text => if ngay = null then null else
+        .. Date.ToText(ngay, "yyyy-MM", "en-US"),
+
+    // ---------------- Phần POS: mỗi dòng là 1 món hàng trên 1 hóa đơn (giữ cả dòng trùng, có cờ)
+    // Lấy các cột cần của q_POS
+    #"POS: chọn cột" = Table.SelectColumns(q_POS, {"receipt_no", "line_no", "business_date",
+        .. "store_id", "currency",
+        "line_amount", "discount_amount", "net_amount", "is_duplicate", "duplicate_reason"}),
+    // Nối mã cửa hàng bên POS với mã NX bên kế toán qua store_master (một mã NX có thể có nhiều mã POS)
+    #"POS: ghép mã NX" = Table.Join(#"POS: chọn cột", {"store_id"}, #"Danh mục cửa hàng",
+        .. {"k_pos_store_id"}, JoinKind.LeftOuter),
+    // Ngày ghi sổ: bán vào ngày nghỉ thì ghi sổ vào ngày làm việc kế tiếp
+    #"POS: ghép ngày ghi sổ" = Table.Join(#"POS: ghép mã NX", {"business_date"}, #"Lịch và ngày ghi
+        .. sổ", {"date"}, JoinKind.LeftOuter),
+    // Tỷ giá ngày bán
+    #"POS: ghép tỷ giá ngày bán" = Table.Join(#"POS: ghép ngày ghi sổ", {"business_date", "currency"},
+        .. #"Tỷ giá ngày", {"fx_date", "fx_currency"}, JoinKind.LeftOuter),
+    // Tháng ghi sổ, để ghép tỷ giá cuối tháng
+    #"POS: thêm tháng ghi sổ" = Table.AddColumn(#"POS: ghép tỷ giá ngày bán", "recognition_period",
+        .. each #"Tháng của ngày"([posting_date]), type text),
+    // Tỷ giá cuối tháng ghi sổ (cách sổ cái quy đổi)
+    #"POS: ghép tỷ giá cuối tháng" = Table.Join(#"POS: thêm tháng ghi sổ", {"recognition_period",
+        .. "currency"}, #"Tỷ giá cuối tháng ghi nhận", {"me_period", "me_currency"},
+            .. JoinKind.LeftOuter),
+    // Thêm các cột của dạng chung: kênh, khóa dòng, trạng thái; POS không có ngày trả
+    #"POS: thêm cột dạng chung" =
+        .. Table.AddColumn(Table.AddColumn(Table.AddColumn(Table.AddColumn(Table.AddColumn(#"POS: ghép
+            .. tỷ giá cuối tháng",
+        "channel", each "STORE", type text),
+        "source_key", each [receipt_no] & "-" & Text.From([line_no]), type text),
+        "status", each "Sold", type text),
+        "return_date", each null, type nullable date),
+        "fx_month_end_return", each null, type nullable number),
+    // Đổi tên cột về tên chung
+    #"POS: đổi tên cột" = Table.RenameColumns(#"POS: thêm cột dạng chung", {
+        {"store_id", "pos_store_id"}, {"finance_store_code", "store_code"}, {"business_date",
+            .. "sale_date"}, {"posting_date", "recognition_date"},
+        {"line_amount", "gross_local"}, {"discount_amount", "discount_local"}, {"net_amount",
+            .. "net_local"}}),
+
+    // ---------------- Phần online: mỗi dòng là 1 đơn hàng
+    // Lấy các cột cần của q_WEB
+    #"Online: chọn cột" = Table.SelectColumns(q_WEB, {"web_order_id", "order_date", "delivery_date",
+        .. "return_date", "order_status", "currency",
+        "gross_amount", "discount_amount", "net_amount"}),
+    // Tỷ giá ngày đặt (Flash đổi tiền theo ngày đặt)
+    #"Online: ghép tỷ giá ngày đặt" = Table.Join(#"Online: chọn cột", {"order_date", "currency"}, #"Tỷ
+        .. giá ngày", {"fx_date", "fx_currency"}, JoinKind.LeftOuter),
+    // Tháng giao (tháng sổ cái ghi nhận doanh thu); đơn hủy không có ngày giao nên để trống
+    #"Online: thêm tháng giao" = Table.AddColumn(#"Online: ghép tỷ giá ngày đặt", "recognition_period",
+        .. each #"Tháng của ngày"([delivery_date]), type text),
+    // Tỷ giá cuối tháng giao
+    #"Online: ghép tỷ giá cuối tháng giao" = Table.Join(#"Online: thêm tháng giao",
+        .. {"recognition_period", "currency"}, #"Tỷ giá cuối tháng ghi nhận", {"me_period",
+            .. "me_currency"}, JoinKind.LeftOuter),
+    // Tháng nhận hàng trả (chỉ đơn bị trả)
+    #"Online: thêm tháng trả" = Table.AddColumn(#"Online: ghép tỷ giá cuối tháng giao",
+        .. "return_period", each #"Tháng của ngày"([return_date]), type text),
+    // Tỷ giá cuối tháng nhận hàng trả (sổ cái ghi giảm doanh thu theo tỷ giá này)
+    #"Online: ghép tỷ giá cuối tháng trả" = Table.Join(#"Online: thêm tháng trả", {"return_period",
+        .. "currency"}, #"Tỷ giá cuối tháng nhận hàng trả", {"mr_period", "mr_currency"},
+            .. JoinKind.LeftOuter),
+    // Thêm các cột của dạng chung: kênh, mã cửa hàng (online là WEB), không có mã POS, nước, cờ trùng
+    #"Online: thêm cột dạng chung" =
+        .. Table.AddColumn(Table.AddColumn(Table.AddColumn(Table.AddColumn(Table.AddColumn(Table.AddColu
+            .. mn(#"Online: ghép tỷ giá cuối tháng trả",
+        "channel", each "WEB", type text),
+        "store_code", each "WEB", type text),
+        "pos_store_id", each null, type nullable number),
+        "country", each null, type nullable text),
+        "is_duplicate", each false, type logical),
+        "duplicate_reason", each null, type nullable text),
+    // Đổi tên cột về tên chung
+    #"Online: đổi tên cột" = Table.RenameColumns(#"Online: thêm cột dạng chung", {
+        {"web_order_id", "source_key"}, {"order_status", "status"}, {"order_date", "sale_date"},
+            .. {"delivery_date", "recognition_date"},
+        {"gross_amount", "gross_local"}, {"discount_amount", "discount_local"}, {"net_amount",
+            .. "net_local"}}),
+
+    // ---------------- Gộp 2 phần và tính USD
+    // Thứ tự cột chung (docs/cau_truc_du_lieu.md mục 5)
+    #"Cột chung" = {"channel", "source_key", "pos_store_id", "store_code", "country", "status",
+        .. "sale_date", "recognition_date", "return_date",
+        "currency", "gross_local", "discount_local", "net_local", "fx_daily", "fx_month_end",
+            .. "fx_month_end_return", "is_duplicate", "duplicate_reason"},
+    // Gộp dòng POS và đơn online thành một bảng
+    #"Gộp POS và online" = Table.Combine({Table.SelectColumns(#"POS: đổi tên cột", #"Cột chung"),
+        .. Table.SelectColumns(#"Online: đổi tên cột", #"Cột chung")}),
+    // Tháng bán / đặt, tháng ghi nhận, tháng trả (dạng YYYY-MM) để cộng theo tháng
+    #"Thêm các cột tháng" = Table.AddColumn(Table.AddColumn(Table.AddColumn(#"Gộp POS và online",
+        "sale_period", each #"Tháng của ngày"([sale_date]), type text),
+        "recognition_period", each #"Tháng của ngày"([recognition_date]), type text),
+        "return_period", each #"Tháng của ngày"([return_date]), type text),
+    // Đổi ra USD theo tỷ giá ngày: tiền trước giảm giá, chiết khấu, sau giảm giá (chia cho tỷ giá)
+    #"Đổi ra USD theo tỷ giá ngày" = Table.AddColumn(Table.AddColumn(Table.AddColumn(#"Thêm các cột
+        .. tháng",
+        "gross_usd_daily", each [gross_local] / [fx_daily], type number),
+        "discount_usd_daily", each [discount_local] / [fx_daily], type number),
+        "net_usd_daily", each [net_local] / [fx_daily], type number),
+    // Đổi ra USD theo tỷ giá cuối tháng ghi nhận và cuối tháng nhận hàng trả (trống nếu không có tháng
+        .. đó)
+    #"Đổi ra USD theo tỷ giá cuối tháng" = Table.AddColumn(Table.AddColumn(#"Đổi ra USD theo tỷ giá
+        .. ngày",
+        "net_usd_month_end", each if [fx_month_end] = null then null else [net_local] / [fx_month_end],
+            .. type nullable number),
+        "net_usd_month_end_return", each if [fx_month_end_return] = null then null else [net_local] /
+            .. [fx_month_end_return], type nullable number),
+    // Đặt kiểu cho các cột tạo từ hai phần
+    #"Đổi kiểu dữ liệu" = Table.TransformColumnTypes(#"Đổi ra USD theo tỷ giá cuối tháng", {
+        {"pos_store_id", Int64.Type}, {"sale_date", type date}, {"recognition_date", type date},
+            .. {"return_date", type date},
+        {"fx_daily", type number}, {"fx_month_end", type number}, {"fx_month_end_return", type number},
+            .. {"is_duplicate", type logical}}, "en-US"),
+    // Sắp theo kênh, ngày bán / đặt, khóa dòng cho dễ đọc
+    #"Sắp xếp" = Table.Sort(#"Đổi kiểu dữ liệu", {{"channel", Order.Ascending}, {"sale_date",
+        .. Order.Ascending}, {"source_key", Order.Ascending}})
+in
+    #"Sắp xếp"
