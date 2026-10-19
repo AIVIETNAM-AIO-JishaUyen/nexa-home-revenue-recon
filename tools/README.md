@@ -2,7 +2,7 @@
 
 | Công cụ | Làm gì | Chạy |
 |---|---|---|
-| `make_submission.py` | Gom bộ file nộp vào `submission/`: chép báo cáo PDF và file Power Query; điền số vào bản sao file mẫu nộp của đề rồi tự kiểm dòng kiểm tra; nén dự án Power BI và code Power Query; viết `submission/README.md` | `D:/Anaconda/python.exe -I tools/make_submission.py` |
+| `make_submission.py` | Gom bộ file nộp vào `submission/` (xóa thư mục cũ rồi tạo lại):<ul><li>Chép báo cáo PDF và file Power Query</li><li>Điền số vào bản sao file mẫu nộp của đề, rồi tự kiểm dòng kiểm tra bằng 0</li><li>Nén dự án Power BI và code Power Query thành file `.zip`</li><li>Viết `submission/README.md`</li></ul> | `D:/Anaconda/python.exe -I tools/make_submission.py` |
 | `build_docx/` | Tạo bản Word (`docs/word/*.docx`) từ các file `.md` | Xem [`build_docx/README.md`](build_docx/README.md) |
 
 **Thứ tự khi muốn nộp lại sau khi sửa:**

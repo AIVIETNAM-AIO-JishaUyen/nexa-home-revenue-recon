@@ -13,5 +13,5 @@
 | Thư mục | Chứa gì |
 |---|---|
 | `other_resources/` | Slide của đề và file rubric |
-| `template/` | File mẫu của mentor: báo cáo LaTeX, dashboard dạng trang web, dữ liệu cho Power BI |
-| `word/` | Bản Word của một số file `.md` ở trên và roadmap, tạo tự động bằng `tools/build_docx/`. **Không sửa tay**: sửa file `.md` rồi tạo lại |
+| `template/` | <ul><li>File mẫu của mentor (người hướng dẫn): báo cáo LaTeX, dashboard dạng trang web, file mẫu nộp bảng cầu nối, dữ liệu cho Power BI</li><li>Chỉ để tham khảo: Power BI đọc bản dữ liệu trong `data/`</li></ul> |
+| `word/` | <ul><li>Bản Word của 4 file `.md` ở trên (hiểu đề, quy ước, yêu cầu dashboard, ghi chú kỹ thuật), của roadmap và từ điển roadmap</li><li>Tạo tự động bằng `tools/build_docx/`. **Không sửa tay**: sửa file `.md` rồi tạo lại</li></ul> |
